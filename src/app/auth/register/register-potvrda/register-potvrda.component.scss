@@ -1,0 +1,18 @@
+.no-select {
+  pointer-events: none;
+}
+.email-text {
+  overflow: hidden;
+  font-size: 0.75rem;
+  color: #00d68f;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.rad-text {
+  overflow: hidden;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

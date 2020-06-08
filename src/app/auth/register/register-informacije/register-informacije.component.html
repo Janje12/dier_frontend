@@ -1,0 +1,183 @@
+<div *ngFor="let o of operacije">
+  <h2>{{o}}</h2>
+  <form #form4="ngForm">
+
+    <div class="row mb-2">
+      <div class="col-12">
+        <label class="label" for="input-nazivSkladista">Naziv Skladišta:</label>
+        <input nbInput
+               [(ngModel)]="skladista.naziv"
+               #nazivSkladista="ngModel"
+               id="input-nazivSkladista"
+               name="nazivSkladista"
+               placeholder="Naziv"
+               autofocus
+               fullWidth
+               [status]="nazivSkladista.dirty ? (nazivSkladista.invalid  ? 'danger' : 'success') : ''"
+               [required]="getConfigValue('forms.validation.nazivFirme.required')"
+               [minlength]="getConfigValue('forms.validation.nazivFirme.minLength')"
+               [maxlength]="getConfigValue('forms.validation.nazivFirme.maxLength')"
+               [attr.aria-invalid]="nazivSkladista.invalid && nazivSkladista.touched ? true : null">
+        <ng-container *ngIf="nazivSkladista.invalid && nazivSkladista.touched">
+          <p class="error-message mt-1 mb-0" *ngIf="nazivSkladista.errors?.required">
+            Naziv skladišta je obavezan!
+          </p>
+          <p class="error-message mt-1 mb-0"
+             *ngIf="nazivSkladista.errors?.minlength || nazivSkladista.errors?.maxlength">
+            Naziv skladišta mora biti duži od
+            {{ getConfigValue('forms.validation.nazivFirme.minLength') }} slova!
+          </p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-12">
+        <label class="label" for="input-adresa">Adresa:</label>
+        <div class="row ml-2" id="input-adresa">
+          <div class="col-6">
+            <nb-select-label class="label" for="input-opstinaSkladista">Opština:</nb-select-label>
+            <input
+              [(ngModel)]="skladista.adresa.mesto.opstina.naziv"
+              #opstinaSkladista="ngModel"
+              id="input-opstinaSkladista"
+              (ngModelChange)="onModelChange($event)"
+              name="opstinaSkladista"
+              nbInput
+              placeholder="Opština"
+              fullWidth
+              [required]="getConfigValue('forms.validation.opstina.required')"
+              [attr.aria-invalid]="opstinaSkladista.invalid && opstinaSkladista.touched ? true : null"
+              [nbAutocomplete]="autoOpstinaSelect">
+            <nb-autocomplete #autoOpstinaSelect>
+              <nb-option *ngFor="let o of opstine$ | async" [value]="o._id">{{o._id}}</nb-option>
+            </nb-autocomplete>
+            <ng-container *ngIf="opstinaSkladista.invalid && opstinaSkladista.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="opstinaSkladista.errors?.required">
+                Opština je obavezna!
+              </p>
+            </ng-container>
+          </div>
+          <div class="col-6">
+            <nb-select-label class="label" for="input-mestoSkladiste">Mesto:</nb-select-label>
+            <input
+              [(ngModel)]="skladista.adresa.mesto.mesto.naziv"
+              #mestoSkladiste="ngModel"
+              selected="Mesto"
+              nbInput
+              (ngModelChange)="onModelChange2($event)"
+              id="input-mestoSkladiste"
+              name="mestoSkladiste"
+              placeholder="Mesto"
+              fullWidth
+              [required]="getConfigValue('forms.validation.mesto.required')"
+              [attr.aria-invalid]="mestoSkladiste.invalid && mestoSkladiste.touched ? true : null"
+              [nbAutocomplete]="autoMestoSelect">
+            <nb-autocomplete #autoMestoSelect>
+              <nb-option>
+                <nb-option *ngFor="let m of mesta$ | async" [value]="m.mesto.naziv">{{m.mesto.naziv}}</nb-option>
+              </nb-option>
+            </nb-autocomplete>
+            <ng-container *ngIf="mestoSkladiste.invalid && mestoSkladiste.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="mestoSkladiste.errors?.required">
+                Mesto je obavezno!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row ml-2 mt-2">
+          <div class="col-3">
+            <label class="label" for="input-postanskiBrojSkladiste">Poštanski broj:</label>
+            <input nbInput
+                   name="postanskiBrojSkladiste"
+                   [(ngModel)]="skladista.adresa.mesto.postanskiBroj"
+                   #postanskiBroj="ngModel"
+                   id="input-postanskiBrojSkladiste"
+                   placeholder="Poštanski broj"
+                   fullWidth
+                   onkeypress="return /[0-9]/i.test(event.key)"
+                   [status]="postanskiBroj.dirty ? (postanskiBroj.invalid  ? 'danger' : 'success') : ''"
+                   [required]="getConfigValue('forms.validation.postanskiBroj.required')"
+                   [minlength]="getConfigValue('forms.validation.postanskiBroj.minLength')"
+                   [maxlength]="getConfigValue('forms.validation.postanskiBroj.maxLength')"
+                   [attr.aria-invalid]="postanskiBroj.invalid && postanskiBroj.touched ? true : null">
+            <ng-container *ngIf="postanskiBroj.invalid && postanskiBroj.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="postanskiBroj.errors?.required">
+                Poštanski broj je obavezan
+              </p>
+              <p class="error-message mt-1 mb-0"
+                 *ngIf="postanskiBroj.errors?.minlength || postanskiBroj.errors?.maxlength">
+                Poštanski broj mora biti duži od
+                {{ getConfigValue('forms.validation.postanskiBroj.minLength') }} brojeva!
+              </p>
+            </ng-container>
+          </div>
+          <div class="col-9">
+            <label class="label" for="input-ulicaSkladista">Ulica i broj:</label>
+            <input nbInput
+                   name="ulicaSkladista"
+                   [(ngModel)]="skladista.adresa.ulica"
+                   #ulicaSkladista="ngModel"
+                   id="input-ulicaSkladista"
+                   placeholder="Ulica i broj"
+                   fullWidth
+                   [status]="ulicaSkladista.dirty ? (ulicaSkladista.invalid  ? 'danger' : 'success') : ''"
+                   [required]="getConfigValue('forms.validation.ulica.required')"
+                   [minlength]="getConfigValue('forms.validation.ulica.minLength')"
+                   [maxlength]="getConfigValue('forms.validation.ulica.maxLength')"
+                   [attr.aria-invalid]="ulicaSkladista.invalid && ulicaSkladista.touched ? true : null">
+            <ng-container *ngIf="ulicaSkladista.invalid && ulicaSkladista.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="ulicaSkladista.errors?.required">
+                Ulica je obavezna!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-12">
+        <label class="label pl-0 col-12">Veličina skladišta:</label>
+        <div class="row">
+          <div class="col-10 pr-0">
+            <input nbInput #velicinaSkladista="ngModel" [ngModel]="skladista.maxKolicina" name="kolicina"
+                   step="1" min="0"
+                   fullWidth type="number" placeholder="0.0"
+                   onkeypress="return /[0-9]/i.test(event.key)"
+                   [status]="velicinaSkladista.dirty ? (velicinaSkladista.invalid  ? 'danger' : 'success') : ''"
+                   [required]="getConfigValue('forms.validation.velicinaSkladista.required')">
+          </div>
+          <div class="col-2 pl-0">
+            <button nbButton disabled="true">KG</button>
+          </div>
+          <div class="col-12">
+            <ng-container *ngIf="velicinaSkladista.invalid && velicinaSkladista.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="velicinaSkladista.errors?.required">
+                Naziv skladišta je obavezan!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button nbButton
+            nbStepperPrevious
+            fullWidth
+            status="danger"
+            class="mt-2 col-6">
+      Nazad
+    </button>
+    <button nbButton
+            nbStepperNext
+            fullWidth
+            status="success"
+            class="mt-2 col-6"
+            [disabled]="!form4.valid">
+      Dalje
+    </button>
+
+  </form>
+</div>
+

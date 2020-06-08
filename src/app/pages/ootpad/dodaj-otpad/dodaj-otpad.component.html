@@ -1,0 +1,79 @@
+<div>
+  <nb-card class="container-fluid">
+    <nb-card-header>
+      Dodajte novi inventar otpada
+    </nb-card-header>
+    <nb-card-body>
+      <div class="flex-fill px-4">
+        <div class="row">
+          <div class="col-6 flex-fill">
+            <form>
+              <div class="row my-3">
+                <label class="col-12">Indeksni broj: {{ ootpad.indeksniBroj }}</label>
+              </div>
+              <div class="row my-3">
+                <label class="col-12">Naziv: </label>
+                <input class="col ml-3" nbInput [placeholder]="ootpad.naziv"
+                       [(ngModel)]="ootpad.naziv" name="naziv">
+              </div>
+              <div class="row my-3">
+                <label class="col-12">Opis: </label>
+                <input class="col ml-3" nbInput [placeholder]="ootpad.opis"
+                       [(ngModel)]="ootpad.opis" name="opis">
+              </div>
+              <div class="row my-3">
+                <label class="col-12">Trenutna kolicina na skladistu: </label>
+                <input class="col-2 ml-3" fullWidth decimals="1" step="0.1" min="0" type="number" nbInput
+                       placeholder="0.0" [(ngModel)]="ootpad.kolicina" name="kolicina">
+                <button nbButton disabled>kg</button>
+              </div>
+              <div class="row my-3">
+                <label class="col-12">Fizicko stanje otpada: </label>
+                <nb-select class="col" selected="Cvrsto" [(ngModel)]="ootpad.fizickoStanje" name="stanje">
+                  <nb-option value="Cvrsto">Cvrsto</nb-option>
+                  <nb-option value="Tecno">Tecno</nb-option>
+                  <nb-option value="Gasovito">Gasovito</nb-option>
+                  <nb-option value="Prah">Prah</nb-option>
+                </nb-select>
+              </div>
+              <div class="row my-3">
+                <label class="col-4">H-Lista: </label><label class="col-4">Y-Lista: </label><label class="col-4">C-Lista: </label>
+                <input class="col-3 ml-3" nbInput fullWidth
+                       [(ngModel)]="ootpad.hLista" name="Hlista">
+                <input class="col-3 ml-3" nbInput fullWidth
+                       [(ngModel)]="ootpad.yLista" name="YLista">
+                <input class="col-3 ml-3" nbInput fullWidth
+                       [(ngModel)]="ootpad.cLista" name="CLista">
+              </div>
+              <div class="row my-3">
+                <label class="col-12">CAS: </label>
+                <input class="col ml-3" nbInput
+                       [(ngModel)]="ootpad.cas" name="CAS">
+              </div>
+              <div class="row my-3">
+                <label class="col-12">Hemijski naziv: </label>
+                <input class="col ml-3" nbInput
+                       [(ngModel)]="ootpad.hemijskiNaziv" name="Hemijski naziv">
+                <label class="col-12">Kilograma opasne materije po kilogram otpada: </label>
+                <input class="col-2 ml-3" fullWidth decimals="1" step="0.1" min="0" type="number" nbInput
+                       placeholder="0.0" [(ngModel)]="ootpad.kgMaterije" name="Kg opasne materije">
+                <button nbButton disabled>kg</button>
+              </div>
+              <div class="row my-3">
+                <button nbButton class="ml-3" type="submit" status="primary">Dodaj</button>
+              </div>
+            </form>
+            {{ ootpad | json }}
+          </div>
+          <div class="col-6">
+            <label class="col-7">Pretrazi po indeksnom broju:</label>
+            <input nbInput #search class="col-3" fullWidth type="text" placeholder="Pretrazi"
+                   (input)="search.value.length >= 1 && onSearch(search.value)">
+            <ng2-smart-table [source]="katalog" [settings]="settings"
+                             (custom)="chooseOtpad($event)"></ng2-smart-table>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>

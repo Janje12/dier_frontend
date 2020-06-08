@@ -1,0 +1,50 @@
+<div>
+  <div class="row">
+    <nb-tabset>
+      <nb-tab [badgeText]="brojOtpad()" badgeStatus="primary" responsive="true" tabTitle="Otpad" [tabIcon]="trashIco">
+        <nb-accordion multi>
+          <nb-accordion-item>
+            <nb-accordion-item-header>Neopasan otpad</nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <nb-toggle (checkedChange)="addOperacija('Proizvodnja Neopasnog Otpada', $event)" class="mx-1">Proizvodnja</nb-toggle>
+              <nb-toggle (checkedChange)="addOperacija('Transport Neopasnog Otpada', $event)" class="mx-1">Transport</nb-toggle>
+              <nb-toggle (checkedChange)="addOperacija('Tretman Neopasnog Otpada', $event)" class="mx-1">Tretman</nb-toggle>
+              <nb-toggle (checkedChange)="addOperacija('Odlaganje Neopasnog Otpada', $event)" class="mx-1">Odlaganje</nb-toggle>
+              <nb-toggle (checkedChange)="addOperacija('Skladištenje Neopasnog Otpada', $event)" class="mx-1">Skladištenje</nb-toggle>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item>
+            <nb-accordion-item-header>Opasan otpad</nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <nb-toggle (checkedChange)="addOperacija('Proizvodnja Opasnog Otpada', $event)" class="mx-1">Proizvodnja</nb-toggle>
+              <nb-toggle (checkedChange)="addOperacija('Transport Opasnog Otpada', $event)" class="mx-1">Transport</nb-toggle>
+              <nb-toggle (checkedChange)="addOperacija('Tretman Opasnog Otpada', $event)" class="mx-1">Tretman</nb-toggle>
+              <nb-toggle (checkedChange)="addOperacija('Odlaganje Opasnog Otpada', $event)" class="mx-1">Odlaganje</nb-toggle>
+              <nb-toggle (checkedChange)="addOperacija('Skladištenje Opasnog Otpada', $event)" class="mx-1">Skladištenje</nb-toggle>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+        </nb-accordion>
+      </nb-tab>
+      <nb-tab responsive="true" tabTitle="Posebni tokovi otpada" [tabIcon]="carBatteryIco"></nb-tab>
+      <nb-tab responsive="true" tabTitle="Ambalaze" [tabIcon]="recyleIco"></nb-tab>
+      <nb-tab responsive="true" tabTitle="Emisije u vode" [tabIcon]="waterIco"></nb-tab>
+      <nb-tab responsive="true" tabTitle="Emisije u vazduh" [tabIcon]="airIco"></nb-tab>
+    </nb-tabset>
+  </div>
+
+  <button nbButton
+          nbStepperPrevious
+          fullWidth
+          status="danger"
+          class="mt-2 col-6">
+    Nazad
+  </button>
+  <button nbButton
+          nbStepperNext
+          fullWidth
+          class="col-6 mt-2"
+          status="success"
+          [disabled] = "operacije.length == 0">
+    Dalje
+  </button>
+</div>

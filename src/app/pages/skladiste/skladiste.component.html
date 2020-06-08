@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <nb-card>
+    <nb-card-header>
+      <h2 class="text-center">{{skladista.naziv}}</h2>
+    </nb-card-header>
+    <nb-card-body>
+      <h4>Neopasni Otpad</h4>
+      <ng2-smart-table [settings]="settings" [source]="skladista.neopasniOtpad"
+                       (custom)="changeKolicina($event)"></ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
+</div>
+
+<ng-template #dodajKolicinu>
+  <div class="p-4">
+    <form (ngSubmit)="dodajOtpad()">
+      Trenutna kolicina otpada na skladistu: {{tmp.kolicina}}
+      <div class="form-group">
+        <label>Dodaj: </label>
+        <input type="number" class="form-control" [(ngModel)]="tmpkolicina" name="kolicina" placeholder="0" min="0">
+      </div>
+      <button type="submit" class="btn btn-primary w-100">dodaj</button>
+    </form>
+  </div>
+</ng-template>

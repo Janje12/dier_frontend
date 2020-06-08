@@ -1,0 +1,37 @@
+<nb-card>
+  <nb-card-header>Profil</nb-card-header>
+  <div class="row">
+    <div class="col-6">
+      <nb-card-body>
+        <h5 class="card-subtitle ml-4">Korisnik</h5>
+        <div class="row mt-2">
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Ime:</p> {{korisnik.ime}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Prezime:</p> {{korisnik.prezime}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Email:</p> {{korisnik.email}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Korisnicko Ime:</p> {{korisnik.korisnickoIme}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Telefon:</p> {{korisnik.telefon}}</label>
+        </div>
+      </nb-card-body>
+    </div>
+    <div class="col-6">
+      <nb-card-body>
+        <h5 class="card-subtitle ml-4">Firma</h5>
+        <div class="row mt-2">
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">PIB:</p> {{firma.pib}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Matični broj:</p> {{firma.mat}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Naziv:</p> {{firma.naziv}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Delatnost firme:</p> {{firma.delatnost.naziv}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Email:</p> {{firma.email}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Email za prijem dokumenata:</p> {{firma.emailPrijem}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Telefon:</p> {{firma.telefon}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Menadžer:</p> {{korisnik.korisnickoIme}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Zakonski zastupnik:</p> {{firma.zakonskiZastupnik}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Adresa:</p>
+            {{firma.adresa.mesto.opstina.naziv}}, {{firma.adresa.mesto.mesto.naziv}},
+            {{firma.adresa.ulica}} </label>
+        </div>
+      </nb-card-body>
+    </div>
+  </div>
+</nb-card>
+

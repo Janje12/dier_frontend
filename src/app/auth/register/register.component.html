@@ -1,0 +1,39 @@
+<h1 id="title" class="title">Registruj se</h1>
+
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+  <p class="alert-title"><b>Greška</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+  <p class="alert-title"><b>Uspeh!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  </ul>
+</nb-alert>
+
+<div class="container-fluid">
+  <nb-stepper linear="false">
+    <nb-step label="Korisnik">
+      <ngx-register-korisnik></ngx-register-korisnik>
+    </nb-step>
+    <nb-step label="Firma">
+      <ngx-register-firma></ngx-register-firma>
+    </nb-step>
+    <nb-step label="Vrste operacije">
+      <ngx-register-operacije></ngx-register-operacije>
+    </nb-step>
+    <nb-step label="Informacije">
+      <ngx-register-informacije></ngx-register-informacije>
+    </nb-step>
+    <nb-step label="Potvrda podataka">
+      <ngx-register-potvrda (registrujSe)="register()"></ngx-register-potvrda>
+    </nb-step>
+  </nb-stepper>
+
+  <section class="text-center my-2" aria-label="Uloguj se">
+    Već imate nalog? <a class="text-link" routerLink="../login">Uloguj se</a>
+  </section>
+</div>
