@@ -1,8 +1,9 @@
 {
-  "name": "dier-frontend",
+  "name": "dier_frontend",
   "version": "0.1.0",
   "scripts": {
     "ng": "ng",
+    "deploy": "ng build --prod --base-href https://janje12.github.io/dier_frontend",
     "start": "ng serve --open --proxy-config proxy.conf.json",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",
@@ -79,6 +80,7 @@
     "@types/jasminewd2": "2.0.3",
     "@types/leaflet": "1.2.3",
     "@types/node": "^12.12.54",
+    "angular-cli-ghpages": "^0.6.2",
     "codelyzer": "^5.2.2",
     "conventional-changelog-cli": "^2.1.0",
     "husky": "0.13.3",

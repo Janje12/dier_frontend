@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { environment } from '../../environments/environment.prod';
 import { DelatnostService } from '../@core/service/delatnost.service';
 import { KatalogService } from '../@core/service/katalog.service';
 import { MestoService } from '../@core/service/mesto.service';
@@ -50,7 +51,7 @@ const settings: any = [
             class: NbAuthJWTToken,
             key: 'token',
           },
-          baseEndpoint: '/api/auth',
+          baseEndpoint: (environment.production ? environment.apiUrl : '') + '/api/auth',
           login: {
             endpoint: '/login',
             method: 'post',

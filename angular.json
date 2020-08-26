@@ -14,7 +14,7 @@
             "aot": true,
             "preserveSymlinks": true,
             "rebaseRootRelativeCssUrls": true,
-            "outputPath": "dist",
+            "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -147,6 +147,10 @@
             "typeCheck": true,
             "exclude": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     },

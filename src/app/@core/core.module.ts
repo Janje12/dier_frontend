@@ -9,6 +9,7 @@ import {
   NbPasswordAuthStrategy,
 } from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
+import { environment } from '../../environments/environment.prod';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import {
   AnalyticsService,
@@ -139,7 +140,7 @@ export const NB_CORE_PROVIDERS = [
           class: NbAuthJWTToken,
           key: 'token',
         },
-        baseEndpoint: '/api/auth',
+        baseEndpoint: (environment.production ? environment.apiUrl : '') + '/api/auth',
         login: {
           endpoint: '/login',
           method: 'post',
