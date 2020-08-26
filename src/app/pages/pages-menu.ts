@@ -21,12 +21,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: { icon: 'trash', pack: 'font-awesome' },
     children: [
       {
-        title: 'Dodaj na skladiste',
-        link: '/pages/notpad/dodaj-na-skladiste',
+        title: 'Proizvodnja',
+        link: '/pages/notpad/dodaj-otpad',
       },
       {
-        title: 'Dodaj novi otpad',
-        link: '/pages/notpad/dodaj-otpad',
+        title: 'Tretman',
+        link: '/pages/notpad/dodaj-tretman',
       },
     ],
   },
@@ -39,7 +39,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/',
       },
       {
-        title: 'Dodaj novi otpad',
+        title: 'Proizvodnja',
         link: '/pages/ootpad/dodaj-otpad',
       },
 

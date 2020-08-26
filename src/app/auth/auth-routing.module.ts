@@ -1,13 +1,18 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {
   NbAuthComponent,
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
-import {LoginComponent} from './login/login.component';
+import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
-import {RegisterComponent} from './register/register.component';
+import { RegisterDozvolaComponent } from './register/register-dozvola/register-dozvola.component';
+import { RegisterFirmaComponent } from './register/register-firma/register-firma.component';
+import { RegisterInformacijeComponent } from './register/register-informacije/register-informacije.component';
+import { RegisterKorisnikComponent } from './register/register-korisnik/register-korisnik.component';
+import { RegisterOperacijeComponent } from './register/register-operacije/register-operacije.component';
+import { RegisterPotvrdaComponent } from './register/register-potvrda/register-potvrda.component';
 
 export const routes: Routes = [
   {
@@ -19,8 +24,28 @@ export const routes: Routes = [
         component: LoginComponent,
       },
       {
-        path: 'register',
-        component: RegisterComponent,
+        path: 'register-korisnik',
+        component: RegisterKorisnikComponent,
+      },
+      {
+        path: 'register-firma',
+        component: RegisterFirmaComponent,
+      },
+      {
+        path: 'register-operacije',
+        component: RegisterOperacijeComponent,
+      },
+      {
+        path: 'register-informacije',
+        component: RegisterInformacijeComponent,
+      },
+      {
+        path: 'register-dozvola',
+        component: RegisterDozvolaComponent,
+      },
+      {
+        path: 'register-potvrda',
+        component: RegisterPotvrdaComponent,
       },
       {
         path: 'logout',
@@ -36,6 +61,7 @@ export const routes: Routes = [
       },
     ],
   },
+
 ];
 
 @NgModule({

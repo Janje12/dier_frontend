@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <div *ngFor="let s of skladistaTretman;">
+    <nb-card>
+      <nb-card-header>
+        <h2 class="text-center">{{ s?.naziv }}</h2>
+      </nb-card-header>
+      <nb-card-body>
+        <ng2-smart-table (custom)="treatTrash($event, s)" [settings]="settings"
+                         [source]="s?.neopasniOtpad"></ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<ng-template #treatTrashTemplate>
+  <div class="row">
+    <div class="col-12">
+      <label class="ml-0">Pretrazi po indeksnom broju:</label>
+      <input nbInput #search fullWidth type="text" placeholder="Pretrazi"
+             (input)="search.value.length >= 1 && onSearch(search.value)">
+      <ng2-smart-table [source]="katalog" [settings]="settingsKatalog"
+                       (custom)="chooseOtpad($event)"></ng2-smart-table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      <form #obradiForm="ngForm" (ngSubmit)="obradiOtpad()">
+        <label class="label col-12">Odaberi količinu za preradu:</label>
+        <input nbInput #kolicina name="kolicinaOtpada" [ngModelOptions]="{standalone: true}" [(ngModel)]="otpadKolicina"
+               fullWidth
+               type="number" onkeypress="return /[0-9]/i.test(event.key)" min="1">
+        <button [disabled]="kolicina.value < 1 || kolicina.value === NaN" class="btn btn-primary w-100" type="submit">
+          Obradi
+        </button>
+      </form>
+    </div>
+    <div class="col-9">
+      <p>Lista otpada koji nastaju i njihova količina:</p>
+      <div class="row">
+        <div class="col-5" *ngFor="let o of otpadKojiNastaje">
+          <button nbButton status="info" class="p-1 col-4" (click)="chooseOtpad(o)"
+                  size="small" [nbPopover]="o.naziv" fullWidth
+                  nbPopoverTrigger="hint" nbPopoverPlacement="bottom">
+            {{o.indeksniBroj}}
+          </button>
+          <input fieldSize="small" placeholder="0" fullWidth type="number" min="1" class="ml-1 my-1 col-5" [(ngModel)]="o.kolicina" nbInput>
+          <button nbButton size="small" class="m-0" disabled>KG</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

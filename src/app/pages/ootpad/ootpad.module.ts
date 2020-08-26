@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import { SkladisteService } from '../../@core/service/skladiste.service';
 
 import {ThemeModule} from '../../@theme/theme.module';
 import {OotpadComponent} from './ootpad.component';
@@ -26,7 +27,7 @@ import {DodajOtpadComponent} from './dodaj-otpad/dodaj-otpad.component';
     OotpadComponent,
     DodajOtpadComponent,
   ],
-  providers: [KatalogService, OOtpadService],
+  providers: [KatalogService, OOtpadService, SkladisteService],
 })
 export class OotpadModule {
 }

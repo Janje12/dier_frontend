@@ -1,114 +1,34 @@
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { DelatnostService } from '../@core/service/delatnost.service';
+import { KatalogService } from '../@core/service/katalog.service';
+import { MestoService } from '../@core/service/mesto.service';
 import { RegisterService } from '../@core/service/register.service';
 import { ThemeModule } from '../@theme/theme.module';
-import { MestoService } from '../@core/service/mesto.service';
-import { DelatnostService } from '../@core/service/delatnost.service';
-
 import { NgxAuthRoutingModule } from './auth-routing.module';
 import {
-  NbAuthJWTToken,
-  NbAuthModule,
-  NbPasswordAuthStrategy,
+  NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy,
 } from '@nebular/auth';
 import {
-  NbAccordionModule,
-  NbAlertModule, NbAutocompleteModule,
-  NbButtonModule,
-  NbCheckboxModule, NbDatepickerModule,
-  NbInputModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToggleModule,
+  NbAccordionModule, NbAlertModule, NbAutocompleteModule, NbButtonModule, NbCardModule, NbCheckboxModule,
+  NbInputModule, NbPopoverModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToggleModule,
 } from '@nebular/theme';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { RegisterKorisnikComponent } from './register/register-korisnik/register-korisnik.component';
-import { RegisterFirmaComponent } from './register/register-firma/register-firma.component';
-import { RegisterOperacijeComponent } from './register/register-operacije/register-operacije.component';
-import { RegisterInformacijeComponent } from './register/register-informacije/register-informacije.component';
-import { RegisterPotvrdaComponent } from './register/register-potvrda/register-potvrda.component';
 import { LogoutComponent } from './logout/logout.component';
-
-const validationSettings: any = {
-  // Registracija Korisnika
-  korisnickoIme: {
-    required: true,
-    minLength: 6,
-    maxLength: 20,
-  },
-  email: {
-    required: true,
-  },
-  password: {
-    required: true,
-    minLength: 6,
-    maxLength: 50,
-  },
-  ime: {
-    required: true,
-    minLength: 3,
-    maxLength: 20,
-    pattern: '^[a-zA-Z \-\']+',
-  },
-  prezime: {
-    required: true,
-    minLength: 3,
-    maxLength: 30,
-    pattern: '^[a-zA-Z \-\']+',
-  },
-  telefon: {
-    required: true,
-    minLength: 9,
-    maxLength: 10,
-  },
-  // Registracija firma
-  nazivFirme: {
-    required: true,
-    minLength: 1,
-    maxLength: 30,
-  },
-  pib: {
-    required: true,
-    minLength: 9,
-    maxLength: 9,
-    pattern: '[0-9]{9}',
-  },
-  mat: {
-    required: true,
-    minLength: 8,
-    maxLength: 8,
-    pattern: '[0-9]{8}',
-  },
-  opstina: {
-    required: true,
-  },
-  mesto: {
-    required: true,
-  },
-  postanskiBroj: {
-    required: true,
-    minLength: 5,
-    maxLength: 5,
-  },
-  ulica: {
-    required: true,
-  },
-  delatnost: {
-    required: true,
-  },
-  imeZakonskogZastupinka: {
-    required: true,
-    minLength: 5,
-    maxLength: 50,
-    pattern: '^[a-zA-Z \-\']+',
-  },
-  // Registracija skladista
-  velicinaSkladista: {
-    required: true,
-    pattern: '[0-9]*',
-  },
-};
+import { RegisterFirmaComponent } from './register/register-firma/register-firma.component';
+import { RegisterInformacijeComponent } from './register/register-informacije/register-informacije.component';
+import { RegisterKorisnikComponent } from './register/register-korisnik/register-korisnik.component';
+import { RegisterOperacijeComponent } from './register/register-operacije/register-operacije.component';
+import { RegisterPotvrdaComponent } from './register/register-potvrda/register-potvrda.component';
+import { RegisterComponent } from './register/register.component';
+import { VALLIDATION_SETTINGS } from './auth_settings';
+import { ProizvodnjaComponent } from './register/register-informacije/otpad/proizvodnja/proizvodnja.component';
+import { TransportComponent } from './register/register-informacije/otpad/transport/transport.component';
+import { TretmanComponent } from './register/register-informacije/otpad/tretman/tretman.component';
+import { RegisterDozvolaComponent } from './register/register-dozvola/register-dozvola.component';
 
 const settings: any = [
   {
@@ -167,46 +87,49 @@ const settings: any = [
         logout: {
           redirectDelay: 500,
         },
-        validation: validationSettings,
+        validation: VALLIDATION_SETTINGS,
       },
     }),
     ThemeModule,
     CommonModule,
-    FormsModule,
     RouterModule,
     NbAlertModule,
     NbInputModule,
     NbButtonModule,
     NbCheckboxModule,
     NgxAuthRoutingModule,
-    NbStepperModule,
     NbSelectModule,
+    FormsModule,
     NbToggleModule,
-    NbTabsetModule,
     NbAccordionModule,
-    NbDatepickerModule,
-    ReactiveFormsModule,
+    NbTabsetModule,
     NbAutocompleteModule,
-    ScrollingModule,
+    NbStepperModule,
+    NbCardModule,
+    Ng2SmartTableModule,
+    NbPopoverModule,
   ],
   declarations: [
     LoginComponent,
+    LogoutComponent,
     RegisterComponent,
     RegisterKorisnikComponent,
     RegisterFirmaComponent,
     RegisterOperacijeComponent,
     RegisterInformacijeComponent,
+    RegisterDozvolaComponent,
     RegisterPotvrdaComponent,
-    LogoutComponent,
+    ProizvodnjaComponent,
+    TransportComponent,
+    TretmanComponent,
   ],
   providers: [
     MestoService,
     DelatnostService,
     RegisterService,
+    KatalogService,
   ],
 })
 
 export class NgxAuthModule {
-
-
 }

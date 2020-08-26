@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 
 export interface NOtpad {
-  _id: string;
+  _id?: string;
   indeksniBroj: string;
   naziv: string;
   opis: string;
   kolicina: number;
-  fizickoStanje: string;
+  fizickoStanje?: string;
   qLista?: string;
   nacinPakovanja?: string;
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { NbCardModule, NbMenuModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbMenuModule } from '@nebular/theme';
 import { KorisnikService } from '../@core/service/korisnik.service';
-
+import { RoleService } from '../@core/service/role.service';
 import { ThemeModule } from '../@theme/theme.module';
 import { AotpadModule } from './aotpad/aotpad.module';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -12,12 +12,12 @@ import { PagesComponent } from './pages.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PtotpadModule } from './ptotpad/ptopad.module';
 import { SkladisteModule } from './skladiste/skladiste.module';
-
 @NgModule({
   imports: [
     PagesRoutingModule,
     ThemeModule,
     NbMenuModule,
+    NbButtonModule,
     DashboardModule,
     NotpadModule,
     OotpadModule,
@@ -30,7 +30,8 @@ import { SkladisteModule } from './skladiste/skladiste.module';
     PagesComponent,
     ProfileComponent,
   ],
-  providers: [KorisnikService],
+  providers: [KorisnikService,
+    RoleService],
 })
 export class PagesModule {
 }

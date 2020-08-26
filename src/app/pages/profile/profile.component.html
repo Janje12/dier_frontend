@@ -5,11 +5,18 @@
       <nb-card-body>
         <h5 class="card-subtitle ml-4">Korisnik</h5>
         <div class="row mt-2">
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Ime:</p> {{korisnik.ime}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Prezime:</p> {{korisnik.prezime}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Email:</p> {{korisnik.email}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Korisnicko Ime:</p> {{korisnik.korisnickoIme}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Telefon:</p> {{korisnik.telefon}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Ime:</p> {{(korisnik$ | async)?.ime}}
+          </label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">
+            Prezime:</p> {{(korisnik$ | async)?.prezime}}
+          </label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">
+            Email:</p> {{(korisnik$ | async)?.email}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Korisnicko
+            Ime:</p> {{(korisnik$ | async)?.korisnickoIme}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">
+            Telefon:</p> {{(korisnik$ | async)?.telefon}}
+          </label>
         </div>
       </nb-card-body>
     </div>
@@ -17,20 +24,53 @@
       <nb-card-body>
         <h5 class="card-subtitle ml-4">Firma</h5>
         <div class="row mt-2">
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">PIB:</p> {{firma.pib}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Matični broj:</p> {{firma.mat}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Naziv:</p> {{firma.naziv}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Delatnost firme:</p> {{firma.delatnost.naziv}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Email:</p> {{firma.email}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Email za prijem dokumenata:</p> {{firma.emailPrijem}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Telefon:</p> {{firma.telefon}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Menadžer:</p> {{korisnik.korisnickoIme}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Zakonski zastupnik:</p> {{firma.zakonskiZastupnik}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">PIB:</p> {{(firma$ | async)?.pib}}
+          </label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Matični
+            broj:</p> {{(firma$ | async)?.mat}}
+          </label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">
+            Naziv:</p> {{(firma$ | async)?.naziv}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Delatnost
+            firme:</p> {{(firma$ | async)?.delatnost.naziv}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">
+            Email:</p> {{(firma$ | async)?.email}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Email za prijem
+            dokumenata:</p> {{(firma$ | async)?.emailPrijem}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">
+            Telefon:</p> {{(firma$ | async)?.telefon}}
+          </label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">
+            Menadžer:</p> {{(korisnik$ | async)?.korisnickoIme}}</label>
+          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Zakonski
+            zastupnik:</p> {{(firma$ | async)?.zakonskiZastupnik}}</label>
           <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Adresa:</p>
-            {{firma.adresa.mesto.opstina.naziv}}, {{firma.adresa.mesto.mesto.naziv}},
-            {{firma.adresa.ulica}} </label>
+            {{(firma$ | async)?.adresa.mesto.opstinaNaziv}}, {{(firma$ | async)?.adresa.mesto.mestoNaziv}},
+            {{(firma$ | async)?.adresa.ulica}} </label>
         </div>
       </nb-card-body>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <h5 class="card-subtitle ml-4">Rad firme</h5>
+      <div class="row mt-2">
+        <label class="col-12 ml-5"><p class="badge badge-info text-wrap my-0">Rad Firme:</p>
+          <ul class="mt-1">
+            <li *ngFor="let r of (firma$ | async)?.radFirme">{{r}}</li>
+          </ul>
+        </label>
+      </div>
+    </div>
+    <div class="col-6">
+      <h5 class="card-subtitle ml-4">Dozvole firme</h5>
+      <div class="row mt-2">
+        <label class="col-12 ml-5"><p class="badge badge-warning text-wrap my-0">Dozvole Firme:</p>
+          <ul class="mt-1">
+            <li *ngFor="let d of (firma$ | async)?.dozvola">{{d.vrstaDozvole}} | {{d.datum}} | {{d.sifra}}</li>
+          </ul>
+        </label>
+      </div>
     </div>
   </div>
 </nb-card>

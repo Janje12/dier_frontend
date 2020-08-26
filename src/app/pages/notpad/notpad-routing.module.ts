@@ -1,9 +1,9 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import {DodajOtpadComponent} from './dodaj-otpad/dodaj-otpad.component';
-import {NotpadComponent} from './notpad.component';
-import {DodajNaSkladisteComponent} from './dodaj-na-skladiste/dodaj-na-skladiste.component';
+import { DodajOtpadComponent } from './dodaj-proizvodnja/dodaj-otpad.component';
+import { DodajTretmanComponent } from './dodaj-tretman/dodaj-tretman.component';
+import { NotpadComponent } from './notpad.component';
 
 const routes: Routes = [
   {
@@ -11,12 +11,12 @@ const routes: Routes = [
     component: NotpadComponent,
     children: [
       {
-        path: 'dodaj-otpad',
+        path: 'dodaj-proizvodnja',
         component: DodajOtpadComponent,
       },
       {
-        path: 'dodaj-na-skladiste',
-        component: DodajNaSkladisteComponent,
+        path: 'dodaj-tretman',
+        component: DodajTretmanComponent,
       },
     ],
   },

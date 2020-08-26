@@ -11,9 +11,10 @@ export interface Korisnik {
   telefon: string;
   uloga: string;
   firma?: Firma;
+  token?: string;
 }
 
 
 export abstract class KorisnikData {
-  abstract getKorisnik(): Observable<Korisnik>;
+  abstract getKorisnik(): Observable<Korisnik[]>;
 }

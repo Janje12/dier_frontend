@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { NbAuthService } from '@nebular/auth';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { NOtpad } from '../data/notpad';
 import { Skladiste, SkladisteData } from '../data/skladiste';
+import { SkladisteTretman } from '../data/skladisteTretman';
 
 @Injectable()
 export class SkladisteService extends SkladisteData {
@@ -11,20 +11,24 @@ export class SkladisteService extends SkladisteData {
     super();
   }
 
-  getSkladiste(): Observable<Skladiste> {
-    let skladisteID = '';
-    this.authService.getToken().subscribe(x => {
-      skladisteID = x.getPayload().data.skladiste[0];
-    });
-    return this.http.get<Skladiste>('api/skladiste/' + skladisteID);
+  getSkladiste(): Observable<Skladiste[]> {
+    return undefined;
   }
 
-  dodajOtpad(notpad: NOtpad): Observable<NOtpad> {
-    let skladisteID = '';
+  getSkladisteFirme(): Observable<Skladiste[]> {
+    let firmaID = '';
     this.authService.getToken().subscribe(x => {
-      skladisteID = x.getPayload().data.skladiste[0];
+      firmaID = x.getPayload().data.firma._id;
     });
-    return this.http.post<NOtpad>('api/skladiste', {otpad: notpad, skladiste: skladisteID});
+    return this.http.get<Skladiste[]>('api/skladiste/firma/' + firmaID);
+  }
+
+  getSkladisteTretmanFirme(): Observable<SkladisteTretman[]> {
+    let firmaID = '';
+    this.authService.getToken().subscribe(x => {
+      firmaID = x.getPayload().data.firma._id;
+    });
+    return this.http.get<SkladisteTretman[]>('api/skladistetretman/firma/' + firmaID);
   }
 
 }

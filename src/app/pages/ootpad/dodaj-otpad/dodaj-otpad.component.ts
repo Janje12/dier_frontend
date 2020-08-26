@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Skladiste } from '../../../@core/data/skladiste';
 import { KatalogService } from '../../../@core/service/katalog.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { OOtpad } from '../../../@core/data/ootpad';
 import { OOtpadService } from '../../../@core/service/ootpad.service';
+import { SkladisteService } from '../../../@core/service/skladiste.service';
 
 @Component({
   selector: 'ngx-dodaj-otpad',
@@ -11,16 +14,24 @@ import { OOtpadService } from '../../../@core/service/ootpad.service';
 })
 export class DodajOtpadComponent implements OnInit {
 
-  constructor(private katalogService: KatalogService, private ootpadService: OOtpadService) {
+  constructor(private katalogService: KatalogService, private opasniOtpadService: OOtpadService,
+              private skladisteService: SkladisteService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.katalogService.getKatalog().subscribe(k => {
+    this.katalogService.getOpasanKatalog().subscribe(k => {
       this.katalog.load(k);
+    });
+    this.skladisteService.getSkladisteFirme().subscribe(x => {
+      this.skladista = x;
     });
   }
 
   public katalog: LocalDataSource = new LocalDataSource();
+
+  skladista: Skladiste[];
+  skladisteID: string;
+  fizickaStanja: string[] = ['Čvrsto', 'Tečno', 'Gasovito', 'Prah'];
 
   public settings = {
     actions: {
@@ -47,7 +58,6 @@ export class DodajOtpadComponent implements OnInit {
   };
 
   ootpad: OOtpad = {
-    _id: '',
     cLista: '',
     cas: '',
     fizickoStanje: '',
@@ -79,6 +89,12 @@ export class DodajOtpadComponent implements OnInit {
     this.ootpad.naziv = otpad.data.naziv;
     // @ts-ignore
     this.ootpad.opis = otpad.data.naziv;
+  }
+
+
+  dodajOtpad(): void {
+    this.opasniOtpadService.dodajOOtpad(this.ootpad, this.skladisteID).subscribe();
+    this.router.navigate(['pages', 'skladiste']);
   }
 
 }

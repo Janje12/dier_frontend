@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NbAuthService } from '@nebular/auth';
+import { Observable, of } from 'rxjs';
+import { Skladiste } from '../../../@core/data/skladiste';
 import { KatalogService } from '../../../@core/service/katalog.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { NOtpad } from '../../../@core/data/notpad';
+import { NOtpadService } from '../../../@core/service/notpad.service';
 import { SkladisteService } from '../../../@core/service/skladiste.service';
 
 @Component({
@@ -11,16 +16,27 @@ import { SkladisteService } from '../../../@core/service/skladiste.service';
 })
 export class DodajOtpadComponent implements OnInit {
 
-  constructor(private katalogService: KatalogService, private skladisteService: SkladisteService) {
+  constructor(private katalogService: KatalogService, private otpadService: NOtpadService,
+              private router: Router, private authService: NbAuthService,
+              private skladisteService: SkladisteService) {
   }
 
+  /*
+    Observable and async cause too many issues.
+   */
   ngOnInit(): void {
     this.katalogService.getNeopasanKatalog().subscribe(k => {
       this.katalog.load(k);
     });
+    this.skladisteService.getSkladisteFirme().subscribe(x => {
+      this.skladista = x;
+    });
   }
 
   public katalog: LocalDataSource = new LocalDataSource();
+  skladista: Skladiste[];
+  skladisteID: string;
+  fizickaStanja: string[] = ['Čvrsto', 'Tečno', 'Gasovito', 'Prah'];
 
   public settings = {
     pager: {
@@ -53,7 +69,6 @@ export class DodajOtpadComponent implements OnInit {
   };
 
   notpad: NOtpad = {
-    _id: '',
     indeksniBroj: '',
     naziv: '',
     opis: '',
@@ -81,7 +96,8 @@ export class DodajOtpadComponent implements OnInit {
   }
 
   dodajOtpad(): void {
-    this.skladisteService.dodajOtpad(this.notpad).subscribe();
+    this.otpadService.dodajNOtpad(this.notpad, this.skladisteID).subscribe();
+    this.router.navigate(['pages', 'skladiste']);
   }
 
 }

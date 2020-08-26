@@ -15,7 +15,11 @@ export class RegisterKorisnikComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.registerService.getKorisnik(of(this.korisnik));
+    this.registerService.getKorisnik().subscribe(k => {
+      if (k !== undefined)
+        this.korisnik = k;
+    });
+    this.registerService.sendKorisnik(of(this.korisnik));
   }
 
   getConfigValue(key: string): any {

@@ -1,6 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthResult, NbAuthService, NbRegisterComponent } from '@nebular/auth';
+import { Observable } from 'rxjs';
 import { Firma } from '../../@core/data/firma';
 import { Korisnik } from '../../@core/data/korisnik';
 import { RegisterService } from '../../@core/service/register.service';
@@ -12,10 +13,10 @@ import { RegisterService } from '../../@core/service/register.service';
 })
 export class RegisterComponent extends NbRegisterComponent implements AfterViewInit {
 
-  firma: Firma;
-  korisnik: Korisnik;
-  informacije: any;
-  operacije: string[];
+  firma$: Observable<Firma>;
+  korisnik$: Observable<Korisnik>;
+  informacije$: Observable<any>;
+  operacije$: Observable<string[]>;
   redirectDelay: number = 0;
   showMessages: any = [];
   strategy: string = '';
@@ -37,26 +38,23 @@ export class RegisterComponent extends NbRegisterComponent implements AfterViewI
     return getDeepFromObject(this.options, key, null);
   }
 
-  ngAfterViewInit() {
-    this.registerService.sendInformacije().subscribe(i => {
-      this.informacije = i;
-    });
-    this.registerService.sendOperacije().subscribe(o => {
-      this.operacije = o;
-    });
-    this.registerService.sendFirma().subscribe(f => {
-      this.firma = f;
-    });
-    this.registerService.sendKorisnik().subscribe(k => {
-      this.korisnik = k;
-    });
+  ngAfterViewInit(): void {
+    this.informacije$ = this.registerService.getInformacije();
+    this.operacije$ = this.registerService.getOperacije();
+    this.firma$ = this.registerService.getFirma();
+    this.korisnik$ = this.registerService.getKorisnik();
   }
 
   register(): void {
     this.errors = this.messages = [];
     this.submitted = true;
 
-    this.service.register(this.strategy, this.korisnik).subscribe((result: NbAuthResult) => {
+    let korisnik: Korisnik;
+    this.korisnik$.subscribe(k => {
+      korisnik = k;
+    });
+
+    this.service.register(this.strategy, korisnik).subscribe((result: NbAuthResult) => {
       this.submitted = false;
       if (result.isSuccess()) {
         this.messages = result.getMessages();

@@ -1,6 +1,5 @@
 <div class="align-self-center">
   <h1 id="title" class="title">Uloguj se!</h1>
-  <p class="sub-title"></p>
 
   <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
     <p class="alert-title"><b>Došlo je do greške, proverite podatke!</b></p>
@@ -17,22 +16,22 @@
   </nb-alert>
 
 
-  <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title">
+  <form (ngSubmit)="login()" #loginForm="ngForm" aria-labelledby="uloguj se">
 
     <div class="form-control-group">
       <label class="label" for="input-email">Email:</label>
-      <input nbInput
-             fullWidth
+      <input #email="ngModel"
              [(ngModel)]="user.email"
-             #email="ngModel"
-             name="email"
-             id="input-email"
-             placeholder="Email address"
-             autofocus
-             [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+             [attr.aria-invalid]="email.invalid && email.touched ? true : null"
              [required]="getConfigValue('forms.validation.email.required')"
-             [attr.aria-invalid]="email.invalid && email.touched ? true : null">
-      <ng-container *ngIf="email.invalid && email.touched">
+             [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+             autofocus
+             fullWidth
+             id="input-email"
+             name="email"
+             nbInput
+             placeholder="Email adresa">
+      <ng-container *ngIf="email.touched">
         <p class="error-message mt-1" *ngIf="email.errors?.required">
           Email je obavezan!
         </p>
@@ -41,18 +40,18 @@
 
     <div class="form-control-group">
       <label class="label" for="input-password">Šifra:</label>
-      <input nbInput
-             fullWidth
+      <input #password="ngModel"
              [(ngModel)]="user.password"
-             #password="ngModel"
-             name="password"
-             type="password"
-             id="input-password"
-             placeholder="Password"
-             [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+             [attr.aria-invalid]="password.invalid && password.touched ? true : null"
              [required]="getConfigValue('forms.validation.password.required')"
-             [attr.aria-invalid]="password.invalid && password.touched ? true : null">
-      <ng-container *ngIf="password.invalid && password.touched ">
+             [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+             fullWidth
+             id="input-password"
+             name="password"
+             nbInput
+             placeholder="Šifra"
+             type="password">
+      <ng-container *ngIf="password.touched">
         <p class="error-message mt-1" *ngIf="password.errors?.required">
           Šifra je obavezna!
         </p>
@@ -60,20 +59,20 @@
     </div>
 
     <div class="form-control-group accept-group">
-      <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Zapamti me</nb-checkbox>
+      <nb-checkbox *ngIf="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe">Zapamti me</nb-checkbox>
       <a class="forgot-password" routerLink="../request-password">Zaboravili ste šifru?</a>
     </div>
 
-    <button nbButton
-            fullWidth
-            status="success"
+    <button [class.btn-pulse]="submitted"
             [disabled]="submitted"
-            [class.btn-pulse]="submitted">
+            fullWidth
+            nbButton
+            status="success">
       Uloguj se
     </button>
   </form>
 
-  <section class="another-action" aria-label="Register">
-    Nemate nalog? <a class="text-link" routerLink="../register">Registruj se</a>
+  <section class="another-action" aria-label="Registruj se">
+    Nemate nalog? <a class="text-link" routerLink="../register-korisnik">Registruj se</a>
   </section>
 </div>

@@ -29,17 +29,7 @@
                 <button nbButton disabled>kg</button>
               </div>
               <div class="row my-3">
-                <label class="col-12">Fizicko stanje otpada: </label>
-                <nb-select class="col" placeholder="Fizicko stanje otpada"
-                           [(ngModel)]="notpad.fizickoStanje" required name="stanje">
-                  <nb-option value="Cvrsto">Cvrsto</nb-option>
-                  <nb-option value="Tecno">Tecno</nb-option>
-                  <nb-option value="Gasovito">Gasovito</nb-option>
-                  <nb-option value="Prah">Prah</nb-option>
-                </nb-select>
-              </div>
-              <div class="row my-3">
-                <button nbButton class="ml-3"
+                <button nbButton class="col-6 ml-3"
                         [disabled]="!form.valid"
                         type="submit"
                         status="primary">Dodaj
@@ -49,6 +39,10 @@
           </div>
           <div class="col-6">
             <label class="col-7">Pretrazi po indeksnom broju:</label>
+            <nb-select [selected]="dozvola[0].skladistaTretman.naziv">
+              <nb-option *ngFor="let d of dozvola" (selectionChange)="updateKatalog(d)"
+                         [value]="d.skladistaTretman.naziv">{{d.skladistaTretman.naziv}}</nb-option>
+            </nb-select>
             <input nbInput #search class="col-3 mb-2" fullWidth type="text" placeholder="Pretrazi"
                    (input)="search.value.length >= 1 && onSearch(search.value)">
             <ng2-smart-table [source]="katalog" [settings]="settings"

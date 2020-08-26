@@ -1,15 +1,11 @@
 import { Observable } from 'rxjs';
 
 export interface Mesto {
-  _id: string;
-  mesto?: {
-    sifra: number;
-    naziv: string;
-  };
-  opstina: {
-    sifra: number;
-    naziv: string;
-  };
+  _id?: string;
+  mestoSifra: number;
+  mestoNaziv: string;
+  opstinaSifra: number;
+  opstinaNaziv: string;
   postanskiBroj: string;
 }
 

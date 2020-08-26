@@ -1,6 +1,13 @@
+import { HTTP_INTERCEPTORS, HttpRequest } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
+import {
+  NB_AUTH_TOKEN_INTERCEPTOR_FILTER,
+  NbAuthJWTInterceptor,
+  NbAuthJWTToken,
+  NbAuthModule,
+  NbPasswordAuthStrategy,
+} from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import {
@@ -92,6 +99,12 @@ const validationSettings: any = {
     required: true,
     pattern: '[0-9]*',
   },
+  geolokacija: {
+    required: false,
+    minLength: 6,
+    maxLength: 16,
+    pattern: '[0-9]',
+  },
 };
 
 const settings: any = [
@@ -131,15 +144,19 @@ export const NB_CORE_PROVIDERS = [
           endpoint: '/login',
           method: 'post',
           redirect: {
-            success: '/pages/dashboard',
+            success: '/pages',
             failure: null,
           },
+        },
+        refreshToken: {
+          endpoint: '/refresh',
+          method: 'post',
         },
         register: {
           endpoint: '/register',
           method: 'post',
           redirect: {
-            success: './login',
+            success: '../login',
             failure: null,
           },
         },
@@ -147,8 +164,7 @@ export const NB_CORE_PROVIDERS = [
           endpoint: '/logout',
           method: 'delete',
           redirect: {
-            success: '/',
-            failure: null,
+            success: '/auth/login',
           },
         },
       }),
@@ -156,6 +172,7 @@ export const NB_CORE_PROVIDERS = [
     forms: {
       login: {
         settings,
+        redirectDelay: 300,
         rememberMe: true,
       },
       register: {settings},
@@ -181,7 +198,6 @@ export const NB_CORE_PROVIDERS = [
       },
     },
   }).providers,
-
   {
     provide: NbRoleProvider, useClass: NbSimpleRoleProvider,
   },
@@ -208,7 +224,19 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        ...NB_CORE_PROVIDERS,
+        ...NB_CORE_PROVIDERS, [{provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true},
+          {
+            provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: function (req: HttpRequest<any>) {
+              if (req.url === '/api/auth/login') {
+                return true;
+              }
+              if (req.url === '/api/auth/refresh') {
+                return true;
+              }
+              return false;
+            },
+          },
+        ],
       ],
     };
   }

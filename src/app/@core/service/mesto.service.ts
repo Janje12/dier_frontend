@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Mesto, MestoData } from '../data/mesto';
 import { HttpClient } from '@angular/common/http';
@@ -19,6 +19,12 @@ export class MestoService extends MestoData {
 
   getNazivMesta(nazivOpstine: string): Observable<any> {
     return this.http.get<any>('api/mesto/mesta/' + nazivOpstine);
+  }
+
+  filter(value: string, arr: string[]): Observable<string[]> {
+    const filterValue = value.toLowerCase();
+    if (arr === undefined) return;
+    return of(arr.filter(x => x.toLowerCase().includes(filterValue)));
   }
 
 }

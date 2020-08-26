@@ -10,7 +10,11 @@ export class KorisnikService extends KorisnikData {
     super();
   }
 
-  getKorisnik(): Observable<Korisnik> {
+  getKorisnik(): Observable<Korisnik[]> {
+    return this.http.get<Korisnik[]>('api/korisnik');
+  }
+
+  getOneKorisnik(): Observable<Korisnik> {
     let korisnickoIme = '';
     this.authService.onTokenChange().subscribe(t => {
       korisnickoIme = t.getPayload().data.korisnik.korisnickoIme;

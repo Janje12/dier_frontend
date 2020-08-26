@@ -16,12 +16,12 @@ export interface Skladiste {
     ulica: string;
   };
   neopasniOtpad?: NOtpad[];
-  inventarOO?: OOtpad[];
+  opasniOtpad?: OOtpad[];
   inventarPTO?: PTOtpad[];
   inventarAO?: AOtpad[];
   inventarAM?: Ambalaza[];
 }
 
 export abstract class SkladisteData {
-  abstract getSkladiste(): Observable<Skladiste>;
+  abstract getSkladiste(): Observable<Skladiste[]>;
 }

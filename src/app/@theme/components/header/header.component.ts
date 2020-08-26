@@ -53,10 +53,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    this.authService.onTokenChange()
+
+    this.authService.getToken()
       .subscribe((token: NbAuthJWTToken) => {
         if (token.isValid()) {
           this.korisnik = token.getPayload().data.korisnik;
+          //console.log('Refresh Token: ' + token.getPayload().data.korisnik.token);
           console.log(token.getPayload());
         }
       });

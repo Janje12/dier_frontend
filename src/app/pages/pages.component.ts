@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NbAuthService } from '@nebular/auth';
+import { NbMenuItem } from '@nebular/theme';
 import { first } from 'rxjs/operators';
+import { log } from 'util';
+import { RoleService } from '../@core/service/role.service';
 
 import { MENU_ITEMS } from './pages-menu';
 
@@ -16,17 +19,15 @@ import { MENU_ITEMS } from './pages-menu';
 })
 export class PagesComponent implements OnInit {
 
-  menu;
-  rad_firme: string[];
+  menu: NbMenuItem[];
 
-  constructor(private authService: NbAuthService) {
+  constructor(private roleService: RoleService) {
   }
 
   ngOnInit(): void {
-    this.authService.onTokenChange().pipe(first()).subscribe( x => {
-      this.rad_firme = x.getPayload().data.firma.radFirme;
+    this.roleService.findOperationsMenu().subscribe(m => {
+      this.menu = m;
     });
-    this.menu = MENU_ITEMS;
-    this.menu = this.menu.slice(0, this.rad_firme.length + 3);
   }
+
 }

@@ -13,4 +13,8 @@ export class OOtpadService extends OOtpadData {
     return this.http.get<OOtpad[]>('api/opasniotpad');
   }
 
+  dodajOOtpad(otpad: OOtpad, skladisteID: string): Observable<OOtpad> {
+    return this.http.post<OOtpad>('api/opasniotpad', {otpad: otpad, skladiste: skladisteID});
+  }
+
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { Firma } from '../../@core/data/firma';
 import { Korisnik } from '../../@core/data/korisnik';
-import { FirmaService } from '../../@core/service/firma.service';
 import { KorisnikService } from '../../@core/service/korisnik.service';
 
 @Component({
@@ -12,17 +11,16 @@ import { KorisnikService } from '../../@core/service/korisnik.service';
 })
 export class ProfileComponent implements OnInit {
 
-  firma: Firma;
-  korisnik: Korisnik;
+  firma$: Observable<Firma>;
+  korisnik$: Observable<Korisnik>;
 
   constructor(private korisnikService: KorisnikService) {
   }
 
   ngOnInit(): void {
-    this.korisnikService.getKorisnik().subscribe(k => {
-      this.korisnik = k;
-      console.log(k.firma);
-      this.firma = k.firma;
+    this.korisnikService.getOneKorisnik().subscribe(k => {
+      this.korisnik$ = of(k);
+      this.firma$ = of(k.firma);
     });
   }
 

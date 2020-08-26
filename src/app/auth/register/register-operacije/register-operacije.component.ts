@@ -14,7 +14,13 @@ export class RegisterOperacijeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.registerService.getOperacije(of(this.operacije));
+    this.registerService.getOperacije().subscribe(o => {
+      if (o !== undefined) {
+        this.operacije = o;
+        this.updateOperacije();
+      }
+    });
+    this.registerService.sendOperacije(of(this.operacije));
   }
 
   brOT: number = 0;
@@ -29,7 +35,12 @@ export class RegisterOperacijeComponent implements OnInit {
     return this.brOT.toString();
   }
 
-  addOperacija(op: string, e: Event) {
+  updateOperacije() {
+    // NEEDS FIXING
+    this.brOT = this.operacije.length;
+  }
+
+  addOperacija(op: string, e: boolean) {
     if (e) {
       if (op.includes('Neopasnog') || op.includes('Opasnog'))
         this.brOT++;
@@ -40,6 +51,7 @@ export class RegisterOperacijeComponent implements OnInit {
       this.operacije.splice(this.operacije.findIndex(x => x === op), 1);
     }
   }
+
 
   trashIco: NbIconConfig = {icon: 'trash', pack: 'solid'};
   carBatteryIco: NbIconConfig = {icon: 'car-battery', pack: 'solid'};

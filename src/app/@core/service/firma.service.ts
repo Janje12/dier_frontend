@@ -10,12 +10,8 @@ export class FirmaService extends FirmaData {
     super();
   }
 
-  getFirma(): Observable<Firma> {
-    let korisnickoIme;
-    this.authService.onTokenChange().subscribe(t => {
-      korisnickoIme = t.getPayload().data.firma._id;
-    });
-    return this.http.get<Firma>('api/firma');
+  getFirma(): Observable<Firma[]> {
+    return this.http.get<Firma[]>('api/firma');
   }
 
 }

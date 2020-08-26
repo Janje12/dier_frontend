@@ -7,7 +7,7 @@
       <div class="flex-fill px-4">
         <div class="row">
           <div class="col-6 flex-fill">
-            <form>
+            <form #form="ngForm" (ngSubmit)="dodajOtpad()">
               <div class="row my-3">
                 <label class="col-12">Indeksni broj: {{ ootpad.indeksniBroj }}</label>
               </div>
@@ -30,10 +30,7 @@
               <div class="row my-3">
                 <label class="col-12">Fizicko stanje otpada: </label>
                 <nb-select class="col" selected="Cvrsto" [(ngModel)]="ootpad.fizickoStanje" name="stanje">
-                  <nb-option value="Cvrsto">Cvrsto</nb-option>
-                  <nb-option value="Tecno">Tecno</nb-option>
-                  <nb-option value="Gasovito">Gasovito</nb-option>
-                  <nb-option value="Prah">Prah</nb-option>
+                  <nb-option *ngFor="let f of fizickaStanja;" [value]="f">{{f}}</nb-option>
                 </nb-select>
               </div>
               <div class="row my-3">
@@ -60,10 +57,17 @@
                 <button nbButton disabled>kg</button>
               </div>
               <div class="row my-3">
-                <button nbButton class="ml-3" type="submit" status="primary">Dodaj</button>
+                <label class="col-12">Odaberite skladište za otpad: </label>
+                <nb-select class="col" [selected]="skladista[0]" [(ngModel)]="skladisteID" required name="skladiste">
+                  <nb-option *ngFor="let s of skladista;" [value]="s">{{s.naziv}}</nb-option>
+                </nb-select>
+              </div>
+              <div class="row my-3">
+                <button nbButton
+                        [disabled]="!form.valid"
+                        class="ml-3" type="submit" status="primary">Dodaj</button>
               </div>
             </form>
-            {{ ootpad | json }}
           </div>
           <div class="col-6">
             <label class="col-7">Pretrazi po indeksnom broju:</label>

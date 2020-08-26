@@ -5,7 +5,6 @@ import { first } from 'rxjs/operators';
 import { Delatnost } from '../../../@core/data/delatnost';
 import { Firma } from '../../../@core/data/firma';
 import { Korisnik } from '../../../@core/data/korisnik';
-import { Mesto } from '../../../@core/data/mesto';
 import { DelatnostService } from '../../../@core/service/delatnost.service';
 import { MestoService } from '../../../@core/service/mesto.service';
 import { RegisterService } from '../../../@core/service/register.service';
@@ -29,54 +28,48 @@ export class RegisterFirmaComponent implements OnInit {
       this.delatnosti = d;
       this.delatnosti$ = of(d);
     });
-    this.registerService.getFirma(of(this.firma));
-    this.registerService.sendKorisnik().subscribe(x => {
-      this.korisnik = x;
+    this.registerService.getKorisnik().subscribe(k => {
+      if (k !== undefined) {
+        this.korisnik = k;
+      }
     });
-  }
-
-  private getMesta(nazivOpstine): void {
-    this.mestoService.getNazivMesta(nazivOpstine[0]._id).subscribe(m => {
-      this.mesta = m;
-      this.mesta$ = of(this.mesta);
+    this.registerService.getFirma().subscribe(f => {
+      if (f !== undefined) {
+        this.firma = f;
+        this.imeZakonskogZastupinka = this.firma.zakonskiZastupnik.split(' ')[0];
+        this.prezimeZakonskogZastupinka = this.firma.zakonskiZastupnik.split(' ')[1];
+      }
     });
+    this.registerService.sendFirma(of(this.firma));
   }
-
 
   getConfigValue(key: string): any {
     return getDeepFromObject(this.options, key, null);
   }
 
-  private filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.opstine.filter(x => x._id.toLowerCase().includes(filterValue));
+  findOpstina(value: string) {
+    this.mestoService.filter(value, this.opstine).subscribe(result => {
+      this.opstine$ = of(result);
+      this.getMesta(result[0]);
+    });
   }
 
-  onModelChange(value: string) {
-    value.toLowerCase();
-    this.opstine$ = of(this.filter(value));
-    this.getMesta(this.filter(value));
+  private getMesta(nazivOpstine): void {
+    if (nazivOpstine === undefined) return;
+    this.mestoService.getNazivMesta(nazivOpstine).subscribe(m => {
+      this.mesta = m;
+      this.mesta$ = of(this.mesta);
+    });
   }
 
-  private filter2(value: string): Mesto[] {
-    const filterValue = value.toLowerCase();
-    return this.mesta.filter(x => x.mesto.naziv.toLowerCase().includes(filterValue)
-      && x.opstina.naziv === this.firma.adresa.mesto.opstina.naziv);
+  findMesta(value: string) {
+    this.mestoService.filter(value, this.mesta).subscribe(result => {
+      this.mesta$ = of(result);
+    });
   }
 
-  onModelChange2(value: string) {
-    value.toLowerCase();
-    this.mesta$ = of(this.filter2(value));
-  }
-
-  private filter3(value: string): Delatnost[] {
-    const filterValue = value.toLowerCase();
-    return this.delatnosti.filter(x => x.naziv.includes(filterValue));
-  }
-
-  onModelChange3(value: string) {
-    value.toLowerCase();
-    this.delatnosti$ = of(this.filter3(value));
+  findDelatnost(delatnost: string) {
+    this.delatnosti$ = this.delatnostService.filter(delatnost, this.delatnosti);
   }
 
   spojIme(ime: string) {
@@ -86,6 +79,7 @@ export class RegisterFirmaComponent implements OnInit {
     this.firma.zakonskiZastupnik = this.firma.zakonskiZastupnik.slice(index);
     this.firma.zakonskiZastupnik = ime + this.firma.zakonskiZastupnik;
   }
+
   spojPrezime(prezime: string) {
     this.prezimeZakonskogZastupinka = prezime;
     prezime = ' ' + prezime;
@@ -96,10 +90,10 @@ export class RegisterFirmaComponent implements OnInit {
 
   delatnosti$: Observable<Delatnost[]>;
   delatnosti: Delatnost[];
-  mesta$: Observable<any>;
-  mesta: any;
-  opstine: any;
-  opstine$: Observable<any>;
+  mesta$: Observable<string[]>;
+  mesta: string[];
+  opstine: string[];
+  opstine$: Observable<string[]>;
   imeZakonskogZastupinka: string = '';
   prezimeZakonskogZastupinka: string = '';
   korisnik: Korisnik;
@@ -113,15 +107,10 @@ export class RegisterFirmaComponent implements OnInit {
     mat: '',
     adresa: {
       mesto: {
-        _id: '',
-        mesto: {
-          sifra: 0,
-          naziv: '',
-        },
-        opstina: {
-          sifra: 0,
-          naziv: '',
-        },
+        mestoSifra: 0,
+        mestoNaziv: '',
+        opstinaSifra: 0,
+        opstinaNaziv: '',
         postanskiBroj: '',
       },
       ulica: '',
