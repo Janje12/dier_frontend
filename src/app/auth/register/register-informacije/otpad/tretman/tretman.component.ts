@@ -29,17 +29,17 @@ export class TretmanComponent implements OnInit {
               private mestoService: MestoService, private router: Router) {
   }
 
-  getConfigValue(key: string): any {
-    return getDeepFromObject(this.options, key, null);
-  }
-
   ngOnInit(): void {
     this.registerService.getFirma().subscribe(f => {
       if (f !== undefined) {
         this.firma = f;
-        this.brojSkladistaTretman = this.firma.skladistaTretman.length;
-        this.dozvole = this.firma.dozvola;
-        this.skladistaTretman = this.firma.skladistaTretman;
+        if (f.skladistaTretman !== undefined) {
+          this.brojSkladistaTretman = this.firma.skladistaTretman.length;
+          this.skladistaTretman = this.firma.skladistaTretman;
+        }
+        if (f.dozvola !== undefined) {
+          this.dozvole = this.firma.dozvola;
+        }
       }
     });
     this.registerService.sendFirma(of(this.firma));
@@ -47,6 +47,10 @@ export class TretmanComponent implements OnInit {
       this.opstine = o;
       this.opstine$ = of(o);
     });
+  }
+
+  getConfigValue(key: string): any {
+    return getDeepFromObject(this.options, key, null);
   }
 
   updateDozvolaForm() {
@@ -80,32 +84,34 @@ export class TretmanComponent implements OnInit {
         geolokacijaN: 0,
         kolicina: 0,
         maxKolicina: 0,
-        naziv: '',
+        naziv: 'Skladiste Tretman #' + i,
       };
     }
     this.firma.skladistaTretman = this.skladistaTretman;
     this.firma.dozvola = this.dozvole;
   }
 
+  private getMesta(nazivOpstine: string): void {
+    if (nazivOpstine === undefined) return;
+    this.mestoService.getNazivMesta(nazivOpstine).subscribe(m => {
+      this.mesta = m;
+      this.mesta$ = of(m);
+    });
+  }
+
   findOpstina(value: string) {
+    if (value === '') {
+      this.opstine$ = of(this.opstine);
+      return;
+    }
     this.mestoService.filter(value, this.opstine).subscribe(result => {
       this.opstine$ = of(result);
       this.getMesta(result[0]);
     });
   }
 
-  private getMesta(nazivOpstine): void {
-    if (nazivOpstine === undefined) return;
-    this.mestoService.getNazivMesta(nazivOpstine).subscribe(m => {
-      this.mesta = m;
-      this.mesta$ = of(this.mesta);
-    });
-  }
-
   findMesta(value: string) {
-    this.mestoService.filter(value, this.mesta).subscribe(result => {
-      this.mesta$ = of(result);
-    });
+    this.mesta$ = this.mestoService.filter(value, this.mesta);
   }
 
   chooseDozvola(dozvola: Dozvola): void {

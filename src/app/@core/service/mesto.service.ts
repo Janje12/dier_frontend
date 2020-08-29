@@ -1,24 +1,28 @@
 import { Observable, of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
+import { environment } from '../../../environments/environment.prod';
 import { Mesto, MestoData } from '../data/mesto';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class MestoService extends MestoData {
+  private readonly apiUrl: string;
+
   constructor(private http: HttpClient) {
     super();
+    this.apiUrl = !isDevMode() ? environment.apiUrl : '';
   }
 
   getMesto(): Observable<Mesto[]> {
-    return this.http.get<Mesto[]>('/api/mesto');
+    return this.http.get<Mesto[]>(this.apiUrl + '/api/mesto');
   }
 
   getOpstine(): Observable<any> {
-    return this.http.get<any>('api/mesto/opstine');
+    return this.http.get<any>(this.apiUrl + '/api/mesto/opstine');
   }
 
   getNazivMesta(nazivOpstine: string): Observable<any> {
-    return this.http.get<any>('api/mesto/mesta/' + nazivOpstine);
+    return this.http.get<any>(this.apiUrl + '/api/mesto/mesta/' + nazivOpstine);
   }
 
   filter(value: string, arr: string[]): Observable<string[]> {

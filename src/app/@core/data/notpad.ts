@@ -9,6 +9,7 @@ export interface NOtpad {
   fizickoStanje?: string;
   qLista?: string;
   nacinPakovanja?: string;
+  tretman?: boolean;
 }
 
 export abstract class NOtpadData {

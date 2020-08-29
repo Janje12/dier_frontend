@@ -19,7 +19,6 @@ export class DodajTretmanComponent implements OnInit {
 
   katalog: LocalDataSource = new LocalDataSource();
   dozvola: Dozvola[];
-  dozvola$: Observable<Dozvola[]>;
   skladistaTretman: SkladisteTretman[];
   skladisteID: string;
 
@@ -73,6 +72,7 @@ export class DodajTretmanComponent implements OnInit {
     naziv: '',
     opis: '',
     kolicina: 0,
+    tretman: true,
   };
 
   onSearch(query: string = '') {
@@ -100,8 +100,9 @@ export class DodajTretmanComponent implements OnInit {
   }
 
   dodajOtpad(): void {
+    this.notpad.tretman = true;
     this.otpadService.dodajNOtpad(this.notpad, this.skladisteID).subscribe();
-    this.router.navigate(['pages', 'skladiste']);
+    // this.router.navigate(['pages', 'skladiste']);
   }
 
 }

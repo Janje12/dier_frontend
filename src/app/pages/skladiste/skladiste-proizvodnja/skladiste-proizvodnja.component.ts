@@ -9,7 +9,7 @@ import { SKLADISTE_PROIZVODNJA_SETTINGS } from './skladisteProizvodnja.settings'
 @Component({
   selector: 'ngx-skladiste-proizvodnja',
   templateUrl: './skladiste-proizvodnja.component.html',
-  styleUrls: ['./skladiste-proizvodnja.component.scss']
+  styleUrls: ['./skladiste-proizvodnja.component.scss'],
 })
 export class SkladisteProizvodnjaComponent implements OnInit {
   @ViewChild('dodajKolicinu', {read: TemplateRef}) dodajKolicinu: TemplateRef<HTMLElement>;

@@ -3,12 +3,15 @@
     <div class="row">
       <div class="col-6">
         <label class="col-12">Broj dozvola:</label>
-        <input #brojDozvola1="ngModel" name="brojDozvola" [(ngModel)]="brojDozvola" fullWidth nbInput
+        <input #brojDozvola1="ngModel" name="brojDozvola" [ngModelOptions]="{standalone: true}"
+               [(ngModel)]="brojDozvola" fullWidth nbInput
                placeholder="0" step="1" type="number" min="1">
       </div>
       <div class="col-6">
         <label class="col-12">Broj vozila:</label>
-        <input #brojVozila1="ngModel" name="brojVozila" [(ngModel)]="brojVozila" fullWidth nbInput
+        <input #brojVozila1="ngModel" name="brojVozila" [ngModelOptions]="{standalone: true}"
+               [(ngModel)]="brojVozila"
+               fullWidth nbInput
                placeholder="0" step="1" type="number" min="1">
       </div>
     </div>
@@ -36,7 +39,7 @@
                  placeholder="Sifra"
                  fullWidth
                  autofocus
-                 [status]="sifraDozvole.dirty ? (sifraDozvole.invalid  ? 'danger' : 'success') : ''"
+                 [status]="sifraDozvole.dirty ? (sifraDozvole.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.nazivFirme.required')"
                  [attr.aria-invalid]="sifraDozvole.invalid && sifraDozvole.touched ? true : null">
           <ng-container *ngIf="sifraDozvole.invalid && sifraDozvole.touched">
@@ -56,7 +59,7 @@
                  placeholder="datum"
                  type="date"
                  fullWidth
-                 [status]="datumNastanka.dirty ? (datumNastanka.invalid  ? 'danger' : 'success') : ''"
+                 [status]="datumNastanka.dirty ? (datumNastanka.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.nazivFirme.required')"
                  [attr.aria-invalid]="datumNastanka.invalid && datumNastanka.touched ? true : null">
           <ng-container *ngIf="datumNastanka.invalid && datumNastanka.touched">
@@ -76,7 +79,7 @@
                  placeholder="datumTrajanja"
                  type="date"
                  fullWidth
-                 [status]="datumTrajanja.dirty ? (datumTrajanja.invalid  ? 'danger' : 'success') : ''"
+                 [status]="datumTrajanja.dirty ? (datumTrajanja.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.nazivFirme.required')"
                  [attr.aria-invalid]="datumTrajanja.invalid && datumTrajanja.touched ? true : null">
           <ng-container *ngIf="datumTrajanja.invalid && datumTrajanja.touched">
@@ -86,10 +89,12 @@
           </ng-container>
         </div>
         <div class="col-6 mt-2">
-          <button nbButton status="success" type="submit" [disabled]="dozvola.sifra === ''" (click)="chooseDozvola(dozvola)">Odaberi otpade</button>
+          <button nbButton status="success" type="submit" [disabled]="dozvola.sifra === ''"
+                  (click)="chooseDozvola(dozvola)">Odaberi otpade
+          </button>
         </div>
         <div class="col-6 mt-2">
-          <nb-select [(ngModel)]="dozvola.adresa">
+          <nb-select [(ngModel)]="dozvola.adresa" name="dozvola" [ngModelOptions]="{standalone: true}">
             <nb-option *ngFor="let s of firma.skladistaTretman" [value]="s.adresa">{{s.naziv}}</nb-option>
           </nb-select>
         </div>
@@ -118,7 +123,7 @@
                  autofocus
                  oninput="this.value = this.value.toUpperCase()"
                  fullWidth
-                 [status]="registarskiBroj.dirty ? (registarskiBroj.invalid  ? 'danger' : 'success') : ''"
+                 [status]="registarskiBroj.dirty ? (registarskiBroj.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.nazivFirme.required')"
                  [attr.aria-invalid]="registarskiBroj.invalid && registarskiBroj.touched ? true : null">
           <ng-container *ngIf="registarskiBroj.invalid && registarskiBroj.touched">
@@ -138,10 +143,10 @@
             placeholder="Vrsta"
             autofocus
             fullWidth
-            [status]="vrstaVozila.dirty ? (vrstaVozila.invalid  ? 'danger' : 'success') : ''"
+            [status]="vrstaVozila.dirty ? (vrstaVozila.invalid  ? 'danger' : 'success') : 'basic'"
             [required]="getConfigValue('forms.validation.nazivFirme.required')"
             [attr.aria-invalid]="vrstaVozila.invalid && vrstaVozila.touched ? true : null"
-          selected="kamion">
+            selected="kamion">
             <nb-option value="kamion">Kamion</nb-option>
             <nb-option value="kombi">Kombi</nb-option>
             <nb-option value="automobil">Automobil</nb-option>

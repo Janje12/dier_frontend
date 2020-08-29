@@ -66,25 +66,27 @@ export class ProizvodnjaComponent implements OnInit {
     return getDeepFromObject(this.options, key, null);
   }
 
+  private getMesta(nazivOpstine: string): void {
+    if (nazivOpstine === undefined) return;
+    this.mestoService.getNazivMesta(nazivOpstine).subscribe(m => {
+      this.mesta = m;
+      this.mesta$ = of(m);
+    });
+  }
+
   findOpstina(value: string) {
+    if (value === '') {
+      this.opstine$ = of(this.opstine);
+      return;
+    }
     this.mestoService.filter(value, this.opstine).subscribe(result => {
       this.opstine$ = of(result);
       this.getMesta(result[0]);
     });
   }
 
-  private getMesta(nazivOpstine): void {
-    if (nazivOpstine === undefined) return;
-    this.mestoService.getNazivMesta(nazivOpstine).subscribe(m => {
-      this.mesta = m;
-      this.mesta$ = of(this.mesta);
-    });
-  }
-
   findMesta(value: string) {
-    this.mestoService.filter(value, this.mesta).subscribe(result => {
-      this.mesta$ = of(result);
-    });
+    this.mesta$ = this.mestoService.filter(value, this.mesta);
   }
 
   mesta$: Observable<any>;

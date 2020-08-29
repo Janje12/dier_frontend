@@ -1,3 +1,13 @@
+export const FORM_SETTINGS: any = [
+  {
+    redirectDelay: 0,
+    showMessages: {
+      success: true,
+      error: true,
+    },
+  },
+];
+
 export const VALLIDATION_SETTINGS: any = {
   // Registracija Korisnika
   korisnickoIme: {

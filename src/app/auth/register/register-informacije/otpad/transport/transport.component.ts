@@ -14,6 +14,12 @@ import { RegisterService } from '../../../../../@core/service/register.service';
 })
 export class TransportComponent implements OnInit {
 
+  firma: Firma;
+  brojDozvola: number = 0;
+  dozvole: Dozvola[];
+  brojVozila: number = 0;
+  vozila: PrevoznoSredstvo[];
+
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,
               private router: Router) {
   }
@@ -26,10 +32,14 @@ export class TransportComponent implements OnInit {
     this.registerService.getFirma().subscribe(f => {
       if (f !== undefined) {
         this.firma = f;
-        this.brojVozila = this.firma.prevoznoSredstvo.length;
-        this.brojDozvola = this.firma.dozvola.length;
-        this.dozvole = this.firma.dozvola;
-        this.vozila = this.firma.prevoznoSredstvo;
+        if (f.prevoznoSredstvo !== undefined) {
+          this.brojVozila = this.firma.prevoznoSredstvo.length;
+          this.vozila = this.firma.prevoznoSredstvo;
+        }
+        if (f.dozvola !== undefined) {
+          this.dozvole = this.firma.dozvola;
+          this.brojDozvola = this.firma.dozvola.length;
+        }
       }
     });
     this.registerService.sendFirma(of(this.firma));
@@ -62,9 +72,4 @@ export class TransportComponent implements OnInit {
     this.router.navigate(['/auth/register-dozvola']);
   }
 
-  firma: Firma;
-  brojDozvola: number = 0;
-  dozvole: Dozvola[];
-  brojVozila: number = 0;
-  vozila: PrevoznoSredstvo[];
 }

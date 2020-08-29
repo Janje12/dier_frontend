@@ -33,7 +33,7 @@
                      autofocus
                      placeholder="Naziv"
                      fullWidth
-                     [status]="nazivSkladista.dirty ? (nazivSkladista.invalid  ? 'danger' : 'success') : ''"
+                     [status]="nazivSkladista.dirty ? (nazivSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.nazivFirme.required')"
                      [minlength]="getConfigValue('forms.validation.nazivFirme.minLength')"
                      [maxlength]="getConfigValue('forms.validation.nazivFirme.maxLength')"
@@ -62,7 +62,7 @@
                      name="geolokacijaN"
                      placeholder="N"
                      fullWidth
-                     [status]="geolokacijaN.dirty ? (geolokacijaN.invalid  ? 'danger' : 'success') : ''"
+                     [status]="geolokacijaN.dirty ? (geolokacijaN.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.geolokacija.required')"
                      [minlength]="getConfigValue('forms.validation.geolokacija.minLength')"
                      [maxlength]="getConfigValue('forms.validation.geolokacija.maxLength')"
@@ -88,7 +88,7 @@
                      name="geolokacijaE0"
                      placeholder="E0"
                      fullWidth
-                     [status]="geolokacijaE0.dirty ? (geolokacijaE0.invalid  ? 'danger' : 'success') : ''"
+                     [status]="geolokacijaE0.dirty ? (geolokacijaE0.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.geolokacija.required')"
                      [minlength]="getConfigValue('forms.validation.geolokacija.minLength')"
                      [maxlength]="getConfigValue('forms.validation.geolokacija.maxLength')"
@@ -176,7 +176,7 @@
                          placeholder="Poštanski broj"
                          fullWidth
                          onkeypress="return /[0-9]/i.test(event.key)"
-                         [status]="postanskiBroj.dirty ? (postanskiBroj.invalid  ? 'danger' : 'success') : ''"
+                         [status]="postanskiBroj.dirty ? (postanskiBroj.invalid  ? 'danger' : 'success') : 'basic'"
                          [required]="getConfigValue('forms.validation.postanskiBroj.required')"
                          [minlength]="getConfigValue('forms.validation.postanskiBroj.minLength')"
                          [maxlength]="getConfigValue('forms.validation.postanskiBroj.maxLength')"
@@ -202,7 +202,7 @@
                          id="input-ulicaSkladista"
                          placeholder="Ulica i broj"
                          fullWidth
-                         [status]="ulicaSkladista.dirty ? (ulicaSkladista.invalid  ? 'danger' : 'success') : ''"
+                         [status]="ulicaSkladista.dirty ? (ulicaSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                          [required]="getConfigValue('forms.validation.ulica.required')"
                          [minlength]="getConfigValue('forms.validation.ulica.minLength')"
                          [maxlength]="getConfigValue('forms.validation.ulica.maxLength')"
@@ -228,7 +228,7 @@
                          step="1" min="0"
                          fullWidth type="number" placeholder="0.0"
                          onkeypress="return /[0-9]/i.test(event.key)"
-                         [status]="velicinaSkladista.dirty ? (velicinaSkladista.invalid  ? 'danger' : 'success') : ''"
+                         [status]="velicinaSkladista.dirty ? (velicinaSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                          [required]="getConfigValue('forms.validation.velicinaSkladista.required')">
                 </div>
                 <div class="col-2 pl-0">
@@ -267,7 +267,7 @@
                  placeholder="Sifra"
                  fullWidth
                  autofocus
-                 [status]="sifraDozvole.dirty ? (sifraDozvole.invalid  ? 'danger' : 'success') : ''"
+                 [status]="sifraDozvole.dirty ? (sifraDozvole.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.nazivFirme.required')"
                  [attr.aria-invalid]="sifraDozvole.invalid && sifraDozvole.touched ? true : null">
           <ng-container *ngIf="sifraDozvole.invalid && sifraDozvole.touched">
@@ -294,7 +294,7 @@
                  placeholder="datum"
                  type="date"
                  fullWidth
-                 [status]="datumNastanka.dirty ? (datumNastanka.invalid  ? 'danger' : 'success') : ''"
+                 [status]="datumNastanka.dirty ? (datumNastanka.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.nazivFirme.required')"
                  [attr.aria-invalid]="datumNastanka.invalid && datumNastanka.touched ? true : null">
           <ng-container *ngIf="datumNastanka.invalid && datumNastanka.touched">
@@ -314,7 +314,7 @@
                  placeholder="datumTrajanja"
                  type="date"
                  fullWidth
-                 [status]="datumTrajanja.dirty ? (datumTrajanja.invalid  ? 'danger' : 'success') : ''"
+                 [status]="datumTrajanja.dirty ? (datumTrajanja.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.nazivFirme.required')"
                  [attr.aria-invalid]="datumTrajanja.invalid && datumTrajanja.touched ? true : null">
           <ng-container *ngIf="datumTrajanja.invalid && datumTrajanja.touched">

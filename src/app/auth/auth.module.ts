@@ -3,16 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { environment } from '../../environments/environment.prod';
 import { DelatnostService } from '../@core/service/delatnost.service';
 import { KatalogService } from '../@core/service/katalog.service';
 import { MestoService } from '../@core/service/mesto.service';
 import { RegisterService } from '../@core/service/register.service';
 import { ThemeModule } from '../@theme/theme.module';
 import { NgxAuthRoutingModule } from './auth-routing.module';
-import {
-  NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy,
-} from '@nebular/auth';
 import {
   NbAccordionModule, NbAlertModule, NbAutocompleteModule, NbButtonModule, NbCardModule, NbCheckboxModule,
   NbInputModule, NbPopoverModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToggleModule,
@@ -25,72 +21,13 @@ import { RegisterKorisnikComponent } from './register/register-korisnik/register
 import { RegisterOperacijeComponent } from './register/register-operacije/register-operacije.component';
 import { RegisterPotvrdaComponent } from './register/register-potvrda/register-potvrda.component';
 import { RegisterComponent } from './register/register.component';
-import { VALLIDATION_SETTINGS } from './auth_settings';
 import { ProizvodnjaComponent } from './register/register-informacije/otpad/proizvodnja/proizvodnja.component';
 import { TransportComponent } from './register/register-informacije/otpad/transport/transport.component';
 import { TretmanComponent } from './register/register-informacije/otpad/tretman/tretman.component';
 import { RegisterDozvolaComponent } from './register/register-dozvola/register-dozvola.component';
 
-const settings: any = [
-  {
-    redirectDelay: 0,
-    showMessages: {
-      success: true,
-      error: true,
-    },
-  },
-];
-
 @NgModule({
   imports: [
-    NbAuthModule.forRoot({
-      strategies: [
-        NbPasswordAuthStrategy.setup({
-          name: 'email',
-          token: {
-            class: NbAuthJWTToken,
-            key: 'token',
-          },
-          baseEndpoint: (environment.production ? environment.apiUrl : '') + '/api/auth',
-          login: {
-            endpoint: '/login',
-            method: 'post',
-            redirect: {
-              success: '/pages/dashboard',
-              failure: null,
-            },
-          },
-          register: {
-            endpoint: '/register',
-            method: 'post',
-            redirect: {
-              success: './login',
-              failure: null,
-            },
-          },
-          logout: {
-            endpoint: '/logout',
-            method: 'delete',
-            redirect: {
-              success: '/auth/login',
-            },
-          },
-        }),
-      ],
-      forms: {
-        login: {
-          settings,
-          rememberMe: true,
-        },
-        register: {settings},
-        requestPassword: {settings},
-        resetPassword: {settings},
-        logout: {
-          redirectDelay: 500,
-        },
-        validation: VALLIDATION_SETTINGS,
-      },
-    }),
     ThemeModule,
     CommonModule,
     RouterModule,

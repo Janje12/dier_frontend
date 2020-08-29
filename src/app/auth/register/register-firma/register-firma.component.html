@@ -14,7 +14,7 @@
                  name="naziv"
                  placeholder="Naziv"
                  fullWidth
-                 [status]="nazivFirme.dirty ? (nazivFirme.invalid  ? 'danger' : 'success') : ''"
+                 [status]="nazivFirme.dirty ? (nazivFirme.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.nazivFirme.required')"
                  [minlength]="getConfigValue('forms.validation.nazivFirme.minLength')"
                  [maxlength]="getConfigValue('forms.validation.nazivFirme.maxLength')"
@@ -41,7 +41,7 @@
                  name="pib"
                  placeholder="PIB"
                  fullWidth
-                 [status]="pib.dirty ? (pib.invalid  ? 'danger' : 'success') : ''"
+                 [status]="pib.dirty ? (pib.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.pib.required')"
                  [minlength]="getConfigValue('forms.validation.pib.minLength')"
                  [maxlength]="getConfigValue('forms.validation.pib.maxLength')"
@@ -66,7 +66,7 @@
                  name="mat"
                  placeholder="Matični broj"
                  fullWidth
-                 [status]="mat.dirty ? (mat.invalid  ? 'danger' : 'success') : ''"
+                 [status]="mat.dirty ? (mat.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.mat.required')"
                  [minlength]="getConfigValue('forms.validation.mat.minLength')"
                  [maxlength]="getConfigValue('forms.validation.mat.maxLength')"
@@ -94,7 +94,7 @@
                 [(ngModel)]="firma.adresa.mesto.opstinaNaziv"
                 #opstinaFirma="ngModel"
                 id="input-opstinaFirma"
-                (ngModelChange)="findOpstina($event)"
+                (ngModelChange)="findOpstina(opstinaFirma.value)"
                 name="opstinaFirma"
                 nbInput
                 autocomplete="off"
@@ -118,7 +118,7 @@
                 [(ngModel)]="firma.adresa.mesto.mestoNaziv"
                 #mestoFirma="ngModel"
                 nbInput
-                (ngModelChange)="findMesta($event)"
+                (ngModelChange)="findMesta(mestoFirma.value)"
                 id="input-mestoFirma"
                 autocomplete="off"
                 name="mestoFirma"
@@ -150,7 +150,7 @@
                      placeholder="Poštanski broj"
                      fullWidth
                      onkeypress="return /[0-9]/i.test(event.key)"
-                     [status]="postanskiBroj.dirty ? (postanskiBroj.invalid  ? 'danger' : 'success') : ''"
+                     [status]="postanskiBroj.dirty ? (postanskiBroj.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.postanskiBroj.required')"
                      [minlength]="getConfigValue('forms.validation.postanskiBroj.minLength')"
                      [maxlength]="getConfigValue('forms.validation.postanskiBroj.maxLength')"
@@ -175,7 +175,7 @@
                      id="input-ulicaFirme"
                      placeholder="Ulica i broj"
                      fullWidth
-                     [status]="ulica.dirty ? (ulica.invalid  ? 'danger' : 'success') : ''"
+                     [status]="ulica.dirty ? (ulica.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.ulica.required')"
                      [minlength]="getConfigValue('forms.validation.ulica.minLength')"
                      [maxlength]="getConfigValue('forms.validation.ulica.maxLength')"
@@ -199,7 +199,7 @@
             #delatnost="ngModel"
             id="input-delatnost"
             name="delatnost"
-            (ngModelChange)="findDelatnost($event)"
+            (ngModelChange)="findDelatnost(delatnost.value)"
             autocomplete="off"
             placeholder="Delatnost"
             fullWidth
@@ -207,7 +207,7 @@
             [required]="getConfigValue('forms.validation.delatnost.required')"
             [attr.aria-invalid]="delatnost.invalid && delatnost.touched ? true : null">
           <nb-autocomplete #autoDelatnostSelect>
-            <nb-option  *ngFor="let d of delatnosti$ | async" [value]="d.naziv">{{d.sifra}}|{{d.naziv}}</nb-option>
+            <nb-option  *ngFor="let d of delatnosti$ | async" [value]="d.naziv">[{{d.sifra}}] {{d.naziv}}</nb-option>
           </nb-autocomplete>
           <ng-container *ngIf="delatnost.invalid && delatnost.touched">
             <p class="error-message mt-1 mb-0" *ngIf="delatnost.errors?.required">
@@ -229,7 +229,7 @@
                  pattern=".+@.+..+"
                  placeholder="Email firme"
                  fullWidth
-                 [status]="emailFirma.dirty ? (emailFirma.invalid  ? 'danger' : 'success') : ''"
+                 [status]="emailFirma.dirty ? (emailFirma.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.email.required')"
                  [attr.aria-invalid]="emailFirma.invalid && emailFirma.touched ? true : null">
           <ng-container *ngIf="emailFirma.invalid && emailFirma.touched">
@@ -252,7 +252,7 @@
                  fullWidth
                  onkeypress="return /[0-9]/i.test(event.key)"
                  maxlength="12"
-                 [status]="telefonFirme.dirty ? (telefonFirme.invalid  ? 'danger' : 'success') : ''"
+                 [status]="telefonFirme.dirty ? (telefonFirme.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.telefon.required')"
                  [minlength]="getConfigValue('forms.validation.telefon.minLength')"
                  [maxlength]="getConfigValue('forms.validation.telefon.maxLength')"
@@ -292,7 +292,7 @@
                      placeholder="Email za prijem dokumenata"
                      fullWidth
                      [selected]="firma.email"
-                     [status]="emailPrijem.invalid  ? 'danger' : 'success'"
+                     [status]="emailPrijem.dirty ? (emailPrijem.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.email.required')"
                      [attr.aria-invalid]="emailPrijem.invalid && emailPrijem.touched ? true : null">
             <nb-option [value]="firma.email" >{{firma.email}}</nb-option>
@@ -315,7 +315,7 @@
                  pattern=".+@.+..+"
                  placeholder="Email za prijem dokumenata"
                  fullWidth
-                 [status]="emailPrijem2.dirty ? (emailPrijem2.invalid  ? 'danger' : 'success') : ''"
+                 [status]="emailPrijem2.dirty ? (emailPrijem2.invalid  ? 'danger' : 'success') : 'basic'"
                  [required]="getConfigValue('forms.validation.email.required')"
                  [attr.aria-invalid]="emailPrijem2.invalid && emailPrijem2.touched ? true : null">
           <ng-container *ngIf="emailPrijem2.invalid && emailPrijem2.touched">
@@ -343,7 +343,7 @@
                      name="ime"
                      placeholder="Ime"
                      fullWidth
-                     [status]="ime.dirty ? (ime.invalid  ? 'danger' : 'success') : ''"
+                     [status]="ime.dirty ? (ime.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.ime.required')"
                      [minlength]="getConfigValue('forms.validation.ime.minLength')"
                      [maxlength]="getConfigValue('forms.validation.ime.maxLength')"
@@ -368,7 +368,7 @@
                      name="prezime"
                      placeholder="Prezime"
                      fullWidth
-                     [status]="prezime.dirty ? (prezime.invalid  ? 'danger' : 'success') : ''"
+                     [status]="prezime.dirty ? (prezime.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.prezime.required')"
                      [minlength]="getConfigValue('forms.validation.prezime.minLength')"
                      [maxlength]="getConfigValue('forms.validation.prezime.maxLength')"

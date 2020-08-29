@@ -23,7 +23,7 @@ export class RegisterService {
 
 
   constructor() {
-    this.korisnik = {
+   /* this.korisnik = {
       _id: '',
       email: 'test@gmail.com',
       ime: 'test',
@@ -58,9 +58,8 @@ export class RegisterService {
       radFirme: [],
       telefon: '011654789',
       zakonskiZastupnik: 'Nikola Jankovic',
-      dozvola: [],
-      skladistaTretman: [],
-    };
+
+    };*/
   }
 
 

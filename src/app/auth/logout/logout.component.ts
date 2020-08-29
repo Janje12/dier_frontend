@@ -21,7 +21,7 @@ export class LogoutComponent extends NbLogoutComponent {
 
   constructor(protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
-              protected router: Router, private tokenService: NbTokenService) {
+              protected router: Router) {
     super(service, options, router);
     this.redirectDelay = this.getConfigValue('forms.logout.redirectDelay');
     this.strategy = this.getConfigValue('forms.logout.strategy');

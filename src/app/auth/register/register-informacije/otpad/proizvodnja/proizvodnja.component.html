@@ -27,7 +27,7 @@
                      autofocus
                      [ngModelOptions]="{standalone: true}"
                      fullWidth
-                     [status]="nazivSkladista.dirty ? (nazivSkladista.invalid  ? 'danger' : 'success') : ''"
+                     [status]="nazivSkladista.dirty ? (nazivSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.nazivFirme.required')"
                      [minlength]="getConfigValue('forms.validation.nazivFirme.minLength')"
                      [maxlength]="getConfigValue('forms.validation.nazivFirme.maxLength')"
@@ -115,7 +115,7 @@
                          placeholder="Poštanski broj"
                          fullWidth
                          onkeypress="return /[0-9]/i.test(event.key)"
-                         [status]="postanskiBroj.dirty ? (postanskiBroj.invalid  ? 'danger' : 'success') : ''"
+                         [status]="postanskiBroj.dirty ? (postanskiBroj.invalid  ? 'danger' : 'success') : 'basic'"
                          [required]="getConfigValue('forms.validation.postanskiBroj.required')"
                          [minlength]="getConfigValue('forms.validation.postanskiBroj.minLength')"
                          [maxlength]="getConfigValue('forms.validation.postanskiBroj.maxLength')"
@@ -141,7 +141,7 @@
                          id="input-ulicaSkladista"
                          placeholder="Ulica i broj"
                          fullWidth
-                         [status]="ulicaSkladista.dirty ? (ulicaSkladista.invalid  ? 'danger' : 'success') : ''"
+                         [status]="ulicaSkladista.dirty ? (ulicaSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                          [required]="getConfigValue('forms.validation.ulica.required')"
                          [minlength]="getConfigValue('forms.validation.ulica.minLength')"
                          [maxlength]="getConfigValue('forms.validation.ulica.maxLength')"
@@ -166,7 +166,7 @@
                          [ngModelOptions]="{standalone: true}"
                          fullWidth type="number" placeholder="0.0"
                          onkeypress="return /[0-9]/i.test(event.key)"
-                         [status]="velicinaSkladista.dirty ? (velicinaSkladista.invalid  ? 'danger' : 'success') : ''"
+                         [status]="velicinaSkladista.dirty ? (velicinaSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                          [required]="getConfigValue('forms.validation.velicinaSkladista.required')">
                 </div>
                 <div class="col-2 pl-0">

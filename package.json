@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "scripts": {
     "ng": "ng",
-    "deploy": "ng build --prod --base-href https://janje12.github.io/dier_frontend",
-    "start": "ng serve --open --proxy-config proxy.conf.json",
+    "deploy": "ng build --prod --base-href https://janje12.github.io/dier_frontend/ && ngh",
+    "start": "ng serve --open",
+    "start:dev": "ng serve --open",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",
     "test": "ng test",
