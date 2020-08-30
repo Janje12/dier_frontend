@@ -70,6 +70,10 @@ export class RoleService {
         this.operations.transport = true;
       if (x.startsWith('Tretman'))
         this.operations.tretman = true;
+      if (x.startsWith('Odlaganje'))
+        this.operations.odlaganje = true;
+      if (x.startsWith('Skladištenje'))
+        this.operations.skladistenje = true;
     });
     return of(this.operations);
   }
@@ -111,7 +115,7 @@ export class RoleService {
       if (this.neopasni.tretman)
         item.children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
       if (this.neopasni.skladistenje)
-        item.children.push(menu_childern.filter(x => x.title === 'Skladistenje')[0]);
+        item.children.push(menu_childern.filter(x => x.title === 'Skladištenje')[0]);
       if (this.neopasni.odlaganje)
         item.children.push(menu_childern.filter(x => x.title === 'Odlaganje')[0]);
       result.push(item);
@@ -149,7 +153,7 @@ export class RoleService {
         type.tretman = true;
         break;
       }
-      case 'Skladistenje': {
+      case 'Skladištenje': {
         type.skladistenje = true;
         break;
       }

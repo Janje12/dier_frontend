@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Firma } from '../data/firma';
 import { Korisnik } from '../data/korisnik';
-import { Skladiste } from '../data/skladiste';
 
 @Injectable()
 export class RegisterService {
@@ -12,56 +11,50 @@ export class RegisterService {
   private firma: Firma;
   private operacije$: Observable<string[]>;
   private operacije: string[];
-  private informacije$: Observable<{
-    skladista: Skladiste[];
-  }>;
-  private informacije: {
-    skladista: Skladiste[];
-  };
   private sifraDozvole: string;
   private sifraDozvole$: Observable<string>;
 
 
   constructor() {
-   /* this.korisnik = {
-      _id: '',
-      email: 'test@gmail.com',
-      ime: 'test',
-      korisnickoIme: 'test12',
-      prezime: 'test',
-      sifra: 'nikjan00',
-      telefon: '068456784',
-      uloga: 'menadzer',
-    };
-    this.firma = {
-      _id: '',
-      adresa: {
-        mesto: {
-          mestoSifra: 0,
-          mestoNaziv: 'Arnajevo',
-          opstinaSifra: 0,
-          opstinaNaziv: 'Beograd',
-          postanskiBroj: '31210',
-        }, ulica: 'Nikola tesla 2',
-      },
-      delatnost: {
+    if (isDevMode()) {
+      this.korisnik = {
         _id: '',
-        sifra: '',
-        naziv: 'Proizvodnja mesnih prerađevina',
-      },
-      email: 'test12@gmail',
-      emailPrijem: 'test12@gmail',
-      mat: '12121212',
-      menadzer: 'test12',
-      naziv: 'Test',
-      pib: '123123123',
-      radFirme: [],
-      telefon: '011654789',
-      zakonskiZastupnik: 'Nikola Jankovic',
-
-    };*/
+        email: 'random@gmail.com',
+        ime: 'test',
+        korisnickoIme: 'random',
+        prezime: 'test',
+        sifra: 'nikjan00',
+        telefon: '028456714',
+        uloga: 'menadzer',
+      };
+      this.firma = {
+        _id: '',
+        adresa: {
+          mesto: {
+            mestoSifra: 0,
+            mestoNaziv: 'Arnajevo',
+            opstinaSifra: 0,
+            opstinaNaziv: 'Beograd',
+            postanskiBroj: '31210',
+          }, ulica: 'Nikola tesla 2',
+        },
+        delatnost: {
+          _id: '',
+          sifra: '',
+          naziv: 'Proizvodnja mesnih prerađevina',
+        },
+        email: 'random1@gmail',
+        emailPrijem: 'random1@gmail',
+        mat: '12564375',
+        menadzer: 'random',
+        naziv: 'Test',
+        pib: '532587587',
+        radFirme: [],
+        telefon: '023434789',
+        zakonskiZastupnik: 'Nikola Jankovic',
+      };
+    }
   }
-
 
   sendDozvola(sifraDozvole: Observable<string>): void {
     this.sifraDozvole$ = sifraDozvole;
@@ -72,17 +65,6 @@ export class RegisterService {
 
   getDozvola(): Observable<string> {
     return of(this.sifraDozvole);
-  }
-
-  sendInformacije(informacije: Observable<any>): void {
-    this.informacije$ = informacije;
-    informacije.subscribe(i => {
-      this.informacije = i;
-    });
-  }
-
-  getInformacije(): Observable<any> {
-    return of(this.informacije);
   }
 
   sendOperacije(operacije: Observable<string[]>): void {
@@ -125,11 +107,7 @@ export class RegisterService {
       if (this.korisnik !== undefined) {
         this.firma.menadzer = this.korisnik.korisnickoIme;
       }
-      if (this.informacije !== undefined) {
-        this.firma.skladista = this.informacije.skladista;
-      }
     }
-
     return of(this.firma);
   }
 }

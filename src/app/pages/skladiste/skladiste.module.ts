@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { KatalogService } from '../../@core/service/katalog.service';
 import { RoleService } from '../../@core/service/role.service';
-
 import { ThemeModule } from '../../@theme/theme.module';
-import { SKLADISTE_SETTINGS } from './skladiste-settings';
 import { SkladisteComponent } from './skladiste.component';
 import { SkladisteService } from '../../@core/service/skladiste.service';
 import {
@@ -18,6 +16,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsModule } from '@angular/forms';
 import { SkladisteProizvodnjaComponent } from './skladiste-proizvodnja/skladiste-proizvodnja.component';
 import { SkladisteTretmanComponent } from './skladiste-tretman/skladiste-tretman.component';
+import { SkladisteDeponijaComponent } from './skladiste-deponija/skladiste-deponija.component';
+import { SkladisteSkladistenjeComponent } from './skladiste-skladistenje/skladiste-skladistenje.component';
 
 @NgModule({
   imports: [
@@ -36,6 +36,8 @@ import { SkladisteTretmanComponent } from './skladiste-tretman/skladiste-tretman
     SkladisteComponent,
     SkladisteProizvodnjaComponent,
     SkladisteTretmanComponent,
+    SkladisteDeponijaComponent,
+    SkladisteSkladistenjeComponent,
   ],
   providers: [SkladisteService,
     RoleService, KatalogService],

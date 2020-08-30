@@ -4,6 +4,7 @@ import { Dozvola } from './dozvola';
 import { Mesto } from './mesto';
 import { PrevoznoSredstvo } from './prevoznoSredstvo';
 import { Skladiste } from './skladiste';
+import { SkladisteDeponija } from './skladisteDeponija';
 import { SkladisteTretman } from './skladisteTretman';
 
 export interface Firma {
@@ -27,6 +28,8 @@ export interface Firma {
   menadzer: string;
   skladista?: Skladiste[];
   skladistaTretman?: SkladisteTretman[];
+  skladistaDeponija?: SkladisteDeponija[];
+  skladisteSkladistenje?: Skladiste[];
 }
 
 export abstract class FirmaData {

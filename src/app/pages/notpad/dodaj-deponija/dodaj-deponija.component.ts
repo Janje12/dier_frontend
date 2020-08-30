@@ -4,21 +4,21 @@ import { NbAuthService } from '@nebular/auth';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Dozvola } from '../../../@core/data/dozvola';
 import { NOtpad } from '../../../@core/data/notpad';
-import { SkladisteTretman } from '../../../@core/data/skladisteTretman';
+import { SkladisteDeponija } from '../../../@core/data/skladisteDeponija';
 import { DozvolaService } from '../../../@core/service/dozvola.service';
 import { NOtpadService } from '../../../@core/service/notpad.service';
 import { SkladisteService } from '../../../@core/service/skladiste.service';
 
 @Component({
-  selector: 'ngx-dodaj-tretman',
-  templateUrl: './dodaj-tretman.component.html',
-  styleUrls: ['./dodaj-tretman.component.scss'],
+  selector: 'ngx-dodaj-deponija',
+  templateUrl: './dodaj-deponija.component.html',
+  styleUrls: ['./dodaj-deponija.component.scss'],
 })
-export class DodajTretmanComponent implements OnInit {
+export class DodajDeponijaComponent implements OnInit {
 
   katalog: LocalDataSource = new LocalDataSource();
   dozvola: Dozvola[];
-  skladistaTretman: SkladisteTretman[];
+  skladistaDeponija: SkladisteDeponija[];
   skladisteID: string;
 
   constructor(private dozvolaService: DozvolaService, private otpadService: NOtpadService,
@@ -31,8 +31,8 @@ export class DodajTretmanComponent implements OnInit {
       this.dozvola = d;
       this.updateKatalog(this.dozvola[0]);
     });
-    this.skladisteService.getSkladisteTretmanFirme().subscribe(x => {
-      this.skladistaTretman = x;
+    this.skladisteService.getSkladisteDeponijaFirme().subscribe(x => {
+      this.skladistaDeponija = x;
     });
   }
 
@@ -71,7 +71,6 @@ export class DodajTretmanComponent implements OnInit {
     naziv: '',
     opis: '',
     kolicina: 0,
-    tretman: true,
   };
 
   onSearch(query: string = '') {
@@ -84,7 +83,7 @@ export class DodajTretmanComponent implements OnInit {
   }
 
   updateKatalog(dozvola: Dozvola): void {
-    this.skladisteID = dozvola.skladistaTretman._id;
+    this.skladisteID = dozvola.skladistaDeponija._id;
     this.katalog.load(dozvola.listaOtpada);
   }
 
@@ -103,5 +102,4 @@ export class DodajTretmanComponent implements OnInit {
     this.otpadService.dodajNOtpad(this.notpad, this.skladisteID).subscribe();
     this.router.navigate(['pages', 'skladiste']);
   }
-
 }

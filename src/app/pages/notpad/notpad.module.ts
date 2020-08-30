@@ -10,6 +10,8 @@ import { KatalogService } from '../../@core/service/katalog.service';
 import { FormsModule } from '@angular/forms';
 import { NOtpadService } from '../../@core/service/notpad.service';
 import { DodajTretmanComponent } from './dodaj-tretman/dodaj-tretman.component';
+import { DodajDeponijaComponent } from './dodaj-deponija/dodaj-deponija.component';
+import { DodajSkladistenjeComponent } from './dodaj-skladistenje/dodaj-skladistenje.component';
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { DodajTretmanComponent } from './dodaj-tretman/dodaj-tretman.component';
     NotpadComponent,
     DodajOtpadComponent,
     DodajTretmanComponent,
+    DodajDeponijaComponent,
+    DodajSkladistenjeComponent,
   ],
   providers: [
     KatalogService,

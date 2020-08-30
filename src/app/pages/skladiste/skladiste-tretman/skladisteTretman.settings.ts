@@ -1,15 +1,15 @@
 export const SKLADISTE_TRETMAN_SETTINGS: any = {
   hideSubHeader: true,
   actions: {
-    columnTitle: 'Obradi otpad',
+    columnTitle: 'Dodaj na skladiste',
     position: 'right',
     add: false,
     edit: false,
     delete: false,
     custom: [
       {
-        name: 'obradi',
-        title: '<i class="fa fa-recycle"></i>',
+        name: 'dodaj',
+        title: '<i class="fa fa-plus"></i>',
       },
     ],
   },

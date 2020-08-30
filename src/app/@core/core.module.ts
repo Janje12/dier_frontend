@@ -131,10 +131,10 @@ export class CoreModule {
         ...NB_CORE_PROVIDERS, [{provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true},
           {
             provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: function (req: HttpRequest<any>) {
-              if (req.url === '/api/auth/login') {
+              if (req.url === environment.apiUrl + '/api/auth/login') {
                 return true;
               }
-              if (req.url === '/api/auth/refresh') {
+              if (req.url ===  environment.apiUrl + '/api/auth/refresh') {
                 return true;
               }
               return false;

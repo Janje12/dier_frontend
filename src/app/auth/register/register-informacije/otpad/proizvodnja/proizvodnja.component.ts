@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { Firma } from '../../../../../@core/data/firma';
 import { Skladiste } from '../../../../../@core/data/skladiste';
 import { MestoService } from '../../../../../@core/service/mesto.service';
 import { RegisterService } from '../../../../../@core/service/register.service';
@@ -12,6 +13,15 @@ import { RegisterService } from '../../../../../@core/service/register.service';
   styleUrls: ['./proizvodnja.component.scss'],
 })
 export class ProizvodnjaComponent implements OnInit {
+
+  mesta$: Observable<any>;
+  mesta: any;
+  opstine: any;
+  opstine$: Observable<any>;
+  brojSkladista: number = 0;
+  skladista: Skladiste[];
+  skladista$: Observable<Skladiste[]>;
+  firma: Firma;
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,
               private mestoService: MestoService) {
@@ -38,24 +48,20 @@ export class ProizvodnjaComponent implements OnInit {
       };
     }
     this.skladista$ = of(this.skladista);
-    this.informacije.skladista = this.skladista;
+    this.firma.skladista = this.skladista;
   }
 
   ngOnInit(): void {
-    this.registerService.getInformacije().subscribe(i => {
-      if (i !== undefined) {
-        this.informacije = i;
-        this.brojSkladista = this.informacije.skladista.length;
-        this.skladista = this.informacije.skladista;
-        this.skladista$ = of(this.skladista);
+    this.registerService.getFirma().subscribe(f => {
+      if (f !== undefined) {
+        this.firma = f;
+        if (f.skladista !== undefined) {
+          this.brojSkladista = this.firma.skladista.length;
+          this.skladista = this.firma.skladista;
+        }
       }
     });
-    if (this.informacije === undefined) {
-      this.informacije = {
-        skladista: [],
-      };
-    }
-    this.registerService.sendInformacije(of(this.informacije));
+    this.registerService.sendFirma(of(this.firma));
     this.mestoService.getOpstine().pipe(first()).subscribe(o => {
       this.opstine = o;
       this.opstine$ = of(o);
@@ -89,14 +95,4 @@ export class ProizvodnjaComponent implements OnInit {
     this.mesta$ = this.mestoService.filter(value, this.mesta);
   }
 
-  mesta$: Observable<any>;
-  mesta: any;
-  opstine: any;
-  opstine$: Observable<any>;
-  brojSkladista: number = 0;
-  skladista: Skladiste[];
-  skladista$: Observable<Skladiste[]>;
-  informacije: {
-    skladista: Array<Skladiste>;
-  };
 }

@@ -31,6 +31,10 @@ export class RegisterInformacijeComponent implements OnInit {
         this.transport = true;
       if (x.startsWith('Tretman'))
         this.tretman = true;
+      if (x.startsWith('Odlaganje'))
+        this.odlaganje = true;
+      if (x.startsWith('Skladištenje'))
+        this.skladistenje = true;
     });
   }
 
@@ -38,5 +42,7 @@ export class RegisterInformacijeComponent implements OnInit {
   proizvodnja: boolean = false;
   transport: boolean = false;
   tretman: boolean = false;
+  odlaganje: boolean = false;
+  skladistenje: boolean = false;
 
 }

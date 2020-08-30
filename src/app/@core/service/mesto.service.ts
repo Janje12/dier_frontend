@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
-import { Injectable, isDevMode } from '@angular/core';
-import { environment } from '../../../environments/environment.prod';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Mesto, MestoData } from '../data/mesto';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,7 +10,7 @@ export class MestoService extends MestoData {
 
   constructor(private http: HttpClient) {
     super();
-    this.apiUrl = !isDevMode() ? environment.apiUrl : '';
+    this.apiUrl = environment.apiUrl;
   }
 
   getMesto(): Observable<Mesto[]> {

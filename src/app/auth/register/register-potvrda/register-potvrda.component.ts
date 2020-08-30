@@ -15,7 +15,6 @@ export class RegisterPotvrdaComponent extends NbRegisterComponent implements Aft
 
   firma$: Observable<Firma>;
   korisnik$: Observable<Korisnik>;
-  informacije$: Observable<any>;
   operacije$: Observable<string[]>;
   redirectDelay: number = 0;
   showMessages: any = [];
@@ -39,7 +38,6 @@ export class RegisterPotvrdaComponent extends NbRegisterComponent implements Aft
   }
 
   ngAfterViewInit(): void {
-    this.informacije$ = this.registerService.getInformacije();
     this.operacije$ = this.registerService.getOperacije();
     this.firma$ = this.registerService.getFirma();
     this.korisnik$ = this.registerService.getKorisnik();
@@ -56,7 +54,6 @@ export class RegisterPotvrdaComponent extends NbRegisterComponent implements Aft
     this.firma$.subscribe(x => {
       korisnik.firma = x;
     });
-    console.log(korisnik);
 
     this.service.register(this.strategy, korisnik).subscribe((result: NbAuthResult) => {
       this.submitted = false;

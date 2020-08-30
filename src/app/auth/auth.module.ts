@@ -7,6 +7,7 @@ import { DelatnostService } from '../@core/service/delatnost.service';
 import { KatalogService } from '../@core/service/katalog.service';
 import { MestoService } from '../@core/service/mesto.service';
 import { RegisterService } from '../@core/service/register.service';
+import { RoleService } from '../@core/service/role.service';
 import { ThemeModule } from '../@theme/theme.module';
 import { NgxAuthRoutingModule } from './auth-routing.module';
 import {
@@ -25,6 +26,8 @@ import { ProizvodnjaComponent } from './register/register-informacije/otpad/proi
 import { TransportComponent } from './register/register-informacije/otpad/transport/transport.component';
 import { TretmanComponent } from './register/register-informacije/otpad/tretman/tretman.component';
 import { RegisterDozvolaComponent } from './register/register-dozvola/register-dozvola.component';
+import { OdlaganjeComponent } from './register/register-informacije/otpad/odlaganje/odlaganje.component';
+import { SkladistenjeComponent } from './register/register-informacije/otpad/skladistenje/skladistenje.component';
 
 @NgModule({
   imports: [
@@ -60,11 +63,14 @@ import { RegisterDozvolaComponent } from './register/register-dozvola/register-d
     ProizvodnjaComponent,
     TransportComponent,
     TretmanComponent,
+    OdlaganjeComponent,
+    SkladistenjeComponent,
   ],
   providers: [
     MestoService,
     DelatnostService,
     RegisterService,
+    RoleService,
     KatalogService,
   ],
 })

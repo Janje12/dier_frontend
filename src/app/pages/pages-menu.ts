@@ -22,11 +22,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Proizvodnja',
-        link: '/pages/notpad/dodaj-otpad',
+        link: '/pages/notpad/dodaj-proizvodnja',
       },
       {
         title: 'Tretman',
         link: '/pages/notpad/dodaj-tretman',
+      },
+      {
+        title: 'Odlaganje',
+        link: '/pages/notpad/dodaj-deponija',
+      },
+      {
+        title: 'Skladištenje',
+        link: '/pages/notpad/dodaj-skladistenje',
       },
     ],
   },

@@ -1,16 +1,16 @@
 <div class="container-fluid">
-  <div *ngFor="let s of skladistaTretman; let i = index">
-    <nb-card>
+  <div *ngFor="let s of skladistaTretman;">
+    <nb-card *ngIf="s.neopasniOtpad.length > 0 || s.opasniOtpad.length > 0">
       <nb-card-header>
         <h2 class="text-center">{{ s?.naziv }}</h2>
       </nb-card-header>
-      <nb-card-body>
+      <nb-card-body *ngIf="s.neopasniOtpad.length > 0">
         <ng2-smart-table (custom)="treatTrash($event, s)" [settings]="settings"
                          [source]="s?.neopasniOtpad"></ng2-smart-table>
       </nb-card-body>
-      <nb-card-body>
+      <nb-card-body *ngIf="s.opasniOtpad.length > 0">
         <ng2-smart-table (custom)="addTrash($event, s)" [settings]="settingsProduction"
-                         [source]="copySkladisteTretman[i]?.neopasniOtpad"></ng2-smart-table>
+                         [source]="s?.opasniOtpad"></ng2-smart-table>
       </nb-card-body>
     </nb-card>
   </div>

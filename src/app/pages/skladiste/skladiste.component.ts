@@ -1,11 +1,5 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NOtpadService } from '../../@core/service/notpad.service';
+import { Component, OnInit } from '@angular/core';
 import { RoleService } from '../../@core/service/role.service';
-import { SkladisteService } from '../../@core/service/skladiste.service';
-import { Skladiste } from '../../@core/data/skladiste';
-import { NOtpad } from '../../@core/data/notpad';
-import { NbWindowService } from '@nebular/theme';
-import { SKLADISTE_SETTINGS } from './skladiste-settings';
 
 @Component({
   selector: 'ngx-skladiste',

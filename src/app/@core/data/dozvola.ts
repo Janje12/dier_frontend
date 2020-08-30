@@ -1,6 +1,8 @@
 import { Observable } from 'rxjs';
 import { Katalog } from './katalog';
 import { Mesto } from './mesto';
+import { Skladiste } from './skladiste';
+import { SkladisteDeponija } from './skladisteDeponija';
 import { SkladisteTretman } from './skladisteTretman';
 
 export interface Dozvola {
@@ -11,6 +13,8 @@ export interface Dozvola {
   vrstaDozvole: string;
   listaOtpada?: Katalog[];
   skladistaTretman?: SkladisteTretman;
+  skladistaDeponija?: SkladisteDeponija;
+  skladistaSkladistenje?: Skladiste;
   adresa?: {
     mesto: Mesto;
     ulica: string;

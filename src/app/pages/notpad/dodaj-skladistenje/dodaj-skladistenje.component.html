@@ -1,0 +1,55 @@
+<div>
+  <nb-card class="container-fluid">
+    <nb-card-header>
+      <h5>Dodajte novi inventar otpada</h5>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="flex-fill px-4">
+        <div class="row">
+          <div class="col-6 flex-fill">
+            <form #form="ngForm" (ngSubmit)="dodajOtpad()">
+              <div class="row my-3">
+                <label class="col-12">Indeksni broj:</label>
+                <div class="col"><b>{{ notpad.indeksniBroj }}</b></div>
+              </div>
+              <div class="row my-3">
+                <label class="col-12">Naziv: </label>
+                <input class="col ml-3" nbInput [placeholder]="notpad.naziv"
+                       [(ngModel)]="notpad.naziv" required name="naziv">
+              </div>
+              <div class="row my-3">
+                <label class="col-12">Opis: </label>
+                <input class="col ml-3" nbInput [placeholder]="notpad.opis"
+                       [(ngModel)]="notpad.opis" required name="opis">
+              </div>
+              <div class="row my-3">
+                <label class="col-12">Trenutna kolicina na skladistu: </label>
+                <input class="col-2 ml-3" fullWidth decimals="1" step="0.1" min="0" type="number" nbInput
+                       placeholder="0" [(ngModel)]="notpad.kolicina" required name="kolicina">
+                <button nbButton disabled>kg</button>
+              </div>
+              <div class="row my-3">
+                <button nbButton class="col-6 ml-3"
+                        [disabled]="!form.valid"
+                        type="submit"
+                        status="primary">Dodaj
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="col-6">
+            <label class="col-7">Pretrazi po indeksnom broju:</label>
+            <nb-select [selected]="dozvola[0].skladistaSkladistenje.naziv">
+              <nb-option *ngFor="let d of dozvola" (selectionChange)="updateKatalog(d)"
+                         [value]="d.skladistaSkladistenje.naziv">{{d.skladistaSkladistenje.naziv}}</nb-option>
+            </nb-select>
+            <input nbInput #search class="col-3 mb-2" fullWidth type="text" placeholder="Pretrazi"
+                   (input)="search.value.length >= 1 && onSearch(search.value)">
+            <ng2-smart-table [source]="katalog" [settings]="settings"
+                             (custom)="chooseOtpad($event)"></ng2-smart-table>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>

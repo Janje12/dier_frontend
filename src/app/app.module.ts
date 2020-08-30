@@ -21,6 +21,7 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { AuthGuard } from './auth-guard.service';
+import DateTimeFormat = Intl.DateTimeFormat;
 
 @NgModule({
   declarations: [AppComponent],

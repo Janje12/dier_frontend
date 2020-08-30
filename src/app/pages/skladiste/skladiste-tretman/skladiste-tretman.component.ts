@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NbWindowService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { NOtpad } from '../../../@core/data/notpad';
+import { OOtpad } from '../../../@core/data/ootpad';
 import { SkladisteTretman } from '../../../@core/data/skladisteTretman';
 import { KatalogService } from '../../../@core/service/katalog.service';
 import { NOtpadService } from '../../../@core/service/notpad.service';
@@ -20,7 +21,6 @@ export class SkladisteTretmanComponent implements OnInit {
   @ViewChild('addTrashTemplate', {read: TemplateRef}) addTrashTemplate: TemplateRef<HTMLElement>;
 
   skladistaTretman: SkladisteTretman[];
-  copySkladisteTretman: SkladisteTretman[];
   currSkladiste: SkladisteTretman;
   otpadTretman: NOtpad[];
   otpadOstatak: NOtpad[];
@@ -47,19 +47,16 @@ export class SkladisteTretmanComponent implements OnInit {
   updateSkladiste(): void {
     this.skladisteService.getSkladisteTretmanFirme().subscribe(x => {
       this.skladistaTretman = x;
-      console.log(this.skladistaTretman);
       this.organizeTrash();
     });
   }
 
   organizeTrash() {
     if (this.skladistaTretman !== undefined) {
-      this.copySkladisteTretman = this.skladistaTretman;
-      for (let i = 0; i < this.skladistaTretman.length; i++) {
-        this.skladistaTretman[i].neopasniOtpad =
-          this.skladistaTretman[i].neopasniOtpad.concat(<NOtpad[]>this.skladistaTretman[i].opasniOtpad);
-        this.copySkladisteTretman[i].neopasniOtpad =
-          this.skladistaTretman[i].neopasniOtpad.filter(x => x.tretman === false);
+      for (const s of this.skladistaTretman) {
+        s.neopasniOtpad = s.neopasniOtpad.concat(<NOtpad[]>s.opasniOtpad);
+        s.opasniOtpad = <OOtpad[]>s.neopasniOtpad.filter(x => !x.tretman);
+        s.neopasniOtpad = s.neopasniOtpad.filter(x => x.tretman);
       }
     }
   }
