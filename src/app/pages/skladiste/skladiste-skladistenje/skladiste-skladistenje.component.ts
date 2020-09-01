@@ -15,6 +15,7 @@ export class SkladisteSkladistenjeComponent implements OnInit {
   @ViewChild('dodajKolicinu', {read: TemplateRef}) dodajKolicinu: TemplateRef<HTMLElement>;
 
   skladistaSkladistenje: Skladiste[];
+  currSkladiste: Skladiste;
   otpad: NOtpad;
   otpadKolicina: number;
   settings: any = SKLADISTE_PROIZVODNJA_SETTINGS;
@@ -44,13 +45,14 @@ export class SkladisteSkladistenjeComponent implements OnInit {
 
   dodajOtpad() {
     this.otpad.kolicina += this.otpadKolicina;
-    this.notpadService.updateNOtpad(this.otpad).subscribe(x => {
+    this.notpadService.updateNOtpad(this.otpad, this.currSkladiste._id).subscribe(x => {
       // dodaj otpad i azuriraj tabelu
       this.updateSkladiste();
     });
   }
 
-  changeKolicina(data: any) {
+  changeKolicina(data: any, skladiste: Skladiste) {
+    this.currSkladiste = skladiste;
     // otvori prozor za dodavanje kolicine na otpad
     const notpad: NOtpad = data.data;
     this.otpad = notpad;

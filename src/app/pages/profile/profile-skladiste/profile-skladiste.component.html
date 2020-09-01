@@ -1,0 +1,97 @@
+<form #formSkladista="ngForm" (ngSubmit)="updateSkladiste(formSkladista)">
+  <div *ngFor="let s of skladista">
+    <div class="row">
+      <div class="col-6">
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-naziv">Naziv skladišta:</label>
+          </div>
+          <div class="col-6">
+            <input #naziv="ngModel"
+                   [(ngModel)]="s.naziv"
+                   [ngModelOptions]="{standalone: true}"
+                   [attr.aria-invalid]="naziv.invalid && naziv.touched ? true : null"
+                   [maxlength]="getConfigValue('forms.validation.nazivFirme.maxLength')"
+                   [minlength]="getConfigValue('forms.validation.nazivFirme.minLength')"
+                   [required]="getConfigValue('forms.validation.nazivFirme.required')"
+                   [status]="naziv.dirty ? (naziv.invalid  ? 'danger' : 'success') : 'basic'"
+                   [disabled]="inputsDisabled"
+                   fullWidth
+                   id="input-naziv"
+                   name="naziv"
+                   nbInput
+                   type="text">
+            <ng-container *ngIf="naziv.invalid && naziv.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="naziv.errors?.required">
+                Naziv skladišta je obavezan!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-velicina">Veličina skladišta:</label>
+          </div>
+          <div class="col-6">
+            <input #velicina="ngModel"
+                   [(ngModel)]="s.maxKolicina"
+                   [ngModelOptions]="{standalone: true}"
+                   [attr.aria-invalid]="velicina.invalid && velicina.touched ? true : null"
+                   [pattern]="getConfigValue('forms.validation.velicinaSkladista.pattern')"
+                   [required]="getConfigValue('forms.validation.velicinaSkladista.required')"
+                   [status]="velicina.dirty ? (velicina.invalid  ? 'danger' : 'success') : 'basic'"
+                   [disabled]="inputsDisabled"
+                   fullWidth
+                   id="input-velicina"
+                   name="velicina"
+                   nbInput
+                   type="number">
+            <ng-container *ngIf="velicina.invalid && velicina.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="velicina.errors?.required">
+                Veličina skladišta je obavezna!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-adresa">Adresa Skladišta:</label>
+          </div>
+          <div class="col-12">
+            <input
+              disabled
+              [placeholder]="s.adresa.mesto.opstinaNaziv + ', ' +
+                s.adresa.mesto.mestoNaziv + ', ' + s.adresa.ulica"
+              fullWidth
+              id="input-adresa"
+              name="faks"
+              nbInput
+              type="text">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-12">
+        <nb-progress-bar [value]="calculateValue(s)" [status]="calculateStatus(s)" size="large">
+          {{s.kolicina}}/{{s.maxKolicina}}
+        </nb-progress-bar>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-8"></div>
+    <div class="col-2">
+      <button (click)="enableInputs()" [disabled]="!inputsDisabled" nbButton fullWidth type="button" status="primary">
+        IZMENI
+      </button>
+    </div>
+    <div class="col-2">
+      <button [disabled]="inputsDisabled" fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+    </div>
+  </div>
+</form>

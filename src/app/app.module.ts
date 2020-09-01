@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
@@ -21,7 +22,6 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { AuthGuard } from './auth-guard.service';
-import DateTimeFormat = Intl.DateTimeFormat;
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +36,7 @@ import DateTimeFormat = Intl.DateTimeFormat;
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
+    NbDateFnsDateModule.forRoot({ format: 'dd/MM/yyyy'}),
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),

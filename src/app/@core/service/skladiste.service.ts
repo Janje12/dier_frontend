@@ -3,6 +3,7 @@ import { NbAuthService } from '@nebular/auth';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { NOtpad } from '../data/notpad';
 import { Skladiste, SkladisteData } from '../data/skladiste';
 import { SkladisteDeponija } from '../data/skladisteDeponija';
 import { SkladisteTretman } from '../data/skladisteTretman';
@@ -18,6 +19,18 @@ export class SkladisteService extends SkladisteData {
 
   getSkladiste(): Observable<Skladiste[]> {
     return undefined;
+  }
+
+  updateSkladiste(skladiste: Skladiste): Observable<Skladiste> {
+    return this.http.patch<Skladiste>(this.apiUrl + '/api/skladiste/' + skladiste._id, skladiste);
+  }
+
+  getAllSkladistaFirme(): Observable<Skladiste[]> {
+    let firmaID = '';
+    this.authService.getToken().subscribe(x => {
+      firmaID = x.getPayload().data.firma._id;
+    });
+    return this.http.get<Skladiste[]>(this.apiUrl + '/api/skladiste/firma/skladisteAll/' + firmaID);
   }
 
   getSkladisteFirme(): Observable<Skladiste[]> {

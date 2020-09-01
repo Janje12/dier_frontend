@@ -43,8 +43,8 @@ export class ProizvodnjaComponent implements OnInit {
           ulica: '',
         },
         kolicina: 0,
-        maxKolicina: 0,
-        naziv: 'Skladiste #' + i,
+        maxKolicina: NaN,
+        naziv: '',
       };
     }
     this.skladista$ = of(this.skladista);

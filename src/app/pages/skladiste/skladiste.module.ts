@@ -9,7 +9,7 @@ import {
   NbCardModule,
   NbInputModule,
   NbListModule,
-  NbPopoverModule,
+  NbPopoverModule, NbProgressBarModule,
   NbSelectModule,
 } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -31,6 +31,7 @@ import { SkladisteSkladistenjeComponent } from './skladiste-skladistenje/skladis
     NbSelectModule,
     NbAutocompleteModule,
     NbButtonModule,
+    NbProgressBarModule,
   ],
   declarations: [
     SkladisteComponent,

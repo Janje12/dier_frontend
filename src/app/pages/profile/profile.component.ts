@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { Observable, of } from 'rxjs';
 import { Firma } from '../../@core/data/firma';
 import { Korisnik } from '../../@core/data/korisnik';
@@ -11,17 +12,11 @@ import { KorisnikService } from '../../@core/service/korisnik.service';
 })
 export class ProfileComponent implements OnInit {
 
-  firma$: Observable<Firma>;
-  korisnik$: Observable<Korisnik>;
-
-  constructor(private korisnikService: KorisnikService) {
+  constructor() {
   }
 
+
   ngOnInit(): void {
-    this.korisnikService.getOneKorisnik().subscribe(k => {
-      this.korisnik$ = of(k);
-      this.firma$ = of(k.firma);
-    });
   }
 
 }

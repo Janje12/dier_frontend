@@ -1,11 +1,18 @@
 <div class="container-fluid">
   <div *ngFor="let s of skladista;">
+    <div class="row">
+      <div class="col-12">
+        <nb-progress-bar [value]="calculateValue(s)" [status]="calculateStatus(s)" size="large">
+          {{s.kolicina}}/{{s.maxKolicina}}
+        </nb-progress-bar>
+      </div>
+    </div>
     <nb-card>
       <nb-card-header>
         <h2 class="text-center">{{ s?.naziv }}</h2>
       </nb-card-header>
       <nb-card-body>
-        <ng2-smart-table (custom)="changeKolicina($event)" [settings]="settings"
+        <ng2-smart-table (custom)="changeKolicina($event, s)" [settings]="settings"
                          [source]="s?.neopasniOtpad"></ng2-smart-table>
       </nb-card-body>
     </nb-card>

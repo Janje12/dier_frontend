@@ -16,6 +16,12 @@ import { RegisterService } from '../../../@core/service/register.service';
 })
 export class RegisterDozvolaComponent implements OnInit {
 
+  katalog: LocalDataSource = new LocalDataSource();
+  firma: Firma;
+  sifraDozvole: string;
+  dozvolа: Dozvola;
+  listaOtpada: Katalog[];
+
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,
               private katalogService: KatalogService) {
   }
@@ -76,8 +82,12 @@ export class RegisterDozvolaComponent implements OnInit {
       {
         field: 'indeksniBroj',
         search: query,
+        filter: function filterFunction(cell: any, search: string): boolean {
+          cell = cell.replace(/\s+/g, '').includes(search.replace(/\s+/g, ''));
+          return cell;
+        },
       },
-    ], false);
+    ], true);
   }
 
   chooseOtpad(data: any) {
@@ -101,11 +111,5 @@ export class RegisterDozvolaComponent implements OnInit {
         this.listaOtpada.splice(index, 1);
     }
   }
-
-  katalog: LocalDataSource = new LocalDataSource();
-  firma: Firma;
-  sifraDozvole: string;
-  dozvolа: Dozvola;
-  listaOtpada: Katalog[];
 
 }

@@ -16,6 +16,7 @@ export const VALLIDATION_SETTINGS: any = {
     maxLength: 20,
   },
   email: {
+    pattern: '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$',
     required: true,
   },
   password: {
@@ -27,13 +28,13 @@ export const VALLIDATION_SETTINGS: any = {
     required: true,
     minLength: 3,
     maxLength: 20,
-    pattern: '^[a-zA-Z \-\']+',
+    pattern: '^[a-zA-ZšđžćčŠĐŽĆČ \-\']+',
   },
   prezime: {
     required: true,
     minLength: 3,
     maxLength: 30,
-    pattern: '^[a-zA-Z \-\']+',
+    pattern: '^[a-zA-ZšđžćčŠĐŽĆČ \-\']+',
   },
   telefon: {
     required: true,
@@ -85,5 +86,12 @@ export const VALLIDATION_SETTINGS: any = {
   velicinaSkladista: {
     required: true,
     pattern: '[0-9]*',
+  },
+  datum: {
+    required: true,
+  },
+  registarskiBroj: {
+    required: true,
+    pattern: '([A-Ž]{2})-(\d{3,4})-([A-Ž]{2})',
   },
 };

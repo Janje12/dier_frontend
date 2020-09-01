@@ -21,8 +21,8 @@ export class NOtpadService extends NOtpadData {
     return this.http.post<NOtpad>(this.apiUrl + '/api/otpad', {otpad: otpad, skladiste: skladisteID});
   }
 
-  updateNOtpad(otpad: NOtpad): Observable<NOtpad> {
-    return this.http.patch<NOtpad>(this.apiUrl + '/api/otpad/' + otpad._id, otpad);
+  updateNOtpad(otpad: NOtpad, skladisteID: string): Observable<NOtpad> {
+    return this.http.patch<NOtpad>(this.apiUrl + '/api/otpad/' + otpad._id, {otpad: otpad, skladiste: skladisteID});
   }
 
 }

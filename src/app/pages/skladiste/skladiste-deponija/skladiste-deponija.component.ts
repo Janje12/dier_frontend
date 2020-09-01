@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NbWindowService } from '@nebular/theme';
 import { NOtpad } from '../../../@core/data/notpad';
+import { Skladiste } from '../../../@core/data/skladiste';
 import { SkladisteDeponija } from '../../../@core/data/skladisteDeponija';
 import { NOtpadService } from '../../../@core/service/notpad.service';
 import { SkladisteService } from '../../../@core/service/skladiste.service';
@@ -15,6 +16,7 @@ export class SkladisteDeponijaComponent implements OnInit {
   @ViewChild('dodajKolicinu', {read: TemplateRef}) dodajKolicinu: TemplateRef<HTMLElement>;
 
   skladisteDeponija: SkladisteDeponija[];
+  currSkladiste: Skladiste;
   otpad: NOtpad;
   otpadKolicina: number;
   settings: any = SKLADISTE_PROIZVODNJA_SETTINGS;
@@ -44,13 +46,14 @@ export class SkladisteDeponijaComponent implements OnInit {
 
   dodajOtpad() {
     this.otpad.kolicina += this.otpadKolicina;
-    this.notpadService.updateNOtpad(this.otpad).subscribe(x => {
+    this.notpadService.updateNOtpad(this.otpad, this.currSkladiste._id).subscribe(x => {
       // dodaj otpad i azuriraj tabelu
       this.updateSkladiste();
     });
   }
 
-  changeKolicina(data: any) {
+  changeKolicina(data: any, skladiste: Skladiste) {
+    this.currSkladiste = skladiste;
     // otvori prozor za dodavanje kolicine na otpad
     const notpad: NOtpad = data.data;
     this.otpad = notpad;

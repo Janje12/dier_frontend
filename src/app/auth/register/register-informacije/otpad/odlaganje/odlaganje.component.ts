@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
@@ -26,7 +27,7 @@ export class OdlaganjeComponent implements OnInit {
   skladisteDeponija: SkladisteDeponija[];
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,
-              private mestoService: MestoService, private router: Router) {
+              private mestoService: MestoService, private router: Router, private datePipe: DatePipe) {
   }
 
   ngOnInit(): void {
@@ -58,6 +59,7 @@ export class OdlaganjeComponent implements OnInit {
     for (let i = 0; i < this.brojSkladistaDeponija; i++) {
       this.dozvole[i] = {
         _id: '',
+        naziv: 'Dozvola #' + i,
         datumNastanka: new Date(),
         datumTrajanja: new Date(),
         listaOtpada: [],
@@ -80,16 +82,22 @@ export class OdlaganjeComponent implements OnInit {
               postanskiBroj: '',
             }, ulica: '',
         },
-        geolokacijaE: 0,
-        geolokacijaN: 0,
+        geolokacijaE: null,
+        geolokacijaN: null,
         kolicina: 0,
-        maxKolicina: 0,
-        naziv: 'Skladiste Deponija #' + i,
+        maxKolicina: NaN,
+        naziv: '',
         vrstaDeponije: '',
       };
     }
     this.firma.skladistaDeponija = this.skladisteDeponija;
     this.firma.dozvola = this.dozvole;
+  }
+
+  dateValid(d: Dozvola): Boolean {
+    if (d.datumNastanka > d.datumTrajanja)
+      return true;
+    return false;
   }
 
   private getMesta(nazivOpstine: string): void {

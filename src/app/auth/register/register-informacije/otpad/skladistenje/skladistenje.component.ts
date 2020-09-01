@@ -58,6 +58,7 @@ export class SkladistenjeComponent implements OnInit {
     for (let i = 0; i < this.brojSkladista; i++) {
       this.dozvole[i] = {
         _id: '',
+        naziv: 'Dozvola #' + i,
         datumNastanka: new Date(),
         datumTrajanja: new Date(),
         listaOtpada: [],
@@ -81,12 +82,18 @@ export class SkladistenjeComponent implements OnInit {
             }, ulica: '',
         },
         kolicina: 0,
-        maxKolicina: 0,
-        naziv: 'Skladiste #' + i,
+        maxKolicina: NaN,
+        naziv: '',
       };
     }
     this.firma.skladisteSkladistenje = this.skladistaSkladistenje;
     this.firma.dozvola = this.dozvole;
+  }
+
+  dateValid(d: Dozvola): Boolean {
+    if (d.datumNastanka > d.datumTrajanja)
+      return true;
+    return false;
   }
 
   private getMesta(nazivOpstine: string): void {

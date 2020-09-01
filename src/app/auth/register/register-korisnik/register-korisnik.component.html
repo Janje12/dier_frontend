@@ -1,5 +1,5 @@
 <h1 class="text-center">Registruj se!</h1>
-<nb-stepper>
+<nb-stepper disableStepNavigation>
   <nb-step label="Korisnik">
     <form #form="ngForm">
 
@@ -19,7 +19,7 @@
                  [minlength]="getConfigValue('forms.validation.ime.minLength')"
                  [maxlength]="getConfigValue('forms.validation.ime.maxLength')"
                  [pattern]="getConfigValue('forms.validation.ime.pattern')"
-                 onkeypress="return /[a-z]/i.test(event.key)"
+                 onkeypress="return /[a-zA-ZčćžđšŠĐŽĆČ]/i.test(event.key)"
                  [attr.aria-invalid]="ime.invalid && ime.touched ? true : null">
           <ng-container *ngIf="ime.invalid && ime.touched">
             <p class="error-message mt-1 mb-0" *ngIf="ime.errors?.required">
@@ -50,7 +50,7 @@
                  [minlength]="getConfigValue('forms.validation.prezime.minLength')"
                  [maxlength]="getConfigValue('forms.validation.prezime.maxLength')"
                  [pattern]="getConfigValue('forms.validation.prezime.pattern')"
-                 onkeypress="return /[a-z\-]/i.test(event.key)"
+                 onkeypress="return /[a-zA-ZšđžćčŠĐŽĆČ\-]/i.test(event.key)"
                  [attr.aria-invalid]="prezime.invalid && prezime.touched ? true : null">
           <ng-container *ngIf="prezime.invalid && prezime.touched">
             <p class="error-message mt-1 mb-0" *ngIf="prezime.errors?.required">

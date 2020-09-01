@@ -18,13 +18,18 @@ export class KorisnikService extends KorisnikData {
     return this.http.get<Korisnik[]>(this.apiUrl + '/api/korisnik');
   }
 
-  getOneKorisnik(): Observable<Korisnik> {
+  updateKorisnik(korisnik: Korisnik): Observable<Korisnik> {
+    return this.http.patch<Korisnik>(this.apiUrl + '/api/korisnik/' + korisnik._id, korisnik);
+  }
+
+  getCurrentKorisnik(): Observable<Korisnik> {
     let korisnickoIme = '';
     this.authService.onTokenChange().subscribe(t => {
       if (t !== null) {
         korisnickoIme = t.getPayload().data.korisnik.korisnickoIme;
       }
     });
-    return this.http.get<Korisnik>(this.apiUrl + '/api/korisnik/' + korisnickoIme);
+    return this.http.get<Korisnik>(this.apiUrl + '/api/korisnik/profile/' + korisnickoIme);
   }
+
 }

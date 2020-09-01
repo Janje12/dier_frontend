@@ -1,0 +1,229 @@
+<form #formKorisnik="ngForm" (ngSubmit)="updateFirma(formKorisnik)" class="col-12">
+  <div class="row">
+    <div class="col-6">
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-naziv">Naziv Firme:</label>
+        </div>
+        <div class="col-6">
+          <input #naziv="ngModel"
+                 [(ngModel)]="firma.naziv"
+                 disabled
+                 fullWidth
+                 id="input-naziv"
+                 name="ime"
+                 nbInput
+                 type="text">
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-pib">PIB:</label>
+        </div>
+        <div class="col-6">
+          <input #pib="ngModel"
+                 [(ngModel)]="firma.pib"
+                 disabled
+                 fullWidth
+                 id="input-pib"
+                 name="pib"
+                 nbInput
+                 type="text">
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-mat">Matični broj:</label>
+        </div>
+        <div class="col-6">
+          <input #mat="ngModel"
+                 [(ngModel)]="firma.mat"
+                 disabled
+                 fullWidth
+                 id="input-mat"
+                 name="mat"
+                 nbInput
+                 type="text">
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-email">Email:</label>
+        </div>
+        <div class="col-6">
+          <input #email="ngModel"
+                 [(ngModel)]="firma.email"
+                 [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+                 [pattern]="getConfigValue('forms.validation.email.pattern')"
+                 [required]="getConfigValue('forms.validation.email.required')"
+                 [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
+                 [disabled]="inputsDisabled"
+                 fullWidth
+                 id="input-email"
+                 name="email"
+                 nbInput
+                 type="text">
+          <ng-container *ngIf="email.invalid && email.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="email.errors?.required">
+              Email je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="email.errors?.pattern">
+              Email mora biti validan!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-emailPrijem">Email za prijem dokumenata:</label>
+        </div>
+        <div class="col-6">
+          <input #emailPrijem="ngModel"
+                 [(ngModel)]="firma.emailPrijem"
+                 [attr.aria-invalid]="emailPrijem.invalid && emailPrijem.touched ? true : null"
+                 [pattern]="getConfigValue('forms.validation.email.pattern')"
+                 [required]="getConfigValue('forms.validation.email.required')"
+                 [status]="emailPrijem.dirty ? (emailPrijem.invalid  ? 'danger' : 'success') : 'basic'"
+                 [disabled]="inputsDisabled"
+                 fullWidth
+                 id="input-emailPrijem"
+                 name="emailPrijem"
+                 nbInput
+                 type="text">
+          <ng-container *ngIf="emailPrijem.invalid && emailPrijem.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="emailPrijem.errors?.required">
+              Email je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="emailPrijem.errors?.pattern">
+              Email mora biti validan!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-telefon">Telefon:</label>
+        </div>
+        <div class="col-6">
+          <input #telefon="ngModel"
+                 [(ngModel)]="firma.telefon"
+                 [attr.aria-invalid]="telefon.invalid && telefon.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.telefon.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.telefon.minLength')"
+                 [required]="getConfigValue('forms.validation.telefon.required')"
+                 [status]="telefon.dirty ? (telefon.invalid  ? 'danger' : 'success') : 'basic'"
+                 [disabled]="inputsDisabled"
+                 fullWidth
+                 id="input-telefon"
+                 name="telefon"
+                 nbInput
+                 type="text">
+          <ng-container *ngIf="telefon.invalid && telefon.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="telefon.errors?.required">
+              Telefon je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="telefon.errors?.minlength || telefon.errors?.maxlength">
+              Telefon mora da bude duži od
+              {{ getConfigValue('forms.validation.telefon.minLength') }}
+              a kraći od {{ getConfigValue('forms.validation.telefon.maxLength') }}
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row mb-2" *ngIf="firma.faks === ''">
+        <div class="col-12">
+          <label class="label" for="input-faks">Faks:</label>
+        </div>
+        <div class="col-6">
+          <input #faks="ngModel"
+                 [(ngModel)]="firma.faks"
+                 [attr.aria-invalid]="faks.invalid && faks.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.telefon.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.telefon.minLength')"
+                 [status]="faks.dirty ? (faks.invalid  ? 'danger' : 'success') : 'basic'"
+                 [disabled]="inputsDisabled"
+                 fullWidth
+                 id="input-faks"
+                 name="faks"
+                 nbInput
+                 type="text">
+          <ng-container *ngIf="faks.invalid && faks.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="faks.errors?.minlength || faks.errors?.maxlength">
+              Faks mora da bude duži od
+              {{ getConfigValue('forms.validation.telefon.minLength') }}
+              a kraći od {{ getConfigValue('forms.validation.telefon.maxLength') }}
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-zastupink">Zakonski Zastupnik Firme:</label>
+        </div>
+        <div class="col-6">
+          <input #zastupink="ngModel"
+                 [(ngModel)]="firma.zakonskiZastupnik"
+                 [attr.aria-invalid]="zastupink.invalid && zastupink.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.imeZakonskogZastupinka.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.imeZakonskogZastupinka.minLength')"
+                 [required]="getConfigValue('forms.validation.imeZakonskogZastupinka.required')"
+                 [status]="telefon.dirty ? (telefon.invalid  ? 'danger' : 'success') : 'basic'"
+                 [disabled]="inputsDisabled"
+                 fullWidth
+                 id="input-zastupink"
+                 name="zastupink"
+                 nbInput
+                 type="text">
+          <ng-container *ngIf="zastupink.invalid && zastupink.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="zastupink.errors?.required">
+              Zakosni zastupnik firme je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="zastupink.errors?.minlength || zastupink.errors?.maxlength">
+              Zakosni zastupnik mora da bude duži od
+              {{ getConfigValue('forms.validation.zastupink.minLength') }}
+              a kraći od {{ getConfigValue('forms.validation.zastupink.maxLength') }}
+            </p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-adresa">Adresa Firme:</label>
+        </div>
+        <div class="col-12">
+          <input
+            disabled
+            [placeholder]="firma.adresa.mesto.opstinaNaziv + ', ' +
+                firma.adresa.mesto.mestoNaziv + ', ' + firma.adresa.ulica"
+            fullWidth
+            id="input-adresa"
+            name="faks"
+            nbInput
+            type="text">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <label class="label">Rad firme:</label>
+        </div>
+        <div class="col-12">
+          <input disabled fullWidth nbInput type="text" [placeholder]="r" *ngFor="let r of firma.radFirme">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-8"></div>
+    <div class="col-2">
+      <button (click)="enableInputs()" [disabled]="!inputsDisabled" nbButton fullWidth type="button"
+              status="primary">
+        IZMENI
+      </button>
+    </div>
+    <div class="col-2">
+      <button [disabled]="inputsDisabled" fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+    </div>
+  </div>
+</form>

@@ -5,7 +5,7 @@
         <h2 class="text-center">{{ s?.naziv }}</h2>
       </nb-card-header>
       <nb-card-body>
-        <ng2-smart-table (custom)="changeKolicina($event)" [settings]="settings"
+        <ng2-smart-table (custom)="changeKolicina($event, s)" [settings]="settings"
                          [source]="s?.neopasniOtpad"></ng2-smart-table>
       </nb-card-body>
     </nb-card>

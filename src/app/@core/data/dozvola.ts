@@ -7,6 +7,7 @@ import { SkladisteTretman } from './skladisteTretman';
 
 export interface Dozvola {
   _id: string;
+  naziv: string;
   sifra: string;
   datumNastanka: Date;
   datumTrajanja: Date;

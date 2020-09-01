@@ -1,23 +1,25 @@
 <div class="row">
-  <form #form1 (ngSubmit)="updateDozvolaForm()" class="col-12">
+  <div class="col-4">
+  <form #form1 (ngSubmit)="updateDozvolaForm()">
     <div class="row">
-      <div class="col-6">
+      <div class="col-12">
         <label class="col-12">Broj skladišta za tretman:</label>
         <input #brojSkladista="ngModel" name="brojVozila" [(ngModel)]="brojSkladistaTretman" fullWidth nbInput
                placeholder="0" step="1" type="number" min="1">
       </div>
     </div>
     <div class="row">
-      <div class="col-6">
-        <button nbButton type="submit" fullWidth>Odaberi</button>
+      <div class="col-12">
+        <button nbButton status="primary" type="submit" fullWidth>Odaberi</button>
       </div>
     </div>
   </form>
+  </div>
 </div>
 
 <div class="row pt-4">
   <form #form3="ngForm" *ngIf="brojSkladistaTretman > 0" class="col-12">
-    <div *ngFor="let skladiste of skladistaTretman; i as index">
+    <div *ngFor="let skladiste of skladistaTretman; let i=index">
       <nb-card accent="primary" class="p-2">
         <nb-card-body>
           {{skladiste.naziv}}
@@ -31,7 +33,7 @@
                      id="input-nazivSkladista"
                      name="nazivSkladista"
                      autofocus
-                     placeholder="Naziv"
+                     [placeholder]="'Skladiste #' + i"
                      fullWidth
                      [status]="nazivSkladista.dirty ? (nazivSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.nazivFirme.required')"
@@ -60,7 +62,7 @@
                      #geolokacijaN="ngModel"
                      id="input-geolokacijaN"
                      name="geolokacijaN"
-                     placeholder="N"
+                     placeholder="N0"
                      fullWidth
                      [status]="geolokacijaN.dirty ? (geolokacijaN.invalid  ? 'danger' : 'success') : 'basic'"
                      [required]="getConfigValue('forms.validation.geolokacija.required')"
@@ -226,7 +228,7 @@
                          [ngModelOptions]="{standalone: true}"
                          name="kolicina"
                          step="1" min="0"
-                         fullWidth type="number" placeholder="0.0"
+                         fullWidth type="number" placeholder="0"
                          onkeypress="return /[0-9]/i.test(event.key)"
                          [status]="velicinaSkladista.dirty ? (velicinaSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                          [required]="getConfigValue('forms.validation.velicinaSkladista.required')">
@@ -255,7 +257,26 @@
   <nb-card accent="success">
     <nb-card-body *ngFor="let dozvola of dozvole; let i = index">
       <div class="row">
-        <h5 class="col-12">Dozovla #{{i}}</h5>
+        <div class="col-12 mb-2">
+          <label class="label" for="input-nazivDozvole">Naziv Dozvole:</label>
+          <input nbInput
+                 [(ngModel)]="dozvola.naziv"
+                 [ngModelOptions]="{standalone: true}"
+                 #nazivDozvole="ngModel"
+                 id="input-nazivDozvole"
+                 name="nazivDozvole"
+                 placeholder="Naziv"
+                 fullWidth
+                 autofocus
+                 [status]="nazivDozvole.dirty ? (nazivDozvole.invalid  ? 'danger' : 'success') : 'basic'"
+                 [required]="getConfigValue('forms.validation.nazivFirme.required')"
+                 [attr.aria-invalid]="nazivDozvole.invalid && nazivDozvole.touched ? true : null">
+          <ng-container *ngIf="nazivDozvole.invalid && nazivDozvole.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="nazivDozvole.errors?.required">
+              Naziv dozvole je obavezna!
+            </p>
+          </ng-container>
+        </div>
         <div class="col-6 mb-2">
           <label class="label" for="input-sifraDozvole">Šifra Dozvole:</label>
           <input nbInput
@@ -291,12 +312,13 @@
                  #datumNastanka="ngModel"
                  id="input-datumNastanka"
                  name="datumDozvole"
-                 placeholder="datum"
-                 type="date"
+                 placeholder=""
                  fullWidth
-                 [status]="datumNastanka.dirty ? (datumNastanka.invalid  ? 'danger' : 'success') : 'basic'"
-                 [required]="getConfigValue('forms.validation.nazivFirme.required')"
-                 [attr.aria-invalid]="datumNastanka.invalid && datumNastanka.touched ? true : null">
+                 [status]="dateValid(dozvola) ? 'danger' : 'success'"
+                 [required]="getConfigValue('forms.validation.datum.required')"
+                 [attr.aria-invalid]="datumNastanka.invalid && datumNastanka.touched ? true : null"
+                 [nbDatepicker]="datumNastankaDozvole">
+          <nb-datepicker format="dd/MM/yyyy" #datumNastankaDozvole></nb-datepicker>
           <ng-container *ngIf="datumNastanka.invalid && datumNastanka.touched">
             <p class="error-message mt-1 mb-0" *ngIf="datumNastanka.errors?.required">
               Datum izdavanja dozvole je obavezan!
@@ -311,12 +333,13 @@
                  #datumTrajanja="ngModel"
                  id="input-datumTrajanja"
                  name="datumTrajanja"
-                 placeholder="datumTrajanja"
-                 type="date"
+                 placeholder=""
                  fullWidth
-                 [status]="datumTrajanja.dirty ? (datumTrajanja.invalid  ? 'danger' : 'success') : 'basic'"
-                 [required]="getConfigValue('forms.validation.nazivFirme.required')"
-                 [attr.aria-invalid]="datumTrajanja.invalid && datumTrajanja.touched ? true : null">
+                 [status]="dateValid(dozvola) ? 'danger' : 'success'"
+                 [required]="getConfigValue('forms.validation.datum.required')"
+                 [attr.aria-invalid]="datumTrajanja.invalid && datumTrajanja.touched ? true : null"
+                 [nbDatepicker]="datumTrajanjaDozvole">
+          <nb-datepicker format="dd/MM/yyyy" #datumTrajanjaDozvole></nb-datepicker>
           <ng-container *ngIf="datumTrajanja.invalid && datumTrajanja.touched">
             <p class="error-message mt-1 mb-0" *ngIf="datumTrajanja.errors?.required">
               Datum isteka dozvole je obavezan!

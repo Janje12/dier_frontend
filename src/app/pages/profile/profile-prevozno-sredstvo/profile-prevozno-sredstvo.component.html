@@ -1,0 +1,65 @@
+<form #formSkladista="ngForm" (ngSubmit)="updatePrevoznoSredstvo(formSkladista)">
+  <div *ngFor="let p of prevoznoSredstvo">
+    <div class="row">
+      <div class="col-6">
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-registarskiBroj">Registarski broj tablice:</label>
+          </div>
+          <div class="col-6">
+            <input #registarskiBroj="ngModel"
+                   [(ngModel)]="p.registarskiBroj"
+                   [ngModelOptions]="{standalone: true}"
+                   [attr.aria-invalid]="registarskiBroj.invalid && registarskiBroj.touched ? true : null"
+                   required
+                   pattern="([A-Ž]{2})-(\d{3,4})-([A-Ž]{2})"
+                   [status]="registarskiBroj.dirty ? (registarskiBroj.invalid  ? 'danger' : 'success') : 'basic'"
+                   [disabled]="inputsDisabled"
+                   fullWidth
+                   id="input-registarskiBroj"
+                   name="registarskiBroj"
+                   nbInput
+                   type="text">
+            <ng-container *ngIf="registarskiBroj.invalid && registarskiBroj.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="registarskiBroj.errors?.required">
+                Registarski broj tablice je obavezan!
+              </p>
+              <p class="error-message mt-1 mb-0" *ngIf="registarskiBroj.errors?.pattern">
+                Registarski broj tablice mora biti validan!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-vrstaVozila">Vrsta vozila:</label>
+          </div>
+          <div class="col-6">
+            <input [placeholder]="p.vrstaVozila"
+                   fullWidth
+                   disabled
+                   id="input-vrstaVozila"
+                   name="vrstaVozila"
+                   nbInput
+                   type="text">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-8"></div>
+    <div class="col-2">
+      <button (click)="enableInputs()" [disabled]="!inputsDisabled" nbButton fullWidth type="button" status="primary">
+        IZMENI
+      </button>
+    </div>
+    <div class="col-2">
+      <button [disabled]="inputsDisabled" fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+    </div>
+  </div>
+</form>

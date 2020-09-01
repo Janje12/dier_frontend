@@ -72,7 +72,7 @@ export class SkladisteTretmanComponent implements OnInit {
 
   obradiOtpad() {
     this.otpad.kolicina -= this.otpadKolicina;
-    this.notpadService.updateNOtpad(this.otpad).subscribe();
+    this.notpadService.updateNOtpad(this.otpad, this.currSkladiste._id).subscribe();
     this.otpadKojiNastaje.forEach(x => {
       x.opis = x.naziv;
       x.tretman = false;
@@ -83,7 +83,7 @@ export class SkladisteTretmanComponent implements OnInit {
 
   dodajOtpad() {
     this.otpad.kolicina += this.otpadKolicina;
-    this.notpadService.updateNOtpad(this.otpad).subscribe(x => {
+    this.notpadService.updateNOtpad(this.otpad, this.currSkladiste._id).subscribe(x => {
       // dodaj otpad i azuriraj tabelu
       this.updateSkladiste();
     });

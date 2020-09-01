@@ -11,8 +11,19 @@ import { RoleService } from '../@core/service/role.service';
 import { ThemeModule } from '../@theme/theme.module';
 import { NgxAuthRoutingModule } from './auth-routing.module';
 import {
-  NbAccordionModule, NbAlertModule, NbAutocompleteModule, NbButtonModule, NbCardModule, NbCheckboxModule,
-  NbInputModule, NbPopoverModule, NbSelectModule, NbStepperModule, NbTabsetModule, NbToggleModule,
+	NbAccordionModule,
+	NbAlertModule,
+	NbAutocompleteModule,
+	NbButtonModule,
+	NbCardModule,
+	NbCheckboxModule,
+	NbDatepickerModule,
+	NbInputModule,
+	NbPopoverModule,
+	NbSelectModule,
+	NbStepperModule,
+	NbTabsetModule,
+	NbToggleModule,
 } from '@nebular/theme';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
@@ -30,26 +41,27 @@ import { OdlaganjeComponent } from './register/register-informacije/otpad/odlaga
 import { SkladistenjeComponent } from './register/register-informacije/otpad/skladistenje/skladistenje.component';
 
 @NgModule({
-  imports: [
-    ThemeModule,
-    CommonModule,
-    RouterModule,
-    NbAlertModule,
-    NbInputModule,
-    NbButtonModule,
-    NbCheckboxModule,
-    NgxAuthRoutingModule,
-    NbSelectModule,
-    FormsModule,
-    NbToggleModule,
-    NbAccordionModule,
-    NbTabsetModule,
-    NbAutocompleteModule,
-    NbStepperModule,
-    NbCardModule,
-    Ng2SmartTableModule,
-    NbPopoverModule,
-  ],
+	imports: [
+		ThemeModule,
+		CommonModule,
+		RouterModule,
+		NbAlertModule,
+		NbInputModule,
+		NbButtonModule,
+		NbCheckboxModule,
+		NgxAuthRoutingModule,
+		NbSelectModule,
+		FormsModule,
+		NbToggleModule,
+		NbAccordionModule,
+		NbTabsetModule,
+		NbAutocompleteModule,
+		NbStepperModule,
+		NbCardModule,
+		Ng2SmartTableModule,
+		NbPopoverModule,
+		NbDatepickerModule,
+	],
   declarations: [
     LoginComponent,
     LogoutComponent,

@@ -8,6 +8,7 @@ import { Dozvola, DozvolaData } from '../data/dozvola';
 @Injectable()
 export class DozvolaService extends DozvolaData {
   private readonly apiUrl: string;
+
   constructor(private http: HttpClient, private authService: NbAuthService) {
     super();
     this.apiUrl = environment.apiUrl;
@@ -15,6 +16,10 @@ export class DozvolaService extends DozvolaData {
 
   getDozvola(): Observable<Dozvola[]> {
     return this.http.get<Dozvola[]>(this.apiUrl + '/api/dozvola');
+  }
+
+  updateDozvola(dozvola: Dozvola): Observable<Dozvola> {
+    return this.http.patch<Dozvola>(this.apiUrl + '/api/dozvola/' + dozvola._id, dozvola);
   }
 
   getDozvolaFrime(): Observable<Dozvola[]> {

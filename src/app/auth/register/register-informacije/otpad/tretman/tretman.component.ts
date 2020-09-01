@@ -58,6 +58,7 @@ export class TretmanComponent implements OnInit {
     for (let i = 0; i < this.brojSkladistaTretman; i++) {
       this.dozvole[i] = {
         _id: '',
+        naziv: 'Dozvola #' + i,
         datumNastanka: new Date(),
         datumTrajanja: new Date(),
         listaOtpada: [],
@@ -80,15 +81,21 @@ export class TretmanComponent implements OnInit {
               postanskiBroj: '',
             }, ulica: '',
         },
-        geolokacijaE: 0,
-        geolokacijaN: 0,
+        geolokacijaE: null,
+        geolokacijaN: null,
         kolicina: 0,
-        maxKolicina: 0,
-        naziv: 'Skladiste Tretman #' + i,
+        maxKolicina: NaN,
+        naziv: '',
       };
     }
     this.firma.skladistaTretman = this.skladistaTretman;
     this.firma.dozvola = this.dozvole;
+  }
+
+  dateValid(d: Dozvola): Boolean {
+    if (d.datumNastanka > d.datumTrajanja)
+      return true;
+    return false;
   }
 
   private getMesta(nazivOpstine: string): void {

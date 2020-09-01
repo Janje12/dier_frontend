@@ -1,17 +1,25 @@
-<div class="row">
+<div class="row my-2">
   <div class="col-4">
     <form #form1 (ngSubmit)="updateSkladisteForm()">
-      <label class="col-12">Broj skladista:</label>
-      <input #broj="ngModel" name="brojSkladista" [(ngModel)]="brojSkladista" fullWidth nbInput
-             placeholder="0" step="1" type="number" min="1">
-      <button nbButton type="submit" fullWidth>Odaberi</button>
+      <div class="row">
+        <div class="col-12">
+          <label class="col-12">Broj skladista:</label>
+          <input #broj="ngModel" name="brojSkladista" [(ngModel)]="brojSkladista" fullWidth nbInput
+                 placeholder="0" step="1" type="number" min="1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button nbButton status="primary" type="submit" fullWidth>Odaberi</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
 
 <ng-container *ngIf="brojSkladista > 0" class="row pt-4">
   <form #form2="ngForm" class="col-12">
-    <ng-template ngFor let-skladiste [ngForOf]="skladista$ | async">
+    <ng-template ngFor let-skladiste let-i="index" [ngForOf]="skladista$ | async">
       <nb-card accent="primary" class="p-2">
         <nb-card-body>
           {{skladiste.naziv}}
@@ -23,7 +31,7 @@
                      #nazivSkladista="ngModel"
                      id="input-nazivSkladista"
                      name="nazivSkladista"
-                     placeholder="Naziv"
+                     [placeholder]="'Skladiste #' + i"
                      autofocus
                      [ngModelOptions]="{standalone: true}"
                      fullWidth
@@ -164,7 +172,7 @@
                   <input nbInput #velicinaSkladista="ngModel" [(ngModel)]="skladiste.maxKolicina" name="kolicina"
                          step="1" min="0"
                          [ngModelOptions]="{standalone: true}"
-                         fullWidth type="number" placeholder="0.0"
+                         fullWidth type="number" placeholder="0"
                          onkeypress="return /[0-9]/i.test(event.key)"
                          [status]="velicinaSkladista.dirty ? (velicinaSkladista.invalid  ? 'danger' : 'success') : 'basic'"
                          [required]="getConfigValue('forms.validation.velicinaSkladista.required')">

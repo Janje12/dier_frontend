@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NbAuthService } from '@nebular/auth';
 import { NbMenuItem } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
@@ -110,29 +110,13 @@ export class RoleService {
       item.children = new Array<NbMenuItem>();
       if (this.neopasni.proizvodnja)
         item.children.push(menu_childern.filter(x => x.title === 'Proizvodnja')[0]);
-      if (this.neopasni.transport)
-        item.children.push(menu_childern.filter(x => x.title === 'Transport')[0]);
+      // if (this.neopasni.transport)
+        // item.children.push(menu_childern.filter(x => x.title === 'Transport')[0]);
       if (this.neopasni.tretman)
         item.children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
       if (this.neopasni.skladistenje)
         item.children.push(menu_childern.filter(x => x.title === 'Skladištenje')[0]);
       if (this.neopasni.odlaganje)
-        item.children.push(menu_childern.filter(x => x.title === 'Odlaganje')[0]);
-      result.push(item);
-    }
-    if (this.opasni.exists) {
-      item = MENU_ITEMS.filter(x => x.title === 'Neopasni otpad')[0];
-      menu_childern = item.children;
-      item.children = new Array<NbMenuItem>();
-      if (this.opasni.proizvodnja)
-        item.children.push(menu_childern.filter(x => x.title === 'Proizvodnja')[0]);
-      if (this.opasni.transport)
-        item.children.push(menu_childern.filter(x => x.title === 'Transport')[0]);
-      if (this.opasni.tretman)
-        item.children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
-      if (this.opasni.skladistenje)
-        item.children.push(menu_childern.filter(x => x.title === 'Skladistenje')[0]);
-      if (this.opasni.odlaganje)
         item.children.push(menu_childern.filter(x => x.title === 'Odlaganje')[0]);
       result.push(item);
     }

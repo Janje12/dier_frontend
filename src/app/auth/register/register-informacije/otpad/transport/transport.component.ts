@@ -50,6 +50,7 @@ export class TransportComponent implements OnInit {
     for (let i = 0; i < this.brojDozvola; i++) {
       this.dozvole[i] = {
         _id: '',
+        naziv: 'Dozvola #' + i,
         datumNastanka: new Date(),
         datumTrajanja: new Date(),
         listaOtpada: [],
@@ -65,6 +66,12 @@ export class TransportComponent implements OnInit {
     }
     this.firma.prevoznoSredstvo = this.vozila;
     this.firma.dozvola = this.dozvole;
+  }
+
+  dateValid(d: Dozvola): Boolean {
+    if (d.datumNastanka > d.datumTrajanja)
+      return true;
+    return false;
   }
 
   chooseDozvola(dozvola: Dozvola): void {

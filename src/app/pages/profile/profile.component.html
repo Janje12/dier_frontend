@@ -1,77 +1,21 @@
 <nb-card>
-  <nb-card-header>Profil</nb-card-header>
-  <div class="row">
-    <div class="col-6">
-      <nb-card-body>
-        <h5 class="card-subtitle ml-4">Korisnik</h5>
-        <div class="row mt-2">
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Ime:</p> {{(korisnik$ | async)?.ime}}
-          </label>
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">
-            Prezime:</p> {{(korisnik$ | async)?.prezime}}
-          </label>
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">
-            Email:</p> {{(korisnik$ | async)?.email}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">Korisnicko
-            Ime:</p> {{(korisnik$ | async)?.korisnickoIme}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-success text-wrap my-0">
-            Telefon:</p> {{(korisnik$ | async)?.telefon}}
-          </label>
-        </div>
-      </nb-card-body>
-    </div>
-    <div class="col-6">
-      <nb-card-body>
-        <h5 class="card-subtitle ml-4">Firma</h5>
-        <div class="row mt-2">
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">PIB:</p> {{(firma$ | async)?.pib}}
-          </label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Matični
-            broj:</p> {{(firma$ | async)?.mat}}
-          </label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">
-            Naziv:</p> {{(firma$ | async)?.naziv}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Delatnost
-            firme:</p> {{(firma$ | async)?.delatnost.naziv}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">
-            Email:</p> {{(firma$ | async)?.email}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Email za prijem
-            dokumenata:</p> {{(firma$ | async)?.emailPrijem}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">
-            Telefon:</p> {{(firma$ | async)?.telefon}}
-          </label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">
-            Menadžer:</p> {{(korisnik$ | async)?.korisnickoIme}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Zakonski
-            zastupnik:</p> {{(firma$ | async)?.zakonskiZastupnik}}</label>
-          <label class="col-12 ml-5"><p class="badge badge-primary text-wrap my-0">Adresa:</p>
-            {{(firma$ | async)?.adresa.mesto.opstinaNaziv}}, {{(firma$ | async)?.adresa.mesto.mestoNaziv}},
-            {{(firma$ | async)?.adresa.ulica}} </label>
-        </div>
-      </nb-card-body>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <h5 class="card-subtitle ml-4">Rad firme</h5>
-      <div class="row mt-2">
-        <label class="col-12 ml-5"><p class="badge badge-info text-wrap my-0">Rad Firme:</p>
-          <ul class="mt-1">
-            <li *ngFor="let r of (firma$ | async)?.radFirme">{{r}}</li>
-          </ul>
-        </label>
-      </div>
-    </div>
-    <div class="col-6">
-      <h5 class="card-subtitle ml-4">Dozvole firme</h5>
-      <div class="row mt-2">
-        <label class="col-12 ml-5"><p class="badge badge-warning text-wrap my-0">Dozvole Firme:</p>
-          <ul class="mt-1">
-            <li *ngFor="let d of (firma$ | async)?.dozvola">{{d.vrstaDozvole}} | {{d.datum}} | {{d.sifra}}</li>
-          </ul>
-        </label>
-      </div>
-    </div>
-  </div>
+  <nb-tabset>
+    <nb-tab tabIcon="person" tabTitle="Korisnik">
+      <ngx-profile-korisnik></ngx-profile-korisnik>
+    </nb-tab>
+    <nb-tab tabIcon="briefcase" tabTitle="Firma">
+      <ngx-profile-firma></ngx-profile-firma>
+    </nb-tab>
+    <nb-tab tabIcon="cube" tabTitle="Skladista">
+      <ngx-profile-skladiste></ngx-profile-skladiste>
+    </nb-tab>
+    <nb-tab tabIcon="file-text" tabTitle="Dozvole">
+      <ngx-profile-dozvola></ngx-profile-dozvola>
+    </nb-tab>
+    <nb-tab tabIcon="car" tabTitle="Prevozna Sredstva">
+      <ngx-profile-prevozno-sredstvo></ngx-profile-prevozno-sredstvo>
+    </nb-tab>
+  </nb-tabset>
 </nb-card>
+
 
