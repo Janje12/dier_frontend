@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
 import { NbMenuItem } from '@nebular/theme';
-import { first } from 'rxjs/operators';
-import { log } from 'util';
 import { RoleService } from '../@core/service/role.service';
-
-import { MENU_ITEMS } from './pages-menu';
 
 @Component({
   selector: 'ngx-pages',
@@ -21,7 +18,13 @@ export class PagesComponent implements OnInit {
 
   menu: NbMenuItem[];
 
-  constructor(private roleService: RoleService) {
+  constructor(private roleService: RoleService, private authService: NbAuthService,
+              private router: Router) {
+    this.authService.getToken().subscribe(t => {
+      const korisnik = t.getPayload().data.korisnik;
+      if (korisnik.uloga === 'admin')
+        router.navigate(['admin']);
+    });
   }
 
   ngOnInit(): void {

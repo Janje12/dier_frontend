@@ -18,8 +18,21 @@ export class KorisnikService extends KorisnikData {
     return this.http.get<Korisnik[]>(this.apiUrl + '/api/korisnik');
   }
 
+
+  findKorisnik(value: string, type: string): Observable<Korisnik> {
+    return this.http.get<Korisnik>(this.apiUrl + '/api/korisnik/admin/' + type + '/' + value);
+  }
+
+  createKorisnik(korisnik: Korisnik): Observable<Korisnik> {
+    return this.http.post<Korisnik>(this.apiUrl + '/api/korisnik', korisnik);
+  }
+
   updateKorisnik(korisnik: Korisnik): Observable<Korisnik> {
     return this.http.patch<Korisnik>(this.apiUrl + '/api/korisnik/' + korisnik._id, korisnik);
+  }
+
+  deleteKorisnik(korisnik: Korisnik): Observable<Korisnik> {
+    return this.http.delete<Korisnik>(this.apiUrl + '/api/korisnik/' + korisnik._id);
   }
 
   getCurrentKorisnik(): Observable<Korisnik> {

@@ -39,7 +39,7 @@
           </div>
           <div class="col-6">
             <label class="col-7">Pretrazi po indeksnom broju:</label>
-            <nb-select [selected]="dozvola[0].skladistaDeponija.naziv">
+            <nb-select>
               <nb-option *ngFor="let d of dozvola" (selectionChange)="updateKatalog(d)"
                          [value]="d.skladistaDeponija.naziv">{{d.skladistaDeponija.naziv}}</nb-option>
             </nb-select>

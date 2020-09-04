@@ -299,7 +299,8 @@
         </div>
         <div class="col-6 mb-2">
           <label class="label" for="input-postrojenjeDozvole">Odaberi postrojenje:</label>
-          <nb-select [(ngModel)]="dozvola.skladistaTretman" [ngModelOptions]="{standalone: true}"
+          <nb-select [(ngModel)]="dozvola.skladistaTretman" (selectedChange)="setAdresa(dozvola, $event)"
+                     [ngModelOptions]="{standalone: true}"
                      #postrojenjeDozvole="ngModel" fullWidth id="input-postrojenjeDozvole">
             <nb-option *ngFor="let s of firma.skladistaTretman" [value]="s">{{s.naziv}}</nb-option>
           </nb-select>

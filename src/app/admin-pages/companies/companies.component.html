@@ -1,0 +1,10 @@
+<nb-card>
+  <nb-card-header>Firme</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="companySettings" [source]="companySource"
+                     (createConfirm)="createCompany($event)"
+                     (editConfirm)="updateCompany($event)"
+                     (deleteConfirm)="deleteCompany($event)"
+    (custom)="companyInfo($event)"></ng2-smart-table>
+  </nb-card-body>
+</nb-card>

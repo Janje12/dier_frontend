@@ -20,10 +20,10 @@ export class SkladisteTretmanComponent implements OnInit {
   @ViewChild('treatTrashTemplate', {read: TemplateRef}) treatTrashTemplate: TemplateRef<HTMLElement>;
   @ViewChild('addTrashTemplate', {read: TemplateRef}) addTrashTemplate: TemplateRef<HTMLElement>;
 
-  skladistaTretman: SkladisteTretman[];
+  skladistaTretman: SkladisteTretman[] = [];
   currSkladiste: SkladisteTretman;
-  otpadTretman: NOtpad[];
-  otpadOstatak: NOtpad[];
+  otpadTretman: NOtpad[] = [];
+  otpadOstatak: NOtpad[] = [];
   otpad: NOtpad;
   otpadKojiNastaje: NOtpad[] = [];
   otpadKolicina: number;

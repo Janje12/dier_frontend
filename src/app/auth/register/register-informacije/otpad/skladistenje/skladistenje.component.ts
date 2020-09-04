@@ -124,4 +124,8 @@ export class SkladistenjeComponent implements OnInit {
     this.router.navigate(['/auth/register-dozvola']);
   }
 
+  setAdresa(dozvola: Dozvola, skladiste: Skladiste): void {
+    dozvola.adresa = skladiste.adresa;
+  }
+
 }

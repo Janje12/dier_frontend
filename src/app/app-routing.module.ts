@@ -9,6 +9,12 @@ export const routes: Routes = [
       .then(m => m.NgxAuthModule),
   },
   {
+    path: 'admin',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./admin-pages/admin.module')
+      .then(m => m.AdminModule),
+  },
+  {
     path: 'pages',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/pages.module')

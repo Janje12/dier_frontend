@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Dozvola } from '../../../../../@core/data/dozvola';
 import { Firma } from '../../../../../@core/data/firma';
+import { Skladiste } from '../../../../../@core/data/skladiste';
 import { SkladisteTretman } from '../../../../../@core/data/skladisteTretman';
 import { MestoService } from '../../../../../@core/service/mesto.service';
 import { RegisterService } from '../../../../../@core/service/register.service';
@@ -124,6 +125,10 @@ export class TretmanComponent implements OnInit {
   chooseDozvola(dozvola: Dozvola): void {
     this.registerService.sendDozvola(of(dozvola.sifra));
     this.router.navigate(['/auth/register-dozvola']);
+  }
+
+  setAdresa(dozvola: Dozvola, skladiste: SkladisteTretman): void {
+    dozvola.adresa = skladiste.adresa;
   }
 
 }

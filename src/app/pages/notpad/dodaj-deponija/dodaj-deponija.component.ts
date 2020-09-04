@@ -17,9 +17,9 @@ import { SkladisteService } from '../../../@core/service/skladiste.service';
 export class DodajDeponijaComponent implements OnInit {
 
   katalog: LocalDataSource = new LocalDataSource();
-  dozvola: Dozvola[];
-  skladistaDeponija: SkladisteDeponija[];
-  skladisteID: string;
+  dozvola: Dozvola[] = [];
+  skladistaDeponija: SkladisteDeponija[] = [];
+  skladisteID: string = '';
 
   constructor(private dozvolaService: DozvolaService, private otpadService: NOtpadService,
               private router: Router, private authService: NbAuthService,

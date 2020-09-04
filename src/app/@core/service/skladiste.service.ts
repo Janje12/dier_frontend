@@ -3,7 +3,6 @@ import { NbAuthService } from '@nebular/auth';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { NOtpad } from '../data/notpad';
 import { Skladiste, SkladisteData } from '../data/skladiste';
 import { SkladisteDeponija } from '../data/skladisteDeponija';
 import { SkladisteTretman } from '../data/skladisteTretman';
@@ -18,11 +17,27 @@ export class SkladisteService extends SkladisteData {
   }
 
   getSkladiste(): Observable<Skladiste[]> {
-    return undefined;
+    return this.http.get<Skladiste[]>(this.apiUrl + '/api/skladiste');
+  }
+
+  getOneSkladiste(id: string): Observable<any> {
+    return this.http.get<any>(this.apiUrl + '/api/skladiste/' + id);
+  }
+
+  findSkladiste(type: string, value: string): Observable<Skladiste> {
+    return this.http.get<Skladiste>(this.apiUrl + '/api/skladiste/' + type + '/' + value);
+  }
+
+  createSkladiste(skladiste: Skladiste): Observable<Skladiste> {
+    return this.http.post<Skladiste>(this.apiUrl + '/api/skladiste/' + skladiste._id, skladiste);
   }
 
   updateSkladiste(skladiste: Skladiste): Observable<Skladiste> {
     return this.http.patch<Skladiste>(this.apiUrl + '/api/skladiste/' + skladiste._id, skladiste);
+  }
+
+  deleteSkladiste(skladiste: Skladiste): Observable<Skladiste> {
+    return this.http.delete<Skladiste>(this.apiUrl + '/api/skladiste/' + skladiste._id);
   }
 
   getAllSkladistaFirme(): Observable<Skladiste[]> {

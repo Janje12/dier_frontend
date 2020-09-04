@@ -38,46 +38,4 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
-  {
-    title: 'Opasni otpad',
-    icon: { icon: 'exclamation-triangle', pack: 'font-awesome' },
-    children: [
-      {
-        title: 'Dodaj na skladiste',
-        link: '/pages/',
-      },
-      {
-        title: 'Proizvodnja',
-        link: '/pages/ootpad/dodaj-otpad',
-      },
-
-    ],
-  },
-  {
-    title: 'Posebni tokovi otpada',
-    icon: { icon: 'car-battery', pack: 'font-awesome' },
-    children: [
-
-      {
-        title: 'Dodaj novi otpad',
-        link: '/pages/ptotpad/dodaj-otpad',
-      },
-
-    ],
-  },
-  {
-    title: 'Amblaze/ambalazni otpad',
-    icon: { icon: 'recycle', pack: 'font-awesome' },
-    children: [
-      {
-        title: 'Dodaj novi otpad',
-        link: '/pages/aotpad/dodaj-otpad',
-      },
-      {
-        title: 'Dodaj novu ambalazu',
-        link: '/pages/aotpad/dodaj-ambalazu',
-      },
-
-    ],
-  },
 ];

@@ -1,0 +1,135 @@
+<nb-card class="col-12">
+  <form #formSkladista="ngForm" (ngSubmit)="updateStorage(formSkladista)">
+    <nb-card-header>
+      <div class="row">
+        <div class="col-1"><a routerLink=".." class=""><i class="fa fa-2x fa-arrow-left"></i></a>
+        </div>
+        <div class="col-9">
+          <h5 class="text-center">
+            {{storage.naziv}}</h5>
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-6">
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-naziv">Naziv skladišta:</label>
+            </div>
+            <div class="col-6">
+              <input #naziv="ngModel"
+                     [(ngModel)]="storage.naziv"
+                     [ngModelOptions]="{standalone: true}"
+                     [attr.aria-invalid]="naziv.invalid && naziv.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.nazivFirme.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.nazivFirme.minLength')"
+                     [required]="getConfigValue('forms.validation.nazivFirme.required')"
+                     [status]="naziv.dirty ? (naziv.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-naziv"
+                     name="naziv"
+                     nbInput
+                     type="text">
+              <ng-container *ngIf="naziv.invalid && naziv.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="naziv.errors?.required">
+                  Naziv skladišta je obavezan!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-velicina">Veličina skladišta:</label>
+            </div>
+            <div class="col-6">
+              <input #velicina="ngModel"
+                     [(ngModel)]="storage.maxKolicina"
+                     [ngModelOptions]="{standalone: true}"
+                     [attr.aria-invalid]="velicina.invalid && velicina.touched ? true : null"
+                     [pattern]="getConfigValue('forms.validation.velicinaSkladista.pattern')"
+                     [required]="getConfigValue('forms.validation.velicinaSkladista.required')"
+                     [status]="velicina.dirty ? (velicina.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-velicina"
+                     name="velicina"
+                     nbInput
+                     type="number">
+              <ng-container *ngIf="velicina.invalid && velicina.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="velicina.errors?.required">
+                  Veličina skladišta je obavezna!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-adresa">Adresa Skladišta:</label>
+            </div>
+            <div class="col-6">
+              <input
+                disabled
+                [placeholder]="storage.adresa.mesto.opstinaNaziv + ', ' +
+                storage.adresa.mesto.mestoNaziv + ', ' + storage.adresa.ulica"
+                fullWidth
+                id="input-adresa"
+                name="adresa"
+                nbInput
+                type="text">
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="storage.geolokacijaN !== undefined">
+            <div class="col-12">
+              <label class="label" for="input-geolokacijaN">Geolokacija Skladišta:</label>
+            </div>
+            <div class="col-6">
+              <input
+                disabled
+                [placeholder]="storage.geolokacijaN + 'N' + storage.geolokacijaE + 'E'"
+                fullWidth
+                id="input-geolokacijaN"
+                name="geolokacijaN"
+                nbInput
+                type="text">
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="storage.vrstaDeponije !== undefined">
+            <div class="col-12">
+              <label class="label" for="input-vrsta">Vrsta Deponije:</label>
+            </div>
+            <div class="col-6">
+              <input
+                disabled
+                [placeholder]="storage.vrstaDeponije"
+                fullWidth
+                id="input-vrsta"
+                name="vrsta"
+                nbInput
+                type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-12">
+          <nb-progress-bar [value]="calculateValue()" [status]="calculateStatus()" size="large">
+            {{storage.kolicina}}/{{storage.maxKolicina}}
+          </nb-progress-bar>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+          <button fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </form>
+</nb-card>

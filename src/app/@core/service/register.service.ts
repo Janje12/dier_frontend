@@ -19,12 +19,12 @@ export class RegisterService {
     if (isDevMode()) {
       this.korisnik = {
         _id: '',
-        email: 'random@gmail.com',
+        email: 'random' + (Math.random() * 1000).toFixed(0) + '@gmail.com',
         ime: 'test',
-        korisnickoIme: 'random',
+        korisnickoIme: 'random' + (Math.random() * 1000).toFixed(0),
         prezime: 'test',
         sifra: 'nikjan00',
-        telefon: '028456714',
+        telefon: (Math.random() * 10000000000).toFixed(0),
         uloga: 'menadzer',
       };
       this.firma = {
@@ -43,14 +43,14 @@ export class RegisterService {
           sifra: '',
           naziv: 'Proizvodnja mesnih prerađevina',
         },
-        email: 'random1@gmail',
+        email: 'random1' + (Math.random() * 1000).toFixed(0) + '@gmail',
         emailPrijem: 'random1@gmail',
-        mat: '12564375',
+        mat: (Math.random() * 100000000).toFixed(0),
         menadzer: 'random',
         naziv: 'Test',
-        pib: '532587587',
+        pib: (Math.random() * 1000000000).toFixed(0),
         radFirme: [],
-        telefon: '023434789',
+        telefon: (Math.random() * 10000000000).toFixed(0),
         zakonskiZastupnik: 'Nikola Jankovic',
       };
     }

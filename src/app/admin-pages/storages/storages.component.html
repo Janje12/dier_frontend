@@ -1,0 +1,10 @@
+<nb-card>
+  <nb-card-header>Skladišta</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="storageSettings" [source]="storageSource"
+                     (createConfirm)="createStorage($event)"
+                     (editConfirm)="updateStorage($event)"
+                     (deleteConfirm)="deleteStorage($event)"
+                     (custom)="storageInfo($event)"></ng2-smart-table>
+  </nb-card-body>
+</nb-card>

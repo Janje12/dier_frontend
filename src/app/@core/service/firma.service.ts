@@ -18,8 +18,20 @@ export class FirmaService extends FirmaData {
     return this.http.get<Firma[]>(this.apiUrl + '/api/firma');
   }
 
+  findFirma(value: string, type: string): Observable<Firma> {
+    return this.http.get<Firma>(this.apiUrl + '/api/firma/' + type + '/' + value);
+  }
+
+  createFirma(firma: Firma): Observable<Firma> {
+    return this.http.post<Firma>(this.apiUrl + '/api/firma' , firma);
+  }
+
   updateFirma(firma: Firma): Observable<Firma> {
     return this.http.patch<Firma>(this.apiUrl + '/api/firma/' + firma._id, firma);
+  }
+
+  deleteFirma(firma: Firma): Observable<Firma> {
+    return this.http.delete<Firma>(this.apiUrl + '/api/firma/' + firma._id);
   }
 
   getCurrentFirma(): Observable<Firma> {

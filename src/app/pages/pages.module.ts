@@ -61,7 +61,8 @@ import { ProfilePrevoznoSredstvoComponent } from './profile/profile-prevozno-sre
     ProfileDozvolaComponent,
     ProfilePrevoznoSredstvoComponent,
   ],
-  providers: [KorisnikService,
+  providers: [
+    KorisnikService,
     RoleService,
     NbToastrService,
     FirmaService,

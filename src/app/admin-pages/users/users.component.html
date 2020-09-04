@@ -1,0 +1,10 @@
+<nb-card>
+  <nb-card-header>Korisnici</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="userSettings" [source]="usersSource"
+                     (createConfirm)="createUser($event)"
+                     (editConfirm)="updateUser($event)"
+                     (deleteConfirm)="deleteUser($event)"
+                     (custom)="userInfo($event)"></ng2-smart-table>
+  </nb-card-body>
+</nb-card>

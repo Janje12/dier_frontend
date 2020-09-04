@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { Dozvola } from '../../../../../@core/data/dozvola';
 import { Firma } from '../../../../../@core/data/firma';
 import { SkladisteDeponija } from '../../../../../@core/data/skladisteDeponija';
+import { SkladisteTretman } from '../../../../../@core/data/skladisteTretman';
 import { MestoService } from '../../../../../@core/service/mesto.service';
 import { RegisterService } from '../../../../../@core/service/register.service';
 
@@ -126,6 +127,10 @@ export class OdlaganjeComponent implements OnInit {
   chooseDozvola(dozvola: Dozvola): void {
     this.registerService.sendDozvola(of(dozvola.sifra));
     this.router.navigate(['/auth/register-dozvola']);
+  }
+
+  setAdresa(dozvola: Dozvola, skladiste: SkladisteDeponija): void {
+    dozvola.adresa = skladiste.adresa;
   }
 
 }

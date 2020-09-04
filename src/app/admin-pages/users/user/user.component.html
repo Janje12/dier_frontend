@@ -1,0 +1,230 @@
+<nb-card class="col-12">
+  <form #formUser="ngForm" (ngSubmit)="updateUser(formUser)">
+    <nb-card-header>
+      <div class="row">
+        <div class="col-1"><a routerLink=".." class=""><i class="fa fa-2x fa-arrow-left"></i></a>
+        </div>
+        <div class="col-9">
+          <h5 class="text-center">
+            {{user.ime}} {{user.prezime}}</h5>
+        </div>
+      </div>
+    </nb-card-header>
+    <div class="row">
+      <nb-card-body class="col-6">
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-ime">Ime:</label>
+          </div>
+          <div class="col-6">
+            <input #ime="ngModel"
+                   [(ngModel)]="user.ime"
+                   [attr.aria-invalid]="ime.invalid && ime.touched ? true : null"
+                   [maxlength]="getConfigValue('forms.validation.ime.maxLength')"
+                   [minlength]="getConfigValue('forms.validation.ime.minLength')"
+                   [pattern]="getConfigValue('forms.validation.ime.pattern')"
+                   [required]="getConfigValue('forms.validation.ime.required')"
+                   [status]="ime.dirty ? (ime.invalid  ? 'danger' : 'success') : 'basic'"
+                   fullWidth
+                   id="input-ime"
+                   name="ime"
+                   nbInput
+                   onkeypress="return /[a-zA-ZčćžđšŠĐŽĆČ]/i.test(event.key)"
+                   type="text">
+            <ng-container *ngIf="ime.invalid && ime.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="ime.errors?.required">
+                Ime je obavezno!
+              </p>
+              <p class="error-message mt-1 mb-0" *ngIf="ime.errors?.minlength || ime.errors?.maxlength">
+                Ime mora da bude duže od
+                {{ getConfigValue('forms.validation.ime.minLength') }}
+                a kraće od {{ getConfigValue('forms.validation.ime.maxLength') }}
+              </p>
+              <p class="error-message mt-1 mb-0" *ngIf="ime.errors?.pattern">
+                Ime mora biti validno!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-prezime">Prezime:</label>
+          </div>
+          <div class="col-6">
+            <input #prezime="ngModel"
+                   [(ngModel)]="user.prezime"
+                   [attr.aria-invalid]="prezime.invalid && prezime.touched ? true : null"
+                   [maxlength]="getConfigValue('forms.validation.prezime.maxLength')"
+                   [minlength]="getConfigValue('forms.validation.prezime.minLength')"
+                   [pattern]="getConfigValue('forms.validation.prezime.pattern')"
+                   [required]="getConfigValue('forms.validation.prezime.required')"
+                   [status]="prezime.dirty ? (prezime.invalid  ? 'danger' : 'success') : 'basic'"
+                   fullWidth
+                   id="input-prezime"
+                   name="prezime"
+                   nbInput
+                   onkeypress="return /[a-zA-ZčćžđšŠĐŽĆČ]/i.test(event.key)"
+                   type="text">
+            <ng-container *ngIf="prezime.invalid && prezime.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="prezime.errors?.required">
+                Prezime je obavezno!
+              </p>
+              <p class="error-message mt-1 mb-0" *ngIf="prezime.errors?.minlength || ime.errors?.maxlength">
+                Prezime mora da bude duže od
+                {{ getConfigValue('forms.validation.prezime.minLength') }}
+                a kraće od {{ getConfigValue('forms.validation.prezime.maxLength') }}
+              </p>
+              <p class="error-message mt-1 mb-0" *ngIf="prezime.errors?.pattern">
+                Prezime mora biti validno!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-email">Email:</label>
+          </div>
+          <div class="col-6">
+            <input #email="ngModel"
+                   [(ngModel)]="user.email"
+                   [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+                   [pattern]="getConfigValue('forms.validation.email.pattern')"
+                   [required]="getConfigValue('forms.validation.email.required')"
+                   [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
+                   fullWidth
+                   id="input-email"
+                   name="email"
+                   nbInput
+                   type="text">
+            <ng-container *ngIf="email.invalid && email.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="email.errors?.required">
+                Email je obavezan!
+              </p>
+              <p class="error-message mt-1 mb-0" *ngIf="email.errors?.pattern">
+                Email mora biti validan!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-korisnickoIme">Korisničko ime:</label>
+          </div>
+          <div class="col-6">
+            <input #korisnickoIme="ngModel"
+                   [(ngModel)]="user.korisnickoIme"
+                   [attr.aria-invalid]="korisnickoIme.invalid && korisnickoIme.touched ? true : null"
+                   [maxlength]="getConfigValue('forms.validation.korisnickoIme.maxLength')"
+                   [minlength]="getConfigValue('forms.validation.korisnickoIme.minLength')"
+                   [required]="getConfigValue('forms.validation.korisnickoIme.required')"
+                   [status]="korisnickoIme.dirty ? (korisnickoIme.invalid  ? 'danger' : 'success') : 'basic'"
+                   fullWidth
+                   id="input-korisnickoIme"
+                   name="korisnickoIme"
+                   nbInput
+                   type="text">
+            <ng-container *ngIf="korisnickoIme.invalid && korisnickoIme.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="korisnickoIme.errors?.required">
+                Korisničko ime je obavezno!
+              </p>
+              <p class="error-message mt-1 mb-0"
+                 *ngIf="korisnickoIme.errors?.minlength || korisnickoIme.errors?.maxlength">
+                Korisničko ime mora da bude duže od
+                {{ getConfigValue('forms.validation.korisnickoIme.minLength') }}
+                a kraće od {{ getConfigValue('forms.validation.korisnickoIme.maxLength') }}
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-telefon">Telefon:</label>
+          </div>
+          <div class="col-6">
+            <input #telefon="ngModel"
+                   [(ngModel)]="user.telefon"
+                   [attr.aria-invalid]="telefon.invalid && telefon.touched ? true : null"
+                   [maxlength]="getConfigValue('forms.validation.telefon.maxLength')"
+                   [minlength]="getConfigValue('forms.validation.telefon.minLength')"
+                   [required]="getConfigValue('forms.validation.telefon.required')"
+                   [status]="telefon.dirty ? (telefon.invalid  ? 'danger' : 'success') : 'basic'"
+                   fullWidth
+                   id="input-telefon"
+                   name="telefon"
+                   nbInput
+                   type="text">
+            <ng-container *ngIf="telefon.invalid && telefon.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="telefon.errors?.required">
+                Telefon je obavezan!
+              </p>
+              <p class="error-message mt-1 mb-0" *ngIf="telefon.errors?.minlength || telefon.errors?.maxlength">
+                Telefon mora da bude duži od
+                {{ getConfigValue('forms.validation.telefon.minLength') }}
+                a kraći od {{ getConfigValue('forms.validation.telefon.maxLength') }}
+              </p>
+            </ng-container>
+          </div>
+        </div>
+
+      </nb-card-body>
+      <nb-card-body class="col-6">
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-uloga">Uloga:</label>
+          </div>
+          <div class="col-6">
+            <input #uloga="ngModel"
+                   [(ngModel)]="user.uloga"
+                   [attr.aria-invalid]="uloga.invalid && uloga.touched ? true : null"
+                   [maxlength]="getConfigValue('forms.validation.ime.maxLength')"
+                   [minlength]="getConfigValue('forms.validation.ime.minLength')"
+                   [pattern]="getConfigValue('forms.validation.ime.pattern')"
+                   [required]="getConfigValue('forms.validation.ime.required')"
+                   [status]="uloga.dirty ? (uloga.invalid  ? 'danger' : 'success') : 'basic'"
+                   fullWidth
+                   id="input-uloga"
+                   name="uloga"
+                   nbInput
+                   onkeypress="return /[a-zA-ZčćžđšŠĐŽĆČ]/i.test(event.key)"
+                   type="text">
+            <ng-container *ngIf="uloga.invalid && uloga.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="uloga.errors?.required">
+                Uloga je obavezna!
+              </p>
+              <p class="error-message mt-1 mb-0" *ngIf="uloga.errors?.minlength || uloga.errors?.maxlength">
+                Uloga mora da bude duže od
+                {{ getConfigValue('forms.validation.ime.minLength') }}
+                a kraće od {{ getConfigValue('forms.validation.ime.maxLength') }}
+              </p>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-firma">Firma:</label>
+          </div>
+          <div class="col-5 mr-0 pr-0">
+            <input nbInput fullWidth
+                   [placeholder]="user.firma.naziv"
+                   id="input-firma"
+                   type="text">
+          </div>
+          <div class="col-1 pl-0 ml-0">
+            <button status="primary" nbButton type="button" (click)="gotoCompany()">
+              <nb-icon icon="link"></nb-icon>
+            </button>
+          </div>
+        </div>
+      </nb-card-body>
+    </div>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+          <button fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </form>
+</nb-card>
