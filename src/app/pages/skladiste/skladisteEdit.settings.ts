@@ -1,20 +1,19 @@
-export const SKLADISTE_SETTINGS: any = {
+export const SKLADISTE_EDIT_SETTINGS: any = {
   hideSubHeader: true,
   pager: {
     perPage: 4,
   },
+  edit: {
+    confirmSave: true,
+  },
+  delete: {
+    confirmDelete: true,
+  },
   actions: {
-    columnTitle: 'Odaberi',
     position: 'right',
     add: false,
-    edit: false,
-    delete: false,
-    custom: [
-      {
-        name: 'odaberi',
-        title: '<i class="fa fa-plus"></i>',
-      },
-    ],
+    edit: true,
+    delete: true,
   },
   columns: {
     indeksniBroj: {

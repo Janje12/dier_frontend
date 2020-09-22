@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthService } from '@nebular/auth';
+import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { first } from 'rxjs/operators';
-import { Skladiste } from '../../../@core/data/skladiste';
-import { SkladisteService } from '../../../@core/service/skladiste.service';
+import { Skladiste } from '../../../../@core/data/skladiste';
+import { SkladisteService } from '../../../../@core/service/skladiste.service';
 
 @Component({
   selector: 'ngx-profile-skladiste',

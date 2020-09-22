@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthService } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { first } from 'rxjs/operators';
-import { Korisnik } from '../../../@core/data/korisnik';
-import { KorisnikService } from '../../../@core/service/korisnik.service';
+import { Korisnik } from '../../../../@core/data/korisnik';
+import { KorisnikService } from '../../../../@core/service/korisnik.service';
 
 @Component({
   selector: 'ngx-profile-korisnik',

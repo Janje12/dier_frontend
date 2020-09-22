@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { first } from 'rxjs/operators';
-import { PrevoznoSredstvo } from '../../../@core/data/prevoznoSredstvo';
-import { PrevoznoSredstvoService } from '../../../@core/service/prevoznoSredstvo.service';
+import { PrevoznoSredstvo } from '../../../../@core/data/prevoznoSredstvo';
+import { PrevoznoSredstvoService } from '../../../../@core/service/prevoznoSredstvo.service';
 
 @Component({
   selector: 'ngx-profile-prevozno-sredstvo',

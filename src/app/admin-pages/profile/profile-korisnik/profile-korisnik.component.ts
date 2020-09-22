@@ -3,53 +3,30 @@ import { NgForm } from '@angular/forms';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthService } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { first } from 'rxjs/operators';
-import { Firma } from '../../../../@core/data/firma';
-import { FirmaService } from '../../../../@core/service/firma.service';
+import { Korisnik } from '../../../@core/data/korisnik';
+import { KorisnikService } from '../../../@core/service/korisnik.service';
 
 @Component({
-  selector: 'ngx-profile-firma',
-  templateUrl: './profile-firma.component.html',
-  styleUrls: ['./profile-firma.component.scss'],
+  selector: 'ngx-profile-korisnik',
+  templateUrl: './profile-korisnik.component.html',
+  styleUrls: ['./profile-korisnik.component.scss'],
 })
-export class ProfileFirmaComponent implements OnInit {
+export class ProfileKorisnikComponent implements OnInit {
 
-  firma: Firma = {
-    _id: '',
-    adresa: {
-      mesto: {
-        opstinaNaziv: '',
-        opstinaSifra: 0,
-        mestoNaziv: '',
-        mestoSifra: 0,
-        postanskiBroj: '',
-      }, ulica: '',
-    },
-    delatnost: {
-      sifra: '',
-      naziv: '',
-      _id: '',
-    },
-    email: '',
-    emailPrijem: '',
-    mat: '',
-    menadzer: '',
-    naziv: '',
-    pib: '',
-    radFirme: [],
-    telefon: '',
-    zakonskiZastupnik: '',
+  korisnik: Korisnik = {
+    _id: '', email: '', ime: '', korisnickoIme: '', prezime: '', sifra: '', telefon: '', uloga: '',
   };
   inputsDisabled: boolean = true;
 
-  constructor(private firmaService: FirmaService,
+  constructor(private korisnikService: KorisnikService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
               private toastrService: NbToastrService,
               private authService: NbAuthService) {
   }
 
   ngOnInit(): void {
-    this.firmaService.getCurrentFirma().pipe(first()).subscribe(f => {
-      this.firma = f;
+    this.korisnikService.getCurrentKorisnik().pipe(first()).subscribe(k => {
+      this.korisnik = k;
     });
   }
 
@@ -61,11 +38,11 @@ export class ProfileFirmaComponent implements OnInit {
     this.inputsDisabled = false;
   }
 
-  updateFirma(form: NgForm): void {
+  updateKorisnik(form: NgForm): void {
     if (!form.valid)
       this.showToast('Greška', 'Informacije koje ste uneli nisu tačne!', 'danger');
     else {
-      this.firmaService.updateFirma(this.firma).subscribe(f => {
+      this.korisnikService.updateKorisnik(this.korisnik).subscribe(k => {
       });
       this.showToast('Uspeh', 'Uspešno ste izmenili informacije!', 'success');
       this.inputsDisabled = true;
@@ -85,6 +62,5 @@ export class ProfileFirmaComponent implements OnInit {
       title,
       {status});
   }
-
 
 }

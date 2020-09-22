@@ -6,13 +6,13 @@
     <nb-tab tabIcon="briefcase" tabTitle="Firma">
       <ngx-profile-firma></ngx-profile-firma>
     </nb-tab>
-    <nb-tab tabIcon="cube" tabTitle="Skladista">
+    <nb-tab [disabled]="!(operations.proizvodnja || operations.tretman || operations.odlaganje)" tabIcon="cube" tabTitle="Skladista">
       <ngx-profile-skladiste></ngx-profile-skladiste>
     </nb-tab>
-    <nb-tab tabIcon="file-text" tabTitle="Dozvole">
+    <nb-tab [disabled]="!(operations.transport || operations.tretman || operations.odlaganje)" tabIcon="file-text" tabTitle="Dozvole">
       <ngx-profile-dozvola></ngx-profile-dozvola>
     </nb-tab>
-    <nb-tab tabIcon="car" tabTitle="Prevozna Sredstva">
+    <nb-tab [disabled]="!operations.transport" tabIcon="car" tabTitle="Prevozna Sredstva">
       <ngx-profile-prevozno-sredstvo></ngx-profile-prevozno-sredstvo>
     </nb-tab>
   </nb-tabset>

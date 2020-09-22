@@ -1,9 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
-import { Observable, of } from 'rxjs';
-import { Firma } from '../../@core/data/firma';
-import { Korisnik } from '../../@core/data/korisnik';
-import { KorisnikService } from '../../@core/service/korisnik.service';
+import { Component, OnInit } from '@angular/core';
+import { RoleService } from '../../../@core/service/role.service';
 
 @Component({
   selector: 'ngx-profile',
@@ -12,11 +8,15 @@ import { KorisnikService } from '../../@core/service/korisnik.service';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() {
+  operations: any;
+
+  constructor(private roleService: RoleService) {
   }
-
-
+  
   ngOnInit(): void {
+    this.roleService.findOperations().subscribe(x => {
+      this.operations = x;
+    });
   }
 
 }

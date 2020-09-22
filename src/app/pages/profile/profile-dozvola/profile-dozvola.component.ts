@@ -5,11 +5,11 @@ import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService, NbWindowRef, NbWindowService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { first } from 'rxjs/operators';
-import { Dozvola } from '../../../@core/data/dozvola';
-import { Katalog } from '../../../@core/data/katalog';
-import { DozvolaService } from '../../../@core/service/dozvola.service';
-import { KatalogService } from '../../../@core/service/katalog.service';
-import { SKLADISTE_SETTINGS } from '../../skladiste/skladiste-settings';
+import { Dozvola } from '../../../../@core/data/dozvola';
+import { Katalog } from '../../../../@core/data/katalog';
+import { DozvolaService } from '../../../../@core/service/dozvola.service';
+import { KatalogService } from '../../../../@core/service/katalog.service';
+import { CATALOG_SETTINGS } from '../../../../pages/trashCatalog.settings';
 
 @Component({
   selector: 'ngx-profile-dozvola',
@@ -24,7 +24,7 @@ export class ProfileDozvolaComponent implements OnInit {
   inputsDisabled: boolean = true;
   listaOtpada: Katalog[] = [];
   katalog: LocalDataSource = new LocalDataSource();
-  katalogSettings: any = SKLADISTE_SETTINGS;
+  katalogSettings: any = CATALOG_SETTINGS;
 
   constructor(private dozvolaService: DozvolaService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
