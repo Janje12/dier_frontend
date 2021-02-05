@@ -6,8 +6,8 @@ import {
   NbAuthResult,
   NbAuthService,
   NbLogoutComponent,
-  NbTokenService,
 } from '@nebular/auth';
+import { RoleService } from '../../@core/service/role.service';
 
 @Component({
   selector: 'ngx-logout',
@@ -21,7 +21,7 @@ export class LogoutComponent extends NbLogoutComponent {
 
   constructor(protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
-              protected router: Router) {
+              protected router: Router, private roleService: RoleService) {
     super(service, options, router);
     this.redirectDelay = this.getConfigValue('forms.logout.redirectDelay');
     this.strategy = this.getConfigValue('forms.logout.strategy');
@@ -30,7 +30,7 @@ export class LogoutComponent extends NbLogoutComponent {
   logout(strategy: string): void {
     this.service.logout(strategy).subscribe((result: NbAuthResult) => {
       const redirect = result.getRedirect();
-
+      this.roleService.clearOperations();
       if (redirect) {
         setTimeout(() => {
           return this.router.navigateByUrl(redirect);

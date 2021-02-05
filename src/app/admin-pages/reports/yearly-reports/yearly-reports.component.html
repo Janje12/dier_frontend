@@ -1,0 +1,14 @@
+<nb-card>
+  <nb-card-header>Ime kompanije</nb-card-header>
+  <nb-card-body>
+    <nb-tabset>
+      <nb-tab tabTitle="2020">
+        <nb-tabset>
+          <nb-tab [active]="currMonth === i" *ngFor="let m of months$ | async;let i=index" [tabTitle]="m">
+            <monthly-reports [companyPIB]="companyPIB" [month]="i"></monthly-reports>
+          </nb-tab>
+        </nb-tabset>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

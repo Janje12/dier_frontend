@@ -1,19 +1,19 @@
 <nb-card>
   <nb-tabset>
     <nb-tab tabIcon="person" tabTitle="Korisnik">
-      <ngx-profile-korisnik></ngx-profile-korisnik>
+      <profile-user></profile-user>
     </nb-tab>
     <nb-tab tabIcon="briefcase" tabTitle="Firma">
-      <ngx-profile-firma></ngx-profile-firma>
+      <profile-company></profile-company>
     </nb-tab>
-    <nb-tab [disabled]="!(operations.proizvodnja || operations.tretman || operations.odlaganje)" tabIcon="cube" tabTitle="Skladista">
-      <ngx-profile-skladiste></ngx-profile-skladiste>
+    <nb-tab [disabled]="!(operations?.production || operations?.treatment || operations?.disposal || operations?.cache)" tabIcon="cube" tabTitle="Skladišta">
+      <profile-storages></profile-storages>
     </nb-tab>
-    <nb-tab [disabled]="!(operations.transport || operations.tretman || operations.odlaganje)" tabIcon="file-text" tabTitle="Dozvole">
-      <ngx-profile-dozvola></ngx-profile-dozvola>
+    <nb-tab [disabled]="!(operations?.transport || operations?.treatment || operations?.disposal || operations?.cache)" tabIcon="file-text" tabTitle="Dozvole">
+      <profile-permit></profile-permit>
     </nb-tab>
-    <nb-tab [disabled]="!operations.transport" tabIcon="car" tabTitle="Prevozna Sredstva">
-      <ngx-profile-prevozno-sredstvo></ngx-profile-prevozno-sredstvo>
+    <nb-tab [disabled]="!operations?.transport" tabIcon="car" tabTitle="Prevozna Sredstva">
+      <profile-vehicle></profile-vehicle>
     </nb-tab>
   </nb-tabset>
 </nb-card>

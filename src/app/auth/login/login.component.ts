@@ -9,12 +9,13 @@ import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthResult, NbAuthService, NbLogi
 })
 export class LoginComponent extends NbLoginComponent {
 
+  showPassword: string = 'eye';
   redirectDelay: number = 0;
   showMessages: any = {};
   strategy: string = '';
   errors: string[] = [];
   messages: string[] = [];
-  user: any = {};
+  user: any = {email: '', password: '', rememberMe: false};
   submitted: boolean = false;
   rememberMe = false;
 

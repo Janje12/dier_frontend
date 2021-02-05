@@ -40,7 +40,7 @@ import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 
-import {KorisnikService} from '../@core/service/korisnik.service';
+import {UserService} from '../@core/service/user.service';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -76,7 +76,7 @@ const PIPES = [
 @NgModule({
   imports: [CommonModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  providers: [KorisnikService, NbAuthService],
+  providers: [UserService, NbAuthService],
   declarations: [...COMPONENTS, ...PIPES],
 })
 export class ThemeModule {

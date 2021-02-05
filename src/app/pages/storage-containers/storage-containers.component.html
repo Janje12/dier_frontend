@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <div *ngIf="operations.production && !loading">
+    <storage-production [storage]="storageProduction" (updateStorageEvent)="updateStorage()"></storage-production>
+  </div>
+  <div *ngIf="operations.treatment && !loading">
+    <storage-treatment [storageTreatment]="storageTreatment" [storage]="storageProduction"
+                           (updateStorageEvent)="updateStorage()"></storage-treatment>
+  </div>
+  <div *ngIf="operations.disposal && !loading">
+    <storage-dump [storageDisposal]="storageDisposal" [storage]="storageProduction"
+                            (updateStorageEvent)="updateStorage()"></storage-dump>
+  </div>
+  <div *ngIf="operations.cache && !loading">
+    <storage-cache [storageCache]="storageCache" (updateStorageEvent)="updateStorage()"></storage-cache>
+  </div>
+</div>

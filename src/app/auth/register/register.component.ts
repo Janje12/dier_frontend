@@ -1,10 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthResult, NbAuthService, NbRegisterComponent } from '@nebular/auth';
-import { Observable } from 'rxjs';
-import { Firma } from '../../@core/data/firma';
-import { Korisnik } from '../../@core/data/korisnik';
-import { RegisterService } from '../../@core/service/register.service';
 
 @Component({
   selector: 'ngx-register',
@@ -22,7 +18,7 @@ export class RegisterComponent extends NbRegisterComponent {
   constructor(protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
               protected cd: ChangeDetectorRef,
-              protected router: Router, private registerService: RegisterService) {
+              protected router: Router) {
     super(service, options, cd, router);
     this.showMessages = this.getConfigValue('forms.register.showMessages');
     this.strategy = this.getConfigValue('forms.register.strategy');

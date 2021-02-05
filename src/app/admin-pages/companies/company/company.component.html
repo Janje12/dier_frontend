@@ -6,7 +6,7 @@
         </div>
         <div class="col-9">
           <h5 class="text-center">
-            {{company.naziv}}</h5>
+            {{company.name}}</h5>
         </div>
       </div>
     </nb-card-header>
@@ -19,7 +19,7 @@
             </div>
             <div class="col-6">
               <input #naziv="ngModel"
-                     [(ngModel)]="company.naziv"
+                     [(ngModel)]="company.name"
                      fullWidth
                      id="input-naziv"
                      name="ime"
@@ -87,7 +87,7 @@
             </div>
             <div class="col-6">
               <input #emailPrijem="ngModel"
-                     [(ngModel)]="company.emailPrijem"
+                     [(ngModel)]="company.emailReception"
                      [attr.aria-invalid]="emailPrijem.invalid && emailPrijem.touched ? true : null"
                      [pattern]="getConfigValue('forms.validation.email.pattern')"
                      [required]="getConfigValue('forms.validation.email.required')"
@@ -113,7 +113,7 @@
             </div>
             <div class="col-6">
               <input #telefon="ngModel"
-                     [(ngModel)]="company.telefon"
+                     [(ngModel)]="company.telephone"
                      [attr.aria-invalid]="telefon.invalid && telefon.touched ? true : null"
                      [maxlength]="getConfigValue('forms.validation.telefon.maxLength')"
                      [minlength]="getConfigValue('forms.validation.telefon.minLength')"
@@ -136,13 +136,13 @@
               </ng-container>
             </div>
           </div>
-          <div class="row mb-2" *ngIf="company.faks === ''">
+          <div class="row mb-2" *ngIf="company.fax === ''">
             <div class="col-12">
               <label class="label" for="input-faks">Faks:</label>
             </div>
             <div class="col-6">
               <input #faks="ngModel"
-                     [(ngModel)]="company.faks"
+                     [(ngModel)]="company.fax"
                      [attr.aria-invalid]="faks.invalid && faks.touched ? true : null"
                      [maxlength]="getConfigValue('forms.validation.telefon.maxLength')"
                      [minlength]="getConfigValue('forms.validation.telefon.minLength')"
@@ -167,7 +167,7 @@
             </div>
             <div class="col-6">
               <input #zastupink="ngModel"
-                     [(ngModel)]="company.zakonskiZastupnik"
+                     [(ngModel)]="company.legalRep"
                      [attr.aria-invalid]="zastupink.invalid && zastupink.touched ? true : null"
                      [maxlength]="getConfigValue('forms.validation.imeZakonskogZastupinka.maxLength')"
                      [minlength]="getConfigValue('forms.validation.imeZakonskogZastupinka.minLength')"
@@ -198,8 +198,8 @@
             </div>
             <div class="col-6">
               <input
-                [placeholder]="company.adresa.mesto.opstinaNaziv + ', ' +
-                company.adresa.mesto.mestoNaziv + ', ' + company.adresa.ulica"
+                [placeholder]="company.address.location.townshipName + ', ' +
+                company.address.location.placeName + ', ' + company.address.street"
                 fullWidth
                 disabled
                 id="input-adresa"
@@ -213,7 +213,7 @@
               <label class="label">Rad firme:</label>
             </div>
             <div class="col-6">
-              <input disabled fullWidth nbInput class="mb-1" type="text" [placeholder]="r" *ngFor="let r of company.radFirme">
+              <input disabled fullWidth nbInput class="mb-1" type="text" [placeholder]="r" *ngFor="let r of company.operations">
             </div>
           </div>
           <div class="row mb-2">
@@ -222,7 +222,7 @@
             </div>
             <div class="col-5 pr-0 ml-0">
               <input
-                [placeholder]="company.menadzer"
+                [placeholder]="company.manager"
                 fullWidth
                 disabled
                 id="input-menadzer"
@@ -232,7 +232,7 @@
             </div>
             <div class="col-1 pl-0 ml-0">
               <button status="primary" nbButton type="button" (click)="gotoUser()">
-                <nb-icon icon="link"></nb-icon>
+                <i class="fa fa-link"></i>
               </button>
             </div>
           </div>

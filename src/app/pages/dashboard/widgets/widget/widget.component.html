@@ -1,0 +1,41 @@
+<nb-card [size]="size" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
+  <nb-card-header>
+    <div class="row">
+      <div class="d-flex justify-content-start">{{getWidgetTitle()}}</div>
+      <div class="d-flex flex-fill justify-content-end">
+        <div *ngIf="showSettings" class="mr-2">
+          Redosled:
+          <button size="small" (click)="updatePositionMethod(-1)" nbButton><i class="fa fa-arrow-up"></i></button>
+          <button size="small" (click)="updatePositionMethod(1)" nbButton><i class="fa fa-arrow-down"></i></button>
+          Veličina:
+          <nb-select size="small" (selectedChange)="updateSizeMethod()" [(ngModel)]="size" [selected]="size">
+            <nb-option value="tiny">XS</nb-option>
+            <nb-option value="small">S</nb-option>
+            <nb-option value="medium">M</nb-option>
+            <nb-option value="large">L</nb-option>
+            <nb-option value="giant">XL</nb-option>
+          </nb-select>
+        </div>
+        <button size="small" (click)="showSettings = !showSettings" nbButton><i
+          [class]="showSettings ? 'fa fa-times' : 'fa fa-cog'"></i></button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div *ngIf="name === 'most_used_trash'">
+      <widget-most-used-trash [type]="type"></widget-most-used-trash>
+    </div>
+    <div *ngIf="name === 'trash_stats'">
+      <widget-trash-stats (isLoaded)="isLoaded()" [type]="type"></widget-trash-stats>
+    </div>
+    <div *ngIf="name === 'transport_permits'">
+      <widget-transport-permits></widget-transport-permits>
+    </div>
+    <div *ngIf="name === 'transport_vehicles'">
+      <widget-vehicles></widget-vehicles>
+    </div>
+    <div *ngIf="name === 'unfinished_operations'">
+      <widget-unfinished-operations [type]="type"></widget-unfinished-operations>
+    </div>
+  </nb-card-body>
+</nb-card>

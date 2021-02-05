@@ -1,0 +1,195 @@
+<h1 class="text-center">Registruj se!</h1>
+<nb-stepper disableStepNavigation selectedIndex="4">
+  <nb-step label="User" completed="true">Test</nb-step>
+  <nb-step label="Firma" completed="true"></nb-step>
+  <nb-step label="Operacije" completed="true"></nb-step>
+  <nb-step label="Informacije" completed="true"></nb-step>
+  <nb-step label="Potvrda">
+    <div class="row">
+      <div class="col-4">
+        <div class="row mb-2">
+          <h5>User:</h5>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="text-muted">Ime:</label>
+          </div>
+          <div class="col-12">
+            <button size="small" nbButton class="no-select" fullWidth outline
+                    status="info">{{(user$ | async)?.firstName}}</button>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="text-muted">Prezime:</label>
+          </div>
+          <div class="col-12">
+            <button size="small" nbButton class="no-select" fullWidth outline
+                    status="info">{{(user$ | async)?.lastName}}</button>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="text-muted">Telefon:</label>
+          </div>
+          <div class="col-12">
+            <button size="small" nbButton class="no-select" fullWidth outline
+                    status="info">{{(user$ | async)?.phone}}</button>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="text-muted">Email:</label>
+          </div>
+          <div class="col-12">
+            <button size="small" nbButton class="no-select" fullWidth outline
+                    status="info">{{(user$ | async)?.email}}</button>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="text-muted">Korisničko ime:</label>
+          </div>
+          <div class="col-12">
+            <button size="small" nbButton class="no-select" fullWidth outline
+                    status="info">{{(user$ | async)?.username}}</button>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <h5>Rad firme:</h5>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <button *ngFor="let o of operations$ | async" size="small" nbButton class="no-select rad-text mb-2" fullWidth
+                    outline
+                    status="warning">{{o}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="col-12">
+          <div class="row mb-2">
+            <h5>Firma:</h5>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="text-muted">Naziv:</label>
+            </div>
+            <div class="col-12">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success">{{(company$ | async)?.name}}</button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="text-muted">PIB:</label>
+            </div>
+            <div class="col-6">
+              <label class="text-muted">Matični broj:</label>
+            </div>
+            <div class="col-6">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success">{{(company$ | async)?.pib}}</button>
+            </div>
+            <div class="col-6">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success">{{(company$ | async)?.mat}}</button>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="text-muted">Adresa:</label>
+              <button size="small" nbButton class="no-select" fullWidth outline status="success">
+                {{(company$ | async)?.address.location.townshipName}}, {{(company$ | async)?.address.location.placeName}},
+                {{(company$ | async)?.address.street}} {{(company$ | async)?.address.location.zipCode}}</button>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="text-muted">Delatnost:</label>
+            </div>
+            <div class="col-12">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success">{{(company$ | async)?.occupation.name}}</button>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="text-muted">Email:</label>
+            </div>
+            <div class="col-6">
+              <label class="text-muted">Telefon:</label>
+            </div>
+            <div class="col-6 mb-1">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success"><p class="email-text p-0 m-0">{{(company$ | async)?.email}}</p></button>
+            </div>
+            <div class="col-6 mb-1">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success">{{(company$ | async)?.telephone}}</button>
+            </div>
+            <div class="col-6">
+              <label class="text-muted">Email za prijem dokumenata:</label>
+            </div>
+            <div class="col-6">
+              <label class="text-muted">Faks:</label>
+            </div>
+            <div class="col-6">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success"><p class="email-text p-0 m-0">{{(company$ | async)?.emailReception}}</p></button>
+            </div>
+            <div class="col-6">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success">{{(company$ | async)?.fax === '' ? '/' : (company$ | async)?.fax}}</button>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="text-muted">Zakonski zastupnik firme:</label>
+            </div>
+            <div class="col-12">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success">{{(company$ | async)?.legalRep}}</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <form (ngSubmit)="register()">
+      <button nbButton
+              fullWidth
+              status="danger"
+              routerLink="../register-informacije"
+              class="mt-2 col-6">
+        Nazad
+      </button>
+      <button nbButton
+              fullWidth
+              class="col-6 mt-2"
+              status="success"
+              type="submit"
+              [disabled]="!(uslovi.checked && tacnost.checked)">
+        Završi
+      </button>
+    </form>
+
+    <div class="row justify-content-center mt-2 mb-2">
+      <div class="col-5 flex-fill">
+        <nb-checkbox name="terms" #uslovi required>
+          Slažem se sa <a href="#" target="_blank"><strong>Uslovima Korišćenjima</strong></a>
+        </nb-checkbox>
+      </div>
+      <div class="col-5 flex-fill">
+        <nb-checkbox name="tacnost" #tacnost required>Potvrđujem da su sve unete informacije tačne
+        </nb-checkbox>
+      </div>
+    </div>
+  </nb-step>
+</nb-stepper>

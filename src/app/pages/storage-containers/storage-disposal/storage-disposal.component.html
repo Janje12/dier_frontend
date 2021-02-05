@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <div *ngFor="let s of storageDisposal$ | async;">
+    <storage-meter [storage]="s"></storage-meter>
+    <nb-card>
+      <nb-card-header>
+        <div class="row">
+          <div class="col-11">
+            <h2 class="text-left">{{ s?.name }}</h2>
+          </div>
+          <div class="col-1 d-flex justify-content-center align-items-center">
+            <nb-icon class="edit-button" (click)="edit()" [icon]="editIcon"></nb-icon>
+          </div>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <ng2-smart-table class="order-table" (custom)="chooseAction($event, s)" [settings]="currentSettings"
+                         [source]="s?.trashes"
+                         (editConfirm)="updateTrash($event, s)"
+                         (deleteConfirm)="deleteTrash($event, s)"></ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<ng-template #addTrashTemplate>
+  <add-trash-popup [type]="'disposal'" [selectedTrash]="selectedTrash"
+                   (callAddTrash)="addTrashMethod($event)"></add-trash-popup>
+
+</ng-template>
+
+<ng-template #disposeTrashTemplate>
+  <process-trash-popup [selectedTrash]="selectedTrash"
+                       (callProcessTrash)="disposeTrashMethod($event)"></process-trash-popup>
+</ng-template>
+
+<ng-template #leftoverTrashTemplate>
+  <leftover-trash-popup [selectedTrash]="selectedTrash"
+                        [storageProduction]="storage"
+                        (callLeftoverTrash)="leftoverTrashMethod($event)"></leftover-trash-popup>
+</ng-template>

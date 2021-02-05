@@ -3,7 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { CompanyComponent } from './companies/company/company.component';
+import { ProfileComponent } from './profile/profile.component';
+import { CompanyReportsComponent } from './reports/company-reports/company-reports.component';
 import { ReportsComponent } from './reports/reports.component';
+import { TrashTransportReportComponent } from './reports/trash-transport-report/trash-transport-report.component';
 import { StorageComponent } from './storages/storage/storage.component';
 import { StoragesComponent } from './storages/storages.component';
 import { UserComponent } from './users/user/user.component';
@@ -14,10 +17,14 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     children: [
-      {
+     /* {
         path: 'admin-dashboard',
         loadChildren: () => import('./admin-dashboard/admin-dashboard.module')
           .then(m => m.AdminDashboardModule),
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
       },
       {
         path: 'korisnici',
@@ -36,17 +43,18 @@ const routes: Routes = [
         component: CompanyComponent,
       },
       {
-        path: 'skladistа',
+        path: 'skladiste',
         component: StoragesComponent,
       },
       {
-        path: 'skladistа/:id',
+        path: 'skladiste/:id',
         component: StorageComponent,
       },
       {
         path: 'izvestaji',
-        component: ReportsComponent,
-      },
+        loadChildren: () => import('./reports/reports.module')
+          .then(m => m.ReportsModule),
+      },*/
     ],
   },
 ];

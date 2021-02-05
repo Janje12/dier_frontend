@@ -3,8 +3,9 @@ import { NgForm } from '@angular/forms';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthService } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { first } from 'rxjs/operators';
-import { Korisnik } from '../../../@core/data/korisnik';
-import { KorisnikService } from '../../../@core/service/korisnik.service';
+import { User } from '../../../@core/data/user';
+import { RoleService } from '../../../@core/service/role.service';
+import { UserService } from '../../../@core/service/user.service';
 
 @Component({
   selector: 'ngx-profile-korisnik',
@@ -13,19 +14,20 @@ import { KorisnikService } from '../../../@core/service/korisnik.service';
 })
 export class ProfileKorisnikComponent implements OnInit {
 
-  korisnik: Korisnik = {
-    _id: '', email: '', ime: '', korisnickoIme: '', prezime: '', sifra: '', telefon: '', uloga: '',
+  korisnik: User = {
+    email: '', firstName: '', lastName: '', password: '', phone: '', role: '', username: '',
+
   };
   inputsDisabled: boolean = true;
 
-  constructor(private korisnikService: KorisnikService,
+  constructor(private korisnikService: UserService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
-              private toastrService: NbToastrService,
+              private toastrService: NbToastrService, private roleService: RoleService,
               private authService: NbAuthService) {
   }
 
   ngOnInit(): void {
-    this.korisnikService.getCurrentKorisnik().pipe(first()).subscribe(k => {
+    this.korisnikService.getUserProfile(this.roleService.getUsername()).pipe(first()).subscribe(k => {
       this.korisnik = k;
     });
   }
@@ -42,7 +44,7 @@ export class ProfileKorisnikComponent implements OnInit {
     if (!form.valid)
       this.showToast('Greška', 'Informacije koje ste uneli nisu tačne!', 'danger');
     else {
-      this.korisnikService.updateKorisnik(this.korisnik).subscribe(k => {
+      this.korisnikService.updateUser(this.korisnik, this.korisnik._id).subscribe(k => {
       });
       this.showToast('Uspeh', 'Uspešno ste izmenili informacije!', 'success');
       this.inputsDisabled = true;

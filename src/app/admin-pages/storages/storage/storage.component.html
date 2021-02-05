@@ -5,8 +5,8 @@
         <div class="col-1"><a routerLink=".." class=""><i class="fa fa-2x fa-arrow-left"></i></a>
         </div>
         <div class="col-9">
-          <h5 class="text-center">
-            {{storage.naziv}}</h5>
+          <h5 class="text-center">{{storage.name}}</h5>
+          <p class="text-center text-muted">{{storage.__t}}</p>
         </div>
       </div>
     </nb-card-header>
@@ -19,7 +19,7 @@
             </div>
             <div class="col-6">
               <input #naziv="ngModel"
-                     [(ngModel)]="storage.naziv"
+                     [(ngModel)]="storage.name"
                      [ngModelOptions]="{standalone: true}"
                      [attr.aria-invalid]="naziv.invalid && naziv.touched ? true : null"
                      [maxlength]="getConfigValue('forms.validation.nazivFirme.maxLength')"
@@ -41,11 +41,28 @@
 
           <div class="row mb-2">
             <div class="col-12">
+              <label class="label" for="input-adresa">Adresa Skladišta:</label>
+            </div>
+            <div class="col-6">
+              <input
+                disabled
+                [placeholder]="storage.address.location.townshipName + ', ' +
+                storage.address.location.placeName + ', ' + storage.address.street"
+                fullWidth
+                id="input-adresa"
+                name="adresa"
+                nbInput
+                type="text">
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
               <label class="label" for="input-velicina">Veličina skladišta:</label>
             </div>
             <div class="col-6">
               <input #velicina="ngModel"
-                     [(ngModel)]="storage.maxKolicina"
+                     [(ngModel)]="storage.maxAmount"
                      [ngModelOptions]="{standalone: true}"
                      [attr.aria-invalid]="velicina.invalid && velicina.touched ? true : null"
                      [pattern]="getConfigValue('forms.validation.velicinaSkladista.pattern')"
@@ -66,30 +83,14 @@
         </div>
 
         <div class="col-6">
-          <div class="row mb-2">
-            <div class="col-12">
-              <label class="label" for="input-adresa">Adresa Skladišta:</label>
-            </div>
-            <div class="col-6">
-              <input
-                disabled
-                [placeholder]="storage.adresa.mesto.opstinaNaziv + ', ' +
-                storage.adresa.mesto.mestoNaziv + ', ' + storage.adresa.ulica"
-                fullWidth
-                id="input-adresa"
-                name="adresa"
-                nbInput
-                type="text">
-            </div>
-          </div>
-          <div class="row mb-2" *ngIf="storage.geolokacijaN !== undefined">
+          <div class="row mb-2" *ngIf="storage.geolocationNorth !== undefined">
             <div class="col-12">
               <label class="label" for="input-geolokacijaN">Geolokacija Skladišta:</label>
             </div>
             <div class="col-6">
               <input
                 disabled
-                [placeholder]="storage.geolokacijaN + 'N' + storage.geolokacijaE + 'E'"
+                [placeholder]="storage.geolocationNorth + 'N' + storage.geolocationEast + 'E'"
                 fullWidth
                 id="input-geolokacijaN"
                 name="geolokacijaN"
@@ -97,19 +98,37 @@
                 type="text">
             </div>
           </div>
-          <div class="row mb-2" *ngIf="storage.vrstaDeponije !== undefined">
+          <div class="row mb-2" *ngIf="storage.dumpType !== undefined">
             <div class="col-12">
               <label class="label" for="input-vrsta">Vrsta Deponije:</label>
             </div>
             <div class="col-6">
               <input
                 disabled
-                [placeholder]="storage.vrstaDeponije"
+                [placeholder]="storage.dumpType"
                 fullWidth
                 id="input-vrsta"
                 name="vrsta"
                 nbInput
                 type="text">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-firma">Firma skladišta:</label>
+            </div>
+            <div class="col-5 pr-0">
+              <input
+                disabled
+                [placeholder]="company.name"
+                fullWidth
+                id="input-firma"
+                name="firma"
+                nbInput
+                type="text">
+            </div>
+            <div class="col-1 pl-0">
+              <button status="primary" nbButton fullWidth (click)="gotoCompany()"><i class="fa fa-link"></i></button>
             </div>
           </div>
         </div>
@@ -118,7 +137,7 @@
       <div class="row mb-2">
         <div class="col-12">
           <nb-progress-bar [value]="calculateValue()" [status]="calculateStatus()" size="large">
-            {{storage.kolicina}}/{{storage.maxKolicina}}
+            {{storage.amount}}/{{storage.maxAmount}}
           </nb-progress-bar>
         </div>
       </div>
@@ -131,5 +150,11 @@
         </div>
       </div>
     </nb-card-footer>
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings"
+                       [source]="storage?.trashes"
+                       (editConfirm)="updateTrash($event, storage)"
+                       (deleteConfirm)="deleteTrash($event, storage)"></ng2-smart-table>
+    </nb-card-body>
   </form>
 </nb-card>

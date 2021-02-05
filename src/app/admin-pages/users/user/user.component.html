@@ -6,7 +6,7 @@
         </div>
         <div class="col-9">
           <h5 class="text-center">
-            {{user.ime}} {{user.prezime}}</h5>
+            {{user.firstName}} {{user.lastName}}</h5>
         </div>
       </div>
     </nb-card-header>
@@ -18,7 +18,7 @@
           </div>
           <div class="col-6">
             <input #ime="ngModel"
-                   [(ngModel)]="user.ime"
+                   [(ngModel)]="user.firstName"
                    [attr.aria-invalid]="ime.invalid && ime.touched ? true : null"
                    [maxlength]="getConfigValue('forms.validation.ime.maxLength')"
                    [minlength]="getConfigValue('forms.validation.ime.minLength')"
@@ -52,7 +52,7 @@
           </div>
           <div class="col-6">
             <input #prezime="ngModel"
-                   [(ngModel)]="user.prezime"
+                   [(ngModel)]="user.lastName"
                    [attr.aria-invalid]="prezime.invalid && prezime.touched ? true : null"
                    [maxlength]="getConfigValue('forms.validation.prezime.maxLength')"
                    [minlength]="getConfigValue('forms.validation.prezime.minLength')"
@@ -112,7 +112,7 @@
           </div>
           <div class="col-6">
             <input #korisnickoIme="ngModel"
-                   [(ngModel)]="user.korisnickoIme"
+                   [(ngModel)]="user.username"
                    [attr.aria-invalid]="korisnickoIme.invalid && korisnickoIme.touched ? true : null"
                    [maxlength]="getConfigValue('forms.validation.korisnickoIme.maxLength')"
                    [minlength]="getConfigValue('forms.validation.korisnickoIme.minLength')"
@@ -142,7 +142,7 @@
           </div>
           <div class="col-6">
             <input #telefon="ngModel"
-                   [(ngModel)]="user.telefon"
+                   [(ngModel)]="user.phone"
                    [attr.aria-invalid]="telefon.invalid && telefon.touched ? true : null"
                    [maxlength]="getConfigValue('forms.validation.telefon.maxLength')"
                    [minlength]="getConfigValue('forms.validation.telefon.minLength')"
@@ -174,7 +174,7 @@
           </div>
           <div class="col-6">
             <input #uloga="ngModel"
-                   [(ngModel)]="user.uloga"
+                   [(ngModel)]="user.role"
                    [attr.aria-invalid]="uloga.invalid && uloga.touched ? true : null"
                    [maxlength]="getConfigValue('forms.validation.ime.maxLength')"
                    [minlength]="getConfigValue('forms.validation.ime.minLength')"
@@ -206,13 +206,13 @@
           </div>
           <div class="col-5 mr-0 pr-0">
             <input nbInput fullWidth
-                   [placeholder]="user.firma.naziv"
+                   [placeholder]="user.company.name"
                    id="input-firma"
                    type="text">
           </div>
           <div class="col-1 pl-0 ml-0">
             <button status="primary" nbButton type="button" (click)="gotoCompany()">
-              <nb-icon icon="link"></nb-icon>
+              <i class="fa fa-link"></i>
             </button>
           </div>
         </div>

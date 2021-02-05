@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
-import { Korisnik } from '../../../@core/data/korisnik';
-import { KorisnikService } from '../../../@core/service/korisnik.service';
+import { User } from '../../../@core/data/user';
+import { UserService } from '../../../@core/service/user.service';
 
 @Component({
   selector: 'ngx-user',
@@ -13,31 +13,19 @@ import { KorisnikService } from '../../../@core/service/korisnik.service';
 })
 export class UserComponent implements OnInit {
 
-  user: Korisnik = {
-    _id: '', email: '', ime: '', korisnickoIme: '', prezime: '', sifra: '', telefon: '', uloga: '',
-    firma: {
-      _id: '',
-      adresa: {mesto: undefined, ulica: ''},
-      delatnost: undefined,
-      email: '',
-      emailPrijem: '',
-      mat: '',
-      menadzer: '',
-      naziv: '',
-      pib: '',
-      radFirme: [],
-      telefon: '',
-      zakonskiZastupnik: '',
-    },
+  user: User = {
+    email: '', firstName: '', lastName: '', password: '', phone: '', role: '', username: '',
+    company: { pib: '', mat: '', address: undefined, name: '', fax: '', email: '', emailReception: '',
+      manager: '', legalRep: '', telephone: '', occupation: undefined, operations: []},
   };
 
-  constructor(private route: ActivatedRoute, private korisnikService: KorisnikService,
+  constructor(private route: ActivatedRoute, private korisnikService: UserService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
               private toastrService: NbToastrService, private router: Router  ) { }
 
   ngOnInit(): void {
     const korisnickoIme = this.route.snapshot.paramMap.get('korisnickoIme');
-    this.korisnikService.findKorisnik(korisnickoIme, 'korisnickoIme').subscribe(u => {
+    this.korisnikService.getUser(korisnickoIme, 'username').subscribe(u => {
       this.user = u;
     });
   }
@@ -50,7 +38,7 @@ export class UserComponent implements OnInit {
     if (!form.valid)
       this.showToast('Greška', 'Informacije koje ste uneli nisu tačne!', 'danger');
     else {
-      this.korisnikService.updateKorisnik(this.user).subscribe(u => {
+      this.korisnikService.updateUser(this.user, this.user._id).subscribe(u => {
       });
       this.showToast('Uspeh', 'Uspešno ste izmenili informacije!', 'success');
     }
@@ -64,7 +52,7 @@ export class UserComponent implements OnInit {
   }
 
   gotoCompany(): void {
-    this.router.navigate(['admin/firme', this.user.firma.pib]);
+    this.router.navigate(['admin/firme', this.user.company.pib]);
   }
 
 }

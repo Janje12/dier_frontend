@@ -1,1 +1,7 @@
-<p>storage-reports works!</p>
+<div *ngFor="let s of storages" class="mb-2">
+  <h5>
+    {{s.naziv}}</h5>
+  <p>Generiši sve izveštaje <i (click)="allTrashReport(s)" class="fa fa-download"></i></p>
+  <ng2-smart-table [settings]="storageReportSettings" [source]="s.neopasniOtpad"
+                   (custom)="chooseAction($event, s)"></ng2-smart-table>
+</div>

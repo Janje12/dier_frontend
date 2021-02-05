@@ -23,7 +23,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Skladišta',
-    link: '/admin/skladistа',
+    link: '/admin/skladiste',
     icon: {icon: 'box', pack: 'font-awesome'},
   },
   {

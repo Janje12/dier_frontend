@@ -1,1 +1,46 @@
-<p>confirm-part works!</p>
+<div class="row">
+  <h5>Potvrda i generisanje dokumenta</h5>
+</div>
+
+<div class="row mb-1">
+  <div class="col-4">
+    <label class="label">Proizvođač:</label>
+    <button nbButton outline status="success" fullWidth>{{dko?.firmaProizvodjac?.naziv}}</button>
+  </div>
+  <div class="col-4">
+    <label class="label">Transporter:</label>
+    <button nbButton outline status="info" fullWidth>{{dko?.firmaTransport?.naziv}}</button>
+  </div>
+  <div class="col-4">
+    <label class="label">Primalac:</label>
+    <button nbButton outline status="danger" fullWidth>{{dko?.firmaPrimalac?.naziv}}</button>
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-6">
+    <label class="label">Otpad
+    </label>
+    <button nbButton outline status="warning" fullWidth>{{dko?.otpad?.naziv}}</button>
+  </div>
+</div>
+
+<div class="row mb-1">
+  <label class="label col-12">Ruta kretanja otpada</label>
+  <div class="col" *ngFor="let r of dko.rutaKretanja; let i = index">
+    <button nbButton fullWidth *ngIf="r !== '' && r !== undefined">
+      {{r}}
+      <nb-icon [icon]="i === dko.rutaKretanja.length - 1 ? 'checkmark-circle' : 'arrowhead-right'"></nb-icon>
+    </button>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-4">
+    <button nbButton fullWidth nbStepperPrevious status="danger">Nazad</button>
+  </div>
+  <div class="col-4"></div>
+  <div class="col-4">
+    <button nbButton fullWidth (click)="generateDKO()" status="success">Generisi dokument</button>
+  </div>
+</div>

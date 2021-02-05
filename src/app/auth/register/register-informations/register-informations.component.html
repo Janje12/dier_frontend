@@ -1,0 +1,85 @@
+<h1 class="text-center">Registruj se!</h1>
+<nb-stepper disableStepNavigation selectedIndex="3">
+  <nb-step label="User" completed="true"></nb-step>
+  <nb-step label="Firma" completed="true"></nb-step>
+  <nb-step label="Operacije" completed="true"></nb-step>
+  <nb-step label="Informacije">
+    <nb-accordion #accordionTrash accent="danger" size="tiny" [nbSpinner]="loading"
+                  nbSpinnerStatus="danger"
+                  nbSpinnerSize="giant"
+                  nbSpinnerMessage="Proveravamo unete informacije!">
+
+      <nb-accordion-item [collapsed]="activeTab !== 'production'" #accordionProduction *ngIf="operations.production">
+        <nb-accordion-item-header>Proizvodnja
+          <nb-icon [status]="checkCompletion('production').status"
+                   [icon]="checkCompletion('production').icon"></nb-icon>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <register-trash-storage #productionRef [storageType]="'production'"
+                                  *ngIf="!accordionProduction.collapsed"></register-trash-storage>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item [collapsed]="activeTab !== 'transport'" #accordionTransport *ngIf="operations.transport">
+        <nb-accordion-item-header>Transport &nbsp;
+          <nb-icon [status]="checkCompletion('transport').status" [icon]="checkCompletion('transport').icon"></nb-icon>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+
+          <register-trash-transport #transportRef *ngIf="!accordionTransport.collapsed"></register-trash-transport>
+
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item [collapsed]="activeTab !== 'tretman'" #accordionTreatment *ngIf="operations.treatment">
+        <nb-accordion-item-header>Tretman &nbsp;
+          <nb-icon [status]="checkCompletion('treatment').status" [icon]="checkCompletion('treatment').icon"></nb-icon>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+
+          <register-trash-storage #treatmentRef [storageType]="'treatment'"
+                                  *ngIf="!accordionTreatment.collapsed"></register-trash-storage>
+
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item [collapsed]="activeTab !== 'odlaganje'" #accordionDump *ngIf="operations.disposal">
+        <nb-accordion-item-header>Odlaganje &nbsp;
+          <nb-icon [status]="checkCompletion('dump').status" [icon]="checkCompletion('dump').icon"></nb-icon>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+
+          <register-trash-storage #dumpRef [storageType]="'dump'" *ngIf="!accordionDump.collapsed"></register-trash-storage>
+
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item [collapsed]="activeTab !== 'skladistenje'" #accordionCache *ngIf="operations.cache">
+        <nb-accordion-item-header>Skladištenje &nbsp;
+          <nb-icon [status]="checkCompletion('cache').status" [icon]="checkCompletion('cache').icon"></nb-icon>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+
+          <register-trash-storage #cacheRef [storageType]="'cache'" *ngIf="!accordionCache.collapsed"></register-trash-storage>
+
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+    <button nbButton
+            fullWidth
+            status="danger"
+            routerLink="/auth/register-operations"
+            class="mt-2 col-6">
+      Nazad
+    </button>
+    <button nbButton
+            fullWidth
+            status="success"
+            class="mt-2 col-6"
+            type="button"
+            (click)="validateInformation(accordionTrash)">
+      Dalje
+    </button>
+  </nb-step>
+  <nb-step label="Potvrda"></nb-step>
+</nb-stepper>

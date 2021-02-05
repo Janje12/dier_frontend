@@ -1,1 +1,235 @@
-<p>company-part works!</p>
+<div class="row mb-1">
+  <div class="col-6">
+    <h5>Podaci o
+      <span *ngIf="type === 'production'">proizvođaču</span>
+      <span *ngIf="type === 'transport'">transporteru</span>
+      <span *ngIf="type === 'recipient'">primalacu</span>
+      {{'\'' + tmpCompany?.name + '\''}}</h5>
+  </div>
+  <div class="col-6" *ngIf="type !== 'production'">
+    <button fullWidth [disabled]="firstLoad" nbButton status="info" type="button" (click)="chooseCompany()">Odaberi već
+      postojeću firmu
+    </button>
+    <nb-select [disabled]="!firstLoad" [(ngModel)]="tmpCompany" fullWidth>
+      <nb-option *ngFor="let c of companies" [value]="c">{{c.name}}</nb-option>
+    </nb-select>
+  </div>
+</div>
+
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">PIB firme:</label>
+  </div>
+  <div class="col-6">
+    <input [(ngModel)]="tmpCompany.mat" [disabled]="type === 'production'" fullWidth nbInput type="text">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Matični broj firme:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.pib">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Naziv firme:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.name">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Adresa firme:</label>
+  </div>
+  <div class="row ml-2">
+    <div class="col-12">
+      <label class="label">Opština:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.address.location.townshipName">
+    </div>
+    <div class="col-12">
+      <label class="label">Location:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.address.location.placeName">
+    </div>
+    <div class="col-12">
+      <label class="label">Poštanski broj:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.address.location.zipCode">
+    </div>
+    <div class="col-12">
+      <label class="label">Ulica i broj:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.address.street">
+    </div>
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Email firme:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.email">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Telefon firme:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.telephone">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Telefaks firme:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput [disabled]="type === 'production'" fullWidth [(ngModel)]="tmpCompany.fax">
+  </div>
+</div>
+
+<div *ngIf="type === 'production'">
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <label class="label">Predviđen način postupanja sa otpadom:</label>
+    </div>
+    <div class="col-6">
+      <nb-radio-group #nacinPostupanja (valueChange)="selectList(nacinPostupanja.value)">
+        <nb-radio value="R">Tretman (R)</nb-radio>
+        <nb-radio value="D">Odlaganje (D)</nb-radio>
+      </nb-radio-group>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <label class="label">Odaberite R/D Listu</label>
+    </div>
+    <div class="col-6">
+      <nb-select fullWidth [(ngModel)]="dko.nacinPostupanja">
+        <nb-option *ngFor="let p of treatmentList" [value]="p">{{p}}</nb-option>
+      </nb-select>
+    </div>
+  </div>
+</div>
+<div *ngIf="type === 'transport'">
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <label class="label">Vrsta prevoznog sredstva:</label>
+    </div>
+    <div class="col-6">
+      <nb-select fullWidth [(ngModel)]="dko.vrstaVozila">
+        <nb-option value="kamion">Kamion</nb-option>
+        <nb-option value="kombi">Kombi</nb-option>
+        <nb-option value="automobil">Automobil</nb-option>
+      </nb-select>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <label class="label">Registraski broj prevoznog sredstva:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput [(ngModel)]="dko.registarskiBroj" fullWidth>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <label fullWidth class="label">Dozvola za prevoznika otpada:</label>
+    </div>
+    <div class="col-3">
+      <input fullWidth placeholder="Sifra" nbInput [(ngModel)]="dko.sifraDozvoleTransport">
+    </div>
+    <div class="col-3">
+      <input fullWidth placeholder="Datum nastanka" nbInput type="date"
+             [(ngModel)]="dko.datumDozvoleTransport">
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <label class="label">Ruta kretanja pocetna/krajnja:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput [(ngModel)]="dko.rutaKretanja[0]" fullWidth>
+    </div>
+    <div class="col-6">
+      <input nbInput [(ngModel)]="dko.rutaKretanja[1]" fullWidth>
+    </div>
+    <div class="col-6">
+      <input nbInput [(ngModel)]="dko.rutaKretanja[2]" fullWidth>
+    </div>
+    <div class="col-6">
+      <input nbInput [(ngModel)]="dko.rutaKretanja[3]" fullWidth>
+    </div>
+    <div class="col-6">
+      <input nbInput [(ngModel)]="dko.rutaKretanja[4]" fullWidth>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="type === 'recipient'">
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <label fullWidth class="label">Vrsta primalaca:</label>
+    </div>
+    <div class="col-6">
+      <nb-radio-group *ngIf="!firstLoad" fullWidth [(ngModel)]="dko.vrstaPrimalaca">
+        <nb-radio value="treatment">Tretman</nb-radio>
+        <nb-radio value="storage">Skladistenje</nb-radio>
+        <nb-radio value="dump">Odlaganje</nb-radio>
+      </nb-radio-group>
+      <nb-radio-group *ngIf="firstLoad" fullWidth [(ngModel)]="dko.vrstaPrimalaca">
+        <nb-radio [disabled]="!checkCompanyType('Tretman Neopasnog Otpada')" value="treatment">Tretman</nb-radio>
+        <nb-radio [disabled]="!checkCompanyType('Skladištenje Neopasnog Otpada')" value="storage">Skladistenje
+        </nb-radio>
+        <nb-radio [disabled]="!checkCompanyType('Odlaganje Neopasnog Otpada')" value="dump">Odlaganje</nb-radio>
+      </nb-radio-group>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <label fullWidth class="label">Dozvola za primalaca otpada:</label>
+    </div>
+    <div class="col-3">
+      <input fullWidth placeholder="sifra" nbInput [(ngModel)]="dko.sifraDozvolePrimalac">
+    </div>
+    <div class="col-3">
+      <input fullWidth nbInput type="date" placeholder="datum nastanka"
+             [(ngModel)]="dko.datumDozvolePrimalac">
+    </div>
+  </div>
+
+</div>
+
+<div class="row mt-2">
+  <div class="col-3">
+    <button nbButton fullWidth status="danger" nbStepperPrevious>Nazad</button>
+  </div>
+  <div class="col-3">
+    <button nbButton fullWidth status="primary" type="button" (click)="sendCompany()" nbStepperNext>Dalje
+    </button>
+  </div>
+</div>

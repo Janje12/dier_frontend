@@ -1,0 +1,65 @@
+<div style="max-width: 50vw;">
+  <form #obradiForm="ngForm" (ngSubmit)="callProcessTrashMethod()">
+    <div class="row">
+      <label class="label col-12">Odaberi otpad koje firme:
+        <br>(Naziv firme | Datum | Količina otpada)</label>
+      <div class="col-12">
+        <input #autoInput
+               nbInput
+               fullWidth
+               type="text"
+               name="transaction-input"
+               [ngModelOptions]="{standalone: true}"
+               [(ngModel)]="selectedTransaction"
+               (input)="onChange(autoInput.value)"
+               placeholder="Unesi naziv firme"
+               [nbAutocomplete]="auto"/>
+        <nb-autocomplete fullWidth #auto (selectedChange)="chooseTransaction(autoInput, $event)">
+          <nb-option value="-">-</nb-option>
+          <nb-option *ngFor="let t of transactions$ | async; let i=index" [value]="t">
+            {{t.companyName}} | {{dateStrings[i]}} | {{t.trashAmount}} kg
+          </nb-option>
+        </nb-autocomplete>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 mt-2">
+        <nb-toggle [(ngModel)]="leftoverTrashCreated" [ngModelOptions]="{standalone: true}">
+          Da li nastaje neki otpad tokom odlaganje?
+        </nb-toggle>
+      </div>
+    </div>
+    <div class="row">
+      <label class="label col-12">Odaberi količinu za preradu:</label>
+      <div class="col-10">
+        <input [disabled]="selectedTransaction === undefined"
+               [max]="selectedTransaction?.trashAmount"
+               nbInput #kolicina name="kolicinaOtpada"
+               [ngModelOptions]="{standalone: true}"
+               [(ngModel)]="trashAmmount"
+               fullWidth
+               type="number" onkeypress="return /[0-9.]/i.test(event.key)" min="1">
+      </div>
+      <div class="pl-0 col-2">
+        <nb-select fullWidth [ngModelOptions]="{standalone: true}" [selected]="'KG'" [(ngModel)]="storageAmmountUnit">
+          <nb-option [value]="'KG'">KG</nb-option>
+          <nb-option [value]="'T'">T</nb-option>
+        </nb-select>
+      </div>
+    </div>
+    <div class="row my-2">
+      <div class="col-12">
+        <p>Trenutna kolicina otpada na skladistu: {{selectedTrash.amount}} KG</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button nbButton fullWidth [disabled]="kolicina.value < 1 || kolicina.value === undefined"
+                [status]="'primary'"
+                type="submit">
+          Obradi
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,153 @@
+<div class="row mb-1">
+  <h5>Podaci o otpadu '{{trash?.name}}'</h5>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Vrsta Otpada:</label>
+  </div>
+  <div class="col-6">
+    <nb-select fullWidth [(ngModel)]="dko.vrstaOtpada">
+      <nb-option value="Industrijski">Industrijski</nb-option>
+      <nb-option value="Komercijalni">Komercijalni</nb-option>
+      <nb-option value="Otpad iz domaćinstva">Otpad iz domaćinstva</nb-option>
+    </nb-select>
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Indeksni broj:</label>
+  </div>
+  <div class="col-6">
+    <input [(ngModel)]="trash.indexNumber" disabled fullWidth nbInput type="text">
+  </div>
+</div>
+
+<div *ngIf="trashType === 'Opasnog'">
+  <div class="row mb-1">
+    <div class="col-12">
+      <label class="label">H Lista:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput disabled fullWidth [(ngModel)]="trash.hList">
+    </div>
+  </div>
+  <div class="row mb-1">
+    <div class="col-12">
+      <label class="label">Y Lista:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput fullWidth disabled [(ngModel)]="trash.yList">
+    </div>
+  </div>
+  <div class="row mb-1">
+    <div class="col-12">
+      <label class="label">C Lista:</label>
+    </div>
+    <div class="col-6">
+      <input nbInput fullWidth disabled [(ngModel)]="trash.cList">
+    </div>
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Q Lista:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput fullWidth [(ngModel)]="dko.qLista">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Masa otpada:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput fullWidth type="number" [(ngModel)]="dko.masaOtpada">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Način pakovanja otpada:</label>
+  </div>
+  <div class="col-6">
+    <nb-select fullWidth [(ngModel)]="dko.nacinPakovanja">
+      <nb-option value="Bure">Bure</nb-option>
+      <nb-option value="Kanister">Kanister</nb-option>
+      <nb-option value="Sanduk">Sanduk</nb-option>
+      <nb-option value="Kese">Kese</nb-option>
+      <nb-option value="Posude pod pritiskom">Posude pod pritiskom</nb-option>
+      <nb-option value="Kompozitno pakovanje">Kompozitno pakovanje</nb-option>
+      <nb-option value="U rasutom stanju">U rasutom stanju</nb-option>
+      <nb-option #ostalo value="ostalo">Ostalo</nb-option>
+    </nb-select>
+  </div>
+  <div class="col-6" *ngIf="ostalo.selected">
+    <input fullWidth [(ngModel)]="dko.nacinPakovanja" nbInput placeholder="ostalo">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Fizičko stanje otpada:</label>
+  </div>
+  <div class="col-6">
+    <nb-select fullWidth [(ngModel)]="dko.fizickoStanje">
+      <nb-option *ngFor="let f of fizickaStanja;" [value]="f">{{f}}</nb-option>
+    </nb-select>
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label fullWidth class="label">Izveštaj o ispitivanju otpada:</label>
+  </div>
+  <div class="col-3">
+    <input fullWidth nbInput [(ngModel)]="dko.sifraIspitivanja">
+  </div>
+  <div class="col-3">
+    <input fullWidth nbInput type="date"
+           [(ngModel)]="dko.datumIspitivanja">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Odredište:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput fullWidth type="text" [(ngModel)]="dko.rutaKretanja[0]">
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Vrsta prevoza:</label>
+  </div>
+  <div class="col-6">
+    <nb-select fullWidth [(ngModel)]="dko.vidPrevoza">
+      <nb-option value="drumski">Drumski</nb-option>
+      <nb-option value="železnički">Železnički</nb-option>
+      <nb-option value="rečni">Rečni</nb-option>
+    </nb-select>
+  </div>
+</div>
+
+<div class="row mb-1">
+  <div class="col-12">
+    <label class="label">Posebne napomene za rukovanje i dodatne informacije:</label>
+  </div>
+  <div class="col-6">
+    <input nbInput fullWidth type="text" [(ngModel)]="dko.dodatneInformacije">
+  </div>
+</div>
+
+<div class="row mt-2">
+  <div class="col-3"></div>
+  <div class="col-3">
+    <button nbButton fullWidth status="primary" nbStepperNext>Dalje</button>
+  </div>
+</div>

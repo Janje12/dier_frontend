@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col-12 text-center progress-bar-text">
+    <span class="badge badge-light">{{storage.amount}}/{{storage.maxAmount}}</span>
+  </div>
+  <div class="col-12">
+    <nb-progress-bar [value]="calculateValue()" [status]="calculateStatus()" size="large">
+    </nb-progress-bar>
+  </div>
+</div>

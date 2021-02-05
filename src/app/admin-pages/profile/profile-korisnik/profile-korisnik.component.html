@@ -5,7 +5,7 @@
     </div>
     <div class="col-3">
       <input #ime="ngModel"
-             [(ngModel)]="korisnik.ime"
+             [(ngModel)]="korisnik.firstName"
              [attr.aria-invalid]="ime.invalid && ime.touched ? true : null"
              [maxlength]="getConfigValue('forms.validation.ime.maxLength')"
              [minlength]="getConfigValue('forms.validation.ime.minLength')"
@@ -40,7 +40,7 @@
     </div>
     <div class="col-3">
       <input #prezime="ngModel"
-             [(ngModel)]="korisnik.prezime"
+             [(ngModel)]="korisnik.lastName"
              [attr.aria-invalid]="prezime.invalid && prezime.touched ? true : null"
              [maxlength]="getConfigValue('forms.validation.prezime.maxLength')"
              [minlength]="getConfigValue('forms.validation.prezime.minLength')"
@@ -102,7 +102,7 @@
     </div>
     <div class="col-3">
       <input #korisnickoIme="ngModel"
-             [(ngModel)]="korisnik.korisnickoIme"
+             [(ngModel)]="korisnik.username"
              [attr.aria-invalid]="korisnickoIme.invalid && korisnickoIme.touched ? true : null"
              [maxlength]="getConfigValue('forms.validation.korisnickoIme.maxLength')"
              [minlength]="getConfigValue('forms.validation.korisnickoIme.minLength')"
@@ -132,7 +132,7 @@
     </div>
     <div class="col-3">
       <input #telefon="ngModel"
-             [(ngModel)]="korisnik.telefon"
+             [(ngModel)]="korisnik.phone"
              [attr.aria-invalid]="telefon.invalid && telefon.touched ? true : null"
              [maxlength]="getConfigValue('forms.validation.telefon.maxLength')"
              [minlength]="getConfigValue('forms.validation.telefon.minLength')"

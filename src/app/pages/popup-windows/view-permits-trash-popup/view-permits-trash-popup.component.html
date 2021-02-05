@@ -1,0 +1,32 @@
+<div style="max-width: 50vw;">
+    <div class="row mb-2">
+      <div class="col-12">
+        <button nbButton status="warning" (click)="addTrashToList({data: o}, trashListButton)"
+                class="p-2 m-1" *ngFor="let o of trashList" [nbPopover]="o.name"
+                nbPopoverTrigger="hint" nbPopoverPlacement="bottom">
+          {{o.indexNumber}}
+        </button>
+      </div>
+      <div class="col-12" *ngIf="trashListButton.disabled">
+        <label class="ml-0">Pretrazi po indeksnom broju:</label>
+        <input nbInput #search fullWidth type="text" placeholder="Pretrazi"
+               (input)="search.value.length >= 1 && onSearch(search.value)">
+        <ng2-smart-table [source]="catalog" [settings]="settings"
+                         (custom)="addTrashToList($event, trashListButton)"></ng2-smart-table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <button (click)="trashListButton.disabled = true" #trashListButton nbButton fullWidth type="button"
+                status="primary">
+          AŽURIRAJ OTPADE
+        </button>
+      </div>
+      <div class="col-6">
+        <button nbButton (click)="callUpdatePermitsTrashMethod()"
+                [disabled]="!trashListButton.disabled || trashList.length < 1" fullWidth type="button" status="primary">
+          SAČUVAJ PROMENE
+        </button>
+      </div>
+    </div>
+</div>

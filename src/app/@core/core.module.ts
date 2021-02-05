@@ -17,12 +17,12 @@ import {
   StateService,
 } from './utils';
 import { FORM_SETTINGS, VALLIDATION_SETTINGS } from './auth_settings';
-import { KorisnikService } from './service/korisnik.service';
-import { KorisnikData } from './data/korisnik';
+import { UserService } from './service/user.service';
+import { UserData } from './data/user';
 import { of } from 'rxjs';
 
 const DATA_SERVICES = [
-  {provide: KorisnikData, useClass: KorisnikService},
+  {provide: UserData, useClass: UserService},
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
@@ -60,7 +60,7 @@ export const NB_CORE_PROVIDERS = [
           endpoint: '/register',
           method: 'post',
           redirect: {
-            success: '../login',
+            success: '/auth/login',
             failure: null,
           },
         },

@@ -14,3 +14,25 @@
     }
   }
 }
+
+:host nb-accordion {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+:host nb-accordion-item {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+:host nb-accordion-item-header {
+  color: transparent;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+:host nb-accordion-item-body {
+  padding-top: 0;
+  background-color: transparent;
+}

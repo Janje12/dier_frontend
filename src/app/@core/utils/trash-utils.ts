@@ -1,0 +1,32 @@
+export const D_TAGS: string[] = [
+  'Deponovanje otpada u zemljište ili na zemljište',
+  'Izlaganje otpada procesima u zemljištu',
+  'Duboko ubrizgavanje',
+  'Površinsko deponovanje ',
+  'Odlaganje otpada u posebno projektovane deponije',
+  'Ispuštanje u vode, osim u mora, odnosno okeane',
+  'Ispuštanje u mora, odnosno okeane, uključujući utiskivanje u morsko dno',
+  'Biološki tretmani koji nisu naznačeni na drugom mestu u ovoj listi, a čiji su konačni proizvodi jedinjenja ili smeše koje se odbacuju u bilo kojoj od operacija od D1 do D12',
+  'Fizičko-hemijsk itretmani koji nisu naznačeni na drugom mestu u ovoj listi, a čiji su konačni proizvodi jedinjenja ili smeše koje se odbacuju u bilo kojoj od operacija od D1 do D12',
+  'Spaljivanje (insineracija) na tlu',
+  'Spaljivanje (insineracija) na moru',
+  'Trajno skladištenje',
+  'Mešanje otpada pre podvrgavanja bilo kojoj od operacija od D1 do D12',
+  'Prepakovanje otpada pre podvrgavanja bil okojoj od operacija od D1 do D13',
+  'Skladištenje otpada koje prethodi bilo kojoj od operacija od D1 do D14',
+];
+export const R_TAGS: string[] = [
+  'Korišćenje otpada prvenstveno ka goriva ili drugog sredstva za proizvodnju energine',
+  'Regeneracija/prerada rastvarača',
+  'Recikliranje/prerada organskih materija koji se ne koriste kao rastvarači (uključujući kompostiranje i ostale procese biološke transformacije)',
+  'Recikliranje/prerada metala i jedinjenja metala',
+  'Recikliranje/prerada drugih neorganskih materijala',
+  'Regeneracija kiselina ili baza',
+  'Obnavljanje komponenata koje se koriste za smanjenje zagađenja',
+  'Obnavljanje komponenata katalizatora',
+  'Re-rafinacija ili drugi način ponovnog iskorišćenja otpadnog ulja',
+  'Izlaganje otpada procesima u zemljištu koji imaju korist za poljoprivredu il iekološki napredak',
+  'Promene radi podvrgavanja otpada bilo kojoj od operacija od R1 do R11',
+  'Skladištenje otpada namenjenih za bilo koju operaciju od R1 do R12 (isključujući privremeno skladištenje otpada na lokaciji njegovog nastanka) ',
+];
+export const TRASH_STATES: string[] = ['Čvrsto', 'Tečno', 'Gasovito', 'Prah'];

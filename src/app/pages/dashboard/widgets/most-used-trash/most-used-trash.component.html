@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-3">Indeksni broj</div>
+  <div class="col-3">Naziv</div>
+  <div class="col-3">Količina (KG)</div>
+  <div class="col-3" *ngIf="type === 'production'">Dodaj otpad</div>
+  <div class="col-3" *ngIf="type === 'treatment'">Obradi otpad</div>
+  <div class="col-3" *ngIf="type === 'disposal'">Odoloži otpad</div>
+  <div class="col-3" *ngIf="type === 'cache'">Skladišti otpad</div>
+</div>
+<hr style="height:2px;border-width:0;color:gray;background-color:gray">
+<div class="row mb-1" *ngFor="let transaction of transactions;">
+  <div class="col-3">{{transaction.trash.indexNumber}}</div>
+  <div class="col-3 text-limit">{{transaction.trash.name}}</div>
+  <div class="col-3">{{transaction.trash.amount}}</div>
+  <div *ngIf="type === 'production' || type === 'cache'" class="col-3 text-center">
+    <i (click)="openAddTrashWindow(transaction.trash, transaction.storage)" class="fa fa-plus add-button"></i>
+  </div>
+  <div *ngIf="type === 'treatment'" class="col-3 text-center">
+    <i (click)="openProcessTrashWindow(transaction.trash, transaction.storage)" class="fa fa-trash-restore add-button"></i>
+  </div>
+  <div *ngIf="type === 'disposal'" class="col-3 text-center">
+    <i (click)="openProcessTrashWindow(transaction.trash, transaction.storage)" class="fa fa-trash add-button"></i>
+  </div>
+</div>
+
+<ng-template #addTrashTemplate>
+  <add-trash-popup [type]="'production'" [selectedTrash]="selectedTrash" (callAddTrash)="addTrashMethod($event)"></add-trash-popup>
+</ng-template>
+<ng-template #processTrashTemplate>
+  <process-trash-popup [selectedTrash]="selectedTrash"
+                       (callProcessTrash)="processTrashMethod($event)"></process-trash-popup>
+</ng-template>

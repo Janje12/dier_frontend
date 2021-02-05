@@ -2,95 +2,103 @@ import { Injectable } from '@angular/core';
 import { NbAuthService } from '@nebular/auth';
 import { NbMenuItem } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { MENU_ITEMS } from '../../pages/pages-menu';
+import { CompanyOperations } from '../data/companyOperations';
 
 @Injectable()
 export class RoleService {
 
-  radFirme: string[];
-  operations: {
-    proizvodnja: boolean;
-    transport: boolean;
-    tretman: boolean;
-    skladistenje: boolean;
-    odlaganje: boolean;
-  };
-  neopasni: {
-    exists: boolean;
-    proizvodnja: boolean;
-    transport: boolean;
-    tretman: boolean;
-    skladistenje: boolean;
-    odlaganje: boolean;
-  };
-  opasni: {
-    exists: boolean;
-    proizvodnja: boolean;
-    transport: boolean;
-    tretman: boolean;
-    skladistenje: boolean;
-    odlaganje: boolean;
-  };
+  private menu_items: NbMenuItem[] = [];
+  private companyOperations: string[] = [];
+  private operations: CompanyOperations;
+  private companyID: string;
+  private username: string;
 
-  constructor(private authService: NbAuthService) {
+  constructor(authService: NbAuthService) {
+    authService.isAuthenticated().subscribe(x => {
+      if (x) {
+        authService.getToken().subscribe(t => {
+          const payload = t.getPayload();
+          this.companyID = payload.data.company._id;
+          this.username = payload.data.user.username;
+          this.companyOperations = payload.data.company.operations;
+        });
+      }
+    });
+    MENU_ITEMS.forEach(val => this.menu_items.push(Object.assign({}, val)));
     this.operations = {
-      proizvodnja: false,
-      transport: false,
-      tretman: false,
-      skladistenje: false,
-      odlaganje: false,
+      operations: {
+        cache: false,
+        disposal: false,
+        production: false,
+        transport: false,
+        treatment: false,
+      },
+      safeTrashOperations: {
+        cache: false,
+        disposal: false,
+        exists: false,
+        production: false,
+        transport: false,
+        treatment: false,
+      },
+      unsafeTrashOperations: {
+        cache: false,
+        disposal: false,
+        exists: false,
+        production: false,
+        transport: false,
+        treatment: false,
+      },
     };
-    this.neopasni = {
-      exists: false,
-      proizvodnja: false,
-      transport: false,
-      tretman: false,
-      skladistenje: false,
-      odlaganje: false,
-    };
-    this.opasni = {
-      exists: false,
-      proizvodnja: false,
-      transport: false,
-      tretman: false,
-      skladistenje: false,
-      odlaganje: false,
-    };
-    this.authService.onTokenChange().pipe(first()).subscribe(x => {
-      this.radFirme = x.getPayload().data.firma.radFirme;
-    });
   }
 
-  findOperations(): Observable<any> {
-    this.radFirme.forEach(x => {
-      if (x.startsWith('Proizvodnja'))
-        this.operations.proizvodnja = true;
-      if (x.startsWith('Transport'))
-        this.operations.transport = true;
-      if (x.startsWith('Tretman'))
-        this.operations.tretman = true;
-      if (x.startsWith('Odlaganje'))
-        this.operations.odlaganje = true;
-      if (x.startsWith('Skladištenje'))
-        this.operations.skladistenje = true;
-    });
-    return of(this.operations);
+  public getCompanyID(): string {
+    return this.companyID;
   }
 
-  findOperationsMenu(): Observable<NbMenuItem[]> {
-    const result = MENU_ITEMS.slice(0, 3);
+  public getUsername(): string {
+    return this.username;
+  }
+
+  public getOperations(companyOperations?: string[]): Observable<any> {
+    if (companyOperations !== undefined)
+      this.clearOperations();
+    this.findOperations(companyOperations);
+    return of(this.operations.operations);
+  }
+
+  public getOperationsMenu(companyOperations?: string[]): Observable<NbMenuItem[]> {
+    this.findOperations(companyOperations);
+    this.menu_items = [];
+    MENU_ITEMS.forEach(val => this.menu_items.push(Object.assign({}, val)));
+    const result = this.menu_items.slice(0, 3);
+    result.concat(this.fillResult(result));
+    return of(result);
+  }
+
+  public clearOperations(): void {
+    for (const key in Object.keys(this.operations)) {
+      if (this.operations.hasOwnProperty(key)) {
+        this.operations[key] = false;
+      }
+    }
+  }
+
+  private findOperations(companyOperations?: string[]) {
+    this.companyOperations = companyOperations ? companyOperations : this.companyOperations;
     let tmp;
-    for (let i = 0; i < this.radFirme.length; i++) {
-      tmp = this.radFirme[i].split(' ');
+    for (let i = 0; i < this.companyOperations.length; i++) {
+      tmp = this.companyOperations[i].split(' ');
       switch (tmp[1]) {
         case 'Neopasnog': {
-          this.neopasni.exists = true;
-          this.fillType(this.neopasni, tmp[0]);
+          this.operations.safeTrashOperations.exists = true;
+          this.fillType(this.operations.safeTrashOperations, tmp[0]);
           break;
         }
         case 'Opasnog': {
-          this.fillType(this.opasni, tmp[0]);
+          this.operations.unsafeTrashOperations.exists = true;
+          this.fillType(this.operations.unsafeTrashOperations, tmp[0]);
           break;
         }
         default: {
@@ -98,25 +106,39 @@ export class RoleService {
         }
       }
     }
-    result.concat(this.fillResult(result));
-    return of(result);
   }
 
   private fillResult(result: NbMenuItem[]): NbMenuItem[] {
     let menu_childern, item;
-    if (this.neopasni.exists) {
-      item = MENU_ITEMS.filter(x => x.title === 'Neopasni otpad')[0];
+    if (this.operations.safeTrashOperations.exists) {
+      item = this.menu_items.filter(x => x.title === 'Neopasni otpad')[0];
       menu_childern = item.children;
       item.children = new Array<NbMenuItem>();
-      if (this.neopasni.proizvodnja)
+      if (this.operations.safeTrashOperations.production)
         item.children.push(menu_childern.filter(x => x.title === 'Proizvodnja')[0]);
       // if (this.neopasni.transport)
-        // item.children.push(menu_childern.filter(x => x.title === 'Transport')[0]);
-      if (this.neopasni.tretman)
+      // item.children.push(menu_childern.filter(x => x.title === 'Transport')[0]);
+      if (this.operations.safeTrashOperations.treatment)
         item.children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
-      if (this.neopasni.skladistenje)
+      if (this.operations.safeTrashOperations.cache)
         item.children.push(menu_childern.filter(x => x.title === 'Skladištenje')[0]);
-      if (this.neopasni.odlaganje)
+      if (this.operations.safeTrashOperations.disposal)
+        item.children.push(menu_childern.filter(x => x.title === 'Odlaganje')[0]);
+      result.push(item);
+    }
+    if (this.operations.unsafeTrashOperations.exists) {
+      item = MENU_ITEMS.filter(x => x.title === 'Opasni otpad')[0];
+      menu_childern = item.children;
+      item.children = new Array<NbMenuItem>();
+      if (this.operations.unsafeTrashOperations.production)
+        item.children.push(menu_childern.filter(x => x.title === 'Proizvodnja')[0]);
+      // if (this.neopasni.transport)
+      // item.children.push(menu_childern.filter(x => x.title === 'Transport')[0]);
+      if (this.operations.unsafeTrashOperations.treatment)
+        item.children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
+      if (this.operations.unsafeTrashOperations.cache)
+        item.children.push(menu_childern.filter(x => x.title === 'Skladištenje')[0]);
+      if (this.operations.unsafeTrashOperations.disposal)
         item.children.push(menu_childern.filter(x => x.title === 'Odlaganje')[0]);
       result.push(item);
     }
@@ -126,23 +148,28 @@ export class RoleService {
   private fillType(type: any, typeGiven: string) {
     switch (typeGiven) {
       case 'Proizvodnja': {
-        type.proizvodnja = true;
+        this.operations.operations.production = true;
+        type.production = true;
         break;
       }
       case 'Transport': {
+        this.operations.operations.transport = true;
         type.transport = true;
         break;
       }
       case 'Tretman': {
-        type.tretman = true;
+        this.operations.operations.treatment = true;
+        type.treatment = true;
         break;
       }
       case 'Skladištenje': {
-        type.skladistenje = true;
+        this.operations.operations.cache = true;
+        type.cache = true;
         break;
       }
       case 'Odlaganje': {
-        type.odlaganje = true;
+        this.operations.operations.disposal = true;
+        type.disposal = true;
         break;
       }
       default: {
@@ -150,4 +177,5 @@ export class RoleService {
       }
     }
   }
+
 }

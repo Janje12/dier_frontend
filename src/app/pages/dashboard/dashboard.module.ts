@@ -1,15 +1,27 @@
 import { NgModule } from '@angular/core';
 import {
-  NbActionsModule,
-  NbButtonModule,
-  NbCardModule,
-  NbUserModule,
-  NbIconModule,
+	NbActionsModule,
+	NbButtonModule,
+	NbCardModule,
+	NbUserModule,
+	NbIconModule, NbSelectModule, NbSpinnerModule, NbAccordionModule,
 } from '@nebular/theme';
-
+import { BarChartModule } from '@swimlane/ngx-charts';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { RoleService } from '../../@core/service/role.service';
+import { WidgetService } from '../../@core/service/widget.service';
 import { ThemeModule } from '../../@theme/theme.module';
+import { PopupWindowsModule } from '../popup-windows/popup-windows.module';
 import { DashboardComponent } from './dashboard.component';
 import { FormsModule } from '@angular/forms';
+import { WidgetComponent } from './widgets/widget/widget.component';
+import { MostUsedTrashComponent } from './widgets/most-used-trash/most-used-trash.component';
+import { TrashStatsComponent } from './widgets/trash-stats/trash-stats.component';
+import { TransportPermitsComponent } from './widgets/transport-permits/transport-permits.component';
+import { TransportVehiclesComponent } from './widgets/transport-vehicles/transport-vehicles.component';
+import { UnfinishedOperationsComponent } from './widgets/unfinished-operations/unfinished-operations.component';
+import { WidgetGroupHeaderComponent } from './widgets/widget-group-header/widget-group-header.component';
 
 @NgModule({
   imports: [
@@ -21,9 +33,28 @@ import { FormsModule } from '@angular/forms';
     NbActionsModule,
     NbIconModule,
     NbButtonModule,
+    NgxEchartsModule,
+    PopupWindowsModule,
+    NbSelectModule,
+    NbSpinnerModule,
+    NbAccordionModule,
+    Ng2SmartTableModule,
+    BarChartModule,
   ],
   declarations: [
     DashboardComponent,
+    WidgetComponent,
+    MostUsedTrashComponent,
+    TrashStatsComponent,
+    TransportPermitsComponent,
+    TransportVehiclesComponent,
+    UnfinishedOperationsComponent,
+    WidgetGroupHeaderComponent,
+  ],
+  providers: [
+    RoleService,
+    WidgetService,
   ],
 })
-export class DashboardModule { }
+export class DashboardModule {
+}

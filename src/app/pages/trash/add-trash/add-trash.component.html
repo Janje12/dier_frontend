@@ -1,0 +1,185 @@
+<nb-card class="container-fluid">
+  <nb-card-header>
+    <h5>Dodajte novi inventar otpada</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-12">
+        <label class="col-8 pl-0">Pretraži po indeksnom broju ili nazivu:</label></div>
+      <div class="col-4">
+        <nb-select fullWidth [(ngModel)]="selectedStorage">
+          <nb-option *ngFor="let d of permits" (selectionChange)="updateCatalog(d)"
+                     [value]="d?.storage">{{d?.storage.name}}</nb-option>
+        </nb-select>
+      </div>
+      <input nbInput #search class="col-12" fullWidth type="text" placeholder="Pretraži"
+             (input)="search.value.length >= 1 && onSearch(search.value)">
+      <ng2-smart-table class="col-12" [source]="catalog" [settings]="settings"
+                       (custom)="chooseTrash($event)"></ng2-smart-table>
+    </div>
+    <form #addForm="ngForm" (ngSubmit)="addTrash()">
+      <div class="row">
+        <div class="col-6">
+
+          <div class="row mb-2">
+            <label class="col-12 label" for="input-indeksniBroj">Indeksni broj:</label>
+            <div class="col-6">
+              <input nbInput fullWidth disabled [placeholder]="trash.indexNumber || '00 00 00'" id="input-indeksniBroj">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-12 label" for="input-trashName">Naziv: </label>
+            <div class="col-6">
+              <input [(ngModel)]="trash.name" placeholder="Naziv" fullWidth
+                     name="trashName" id="input-trashName" nbInput>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-12 label" for="input-trashDesc">Opis: </label>
+            <div class="col-6">
+              <input [(ngModel)]="trash.desc" placeholder="Opis" fullWidth
+                     name="trashDesc" id="input-trashDesc" nbInput>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-12 label" for="input-trashAmount">Trenutna količina na skladistu: </label>
+            <div class="col-3 pr-0">
+              <input [(ngModel)]="trash.amount" decimals="1" fullWidth min="0" name="trashAmount"
+                     nbInput placeholder="0.0" id="input-trashAmount" step="0.1" type="number">
+            </div>
+            <div class="col-1 pl-0">
+              <nb-select fullWidth [ngModelOptions]="{standalone: true}" [selected]="'KG'"
+                         [(ngModel)]="storageAmmountUnit">
+                <nb-option [value]="'KG'">KG</nb-option>
+                <nb-option [value]="'T'">T</nb-option>
+              </nb-select>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-12 label" for="input-trashState">Fizicko stanje otpada: </label>
+            <div class="col-6">
+              <nb-select [(ngModel)]="trash.state" placeholder="Fizičko stanje" fullWidth name="trashState"
+                         id="input-trashState" selected="Cvrsto">
+                <nb-option *ngFor="let f of states;" [value]="f">{{f}}</nb-option>
+              </nb-select>
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="operation === 'production'">
+            <label class="col-12 label">Odaberite skladište za otpad: </label>
+            <div class="col-6">
+              <nb-select [(ngModel)]="selectedStorage" fullWidth required name="storage">
+                <nb-option *ngFor="let s of storages;" [value]="s">{{s.name}}</nb-option>
+              </nb-select>
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="operation === 'dump'">
+            <label class="col-12 label">Odaberite D oznaku (možete promentiti u svakom trenutku): </label>
+            <div class="col-6">
+              <nb-select [(ngModel)]="trash.dSign" fullWidth required name="dSign">
+                <nb-option *ngFor="let d of dSigns;" [value]="d">{{d}}</nb-option>
+              </nb-select>
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="operation === 'treatment'">
+            <label class="col-12 label">Odaberite R oznaku (možete promentiti u svakom trenutku): </label>
+            <div class="col-6">
+              <nb-select [(ngModel)]="trash.rSign" fullWidth required name="rSign">
+                <nb-option *ngFor="let r of rSigns;" [value]="r">{{r}}</nb-option>
+              </nb-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="row mb-2"></div>
+          <nb-toggle #examinationCodeToggle status="basic">Imam dokumenat o ispitivanju otpada</nb-toggle>
+          <div class="row mb-2" *ngIf="examinationCodeToggle.checked">
+            <label class="col-12 label" for="input-examinationCode">Šifra ispitivanja otpada: </label>
+            <div class="col-6">
+              <input [(ngModel)]="trash.examinationCode" fullWidth id="input-examinationCode" name="examinationCode"
+                     nbInput placeholder="Šifra" required type="text">
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="examinationCodeToggle.checked">
+            <label class="col-12 label" for="input-examinationDate">Datum ispitivanja otpada: </label>
+            <div class="col-6">
+              <input [(ngModel)]="trash.examinationDate" [nbDatepicker]="examinationDatePicker"
+                     fullWidth placeholder="Datum"
+                     id="input-examinationDate"
+                     name="examinationDate" nbInput required>
+              <nb-datepicker [max]="today()" #examinationDatePicker></nb-datepicker>
+            </div>
+          </div>
+          <div *ngIf="operation === 'unsafe'">
+            <div class="row mb-2">
+              <label class="col-4 label">H-Lista: </label>
+              <label class="col-4 label">Y-Lista: </label>
+              <label class="col-4 label">C-Lista: </label>
+              <div class="col-4 mb-2">
+                <input [(ngModel)]="trash.hList" fullWidth
+                       name="Hlista" nbInput type="text" required>
+              </div>
+              <div class="col-4 mb-2">
+                <input [(ngModel)]="trash.yList" fullWidth
+                       name="YLista" nbInput type="text" required>
+              </div>
+              <div class="col-4">
+                <input [(ngModel)]="trash.cList" fullWidth
+                       name="CLista" nbInput type="text" required>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <label class="col-12 label">Broj opasnih komponenta u otpadu: </label>
+              <div class="col-6">
+                <input [(ngModel)]="componentsNo" fullWidth min="1" name="brojKomponeti" nbInput type="number">
+              </div>
+              <div class="col-3">
+                <button (click)="updateCAS()" fullWidth nbButton type="button">Odaberi</button>
+              </div>
+            </div>
+            <div *ngIf="componentsNo > 0" class="row mb-2">
+              <div *ngFor="let k of trash.unsafeComponent; let i = index" class="col-6">
+                Komponenta #{{i + 1}}
+                <div class="row mb-2">
+                  <label class="col-12 label">CAS: </label>
+                  <div class="col-8">
+                    <input nbInput type="text" required
+                           [(ngModel)]="k.CAS" name="CAS">
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <label class="col-12 label">Hemijski naziv: </label>
+                  <div class="col-8">
+                    <input nbInput type="text" required
+                           [(ngModel)]="k.chemicalName" name="Hemijski naziv">
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <label class="col-12 label">Kilograma opasne materije po kilogram otpada: </label>
+                  <div class="col-6 pr-0">
+                    <input fullWidth decimals="1" step="0.1" min="0" type="number" nbInput
+                           placeholder="0.0" [(ngModel)]="k.kgOfMatter" name="Kg opasne materije">
+                  </div>
+                  <div class="col-2 pl-0">
+                    <button nbButton disabled>kg</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row my-2">
+          <div class="col-12">
+            <button [disabled]="!addForm.valid"
+                    nbButton fullWidth
+                    status="primary" type="submit">Dodaj
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
+

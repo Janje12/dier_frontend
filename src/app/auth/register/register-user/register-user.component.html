@@ -1,0 +1,225 @@
+<h1 class="text-center">Registruj se!</h1>
+<nb-stepper disableStepNavigation>
+  <nb-step label="User">
+    <form #userForm="ngForm">
+
+      <div class="row mb-2">
+        <div class="col-6">
+          <label class="label" for="input-firstName">Ime:</label>
+          <input #firstName="ngModel"
+                 [(ngModel)]="user.firstName"
+                 [attr.aria-invalid]="firstName.invalid && firstName.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.firstName.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.firstName.minLength')"
+                 [pattern]="getConfigValue('forms.validation.firstName.pattern')"
+                 [required]="getConfigValue('forms.validation.firstName.required')"
+                 [status]="firstName.dirty ? (firstName.invalid  ? 'danger' : 'success') : 'basic'"
+                 autofocus
+                 fullWidth
+                 id="input-firstName"
+                 name="firstName"
+                 nbInput
+                 onkeypress="return /[a-zA-ZčćžđšŠĐŽĆČ]/i.test(event.key)"
+                 placeholder="Ime">
+          <ng-container *ngIf="(firstName.invalid && firstName.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="firstName.errors?.required">
+              Ime je obavezno!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="firstName.errors?.minlength || firstName.errors?.maxlength">
+              Ime mora da bude duže od
+              {{ getConfigValue('forms.validation.ime.minLength') }}
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="firstName.errors?.pattern">
+              Ime mora biti validno!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-6">
+          <label class="label" for="input-lastName">Prezime:</label>
+          <input #lastName="ngModel"
+                 [(ngModel)]="user.lastName"
+                 [attr.aria-invalid]="lastName.invalid && lastName.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.lastName.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.lastName.minLength')"
+                 [pattern]="getConfigValue('forms.validation.lastName.pattern')"
+                 [required]="getConfigValue('forms.validation.lastName.required')"
+                 [status]="lastName.dirty ? (lastName.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-lastName"
+                 name="lastName"
+                 nbInput
+                 onkeypress="return /[a-zA-ZšđžćčŠĐŽĆČ\-]/i.test(event.key)"
+                 placeholder="Prezime">
+          <ng-container *ngIf="(lastName.invalid && lastName.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="lastName.errors?.required">
+              Prezime je obavezno!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="lastName.errors?.minlength">
+              Prezime mora da bude duže od
+              {{ getConfigValue('forms.validation.prezime.minLength') }}
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="lastName.errors?.pattern">
+              Prezime mora biti validno!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-6">
+          <label class="label" for="input-username">Korisničko ime:</label>
+          <input #username="ngModel"
+                 [(ngModel)]="user.username"
+                 [attr.aria-invalid]="username.invalid && username.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.username.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.username.minLength')"
+                 [required]="getConfigValue('forms.validation.username.required')"
+                 [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-username"
+                 name="username"
+                 nbInput
+                 placeholder="Korisničko ime">
+          <ng-container *ngIf="(username.invalid && username.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="username.errors?.required">
+              Korisničko ime je obavezno!
+            </p>
+            <p class="error-message mt-1 mb-0"
+               *ngIf="username.errors?.minlength || username.errors?.maxlength">
+              Korisničko ime mora biti duže od
+              {{ getConfigValue('forms.validation.korisnickoIme.minLength') }}!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-6">
+          <label class="label" for="input-phone">Telefon:</label>
+          <input #phone="ngModel"
+                 [(ngModel)]="user.phone"
+                 [attr.aria-invalid]="phone.invalid && phone.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.phone.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.phone.minLength')"
+                 [required]="getConfigValue('forms.validation.phone.required')"
+                 [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-phone"
+                 name="phone"
+                 nbInput
+                 onkeypress="return /[0-9]/i.test(event.key)"
+                 placeholder="Telefon">
+          <ng-container *ngIf="(phone.invalid && phone.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="phone.errors?.required">
+              Telefon je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="phone.errors?.minlength || phone.errors?.maxlength">
+              Telefon mora biti validan!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-email">Email:</label>
+          <input #email="ngModel"
+                 [(ngModel)]="user.email"
+                 [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+                 [pattern]="getConfigValue('forms.validation.email.pattern')"
+                 [required]="getConfigValue('forms.validation.email.required')"
+                 [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-email"
+                 name="email"
+                 nbInput
+                 placeholder="Email">
+          <ng-container *ngIf="(email.invalid && email.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="email.errors?.required">
+              Email je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="email.errors?.pattern">
+              Email mora biti validan!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-6">
+          <label class="label col-12" for="input-password">Šifra:</label>
+          <div class="row">
+            <div class="col-10 pr-0">
+              <input #password="ngModel"
+                     [(ngModel)]="user.password"
+                     [attr.aria-invalid]="password.invalid && password.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.password.minLength')"
+                     [required]="getConfigValue('forms.validation.password.required')"
+                     [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-password"
+                     name="password"
+                     nbInput
+                     placeholder="Šifra"
+                     [type]="showPassword === 'eye' ? 'password' : 'text'">
+            </div>
+            <div class="col-2 pl-0">
+              <button fullWidth type="button" nbButton
+                      (click)="this.showPassword = this.showPassword === 'eye' ? 'eye-off' : 'eye';">
+                <nb-icon [icon]="showPassword"></nb-icon>
+              </button>
+            </div>
+          </div>
+          <ng-container *ngIf="(password.invalid && password.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="password.errors?.required">
+              Šifra je obavezna!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+              Šifra ne sme biti kraća od
+              {{ getConfigValue('forms.validation.password.minLength') }}!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-6">
+          <label class="label" for="input-rePassword">Ponovi šifru:</label>
+          <input #retypePasswordModel="ngModel"
+                 [(ngModel)]="retypePassword"
+                 [attr.aria-invalid]="retypePasswordModel.invalid && retypePasswordModel.touched ? true : null"
+                 [required]="getConfigValue('forms.validation.password.required')"
+                 [status]="retypePasswordModel.dirty ? (retypePasswordModel.invalid || password.value !== retypePasswordModel.value  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-rePassword"
+                 name="rePass"
+                 nbInput
+                 placeholder="Potvrdi šifru"
+                 [type]="showPassword === 'eye' ? 'password' : 'text'">
+          <ng-container *ngIf="(retypePasswordModel.invalid && password.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="retypePasswordModel.errors?.required">
+              Ponovna šifra je obavezna!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="password.value !== retypePasswordModel.value">
+              Šifra se ne poklapa sa već upisanom šifrom!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <button nbButton
+              fullWidth
+              status="success"
+              class="mt-2"
+              type="button"
+              (click)="validateUser(userForm)">
+        Dalje
+      </button>
+    </form>
+  </nb-step>
+  <nb-step label="Firma"></nb-step>
+  <nb-step label="Operacije"></nb-step>
+  <nb-step label="Informacije"></nb-step>
+  <nb-step label="Potvrda"></nb-step>
+</nb-stepper>
+
+<div class="container-fluid">
+  <section class="text-center my-2" aria-label="Uloguj se">
+    Već imate nalog? <a class="text-link" routerLink="../login">Uloguj se</a>
+  </section>
+</div>

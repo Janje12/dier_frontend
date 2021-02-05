@@ -8,10 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { CoreModule } from './@core/core.module';
-import { SkladisteService } from './@core/service/skladiste.service';
 import { ThemeModule } from './@theme/theme.module';
-import { AdminModule } from './admin-pages/admin.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
@@ -32,12 +31,14 @@ import { AuthGuard } from './auth-guard.service';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    NbDateFnsDateModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
+    NgxEchartsModule,
     NbDateFnsDateModule.forRoot({ format: 'dd/MM/yyyy'}),
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',

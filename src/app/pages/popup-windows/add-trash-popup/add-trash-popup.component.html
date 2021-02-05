@@ -1,0 +1,70 @@
+<div style="max-width: 50vw;">
+  <form #addForm="ngForm" (ngSubmit)="callAddTrashMethod()">
+    <div *ngIf="type === 'treatment' || type === 'disposal'">
+      <div class="row">
+        <label class="label col-12" for="input-nazivFirme">Naziv preduzeća od kojeg je preuzet otpad: </label>
+        <div class="col-12">
+          <input #nazivFirme1="ngModel" [(ngModel)]="companyName" required class="form-control" fullWidth
+                 id="input-nazivFirme"
+                 name="nazivFirme" nbInput
+                 type="text">
+        </div>
+      </div>
+      <div class="row mt-1">
+        <label class="label col-12" for="input-brDokumenta">Broj dokumenta o kretanju otpada: </label>
+        <div class="col-12">
+          <input #brDokumenta1="ngModel" [(ngModel)]="documentNo" required class="form-control" fullWidth
+                 id="input-brDokumenta"
+                 name="brDokumenta" nbInput
+                 type="text">
+        </div>
+      </div>
+      <div class="row mt-1">
+        <label class="col-12 label" for="input-dOznaka">{{type === 'disposal' ? 'D' : 'R'}} Oznaka: </label>
+        <div class="col-12">
+          <nb-select fullWidth class="pr-2"
+                     [(ngModel)]="type === 'disposal' ? selectedTrash.dSign : selectedTrash.rSign" name="dOznaka"
+                     [disabled]="!checkBox.checked"
+                     id="input-dOznaka">
+            <nb-option-group *ngFor="let d of currentTags; let i = index"
+                             [title]="type === 'disposal' ? 'D' + (i + 1) : 'R' + (i + 1)">
+              <nb-option [value]="type === 'disposal' ? 'D' + (i + 1) : 'R' + (i + 1)">{{d}}</nb-option>
+            </nb-option-group>
+          </nb-select>
+        </div>
+        <div class="col-12 mt-2">
+          <nb-checkbox #checkBox>Promeni {{type === 'disposal' ? 'D' : 'R'}} oznaku otpada</nb-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label class="label col-12" for="input-Kolicina">Količina koju dodajete: </label>
+      <div class="col-10 pr-0">
+        <input #kolicina="ngModel" [(ngModel)]="trashAmmount" class="form-control" fullWidth id="input-Kolicina"
+               min="1"
+               name="količina" nbInput onkeypress="return /[0-9.]/i.test(event.key)"
+               placeholder="0"
+               type="number">
+      </div>
+      <div class="pl-0 col-2">
+        <nb-select fullWidth [ngModelOptions]="{standalone: true}" [selected]="'KG'" [(ngModel)]="storageAmmountUnit">
+          <nb-option [value]="'KG'">KG</nb-option>
+          <nb-option [value]="'T'">T</nb-option>
+        </nb-select>
+      </div>
+    </div>
+    <div class="row my-2">
+      <div class="col-12">
+        <p>Trenutna kolicina otpada na skladistu: {{selectedTrash.amount}} KG</p>
+      </div>
+    </div>
+    <div class="row">
+      <button [disabled]="kolicina.value < 1 || kolicina.value === undefined && addForm.valid"
+              fullWidth
+              class="btn btn-primary w-100"
+              type="submit">
+        Dodaj
+      </button>
+    </div>
+  </form>
+</div>

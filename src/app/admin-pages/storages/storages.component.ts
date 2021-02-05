@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SkladisteService } from '../../@core/service/skladiste.service';
+import { StorageService } from '../../@core/service/storage.service';
 import { STORAGE_SETTINGS } from './storageTable.settings';
 
 @Component({
@@ -15,12 +15,12 @@ export class StoragesComponent implements OnInit {
   storageSource: LocalDataSource = new LocalDataSource();
   storageSettings: any = STORAGE_SETTINGS;
 
-  constructor(private skladisteService: SkladisteService, private toastrService: NbToastrService,
+  constructor(private skladisteService: StorageService, private toastrService: NbToastrService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.skladisteService.getSkladiste().subscribe(s => {
+    this.skladisteService.getStorages('', '').subscribe(s => {
       // Fix popunjenost
       // @ts-ignore
       s.forEach(x => x.popunjenost = ((x.kolicina / x.maxKolicina) * 100).toFixed(0));
@@ -38,7 +38,7 @@ export class StoragesComponent implements OnInit {
   // TOASTR SERVICE THAT WORKS OFF OF the API!
   createStorage({newData: storage, confirm: confirm}): void {
     try {
-      this.skladisteService.createSkladiste(storage).subscribe(s => {
+      this.skladisteService.createStorage(storage).subscribe(s => {
       });
       confirm.resolve();
       this.showToast('Uspeh!', 'Uspešno ste kreirali ' + storage.naziv, 'success');
@@ -51,7 +51,7 @@ export class StoragesComponent implements OnInit {
 
   updateStorage({newData: storage, confirm: confirm}): void {
     try {
-      this.skladisteService.updateSkladiste(storage).subscribe(s => {
+      this.skladisteService.updateStorage(storage, storage._id).subscribe(s => {
       });
       confirm.resolve();
       this.showToast('Uspeh!', 'Uspešno ste uredili ' + storage.naziv, 'success');
@@ -64,7 +64,7 @@ export class StoragesComponent implements OnInit {
 
   deleteStorage({data: storage, confirm: confirm}): void {
     try {
-      this.skladisteService.deleteSkladiste(storage).subscribe(s => {
+      this.skladisteService.deleteStorage(storage, storage._id).subscribe(s => {
       });
       confirm.resolve();
       this.showToast('Uspeh!', 'Uspešno ste obrisali ' + storage.naziv, 'success');
@@ -76,6 +76,6 @@ export class StoragesComponent implements OnInit {
   }
 
   storageInfo({data: storage}): void {
-    this.router.navigate(['admin/skladistа', storage._id]);
+    this.router.navigate(['admin/skladiste', storage._id]);
   }
 }

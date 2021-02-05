@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
 import { NbMenuItem } from '@nebular/theme';
@@ -14,23 +14,32 @@ import { RoleService } from '../@core/service/role.service';
     </ngx-one-column-layout>
   `,
 })
-export class PagesComponent implements OnInit {
+export class PagesComponent implements OnDestroy, OnInit {
 
-  menu: NbMenuItem[];
+  menu: NbMenuItem[] = [];
 
   constructor(private roleService: RoleService, private authService: NbAuthService,
               private router: Router) {
     this.authService.getToken().subscribe(t => {
-      const korisnik = t.getPayload().data.korisnik;
-      if (korisnik.uloga === 'admin')
-        router.navigate(['admin']);
+      const user = t.getPayload().data.user;
+      if (user.role === 'admin') {
+        this.router.navigate(['admin']);
+      }
     });
   }
 
   ngOnInit(): void {
-    this.roleService.findOperationsMenu().subscribe(m => {
-      this.menu = m;
+    this.authService.getToken().subscribe(t => {
+      const companyOperations = t.getPayload().data.company.operations;
+      this.roleService.getOperationsMenu(companyOperations).subscribe(m => {
+        this.menu = m;
+      });
     });
   }
+
+  ngOnDestroy(): void {
+    this.menu = [];
+  }
+
 
 }

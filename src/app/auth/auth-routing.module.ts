@@ -7,12 +7,12 @@ import {
 } from '@nebular/auth';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
-import { RegisterDozvolaComponent } from './register/register-dozvola/register-dozvola.component';
-import { RegisterFirmaComponent } from './register/register-firma/register-firma.component';
-import { RegisterInformacijeComponent } from './register/register-informacije/register-informacije.component';
-import { RegisterKorisnikComponent } from './register/register-korisnik/register-korisnik.component';
-import { RegisterOperacijeComponent } from './register/register-operacije/register-operacije.component';
-import { RegisterPotvrdaComponent } from './register/register-potvrda/register-potvrda.component';
+import { RegisterPermitComponent } from './register/register-permit/register-permit.component';
+import { RegisterCompanyComponent } from './register/register-company/register-company.component';
+import { RegisterInformationsComponent } from './register/register-informations/register-informations.component';
+import { RegisterUserComponent } from './register/register-user/register-user.component';
+import { RegisterOperationsComponent } from './register/register-operations/register-operations.component';
+import { RegisterConfirmationComponent } from './register/register-confirmation/register-confirmation.component';
 
 export const routes: Routes = [
   {
@@ -24,28 +24,34 @@ export const routes: Routes = [
         component: LoginComponent,
       },
       {
-        path: 'register-korisnik',
-        component: RegisterKorisnikComponent,
+        path: 'register-user',
+        component: RegisterUserComponent,
       },
       {
-        path: 'register-firma',
-        component: RegisterFirmaComponent,
+        path: 'register-company',
+        component: RegisterCompanyComponent,
       },
       {
-        path: 'register-operacije',
-        component: RegisterOperacijeComponent,
+        path: 'register-operations',
+        component: RegisterOperationsComponent,
       },
       {
-        path: 'register-informacije',
-        component: RegisterInformacijeComponent,
+        path: 'register-informations/:tab',
+        component: RegisterInformationsComponent,
+        pathMatch: 'full',
       },
       {
-        path: 'register-dozvola',
-        component: RegisterDozvolaComponent,
+        path: 'register-informations',
+        component: RegisterInformationsComponent,
+        pathMatch: 'full',
       },
       {
-        path: 'register-potvrda',
-        component: RegisterPotvrdaComponent,
+        path: 'register-permit',
+        component: RegisterPermitComponent,
+      },
+      {
+        path: 'register-confirmation',
+        component: RegisterConfirmationComponent,
       },
       {
         path: 'logout',
@@ -61,6 +67,8 @@ export const routes: Routes = [
       },
     ],
   },
+  {path: '', redirectTo: 'auth/login'},
+  {path: '**', redirectTo: 'auth/login'},
 
 ];
 

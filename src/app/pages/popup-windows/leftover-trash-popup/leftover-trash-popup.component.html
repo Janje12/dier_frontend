@@ -1,0 +1,70 @@
+<div style="width: 50vw;">
+  <div class="row">
+    <div class="col-12">
+      <label class="col-12 label">Odaberite skladiste na kome ce nastati otpad:</label>
+      <nb-select fullWidth [(ngModel)]="selectedStorage">
+        <nb-option *ngFor="let s of storageProduction$ | async" [value]="s">
+          {{s.name}}
+        </nb-option>
+      </nb-select>
+    </div>
+  </div>
+  <nb-accordion>
+    <nb-accordion-item *ngFor="let t of unfinshedTransactions$ | async" (collapsedChange)="chooseTransaction(t)">
+      <nb-accordion-item-header>{{t.companyName}} | {{t.date}} | {{t.trashAmount}}</nb-accordion-item-header>
+      <nb-accordion-item-body>
+        <form #LeftoverTrashForm>
+          <div class="row">
+            <div class="col-12">
+              <label class="col-12 label">Odaberi otpade koji nastaju:</label>
+              <div class="col-12">
+                <input #autoInput
+                       nbInput
+                       fullWidth
+                       type="text"
+                       (input)="onChange(autoInput.value)"
+                       placeholder="Unesi naziv otpada"
+                       [nbAutocomplete]="auto"/>
+                <nb-autocomplete (selectedChange)="updateLeftoverTrash($event, autoInput)" #auto>
+                  <nb-option *ngFor="let k of catalog$ | async" [value]="k">
+                    {{ k.indexNumber }} | {{ k.name }}
+                  </nb-option>
+                </nb-autocomplete>
+              </div>
+            </div>
+          </div>
+          <div *ngFor="let o of leftoverTrashCreated" class="row my-2">
+            <div class="col-4">
+              <label class="col-12 label">Indeksni broj:</label>
+              <input fullWidth nbInput disabled [ngModelOptions]="{standalone: true}" [(ngModel)]="o.indexNumber">
+            </div>
+            <div class="col-4">
+              <label class="col-12 label">Naziv:</label>
+              <input fullWidth nbInput [ngModelOptions]="{standalone: true}" [(ngModel)]="o.name">
+            </div>
+            <div class="col-3">
+              <label class="col-12 label">Kolicina:</label>
+              <input fullWidth type="number" min="1" nbInput [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="o.amount">
+            </div>
+            <div class="col-1">
+              <br>
+              <button fullWidth class="mt-1" nbButton (click)="removeTrash(o)">
+                <nb-icon icon="close"></nb-icon>
+              </button>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-4">
+              <button fullWidth [disabled]="leftoverTrashCreated.length === 0 || selectedStorage === undefined ||
+                      leftoverTrashCreated[0].amount === 0"
+                      nbButton status="primary"
+                      (click)="callLeftoverTrashMethod()">Dodaj nastale otpade
+              </button>
+            </div>
+          </div>
+        </form>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+  </nb-accordion>
+</div>

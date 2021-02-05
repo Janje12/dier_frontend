@@ -9,8 +9,20 @@ export const FORM_SETTINGS: any = [
 ];
 
 export const VALLIDATION_SETTINGS: any = {
-  // Registracija Korisnika
-  korisnickoIme: {
+  // User Registration
+  firstName: {
+    required: true,
+    minLength: 3,
+    maxLength: 20,
+    pattern: '^[a-zA-ZšđžćčŠĐŽĆČ \-\']+',
+  },
+  lastName: {
+    required: true,
+    minLength: 3,
+    maxLength: 30,
+    pattern: '^[a-zA-ZšđžćčŠĐŽĆČ \-\']+',
+  },
+  username: {
     required: true,
     minLength: 6,
     maxLength: 20,
@@ -24,25 +36,13 @@ export const VALLIDATION_SETTINGS: any = {
     minLength: 6,
     maxLength: 50,
   },
-  ime: {
-    required: true,
-    minLength: 3,
-    maxLength: 20,
-    pattern: '^[a-zA-ZšđžćčŠĐŽĆČ \-\']+',
-  },
-  prezime: {
-    required: true,
-    minLength: 3,
-    maxLength: 30,
-    pattern: '^[a-zA-ZšđžćčŠĐŽĆČ \-\']+',
-  },
-  telefon: {
+  phone: {
     required: true,
     minLength: 9,
     maxLength: 10,
   },
-  // Registracija firma
-  nazivFirme: {
+  // Company Registration
+  companyName: {
     required: true,
     minLength: 1,
     maxLength: 30,
@@ -59,39 +59,60 @@ export const VALLIDATION_SETTINGS: any = {
     maxLength: 8,
     pattern: '[0-9]{8}',
   },
-  opstina: {
+  // Use one value for placeName, placeCode, townshipName, townshipCode
+  address: {
     required: true,
   },
-  mesto: {
+  street: {
     required: true,
+    minLength: 3,
   },
-  postanskiBroj: {
+  zipCode: {
     required: true,
     minLength: 5,
     maxLength: 5,
   },
-  ulica: {
+  occupation: {
     required: true,
   },
-  delatnost: {
+  // Storage Registration
+  storageName: {
     required: true,
-  },
-  imeZakonskogZastupinka: {
-    required: true,
-    minLength: 5,
+    minLength: 3,
     maxLength: 50,
-    pattern: '^[a-zA-Z \-\']+',
   },
-  // Registracija skladista
-  velicinaSkladista: {
+  storageSize: {
     required: true,
     pattern: '[0-9]*',
+    min: 1,
   },
-  datum: {
+  geolocation: {
+    required: false,
+    pattern: '[0-9].*',
+    minLength: 6,
+  },
+  date: {
     required: true,
   },
-  registarskiBroj: {
+  dumpType: {
     required: true,
-    pattern: '([A-Ž]{2})-(\d{3,4})-([A-Ž]{2})',
+  },
+  // Transport Vehicle Registration
+  permitName: {
+    required: true,
+    minLength: 3,
+    maxLength: 50,
+  },
+  permitCode: {
+    required: true,
+  },
+  licensePlate: {
+    required: true,
+    minLength: 9,
+    maxLength: 10,
+    pattern: '([A-Ž]{2})-([0-9]{3,4})-([A-Ž]{2})',
+  },
+  vehicleType: {
+    required: true,
   },
 };

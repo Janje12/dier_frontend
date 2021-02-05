@@ -13,7 +13,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Skladište',
-    link: '/pages/skladiste',
+    link: '/pages/storage',
     icon: { icon: 'box-open', pack: 'font-awesome' },
   },
   {
@@ -22,19 +22,41 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Proizvodnja',
-        link: '/pages/notpad/dodaj-proizvodnja',
+        link: '/pages/trash/safe/production',
       },
       {
         title: 'Tretman',
-        link: '/pages/notpad/dodaj-tretman',
+        link: '/pages/trash/safe/treatment',
       },
       {
         title: 'Odlaganje',
-        link: '/pages/notpad/dodaj-deponija',
+        link: '/pages/trash/safe/dump',
       },
       {
         title: 'Skladištenje',
-        link: '/pages/notpad/dodaj-skladistenje',
+        link: '/pages/trash/safe/cache',
+      },
+    ],
+  },
+  {
+    title: 'Opasni otpad',
+    icon: { icon: 'radiation-alt', pack: 'font-awesome' },
+    children: [
+      {
+        title: 'Proizvodnja',
+        link: '/pages/trash/unsafe/production',
+      },
+      {
+        title: 'Tretman',
+        link: '/pages/trash/unsafe/treatment',
+      },
+      {
+        title: 'Odlaganje',
+        link: '/pages/trash/unsafe/dump',
+      },
+      {
+        title: 'Skladištenje',
+        link: '/pages/trash/unsafe/cache',
       },
     ],
   },

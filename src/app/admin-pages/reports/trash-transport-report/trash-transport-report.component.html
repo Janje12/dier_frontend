@@ -1,1 +1,27 @@
-<p>trash-transport-report works!</p>
+<nb-card>
+  <nb-card-header>
+    <div class="col-1"><a [routerLink]="'/admin/izvestaji/firme/' + this.company?.pib">
+      <i class="fa fa-2x fa-arrow-left"></i></a></div>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-stepper orientation="vertical" [linear]="false">
+      <nb-step label="Podaci o otpadu" *ngIf="trash$">
+        <div class="test">
+          <trash-part [trashType]="trashType" [trash]="trash$ | async"></trash-part>
+        </div>
+      </nb-step>
+      <nb-step label="Podaci o proizvođaču" *ngIf="company$">
+        <company-part [trashType]="trashType" [company]="company$ | async" [type]="'production'"></company-part>
+      </nb-step>
+      <nb-step label="Podaci o transporteru">
+        <company-part [trashType]="trashType" [type]="'transport'"></company-part>
+      </nb-step>
+      <nb-step label="Podaci o primalacu">
+        <company-part [trashType]="trashType" [type]="'recipient'"></company-part>
+      </nb-step>
+      <nb-step label="Potvrda">
+        <confirm-part [storage]="storage" [trash]="trash"></confirm-part>
+      </nb-step>
+    </nb-stepper>
+  </nb-card-body>
+</nb-card>

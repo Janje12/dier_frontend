@@ -1,4 +1,4 @@
-export const SKLADISTE_EDIT_SETTINGS: any = {
+export const STORAGE_EDIT_SETTINGS: any = {
   hideSubHeader: true,
   pager: {
     perPage: 4,
@@ -32,7 +32,6 @@ export const SKLADISTE_EDIT_SETTINGS: any = {
     },
     kolicina: {
       title: 'Količina (kg)',
-      editable: false,
     },
   },
 };

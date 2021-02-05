@@ -1,0 +1,96 @@
+<form #formStorage="ngForm" (ngSubmit)="updateStorage(formStorage)">
+  <div *ngFor="let s of storages">
+    <div class="row">
+      <div class="col-6">
+        <div class="row mb-2">
+          <div class="col-12" [ngSwitch]="s.__t">
+            <label *ngSwitchCase="'StorageDump'" class="label" for="input-storageName">Naziv Deponije:</label>
+            <label *ngSwitchCase="'StorageTreatment'" class="label" for="input-storageName">Naziv Skladišta za tretman:</label>
+            <label *ngSwitchCase="'StorageCache'" class="label" for="input-storageName">Naziv Skladišta za skladištenje:</label>
+            <label *ngSwitchDefault class="label" for="input-storageName">Naziv Skladišta:</label>
+          </div>
+          <div class="col-6">
+            <input #storageName="ngModel"
+                   [(ngModel)]="s.name"
+                   [ngModelOptions]="{standalone: true}"
+                   [attr.aria-invalid]="storageName.invalid && storageName.touched ? true : null"
+                   [maxlength]="getConfigValue('forms.validation.storageName.maxLength')"
+                   [minlength]="getConfigValue('forms.validation.storageName.minLength')"
+                   [required]="getConfigValue('forms.validation.storageName.required')"
+                   [status]="storageName.dirty ? (storageName.invalid  ? 'danger' : 'success') : 'basic'"
+                   [disabled]="inputsDisabled"
+                   fullWidth
+                   id="input-storageName"
+                   name="storageName"
+                   nbInput
+                   type="text">
+            <ng-container *ngIf="storageName.invalid && storageName.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="storageName.errors?.required">
+                Naziv skladišta je obavezan!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-storageSize">Veličina skladišta:</label>
+          </div>
+          <div class="col-6">
+            <input #storageSize="ngModel"
+                   [(ngModel)]="s.maxAmount"
+                   [ngModelOptions]="{standalone: true}"
+                   [attr.aria-invalid]="storageSize.invalid && storageSize.touched ? true : null"
+                   [pattern]="getConfigValue('forms.validation.storageSize.pattern')"
+                   [required]="getConfigValue('forms.validation.storageSize.required')"
+                   [status]="storageSize.dirty ? (storageSize.invalid  ? 'danger' : 'success') : 'basic'"
+                   [disabled]="inputsDisabled"
+                   fullWidth
+                   id="input-storageSize"
+                   name="storageSize"
+                   nbInput
+                   type="number">
+            <ng-container *ngIf="storageSize.invalid && storageSize.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="storageSize.errors?.required">
+                Veličina skladišta je obavezna!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="row mb-2">
+          <div class="col-12">
+            <label class="label" for="input-address">Adresa Skladišta:</label>
+          </div>
+          <div class="col-12">
+            <input
+              disabled
+              [placeholder]="s.address.place.townshipName + ', ' +
+                s.address.place.placeName + ', ' + s.address.street"
+              fullWidth
+              id="input-address"
+              name="address"
+              nbInput
+              type="text">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <storage-meter [storage]="s"></storage-meter>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-8"></div>
+    <div class="col-2">
+      <button nbButton [disabled]="!inputsDisabled" status="primary" fullWidth (click)="enableInputs()" type="button">
+        IZMENI
+      </button>
+    </div>
+    <div class="col-2">
+      <button [disabled]="inputsDisabled" fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+    </div>
+  </div>
+</form>

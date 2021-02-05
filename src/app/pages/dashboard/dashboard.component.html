@@ -1,3 +1,19 @@
-<div class="row">
-  Glavni panel!
-</div>
+<nb-accordion multi>
+  <nb-accordion-item collapsed="false" *ngFor="let w of widgetSettings.group">
+    <nb-accordion-item-header>
+      <div class="flex-fill" style="height:4.4rem;">
+        <widget-group-header (updatePosition)="updateGroupPositionMethod($event, w)" [title]="w.groupTitle"
+                             [status]="w.groupColor"></widget-group-header>
+      </div>
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+      <div class="row">
+        <div *ngFor="let wi of w.widgetList" [class]="WIDGET_SIZES[wi.widgetSize]">
+          <widget (updateSize)="updateSizeMethod($event, wi)"
+                  (updatePosition)="updateWidgetPositionMethod($event, wi, w.widgetList)"
+                  [size]="wi.widgetSize" [name]="wi.widgetTitle" [type]="w.groupType"></widget>
+        </div>
+      </div>
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+</nb-accordion>

@@ -3,7 +3,7 @@ import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Korisnik } from '../../../@core/data/korisnik';
+import { User } from '../../../@core/data/user';
 import { LayoutService } from '../../../@core/utils';
 
 @Component({
@@ -15,7 +15,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
-  korisnik: Korisnik;
+  user: User;
+  profileLink: string = '';
 
   themes = [
     {
@@ -39,7 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentTheme = 'default';
 
   userMenu = [
-    {title: 'Profil', link: 'pages/profile', icon: {icon: 'user', pack: 'font-awesome'}},
+    {title: 'Profil', link: this.profileLink, icon: {icon: 'user', pack: 'font-awesome'}},
     {title: 'Log out', link: 'auth/logout', icon: {icon: 'sign-out-alt', pack: 'font-awesome'}}];
 
   constructor(private sidebarService: NbSidebarService,
@@ -57,9 +58,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.getToken()
       .subscribe((token: NbAuthJWTToken) => {
         if (token.isValid()) {
-          this.korisnik = token.getPayload().data.korisnik;
-          //console.log('Refresh Token: ' + token.getPayload().data.korisnik.token);
-          console.log(token.getPayload());
+          this.user = token.getPayload().data.user;
+          this.profileLink = this.user.role === 'admin' ? '/admin/profile' : '/pages/profile';
+          this.userMenu[0].link = this.profileLink;
+          // console.log('Refresh Token: ' + token.getPayload().data.korisnik.token);
+          // console.log(token.getPayload());
         }
       });
 

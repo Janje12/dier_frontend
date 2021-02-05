@@ -1,0 +1,415 @@
+<h1 class="text-center">Registruj se!</h1>
+<nb-stepper disableStepNavigation selectedIndex="1">
+  <nb-step label="User" completed="true"></nb-step>
+  <nb-step label="Firma">
+    <form #companyForm="ngForm">
+
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-companyName">Naziv Firme:</label>
+          <input #companyName="ngModel"
+                 [(ngModel)]="company.name"
+                 [attr.aria-invalid]="companyName.invalid && companyName.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.companyName.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.companyName.minLength')"
+                 [required]="getConfigValue('forms.validation.companyName.required')"
+                 [status]="companyName.dirty ? (companyName.invalid  ? 'danger' : 'success') : 'basic'"
+                 autofocus
+                 fullWidth
+                 id="input-companyName"
+                 name="companyName"
+                 nbInput
+                 placeholder="Naziv firme">
+          <ng-container *ngIf="(companyName.invalid && companyName.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="companyName.errors?.required">
+              Naziv firme je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="companyName.errors?.minlength">
+              Naziv firme mora biti duži od
+              {{ getConfigValue('forms.validation.companyName.minLength') }} slova!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="companyName.errors?.maxlength">
+              Naziv firme mora biti kraći od
+              {{ getConfigValue('forms.validation.nazivFirme.maxLength') }} slova!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-6">
+          <label class="label" for="input-pib">Poreski identifikacioni broj (PIB):</label>
+          <input #pib="ngModel"
+                 [(ngModel)]="company.pib"
+                 [attr.aria-invalid]="pib.invalid && pib.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.pib.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.pib.minLength')"
+                 [pattern]="getConfigValue('forms.validation.pib.pattern')"
+                 [required]="getConfigValue('forms.validation.pib.required')"
+                 [status]="pib.dirty ? (pib.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-pib"
+                 name="pib"
+                 nbInput
+                 onkeypress="return /[0-9]/i.test(event.key)"
+                 placeholder="PIB">
+          <ng-container *ngIf="(pib.invalid && pib.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="pib.errors?.required">
+              PIB je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="pib.errors?.minlength">
+              PIB mora da bude validan!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-6">
+          <label class="label" for="input-mat">Matični broj:</label>
+          <input #mat="ngModel"
+                 [(ngModel)]="company.mat"
+                 [attr.aria-invalid]="mat.invalid && mat.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.mat.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.mat.minLength')"
+                 [pattern]="getConfigValue('forms.validation.mat.pattern')"
+                 [required]="getConfigValue('forms.validation.mat.required')"
+                 [status]="mat.dirty ? (mat.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-mat"
+                 name="mat"
+                 nbInput
+                 onkeypress="return /[0-9]/i.test(event.key)"
+                 placeholder="Matični broj">
+          <ng-container *ngIf="(mat.invalid && mat.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="mat.errors?.required">
+              Matični broj je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="pib.errors?.minlength">
+              Matični broj mora da bude validan!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label" for="input-adresa">Adresa:</label>
+          <div class="row ml-2" id="input-adresa">
+            <div class="col-6">
+              <nb-select-label class="label" for="input-townshipName">Opština:</nb-select-label>
+              <input
+                #townshipName="ngModel"
+                (ngModelChange)="chooseTownship(townshipName.value)"
+                [(ngModel)]="company.address.location.townshipName"
+                [attr.aria-invalid]="townshipName.invalid && townshipName.touched ? true : null"
+                [nbAutocomplete]="autoOpstinaSelect"
+                [required]="getConfigValue('forms.validation.address.required')"
+                autocomplete="off"
+                fullWidth
+                id="input-townshipName"
+                name="townshipName"
+                nbInput
+                placeholder="Naziv opštine">
+              <nb-autocomplete #autoOpstinaSelect>
+                <nb-option *ngFor="let o of townships$ | async" [value]="o">{{o}}</nb-option>
+              </nb-autocomplete>
+              <ng-container *ngIf="checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="townshipName.errors?.required">
+                  Opština je obavezna!
+                </p>
+              </ng-container>
+            </div>
+            <div class="col-6">
+              <nb-select-label class="label" for="input-mestoFirma">Location:</nb-select-label>
+              <input
+                #placeName="ngModel"
+                (ngModelChange)="findPlaces(placeName.value)"
+                [(ngModel)]="company.address.location.placeName"
+                [attr.aria-invalid]="placeName.invalid && placeName.touched ? true : null"
+                [nbAutocomplete]="autoMestoSelect"
+                [required]="getConfigValue('forms.validation.address.required')"
+                autocomplete="off"
+                fullWidth
+                id="input-placeName"
+                name="placeName"
+                nbInput
+                placeholder="Naziv mesta">
+              <nb-autocomplete #autoMestoSelect>
+                <nb-option *ngFor="let m of places$ | async" [value]="m">{{m}}</nb-option>
+              </nb-autocomplete>
+              <ng-container *ngIf="checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="placeName.errors?.required">
+                  Mesto je obavezno!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row ml-2 mt-2">
+            <div class="col-3">
+              <label class="label" for="input-zipCode">Poštanski broj:</label>
+              <input #zipCode="ngModel"
+                     [(ngModel)]="company.address.location.zipCode"
+                     [attr.aria-invalid]="zipCode.invalid && zipCode.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.postanskiBroj.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.postanskiBroj.minLength')"
+                     [required]="getConfigValue('forms.validation.postanskiBroj.required')"
+                     [status]="zipCode.dirty ? (zipCode.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-zipCode"
+                     name="zipCode"
+                     nbInput
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     placeholder="Poštanski broj">
+              <ng-container *ngIf="(zipCode.invalid && zipCode.touched) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="zipCode.errors?.required">
+                  Poštanski broj je obavezan
+                </p>
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="zipCode.errors?.minlength || zipCode.errors?.maxlength">
+                  Poštanski broj mora biti validan
+                </p>
+              </ng-container>
+            </div>
+            <div class="col-9">
+              <label class="label" for="input-street">Ulica i broj:</label>
+              <input #street="ngModel"
+                     [(ngModel)]="company.address.street"
+                     [attr.aria-invalid]="street.invalid && street.touched ? true : null"
+                     [minlength]="getConfigValue('forms.validation.street.minLength')"
+                     [required]="getConfigValue('forms.validation.street.required')"
+                     [status]="street.dirty ? (street.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-street"
+                     name="street"
+                     nbInput
+                     placeholder="Ulica i broj">
+              <ng-container *ngIf="(street.invalid && street.touched) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="street.errors?.required">
+                  Ulica je obavezna!
+                </p>
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="street.errors?.minlength">
+                  Ulica mora biti validna!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-12">
+          <nb-select-label class="label" for="input-occupation">Šifra delatnosti:</nb-select-label>
+          <input
+            #occupation="ngModel"
+            (ngModelChange)="findOccupations(occupation.value)"
+            [(ngModel)]="company.occupation.name"
+            [attr.aria-invalid]="occupation.invalid && occupation.touched ? true : null"
+            [nbAutocomplete]="autoDelatnostSelect"
+            [required]="getConfigValue('forms.validation.occupation.required')"
+            autocomplete="off"
+            fullWidth
+            id="input-occupation"
+            name="occupation"
+            nbInput
+            placeholder="Delatnost">
+          <nb-autocomplete #autoDelatnostSelect>
+            <nb-option *ngFor="let d of occupations$ | async" [value]="d.name">[{{d.code}}] {{d.name}}</nb-option>
+          </nb-autocomplete>
+          <ng-container *ngIf="(occupation.invalid && occupation.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="occupation.errors?.required">
+              Šifra delatnosti je obavezna!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-4">
+          <label class="label" for="input-companyEmail">Email firme:</label>
+          <input #companyEmail="ngModel"
+                 [(ngModel)]="company.email"
+                 [attr.aria-invalid]="companyEmail.invalid && companyEmail.touched ? true : null"
+                 [required]="getConfigValue('forms.validation.email.required')"
+                 [pattern]="getConfigValue('forms.validation.email.pattern')"
+                 [status]="companyEmail.dirty ? (companyEmail.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-companyEmail"
+                 name="companyEmail"
+                 nbInput
+                 placeholder="Email firme">
+          <ng-container *ngIf="(companyEmail.invalid && companyEmail.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="companyEmail.errors?.required">
+              Email je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="companyEmail.errors?.pattern">
+              Email mora biti validan!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-4">
+          <label class="label" for="input-companyTelephone">Telefon firme:</label>
+          <input #companyTelephone="ngModel"
+                 [(ngModel)]="company.telephone"
+                 [attr.aria-invalid]="companyTelephone.invalid && companyTelephone.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.phone.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.phone.minLength')"
+                 [required]="getConfigValue('forms.validation.phone.required')"
+                 [status]="companyTelephone.dirty ? (companyTelephone.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-companyTelephone"
+                 name="companyTelephone"
+                 nbInput
+                 onkeypress="return /[0-9]/i.test(event.key)"
+                 placeholder="Telefon firme">
+          <ng-container *ngIf="(companyTelephone.invalid && companyTelephone.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="companyTelephone.errors?.required">
+              Telefon firme je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="companyTelephone.errors?.minlength || companyTelephone.errors?.maxlength">
+              Telefon firme mora biti validan!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-4">
+          <label class="label" for="input-companyFax">Faks firme:</label>
+          <input #companyFax="ngModel"
+                 [(ngModel)]="company.fax"
+                 [maxlength]="getConfigValue('forms.validation.phone.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.phone.minLength')"
+                 [attr.aria-invalid]="companyFax.invalid && companyFax.touched ? true : null"
+                 fullWidth
+                 id="input-companyFax"
+                 name="companyFax"
+                 nbInput
+                 onkeypress="return /[0-9]/i.test(event.key)"
+                 placeholder="Faks firme">
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-6">
+          <nb-select-label class="label" for="input-emailPrijem">Birajte email za prijem dokumenata:
+          </nb-select-label>
+          <nb-select #companyEmailReception="ngModel"
+                     [(ngModel)]="company.emailReception"
+                     [attr.aria-invalid]="companyEmailReception.invalid && companyEmailReception.touched ? true : null"
+                     [required]="getConfigValue('forms.validation.email.required')"
+                     [selected]="company.email"
+                     [status]="companyEmailReception.dirty ? (companyEmailReception.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-companyEmailReception"
+                     name="companyEmailReception"
+                     placeholder="Email za prijem dokumenata">
+            <nb-option [value]="company.email" (selectionChange)="clearTmpEmail()">{{company.email}}</nb-option>
+            <nb-option [value]="user?.email" (selectionChange)="clearTmpEmail()">{{user?.email}}</nb-option>
+            <nb-option [value]="company.emailReception" #otherEmail>Drugi email</nb-option>
+          </nb-select>
+          <ng-container *ngIf="(companyEmailReception.invalid && companyEmailReception.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="companyEmailReception.errors?.required">
+              Email je obavezan!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-6" *ngIf="otherEmail.selected">
+          <label class="label" for="input-companyEmailReception2">Unesite vaš email za prijem dokumenata:</label>
+          <input #companyEmailReception2="ngModel"
+                 [(ngModel)]="tmpEmail"
+                 (ngModelChange)="setCompanyEmail()"
+                 [attr.aria-invalid]="companyEmailReception2.invalid && companyEmailReception2.touched ? true : null"
+                 [pattern]="getConfigValue('forms.validation.email.pattern')"
+                 [required]="getConfigValue('forms.validation.email.required')"
+                 [status]="companyEmailReception2.dirty ? (companyEmailReception2.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-companyEmailReception2"
+                 name="companyEmailReception2"
+                 nbInput
+                 placeholder="Email">
+          <ng-container *ngIf="(companyEmailReception2.invalid && companyEmailReception2.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="companyEmailReception2.errors?.required">
+              Email je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="companyEmailReception2.errors?.pattern">
+              Email mora biti validan!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-12">
+          <label class="label pl-0 col-12">Puno ime zakonskog zastupnika firme:</label>
+          <div class="row ml-2">
+            <div class="col-6">
+              <label class="label" for="input-fNameLegalRep">Ime:</label>
+              <input #fNameLegalRepo="ngModel"
+                     (ngModelChange)="connectfName($event)"
+                     [(ngModel)]="fNameLegalRep"
+                     [attr.aria-invalid]="fNameLegalRepo.invalid && fNameLegalRepo.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.firstNamemaxLength')"
+                     [minlength]="getConfigValue('forms.validation.firstName.minLength')"
+                     [required]="getConfigValue('forms.validation.firstName.required')"
+                     [status]="fNameLegalRepo.dirty ? (fNameLegalRepo.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-fNameLegalRep"
+                     name="fNameLegalRep"
+                     nbInput
+                     placeholder="Ime">
+              <ng-container *ngIf="(fNameLegalRepo.invalid && fNameLegalRepo.touched) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="fNameLegalRepo.errors?.required">
+                  Ime zakonskog zastupnika je obavezno!
+                </p>
+                <p class="error-message mt-1 mb-0" *ngIf="fNameLegalRepo.errors?.minlength || fNameLegalRepo.errors?.maxlength">
+                  Ime zakonskog zastupnika mora biti duže od
+                  {{ getConfigValue('forms.validation.firstName.minLength') }} slova!
+                </p>
+              </ng-container>
+            </div>
+            <div class="col-6">
+              <label class="label" for="input-lNameLegalRep">Prezime:</label>
+              <input #lNameLegalRepo="ngModel"
+                     (ngModelChange)="connectlName($event)"
+                     [(ngModel)]="lNameLegalRep"
+                     [attr.aria-invalid]="lNameLegalRepo.invalid && lNameLegalRepo.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.lastName.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.lastName.minLength')"
+                     [required]="getConfigValue('forms.validation.lastName.required')"
+                     [status]="lNameLegalRepo.dirty ? (lNameLegalRepo.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-lNameLegalRep"
+                     name="lNameLegalRep"
+                     nbInput
+                     placeholder="Prezime">
+              <ng-container *ngIf="(lNameLegalRepo.invalid && lNameLegalRepo.touched) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="lNameLegalRepo.errors?.required">
+                  Prezime zakonskog zastupnika je obavezno!
+                </p>
+                <p class="error-message mt-1 mb-0" *ngIf="lNameLegalRepo.errors?.minlength || lNameLegalRepo.errors?.maxlength">
+                  Prezime zakonskog zastupnika mora biti duže od
+                  {{ getConfigValue('forms.validation.lastName.minLength') }} slova!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button nbButton
+              fullWidth
+              status="danger"
+              routerLink="../register-user"
+              class="mt-2 col-6">
+        Nazad
+      </button>
+      <button nbButton
+              fullWidth
+              status="success"
+              class="mt-2 col-6"
+              type="button"
+              (click)="validateCompany(companyForm)">
+        Dalje
+      </button>
+    </form>
+  </nb-step>
+  <nb-step label="Operacije"></nb-step>
+  <nb-step label="Informacije"></nb-step>
+  <nb-step label="Potvrda"></nb-step>
+</nb-stepper>

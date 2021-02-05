@@ -1,0 +1,7 @@
+<ng2-smart-table [settings]="settings" [source]="transactions" (custom)="openLeftoverTrashWindow($event)"></ng2-smart-table>
+
+<ng-template #leftoverTrashTemplate>
+  <leftover-trash-popup [selectedTransaction]="selectedTransaction"
+                        [storageProduction]="storage"
+                        (callLeftoverTrash)="leftoverTrashMethod($event)"></leftover-trash-popup>
+</ng-template>

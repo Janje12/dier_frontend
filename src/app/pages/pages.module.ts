@@ -9,26 +9,17 @@ import {
   NbTabsetModule, NbToastrService,
 } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { DozvolaService } from '../@core/service/dozvola.service';
-import { FirmaService } from '../@core/service/firma.service';
-import { KorisnikService } from '../@core/service/korisnik.service';
-import { PrevoznoSredstvoService } from '../@core/service/prevoznoSredstvo.service';
+import { PermitService } from '../@core/service/permit.service';
+import { CompanyService } from '../@core/service/company.service';
+import { UserService } from '../@core/service/user.service';
+import { VehicleService } from '../@core/service/vehicle.service';
 import { RoleService } from '../@core/service/role.service';
 import { ThemeModule } from '../@theme/theme.module';
-import { AotpadModule } from './aotpad/aotpad.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { NotpadModule } from './notpad/notpad.module';
-import { OotpadModule } from './ootpad/ootpad.module';
+import { TrashModule } from './trash/trash.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { PagesComponent } from './pages.component';
-import { ProfileComponent } from './profile/profile.component';
-import { PtotpadModule } from './ptotpad/ptopad.module';
-import { SkladisteModule } from './skladiste/skladiste.module';
-import { ProfileKorisnikComponent } from './profile/profile-korisnik/profile-korisnik.component';
-import { ProfileFirmaComponent } from './profile/profile-firma/profile-firma.component';
-import { ProfileSkladisteComponent } from './profile/profile-skladiste/profile-skladiste.component';
-import { ProfileDozvolaComponent } from './profile/profile-dozvola/profile-dozvola.component';
-import { ProfilePrevoznoSredstvoComponent } from './profile/profile-prevozno-sredstvo/profile-prevozno-sredstvo.component';
+import { StorageModule } from './storage-containers/storage.module';
 
 @NgModule({
   imports: [
@@ -37,11 +28,8 @@ import { ProfilePrevoznoSredstvoComponent } from './profile/profile-prevozno-sre
     NbMenuModule,
     NbButtonModule,
     DashboardModule,
-    NotpadModule,
-    OotpadModule,
-    PtotpadModule,
-    AotpadModule,
-    SkladisteModule,
+    TrashModule,
+    StorageModule,
     NbCardModule,
     NbTabsetModule,
     NbIconModule,
@@ -54,21 +42,16 @@ import { ProfilePrevoznoSredstvoComponent } from './profile/profile-prevozno-sre
   ],
   declarations: [
     PagesComponent,
-    ProfileComponent,
-    ProfileKorisnikComponent,
-    ProfileFirmaComponent,
-    ProfileSkladisteComponent,
-    ProfileDozvolaComponent,
-    ProfilePrevoznoSredstvoComponent,
   ],
   providers: [
-    KorisnikService,
+    UserService,
     RoleService,
     NbToastrService,
-    FirmaService,
-    DozvolaService,
-    PrevoznoSredstvoService,
+    CompanyService,
+    PermitService,
+    VehicleService,
   ],
+  exports: [],
 })
 export class PagesModule {
 }

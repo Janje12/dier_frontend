@@ -1,0 +1,6 @@
+.progress-bar-text {
+  font-size: 1.3rem;
+  z-index: 1;
+  position: relative;
+  transform: translateY(101%)
+}

@@ -1,0 +1,111 @@
+<h1 class="text-center">Registruj se!</h1>
+<nb-stepper disableStepNavigation selectedIndex="2">
+  <nb-step label="User" completed="true">Test</nb-step>
+  <nb-step label="Firma" completed="true"></nb-step>
+  <nb-step label="Operacije">
+    <div class="row">
+      <nb-tabset>
+        <nb-tab [badgeText]="trashOperationNumber()" badgeStatus="primary" responsive="true" tabTitle="Otpad" [tabIcon]="trashIco">
+          <div class="row pb-0 mb-0">
+            <nb-card class="col-6">
+              <nb-card-header>Neopasan otpad</nb-card-header>
+              <nb-card-body>
+                <div class="col-12">
+                  <nb-toggle #ProizvodnjaNeopasnogOtpada [checked]="operations.includes('Proizvodnja Neopasnog Otpada')"
+                             (checkedChange)="addOperation('Proizvodnja Neopasnog Otpada', $event)"
+                             [disabled]="TretmanNeopasnogOtpada.checked || OdlaganjeNeopasnogOtpada.checked"
+                             class="mx-1">Proizvodnja
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle [checked]="operations.includes('Transport Neopasnog Otpada')"
+                             (checkedChange)="addOperation('Transport Neopasnog Otpada', $event)" class="mx-1">Transport
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle #TretmanNeopasnogOtpada [checked]="operations.includes('Tretman Neopasnog Otpada')"
+                             (checkedChange)="addProcessOperation('Tretman Neopasnog Otpada', $event, ProizvodnjaNeopasnogOtpada)"
+                             class="mx-1">Tretman
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle #OdlaganjeNeopasnogOtpada [checked]="operations.includes('Odlaganje Neopasnog Otpada')"
+                             (checkedChange)="addProcessOperation('Odlaganje Neopasnog Otpada', $event, ProizvodnjaNeopasnogOtpada)" class="mx-1">Odlaganje
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle [checked]="operations.includes('Skladištenje Neopasnog Otpada')"
+                             (checkedChange)="addOperation('Skladištenje Neopasnog Otpada', $event)" class="mx-1">
+                    Skladištenje
+                  </nb-toggle>
+                </div>
+              </nb-card-body>
+            </nb-card>
+            <nb-card class="col-6">
+              <nb-card-header>Opasan otpad</nb-card-header>
+              <nb-card-body>
+                <div class="col-12">
+                  <nb-toggle #ProizvodnjaOpasnogOtpada [checked]="operations.includes('Proizvodnja Opasnog Otpada')"
+                             (checkedChange)="addOperation('Proizvodnja Opasnog Otpada', $event)" class="mx-1"
+                             [disabled]="TretmanOpasnogOtpada.checked || OdlaganjeOpasnogOtpada.checked">
+                    Proizvodnja
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle [checked]="operations.includes('Transport Opasnog Otpada')"
+                             (checkedChange)="addOperation('Transport Opasnog Otpada', $event)" class="mx-1">Transport
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle #TretmanOpasnogOtpada [checked]="operations.includes('Tretman Opasnog Otpada')"
+                             (checkedChange)="addProcessOperation('Tretman Opasnog Otpada', $event, ProizvodnjaOpasnogOtpada)"
+                             class="mx-1">Tretman
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle #OdlaganjeOpasnogOtpada [checked]="operations.includes('Odlaganje Opasnog Otpada')"
+                             (checkedChange)="addProcessOperation('Odlaganje Opasnog Otpada', $event, ProizvodnjaOpasnogOtpada)" class="mx-1">Odlaganje
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle [checked]="operations.includes('Skladištenje Opasnog Otpada')"
+                             (checkedChange)="addOperation('Skladištenje Opasnog Otpada', $event)" class="mx-1">
+                    Skladištenje
+                  </nb-toggle>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+          <nb-card class="row mt-0 pt-0 bg-warning" *ngIf="ProizvodnjaOpasnogOtpada.disabled || ProizvodnjaNeopasnogOtpada.disabled">
+            <nb-card-body class=mt-0>
+                Ako se bavite {{TretmanNeopasnogOtpada.checked ? 'tretmanom' : 'odlaganjem'}} otpada, automatski postajete i proizvođač otpada. :)
+            </nb-card-body>
+          </nb-card>
+        </nb-tab>
+        <nb-tab responsive="true" tabTitle="Posebni tokovi otpada" [tabIcon]="carBatteryIco"></nb-tab>
+        <nb-tab responsive="true" tabTitle="Ambalaze" [tabIcon]="recyleIco"></nb-tab>
+        <nb-tab responsive="true" tabTitle="Emisije u vode" [tabIcon]="waterIco"></nb-tab>
+        <nb-tab responsive="true" tabTitle="Emisije u vazduh" [tabIcon]="airIco"></nb-tab>
+      </nb-tabset>
+    </div>
+
+    <button nbButton
+            fullWidth
+            status="danger"
+            routerLink="../register-company"
+            class="mt-2 col-6">
+      Nazad
+    </button>
+    <button nbButton
+            fullWidth
+            class="col-6 mt-2"
+            status="success"
+            type="button"
+            (click)="validateOperations()">
+      Dalje
+    </button>
+  </nb-step>
+  <nb-step label="Informacije"></nb-step>
+  <nb-step lable="Potvrda"></nb-step>
+</nb-stepper>
+

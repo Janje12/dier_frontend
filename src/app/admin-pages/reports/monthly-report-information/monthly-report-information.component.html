@@ -1,0 +1,60 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row text-center">
+      <div class="col-1"><a routerLink="../.." class=""><i class="fa fa-2x fa-arrow-left"></i></a></div>
+      <div class="col-11"><h5>{{report.otpad.name}}</h5></div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-12">
+        <label class="label">Godina: </label>
+        <input nbInput [(ngModel)]="report.godina" disabled fullWidth>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <label class="label">Mesec: </label>
+        <input nbInput [(ngModel)]="report.mesec" disabled fullWidth>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <label class="label">Skladište: </label>
+        <input nbInput [(ngModel)]="report.skladiste.name" disabled fullWidth>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <label class="label">Indeksni Broj: </label>
+        <input nbInput [(ngModel)]="report.otpad.indexNumber" disabled fullWidth>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <label class="label">Trenutna Količina na stanju: </label>
+        <input nbInput [(ngModel)]="report.otpad.amount" disabled fullWidth>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <label class="label">Fizičko stanje: </label>
+        <input nbInput [(ngModel)]="report.otpad.state" disabled fullWidth>
+      </div>
+      <div class="col-4">
+        <label class="label">Način pakovanja: </label>
+        <input nbInput [(ngModel)]="report.otpad.packaging" disabled fullWidth>
+      </div>
+      <div class="col-4">
+        <label class="label">Q Lista: </label>
+        <input nbInput [(ngModel)]="report.otpad.qList" disabled fullWidth>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12">
+        <label class="label">Izveštaj za svaki dan:</label>
+        <ng2-smart-table [settings]="settings" [source]="dailyReports"></ng2-smart-table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

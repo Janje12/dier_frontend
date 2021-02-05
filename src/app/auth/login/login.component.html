@@ -19,18 +19,18 @@
   <form (ngSubmit)="login()" #loginForm="ngForm" aria-labelledby="uloguj se">
 
     <div class="form-control-group">
-      <label class="label" for="input-email">Email:</label>
+      <label class="label" for="input-email">Email/Korisničko ime:</label>
       <input #email="ngModel"
              [(ngModel)]="user.email"
              [attr.aria-invalid]="email.invalid && email.touched ? true : null"
              [required]="getConfigValue('forms.validation.email.required')"
-             [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+             [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
              autofocus
              fullWidth
              id="input-email"
              name="email"
              nbInput
-             placeholder="Email adresa">
+             placeholder="Email adresa/Korisničko ime">
       <ng-container *ngIf="email.touched">
         <p class="error-message mt-1" *ngIf="email.errors?.required">
           Email je obavezan!
@@ -38,19 +38,24 @@
       </ng-container>
     </div>
 
-    <div class="form-control-group">
-      <label class="label" for="input-password">Šifra:</label>
+    <div class="row">
+      <label class="label col-12" for="input-password">Šifra:</label>
+      <div class="col-10 pr-0">
       <input #password="ngModel"
              [(ngModel)]="user.password"
              [attr.aria-invalid]="password.invalid && password.touched ? true : null"
              [required]="getConfigValue('forms.validation.password.required')"
-             [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+             [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
              fullWidth
              id="input-password"
              name="password"
              nbInput
              placeholder="Šifra"
-             type="password">
+             [type]="showPassword === 'eye' ? 'password' : 'text'"></div>
+      <div class="col-2 pl-0">
+      <button fullWidth type="button" nbButton
+              (click)="this.showPassword = this.showPassword === 'eye' ? 'eye-off' : 'eye';"><nb-icon [icon]="showPassword"></nb-icon></button>
+      </div>
       <ng-container *ngIf="password.touched">
         <p class="error-message mt-1" *ngIf="password.errors?.required">
           Šifra je obavezna!
@@ -73,6 +78,6 @@
   </form>
 
   <section class="another-action" aria-label="Registruj se">
-    Nemate nalog? <a class="text-link" routerLink="../register-korisnik">Registruj se</a>
+    Nemate nalog? <a class="text-link" routerLink="../register-user">Registruj se</a>
   </section>
 </div>

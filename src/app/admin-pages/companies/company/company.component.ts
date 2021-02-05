@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
-import { Firma } from '../../../@core/data/firma';
-import { FirmaService } from '../../../@core/service/firma.service';
+import { Company } from '../../../@core/data/company';
+import { CompanyService } from '../../../@core/service/company.service';
 
 @Component({
   selector: 'ngx-company',
@@ -13,28 +13,28 @@ import { FirmaService } from '../../../@core/service/firma.service';
 })
 export class CompanyComponent implements OnInit {
 
-  company: Firma = {
-    _id: '',
-    adresa: {mesto: undefined, ulica: ''},
-    delatnost: undefined,
+  company: Company = {
+    address: {location: undefined, street: ''},
     email: '',
-    emailPrijem: '',
+    emailReception: '',
+    legalRep: '',
+    manager: '',
     mat: '',
-    menadzer: '',
-    naziv: '',
+    name: '',
+    occupation: undefined,
+    operations: [],
     pib: '',
-    radFirme: [],
-    telefon: '',
-    zakonskiZastupnik: '',
+    telephone: '',
   };
 
-  constructor(private route: ActivatedRoute, private firmaService: FirmaService,
+  constructor(private route: ActivatedRoute, private firmaService: CompanyService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
-              private toastrService: NbToastrService, private router: Router) { }
+              private toastrService: NbToastrService, private router: Router) {
+  }
 
   ngOnInit(): void {
     const pib = this.route.snapshot.paramMap.get('pib');
-    this.firmaService.findFirma(pib, 'pib').subscribe(c => {
+    this.firmaService.getCompany(pib, 'pib').subscribe(c => {
       this.company = c;
     });
   }
@@ -47,7 +47,7 @@ export class CompanyComponent implements OnInit {
     if (!form.valid)
       this.showToast('Greška', 'Informacije koje ste uneli nisu tačne!', 'danger');
     else {
-      this.firmaService.updateFirma(this.company).subscribe(u => {
+      this.firmaService.updateCompany(this.company, this.company._id).subscribe(u => {
       });
       this.showToast('Uspeh', 'Uspešno ste izmenili informacije!', 'success');
     }
@@ -61,7 +61,7 @@ export class CompanyComponent implements OnInit {
   }
 
   gotoUser(): void {
-    this.router.navigate(['admin/korisnici', this.company.menadzer]);
+    this.router.navigate(['admin/korisnici', this.company.manager]);
   }
 
 }

@@ -1,0 +1,37 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row text-center">
+      <div class="col-1"><a routerLink="../.." class=""><i class="fa fa-2x fa-arrow-left"></i></a></div>
+      <div class="col-11"><h5>{{company.name}}</h5></div>
+    </div>
+   </nb-card-header>
+  <nb-card-body>
+    <div class="row mb-2">
+      <div class="col-6">
+        <label class="col-12 label">Email za prijem dokumenata:</label>
+        <div class="col-6">
+          <input nbInput disabled [(ngModel)]="company.emailReception" fullWidth>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <nb-tabset class="col-12">
+        <nb-tab active *ngIf="operations?.proizvodnja" tabTitle="Proizvodnja Otpada">
+          <ngx-storage-reports [storageIDs]="company.storages" [type]="'production'"></ngx-storage-reports>
+        </nb-tab>
+        <nb-tab *ngIf="operations?.transport" tabTitle="Transport Otpada">
+          NOT
+        </nb-tab>
+        <nb-tab *ngIf="operations?.tretman" tabTitle="Tretman Otpada">
+          <ngx-storage-reports [storageIDs]="company.storages" [type]="'treatment'"></ngx-storage-reports>
+        </nb-tab>
+        <nb-tab *ngIf="operations?.odlaganje" tabTitle="Odlaganje Otpada">
+          <ngx-storage-reports [storageIDs]="company.storages" [type]="'dump'"></ngx-storage-reports>
+        </nb-tab>
+        <nb-tab *ngIf="operations?.skladistenje" tabTitle="Skladištenje Otpada">
+          NOS
+        </nb-tab>
+      </nb-tabset>
+    </div>
+  </nb-card-body>
+</nb-card>

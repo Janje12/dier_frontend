@@ -1,0 +1,22 @@
+.error-message {
+  color: #ff3d71;
+}
+
+nb-accordion-item {
+  background-color: transparent;
+}
+
+nb-accordion-item-header {
+  background-color: rgba(120, 120, 120, 0.05);
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
+nb-accordion {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+nb-accordion-item-body {
+  background-color: transparent;
+}

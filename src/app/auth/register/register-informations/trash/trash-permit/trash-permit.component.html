@@ -1,0 +1,153 @@
+<form (ngSubmit)="updatePermitsForm()" *ngIf="permitType === 'transport'">
+  <div class="row">
+    <div class="col-6">
+      <label class="col-12" for="input-permitsNo">Broj dozvola:</label>
+      <input name="vehiclesNo" [ngModelOptions]="{standalone: true}"
+             [(ngModel)]="permitsNo"
+             fullWidth nbInput id="input-permitsNo"
+             placeholder="0" step="1" type="number" min="1">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button nbButton status="primary" type="submit" fullWidth>Odaberi</button>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="permitsNo > 0" class="row pt-4">
+  <div *ngFor="let permit of permits$ | async; let i = index" class="col-12">
+    <form #permitForm="ngForm">
+
+      <nb-card accent="success">
+        <nb-card-body>
+
+          <div class="row">
+            <div class="col-12 mb-2">
+              <label class="label" for="input-permitName">Naziv Dozvole:</label>
+              <input #permitName="ngModel"
+                     [(ngModel)]="permit.name"
+                     [attr.aria-invalid]="permitName.invalid && permitName.touched ? true : null"
+                     [ngModelOptions]="{standalone: true}"
+                     [required]="getConfigValue('forms.validation.permitName.required')"
+                     [maxlength]="getConfigValue('forms.validation.permitName.maxLength')"
+                     [minLength]="getConfigValue('forms.validation.permitName.minLength')"
+                     [status]="permitName.dirty ? (permitName.invalid  ? 'danger' : 'success') : 'basic'"
+                     placeholder="Dozvola #{{i + 1}}"
+                     autofocus
+                     fullWidth
+                     id="input-permitName"
+                     name="permitName"
+                     nbInput
+                     placeholder="Naziv">
+              <ng-container *ngIf="(permitName.invalid && permitName.touched) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="permitName.errors?.required">
+                  Naziv dozvole je obavezna!
+                </p>
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="permitName.errors?.maxLength || permitName.errors?.minLength">
+                  Naziv dozvole mora biti duži od
+                  {{ getConfigValue('forms.validation.permitName.minLength') }} slova!
+                </p>
+              </ng-container>
+            </div>
+
+            <div class="col-6 mb-2">
+              <label class="label" for="input-permitCode">Šifra Dozvole:</label>
+              <input #permitCode="ngModel"
+                     [(ngModel)]="permit.code"
+                     [attr.aria-invalid]="permitCode.invalid && permitCode.touched ? true : null"
+                     [ngModelOptions]="{standalone: true}"
+                     [required]="getConfigValue('forms.validation.permitCode.required')"
+                     [status]="permitCode.dirty ? (permitCode.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-permitCode"
+                     name="permitCode"
+                     nbInput
+                     placeholder="Šifra">
+              <ng-container *ngIf="(permitCode.invalid && permitCode.touched) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="permitCode.errors?.required">
+                  Šifra dozvole je obavezna!
+                </p>
+              </ng-container>
+            </div>
+            <div class="col-6 mb-2" *ngIf="permitType !== 'transport'">
+              <label class="label" for="input-permitsStorage">Odaberi postrojenje:</label>
+              <nb-select #permitsStorage="ngModel"
+                         [(ngModel)]="permit.storage"
+                         [ngModelOptions]="{standalone: true}"
+                         (ngModelChange)="setAddress(permit, permit.storage)"
+                         [status]="permitsStorage.dirty ? (permitsStorage.invalid  ? 'danger' : 'success') : 'basic'"
+                         name="permitsStorage"
+                         fullWidth id="input-permitsStorage" required>
+                <nb-option *ngFor="let s of storages$ | async" [value]="s">{{s.name}}</nb-option>
+              </nb-select>
+              <ng-container *ngIf="(permitsStorage.invalid && permitsStorage.touched) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="permitsStorage.errors?.required">
+                  Postrojenje za koje je vezana dozvola je obavezno!
+                </p>
+              </ng-container>
+            </div>
+
+            <div class="col-6">
+              <label class="label" for="input-dateCreation">Datum izdavanja dozvole:</label>
+              <input #dateCreation="ngModel"
+                     [(ngModel)]="permit.dateCreation"
+                     [attr.aria-invalid]="dateCreation.invalid && dateCreation.touched ? true : null"
+                     [nbDatepicker]="dateCreationPicker"
+                     [ngModelOptions]="{standalone: true}"
+                     [required]="getConfigValue('forms.validation.date.required')"
+                     [status]="!dateValid(permit) ? 'danger' : 'success'"
+                     fullWidth
+                     id="input-dateCreation"
+                     name="dateCreation"
+                     nbInput>
+              <nb-datepicker #dateCreationPicker></nb-datepicker>
+              <ng-container *ngIf="(!dateValid(permit)) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="dateCreation.errors?.required">
+                  Datum nastanka dozvole je obavezan!
+                </p>
+                <p class="error-message mt-1 mb-0" *ngIf="!dateValid(permit)">
+                  Datum nastanka dozvole ne može biti posle datum izdavanja!
+                </p>
+              </ng-container>
+            </div>
+            <div class="col-6">
+              <label class="label" for="input-dateExpiration">Datum isteka dozvole:</label>
+              <input #dateExpiration="ngModel"
+                     [(ngModel)]="permit.dateExpiration"
+                     [attr.aria-invalid]="dateExpiration.invalid && dateExpiration.touched ? true : null"
+                     [nbDatepicker]="dateExpirationPicker"
+                     [ngModelOptions]="{standalone: true}"
+                     [required]="getConfigValue('forms.validation.date.required')"
+                     [status]="!dateValid(permit) ? 'danger' : 'success'"
+                     fullWidth
+                     id="input-dateExpiration"
+                     name="dateExpiration"
+                     nbInput>
+              <nb-datepicker #dateExpirationPicker></nb-datepicker>
+              <ng-container *ngIf="(dateExpiration.invalid && dateExpiration.touched) || checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="dateExpiration.errors?.required">
+                  Datum isteka dozvole je obavezan!
+                </p>
+              </ng-container>
+            </div>
+
+            <div class="col-6 mt-2">
+              <button nbButton status="success" type="submit" [disabled]="permit.code === ''"
+                      (click)="choosePermit(permit)">Odaberi otpade
+              </button>
+              <ng-container *ngIf="checkIssues">
+                <p class="error-message mt-1 mb-0" *ngIf="permit.trashList.length < 1">
+                  Morate dodati bar jedan otpad na listu otpada dozvole!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+        </nb-card-body>
+      </nb-card>
+
+    </form>
+  </div>
+</div>
