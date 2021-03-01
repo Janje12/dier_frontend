@@ -12,8 +12,9 @@ export interface Storage {
   };
   amount: number;
   maxAmount: number;
-  geolocationNorth?: string;
-  geolocationEast?: string;
+  storageUnit?: string;
+  geolocationNorth?: string[];
+  geolocationEast?: string[];
   trashes?: Trash[];
   packages?: Package[];
   __t?: string;

@@ -17,11 +17,11 @@ export const CATALOG_SETTINGS: any = {
     ],
   },
   columns: {
-    indeksniBroj: {
+    indexNumber: {
       title: 'Indeksni Broj',
       width: '15%',
     },
-    naziv: {
+    name: {
       title: 'Naziv',
       width: '75%',
     },

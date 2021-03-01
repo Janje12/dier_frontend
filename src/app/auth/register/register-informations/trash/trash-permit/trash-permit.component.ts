@@ -5,8 +5,7 @@ import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Company } from '../../../../../@core/data/company';
 import { Permit } from '../../../../../@core/data/permit';
-import { Storage } from '../../../../../@core/data/storage';
-import { LocationService } from '../../../../../@core/service/location.service';
+import { Storage, StorageCache, StorageDump, StorageTreatment } from '../../../../../@core/data/storage';
 import { RegisterService } from '../../../../../@core/service/register.service';
 
 @Component({
@@ -16,44 +15,37 @@ import { RegisterService } from '../../../../../@core/service/register.service';
 })
 export class TrashPermitComponent implements OnInit {
   @Input() permitType: string;
-  @Input() storageNo: number = 1;
+  @Input() storageNo: number;
   @Input() storages: Storage[] = [];
 
   permits: Permit[];
   permits$: Observable<Permit[]>;
   permitsNo: number = 1;
   company: Company;
-  townships: string[];
-  townships$: Observable<string[]>;
-  places: string[];
-  places$: Observable<string[]>;
   checkIssues: boolean = false;
   valid: boolean = false;
   storages$: Observable<Storage[]>;
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private router: Router,
-              private registerService: RegisterService, private locationService: LocationService) {
+              private registerService: RegisterService) {
   }
 
   ngOnInit(): void {
     this.registerService.getCompany().pipe(first()).subscribe(f => {
       if (f !== undefined) {
+        this.company = f;
         if (f.permits !== undefined) {
           this.permits = this.company.permits.filter(x => x.type === this.permitType);
           this.permits$ = of(this.permits);
         }
       }
     });
-    if (this.permitType !== 'transport') {
+    if (this.permitType !== 'transport' && this.permitType !== 'collector') {
       this.permitsNo = this.storageNo;
       this.storages$ = of(this.storages);
     }
     this.validatePermits();
     this.registerService.sendCompany(of(this.company));
-    this.locationService.getDistinctTownships().pipe(first()).subscribe(o => {
-      this.townships = o;
-      this.townships$ = of(o);
-    });
   }
 
   getConfigValue(key: string): any {
@@ -71,6 +63,8 @@ export class TrashPermitComponent implements OnInit {
   }
 
   validatePermits(): void {
+    if (!this.permits)
+      return;
     this.valid = this.permits.length > 0;
     for (const d of this.permits) {
       if (d.name === '' || d.name.length < 3) {
@@ -85,7 +79,7 @@ export class TrashPermitComponent implements OnInit {
         this.valid = false;
         break;
       }
-      if (d.storage === undefined && this.permitType !== 'transport') {
+      if (d.storage === undefined && (this.permitType !== 'transport' && this.permitType !== 'collector')) {
         this.valid = false;
         break;
       }
@@ -96,7 +90,20 @@ export class TrashPermitComponent implements OnInit {
     }
   }
 
-  updatePermitsForm() {
+  updatePermitsForm(storageNo?: number, storages$?: Observable<Storage[]>) {
+    if (this.permitsNo === 0) {
+      this.permitsNo = storageNo;
+      this.storages$ = storages$;
+    }
+    if (this.company.permits) {
+      if (this.permitType === 'transport') {
+        this.company.permits = this.company.permits.filter(x => x.type !== 'transport');
+      } else if (this.permitType === 'collector') {
+        this.company.permits = this.company.permits.filter(x => x.type !== 'collector');
+      }
+    } else {
+      this.company.permits = [];
+    }
     this.permits = new Array(this.permitsNo);
     for (let i = 0; i < this.permitsNo; i++) {
       this.permits[i] = {
@@ -113,9 +120,13 @@ export class TrashPermitComponent implements OnInit {
         trashList: [],
         type: this.permitType,
       };
+      if (this.permitType === 'transport' || this.permitType === 'collector') {
+        delete this.permits[i].storage;
+        delete this.permits[i].address;
+      }
     }
     this.permits$ = of(this.permits);
-    this.company.permits = this.permits;
+    this.permits.forEach(t => this.company.permits.push(t));
     this.validatePermits();
   }
 

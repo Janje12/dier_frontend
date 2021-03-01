@@ -99,7 +99,7 @@ export class StorageTreatmentComponent implements OnInit {
                        selectedTransaction: selectedTransaction,
                        trashAmmount: trashAmmount, trashCreated: trashCreated,
                      }) {
-    this.selectedTrash.amount -= trashAmmount;
+    this.selectedTrash.amount += trashAmmount * (-1);
     const companyName = trashCreated ?
       (selectedTransaction.companyName ? selectedTransaction.companyName : selectedTransaction) : '';
     const documentNo = trashCreated ?
@@ -135,7 +135,8 @@ export class StorageTreatmentComponent implements OnInit {
                         selectedStorage: selectedStorage,
                       }) {
     leftoverTrashCreated.forEach(trashCreated => {
-      this.trashService.createTrash(trashCreated, selectedStorage._id).subscribe(x => {
+      this.trashService.updateTrash(trashCreated, selectedStorage._id,
+        trashCreated.indexNumber, 'indexNumber', undefined, undefined, true).subscribe(x => {
         this.updateStorage();
       });
     });

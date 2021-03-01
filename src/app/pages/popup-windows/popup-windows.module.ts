@@ -15,6 +15,7 @@ import { AddTrashPopupComponent } from './add-trash-popup/add-trash-popup.compon
 import { LeftoverTrashPopupComponent } from './leftover-trash-popup/leftover-trash-popup.component';
 import { ProcessTrashPopupComponent } from './process-trash-popup/process-trash-popup.component';
 import { ViewPermitsTrashPopupComponent } from './view-permits-trash-popup/view-permits-trash-popup.component';
+import { AddSpecialWastePopupComponent } from './add-special-waste-popup/add-special-waste-popup.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ViewPermitsTrashPopupComponent } from './view-permits-trash-popup/view-
     LeftoverTrashPopupComponent,
     ProcessTrashPopupComponent,
     ViewPermitsTrashPopupComponent,
+    AddSpecialWastePopupComponent,
   ],
   imports: [
     CommonModule,
@@ -41,12 +43,13 @@ import { ViewPermitsTrashPopupComponent } from './view-permits-trash-popup/view-
     CatalogService,
     TransactionsService,
   ],
-  exports: [
-    ViewPermitsTrashPopupComponent,
-    ProcessTrashPopupComponent,
-    AddTrashPopupComponent,
-    LeftoverTrashPopupComponent,
-  ],
+	exports: [
+		ViewPermitsTrashPopupComponent,
+		ProcessTrashPopupComponent,
+		AddTrashPopupComponent,
+		LeftoverTrashPopupComponent,
+		AddSpecialWastePopupComponent,
+	],
 })
 export class PopupWindowsModule {
 }

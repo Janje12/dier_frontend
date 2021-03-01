@@ -46,7 +46,10 @@ export class TrashTransportComponent implements OnInit {
 
   checkValid(): boolean {
     this.validateVehicles();
-    if (this.valid && this.permitRef.checkValid())
+    if (this.permitRef !== undefined && !this.permitRef.checkValid()) {
+      return false;
+    }
+    if (this.valid)
       return true;
     else {
       this.checkIssues = true;
@@ -55,8 +58,9 @@ export class TrashTransportComponent implements OnInit {
   }
 
   validateVehicles(): void {
-    this.valid = false;
-    if (this.vehicles !== undefined) {
+    if (this.vehicles === undefined)
+      return;
+    this.valid = this.vehicles.length > 0;
       for (const p of this.vehicles) {
         if (p.licensePlate === '' || p.licensePlate.length < 9) {
           this.valid = false;
@@ -66,7 +70,6 @@ export class TrashTransportComponent implements OnInit {
           this.valid = false;
           break;
         }
-      }
     }
   }
 

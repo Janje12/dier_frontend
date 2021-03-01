@@ -170,33 +170,13 @@
       <nb-card-body class="col-6">
         <div class="row mb-2">
           <div class="col-12">
-            <label class="label" for="input-uloga">Uloga:</label>
+            <label class="label" for="input-role">Uloga:</label>
           </div>
           <div class="col-6">
-            <input #uloga="ngModel"
-                   [(ngModel)]="user.role"
-                   [attr.aria-invalid]="uloga.invalid && uloga.touched ? true : null"
-                   [maxlength]="getConfigValue('forms.validation.ime.maxLength')"
-                   [minlength]="getConfigValue('forms.validation.ime.minLength')"
-                   [pattern]="getConfigValue('forms.validation.ime.pattern')"
-                   [required]="getConfigValue('forms.validation.ime.required')"
-                   [status]="uloga.dirty ? (uloga.invalid  ? 'danger' : 'success') : 'basic'"
-                   fullWidth
-                   id="input-uloga"
-                   name="uloga"
-                   nbInput
-                   onkeypress="return /[a-zA-ZčćžđšŠĐŽĆČ]/i.test(event.key)"
-                   type="text">
-            <ng-container *ngIf="uloga.invalid && uloga.touched">
-              <p class="error-message mt-1 mb-0" *ngIf="uloga.errors?.required">
-                Uloga je obavezna!
-              </p>
-              <p class="error-message mt-1 mb-0" *ngIf="uloga.errors?.minlength || uloga.errors?.maxlength">
-                Uloga mora da bude duže od
-                {{ getConfigValue('forms.validation.ime.minLength') }}
-                a kraće od {{ getConfigValue('forms.validation.ime.maxLength') }}
-              </p>
-            </ng-container>
+           <nb-select fullWidth [(ngModel)]="user.role" [selected]="user.role" id="input-role">
+             <nb-option [value]="'manager'">Menadžer</nb-option>
+             <nb-option [value]="'admin'">Admin</nb-option>
+           </nb-select>
           </div>
         </div>
 
@@ -222,7 +202,7 @@
       <div class="row">
         <div class="col-8"></div>
         <div class="col-4">
-          <button fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+          <button fullWidth nbButton status="success" type="submit">SAČUVAJ</button>
         </div>
       </div>
     </nb-card-footer>

@@ -33,7 +33,6 @@ export class StorageProductionComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.storage);
     this.storage$ = of(this.storage);
   }
 
@@ -79,7 +78,7 @@ export class StorageProductionComponent implements OnInit {
   updateTrash({newData: trash, confirm: confirm}, storage: Storage): void {
     this.selectedStorage = storage;
     try {
-      this.trashService.updateTrash(trash, this.selectedStorage._id, this.selectedTrash._id).subscribe(x => {
+      this.trashService.updateTrash(trash, this.selectedStorage._id, trash._id).subscribe(x => {
         this.updateStorage();
       });
       confirm.resolve();

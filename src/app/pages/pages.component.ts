@@ -31,9 +31,10 @@ export class PagesComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.authService.getToken().subscribe(t => {
       const companyOperations = t.getPayload().data.company.operations;
-      this.roleService.getOperationsMenu(companyOperations).subscribe(m => {
+      const tmp = this.roleService.getOperationsMenu(companyOperations).subscribe(m => {
         this.menu = m;
       });
+      tmp.unsubscribe();
     });
   }
 

@@ -30,25 +30,25 @@ export const USER_SETTINGS: any = {
       ],
     },
     columns: {
-      ime: {
+      firstName: {
         title: 'Ime',
       },
-      prezime: {
+      lastName: {
         title: 'Prezime',
       },
-      korisnickoIme: {
+      username: {
         title: 'Korisničko ime',
       },
       email: {
         title: 'Email',
       },
-      telefon: {
+      phone: {
         title: 'Telefon',
       },
-      firma: {
+      company: {
         editable: false,
         valuePrepareFunction: (cell: any, row: any) => {
-          return row.firma.naziv;
+          return row.company.name;
         },
         title: 'Firma',
       },

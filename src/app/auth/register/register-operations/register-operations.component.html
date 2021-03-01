@@ -1,11 +1,12 @@
 <h1 class="text-center">Registruj se!</h1>
 <nb-stepper disableStepNavigation selectedIndex="2">
-  <nb-step label="User" completed="true">Test</nb-step>
+  <nb-step label="Korisnik" completed="true">Test</nb-step>
   <nb-step label="Firma" completed="true"></nb-step>
   <nb-step label="Operacije">
     <div class="row">
       <nb-tabset>
-        <nb-tab [badgeText]="trashOperationNumber()" badgeStatus="primary" responsive="true" tabTitle="Otpad" [tabIcon]="trashIco">
+        <nb-tab [badgeText]="trashOperationNumber()" badgeStatus="primary" responsive="true" tabTitle="Otpad"
+                [tabIcon]="trashIco">
           <div class="row pb-0 mb-0">
             <nb-card class="col-6">
               <nb-card-header>Neopasan otpad</nb-card-header>
@@ -23,6 +24,12 @@
                   </nb-toggle>
                 </div>
                 <div class="col-12">
+                  <nb-toggle #SakupljacNeopasnogOtpada [checked]="operations.includes('Sakupljac Neopasnog Otpada')"
+                             (checkedChange)="addOperation('Sakupljac Neopasnog Otpada', $event)" class="mx-1">
+                    Sakupljač
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
                   <nb-toggle #TretmanNeopasnogOtpada [checked]="operations.includes('Tretman Neopasnog Otpada')"
                              (checkedChange)="addProcessOperation('Tretman Neopasnog Otpada', $event, ProizvodnjaNeopasnogOtpada)"
                              class="mx-1">Tretman
@@ -30,7 +37,8 @@
                 </div>
                 <div class="col-12">
                   <nb-toggle #OdlaganjeNeopasnogOtpada [checked]="operations.includes('Odlaganje Neopasnog Otpada')"
-                             (checkedChange)="addProcessOperation('Odlaganje Neopasnog Otpada', $event, ProizvodnjaNeopasnogOtpada)" class="mx-1">Odlaganje
+                             (checkedChange)="addProcessOperation('Odlaganje Neopasnog Otpada', $event, ProizvodnjaNeopasnogOtpada)"
+                             class="mx-1">Odlaganje
                   </nb-toggle>
                 </div>
                 <div class="col-12">
@@ -57,6 +65,12 @@
                   </nb-toggle>
                 </div>
                 <div class="col-12">
+                  <nb-toggle #SakupljacOpasnogOtpada [checked]="operations.includes('Sakupljac Opasnog Otpada')"
+                             (checkedChange)="addOperation('Sakupljac Opasnog Otpada', $event)" class="mx-1">
+                    Sakupljač
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
                   <nb-toggle #TretmanOpasnogOtpada [checked]="operations.includes('Tretman Opasnog Otpada')"
                              (checkedChange)="addProcessOperation('Tretman Opasnog Otpada', $event, ProizvodnjaOpasnogOtpada)"
                              class="mx-1">Tretman
@@ -64,7 +78,8 @@
                 </div>
                 <div class="col-12">
                   <nb-toggle #OdlaganjeOpasnogOtpada [checked]="operations.includes('Odlaganje Opasnog Otpada')"
-                             (checkedChange)="addProcessOperation('Odlaganje Opasnog Otpada', $event, ProizvodnjaOpasnogOtpada)" class="mx-1">Odlaganje
+                             (checkedChange)="addProcessOperation('Odlaganje Opasnog Otpada', $event, ProizvodnjaOpasnogOtpada)"
+                             class="mx-1">Odlaganje
                   </nb-toggle>
                 </div>
                 <div class="col-12">
@@ -76,13 +91,41 @@
               </nb-card-body>
             </nb-card>
           </div>
-          <nb-card class="row mt-0 pt-0 bg-warning" *ngIf="ProizvodnjaOpasnogOtpada.disabled || ProizvodnjaNeopasnogOtpada.disabled">
+          <nb-card class="row mt-0 pt-0 bg-warning"
+                   *ngIf="ProizvodnjaOpasnogOtpada.disabled || ProizvodnjaNeopasnogOtpada.disabled">
             <nb-card-body class=mt-0>
-                Ako se bavite {{TretmanNeopasnogOtpada.checked ? 'tretmanom' : 'odlaganjem'}} otpada, automatski postajete i proizvođač otpada. :)
+              Ako se bavite {{TretmanNeopasnogOtpada.checked || TretmanOpasnogOtpada.checked ? 'tretmanom' : 'odlaganjem'}} otpada, automatski postajete
+              i proizvođač otpada. :)
             </nb-card-body>
           </nb-card>
         </nb-tab>
-        <nb-tab responsive="true" tabTitle="Posebni tokovi otpada" [tabIcon]="carBatteryIco"></nb-tab>
+        <nb-tab [badgeText]="specialWasteOpertionNumber()" badgeStatus="primary"
+                responsive="true" tabTitle="Posebni tokovi otpada" [tabIcon]="carBatteryIco">
+          <div class="row pb-0 mb-0">
+            <nb-card class="col-12">
+              <nb-card-header>Posebni tokovi otpada</nb-card-header>
+              <nb-card-body>
+                <div class="col-12">
+                  <nb-toggle [checked]="operations.includes('Proizvodnja Posebnih Tokova Otpada')"
+                             (checkedChange)="addOperation('Proizvodnja Posebnih Tokova Otpada', $event)"
+                             class="mx-1">Proizvodnja
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle [checked]="operations.includes('Uvoz Posebnih Tokova Otpada')"
+                             (checkedChange)="addOperation('Uvoz Posebnih Tokova Otpada', $event)" class="mx-1">Uvoz
+                  </nb-toggle>
+                </div>
+                <div class="col-12">
+                  <nb-toggle [checked]="operations.includes('Izvoz Posebnih Tokova Otpada')"
+                             (checkedChange)="addOperation('Izvoz Posebnih Tokova Otpada', $event)"
+                             class="mx-1">Izvoz
+                  </nb-toggle>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+        </nb-tab>
         <nb-tab responsive="true" tabTitle="Ambalaze" [tabIcon]="recyleIco"></nb-tab>
         <nb-tab responsive="true" tabTitle="Emisije u vode" [tabIcon]="waterIco"></nb-tab>
         <nb-tab responsive="true" tabTitle="Emisije u vazduh" [tabIcon]="airIco"></nb-tab>

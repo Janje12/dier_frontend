@@ -4,7 +4,7 @@ import {
 	NbButtonModule,
 	NbCardModule,
 	NbUserModule,
-	NbIconModule, NbSelectModule, NbSpinnerModule, NbAccordionModule,
+	NbIconModule, NbSelectModule, NbSpinnerModule, NbAccordionModule, NbTabsetModule,
 } from '@nebular/theme';
 import { BarChartModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -22,25 +22,28 @@ import { TransportPermitsComponent } from './widgets/transport-permits/transport
 import { TransportVehiclesComponent } from './widgets/transport-vehicles/transport-vehicles.component';
 import { UnfinishedOperationsComponent } from './widgets/unfinished-operations/unfinished-operations.component';
 import { WidgetGroupHeaderComponent } from './widgets/widget-group-header/widget-group-header.component';
+import { MostUsedSpecialWasteComponent } from './widgets/most-used-special-waste/most-used-special-waste.component';
+import { SpecialWasteStatsComponent } from './widgets/special-waste-stats/special-waste-stats.component';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    ThemeModule,
-    NbCardModule,
-    NbUserModule,
-    NbButtonModule,
-    NbActionsModule,
-    NbIconModule,
-    NbButtonModule,
-    NgxEchartsModule,
-    PopupWindowsModule,
-    NbSelectModule,
-    NbSpinnerModule,
-    NbAccordionModule,
-    Ng2SmartTableModule,
-    BarChartModule,
-  ],
+	imports: [
+		FormsModule,
+		ThemeModule,
+		NbCardModule,
+		NbUserModule,
+		NbButtonModule,
+		NbActionsModule,
+		NbIconModule,
+		NbButtonModule,
+		NgxEchartsModule,
+		PopupWindowsModule,
+		NbSelectModule,
+		NbSpinnerModule,
+		NbAccordionModule,
+		Ng2SmartTableModule,
+		BarChartModule,
+		NbTabsetModule,
+	],
   declarations: [
     DashboardComponent,
     WidgetComponent,
@@ -50,6 +53,8 @@ import { WidgetGroupHeaderComponent } from './widgets/widget-group-header/widget
     TransportVehiclesComponent,
     UnfinishedOperationsComponent,
     WidgetGroupHeaderComponent,
+    MostUsedSpecialWasteComponent,
+    SpecialWasteStatsComponent,
   ],
   providers: [
     RoleService,

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { CatalogData, Catalog } from '../data/catalog';
+import { CatalogData, Catalog, SpecialWasteCatalog } from '../data/catalog';
 
 @Injectable()
 export class CatalogService extends CatalogData {
@@ -41,6 +41,10 @@ export class CatalogService extends CatalogData {
   // Get all unsafe trashes with the '*' in their indexNumber
   getUnsafeTrash(): Observable<Catalog[]> {
     return this.http.get<Catalog[]>(this.apiUrl + '/api/catalog/unsafe');
+  }
+
+  getSpecialWaste(): Observable<SpecialWasteCatalog[]> {
+    return this.http.get<SpecialWasteCatalog[]>(this.apiUrl + '/api/catalog/specialwaste');
   }
 
   filter(value: string, arr: Catalog[]): Observable<Catalog[]> {

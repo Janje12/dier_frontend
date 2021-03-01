@@ -1,0 +1,74 @@
+<nb-card class="container-fluid">
+  <nb-card-header>
+    <h5>Dodajte novi inventar posebnih tokova otpada</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row mb-2">
+      <div class="col-12">
+        <label class="col-8 pl-0">Pretraži po razredu:</label>
+      </div>
+      <div class="col-12">
+        <nb-select placeholder="Odaberite razred" (selectedChange)="onSearch($event)" fullWidth>
+          <nb-option [value]="r" *ngFor="let r of specialWasteClasses">{{r}}</nb-option>
+        </nb-select>
+      </div>
+      <div class="col-12">
+        <label class="col-8 pl-0">Pretraži po nazivu:</label>
+      </div>
+      <div class="col-12">
+        <input nbInput #search fullWidth type="text" placeholder="Pretraži"
+               (input)="search.value.length >= 1 && onSearch(search.value)">
+        <ng2-smart-table [source]="catalog" [settings]="settings"
+                         (custom)="chooseSpecialWaste($event)"></ng2-smart-table>
+      </div>
+    </div>
+    <form #addForm="ngForm" (ngSubmit)="addSpecialWaste()">
+      <div class="row mb-2">
+        <label class="col-12 label" for="input-specialWasteName">Naziv: </label>
+        <div class="col-4">
+          <input [(ngModel)]="specialWaste.name" placeholder="Naziv" fullWidth
+                 name="specialWasteName" id="input-specialWasteName" nbInput>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-12 label" for="input-specialWasteDesc">Opis: </label>
+        <div class="col-4">
+          <input [(ngModel)]="specialWaste.desc" placeholder="Opis" fullWidth
+                 name="specialWasteDesc" id="input-specialWasteDesc" nbInput>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-12 label" for="input-specialWasteunitOfMeasure">Jedinica mere: </label>
+        <div class="col-4">
+          <input [(ngModel)]="specialWaste.unitOfMeasure" disabled placeholder="Jedinica mere" fullWidth
+                 name="specialWasteunitOfMeasure" id="input-specialWasteunitOfMeasure" nbInput>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-12 label" for="input-specialWasteMass">Masa jedinice mere (KG): </label>
+        <div class="col-4">
+          <input [(ngModel)]="specialWaste.mass" decimals="1" fullWidth min="0" name="specialWasteMass"
+                 nbInput placeholder="0.0" id="input-specialWasteMass" step="0.1" type="number">
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-12 label">Izaberite dodatne operacije proizvoda: </label>
+      </div>
+      <div class="row" *ngFor="let o of otherOperations">
+        <div class="col-4">
+          <nb-toggle (checkedChange)="addOperation(o)" [disabled]="checkOperation(o)" checked>{{o}}</nb-toggle>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <button [disabled]="!addForm.valid"
+                  nbButton fullWidth
+                  status="primary" type="submit">Dodaj
+          </button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
+

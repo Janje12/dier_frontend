@@ -29,13 +29,22 @@
       <widget-trash-stats (isLoaded)="isLoaded()" [type]="type"></widget-trash-stats>
     </div>
     <div *ngIf="name === 'transport_permits'">
-      <widget-transport-permits></widget-transport-permits>
+      <widget-transport-permits [type]="'transport'"></widget-transport-permits>
+    </div>
+    <div *ngIf="name === 'collector_permits'">
+      <widget-transport-permits [type]="'collector'"></widget-transport-permits>
     </div>
     <div *ngIf="name === 'transport_vehicles'">
       <widget-vehicles></widget-vehicles>
     </div>
     <div *ngIf="name === 'unfinished_operations'">
       <widget-unfinished-operations [type]="type"></widget-unfinished-operations>
+    </div>
+    <div *ngIf="name === 'most_used_special_waste'">
+      <widget-most-used-special-waste></widget-most-used-special-waste>
+    </div>
+    <div *ngIf="name === 'special_waste_stats'">
+      <widget-special-waste-stats></widget-special-waste-stats>
     </div>
   </nb-card-body>
 </nb-card>

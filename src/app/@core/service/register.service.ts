@@ -15,7 +15,8 @@ export class RegisterService {
   private permitCode$: Observable<string>;
 
   constructor() {
-    if (isDevMode()) {
+    this.clearData();
+   /*if (isDevMode()) {
       this.user = {
         _id: '',
         email: 'random' + (Math.random() * 1000).toFixed(0) + '@gmail.com',
@@ -27,22 +28,7 @@ export class RegisterService {
         role: 'manager',
       };
       this.company = {
-        storages: [
-          {
-            name: 'Storage #1',
-            amount: 0,
-            maxAmount: 512,
-            address: {
-              location: {
-                placeCode: 0,
-                placeName: 'Arnajevo',
-                townshipCode: 0,
-                townshipName: 'Beograd',
-                zipCode: '31210',
-              }, street: 'Nikola tesla 2',
-            },
-          },
-        ],
+        storages: [],
         address: {
           location: {
             placeCode: 0,
@@ -62,12 +48,12 @@ export class RegisterService {
         manager: 'random',
         name: 'Test',
         pib: (Math.random() * 1000000000).toFixed(0),
-        operations: ['Proizvodnja Neopasnog Otpada'],
+        operations: [],
         telephone: (Math.random() * 10000000000).toFixed(0),
         legalRep: 'Nikola Jankovic',
       };
       this.operations = ['Proizvodnja Neopasnog Otpada'];
-    }
+    }*/
   }
 
   clearData(): void {
@@ -82,13 +68,14 @@ export class RegisterService {
       name: '',
       pib: '',
       operations: [],
+      storages: [],
+      permits: [],
       telephone: '',
       legalRep: '',
     };
     this.operations = [];
     this.permitCode = '';
   }
-
 
   sendPermit(permitCode: Observable<string>): void {
     this.permitCode$ = permitCode;
@@ -141,7 +128,8 @@ export class RegisterService {
       if (this.user !== undefined) {
         this.company.manager = this.user.username;
       }
+      return of(this.company);
     }
-    return of(this.company);
   }
+
 }

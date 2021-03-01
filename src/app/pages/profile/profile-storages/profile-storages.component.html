@@ -67,8 +67,8 @@
           <div class="col-12">
             <input
               disabled
-              [placeholder]="s.address.place.townshipName + ', ' +
-                s.address.place.placeName + ', ' + s.address.street"
+              [placeholder]="s.address.location.townshipName + ', ' +
+                s.address.location.placeName + ', ' + s.address.street"
               fullWidth
               id="input-address"
               name="address"
@@ -79,7 +79,7 @@
       </div>
     </div>
     <div class="row mb-2">
-      <storage-meter [storage]="s"></storage-meter>
+      <div class="col-12"><storage-meter [storage]="s"></storage-meter></div>
     </div>
   </div>
   <div class="row">

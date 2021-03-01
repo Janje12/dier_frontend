@@ -1,5 +1,5 @@
 <nb-card class="col-12">
-  <form #formSkladista="ngForm" (ngSubmit)="updateStorage(formSkladista)">
+  <form #formStorage="ngForm" (ngSubmit)="updateStorage(formStorage)">
     <nb-card-header>
       <div class="row">
         <div class="col-1"><a routerLink=".." class=""><i class="fa fa-2x fa-arrow-left"></i></a>
@@ -15,24 +15,24 @@
         <div class="col-6">
           <div class="row mb-2">
             <div class="col-12">
-              <label class="label" for="input-naziv">Naziv skladišta:</label>
+              <label class="label" for="input-storageName">Naziv skladišta:</label>
             </div>
             <div class="col-6">
-              <input #naziv="ngModel"
+              <input #storageName="ngModel"
                      [(ngModel)]="storage.name"
                      [ngModelOptions]="{standalone: true}"
-                     [attr.aria-invalid]="naziv.invalid && naziv.touched ? true : null"
-                     [maxlength]="getConfigValue('forms.validation.nazivFirme.maxLength')"
-                     [minlength]="getConfigValue('forms.validation.nazivFirme.minLength')"
-                     [required]="getConfigValue('forms.validation.nazivFirme.required')"
-                     [status]="naziv.dirty ? (naziv.invalid  ? 'danger' : 'success') : 'basic'"
+                     [attr.aria-invalid]="storageName.invalid && storageName.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.storageName.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.storageName.minLength')"
+                     [required]="getConfigValue('forms.validation.storageName.required')"
+                     [status]="storageName.dirty ? (storageName.invalid  ? 'danger' : 'success') : 'basic'"
                      fullWidth
-                     id="input-naziv"
-                     name="naziv"
+                     id="input-storageName"
+                     name="storageName"
                      nbInput
                      type="text">
-              <ng-container *ngIf="naziv.invalid && naziv.touched">
-                <p class="error-message mt-1 mb-0" *ngIf="naziv.errors?.required">
+              <ng-container *ngIf="storageName.invalid && storageName.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="storageName.errors?.required">
                   Naziv skladišta je obavezan!
                 </p>
               </ng-container>
@@ -46,8 +46,8 @@
             <div class="col-6">
               <input
                 disabled
-                [placeholder]="storage.address.location.townshipName + ', ' +
-                storage.address.location.placeName + ', ' + storage.address.street"
+                [placeholder]="storage.address?.location?.townshipName + ', ' +
+                storage.address?.location?.placeName + ', ' + storage?.address?.street"
                 fullWidth
                 id="input-adresa"
                 name="adresa"
@@ -58,26 +58,29 @@
 
           <div class="row mb-2">
             <div class="col-12">
-              <label class="label" for="input-velicina">Veličina skladišta:</label>
+              <label class="label" for="input-storageSize">Veličina skladišta:</label>
             </div>
-            <div class="col-6">
-              <input #velicina="ngModel"
+            <div class="col-5 pr-0">
+              <input #storageSize="ngModel"
                      [(ngModel)]="storage.maxAmount"
                      [ngModelOptions]="{standalone: true}"
-                     [attr.aria-invalid]="velicina.invalid && velicina.touched ? true : null"
-                     [pattern]="getConfigValue('forms.validation.velicinaSkladista.pattern')"
-                     [required]="getConfigValue('forms.validation.velicinaSkladista.required')"
-                     [status]="velicina.dirty ? (velicina.invalid  ? 'danger' : 'success') : 'basic'"
+                     [attr.aria-invalid]="storageSize.invalid && storageSize.touched ? true : null"
+                     [pattern]="getConfigValue('forms.validation.storageSize.pattern')"
+                     [required]="getConfigValue('forms.validation.storageSize.required')"
+                     [status]="storageSize.dirty ? (storageSize.invalid  ? 'danger' : 'success') : 'basic'"
                      fullWidth
-                     id="input-velicina"
-                     name="velicina"
+                     id="input-storageSize"
+                     name="storageSize"
                      nbInput
                      type="number">
-              <ng-container *ngIf="velicina.invalid && velicina.touched">
-                <p class="error-message mt-1 mb-0" *ngIf="velicina.errors?.required">
+              <ng-container *ngIf="storageSize.invalid && storageSize.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="storageSize.errors?.required">
                   Veličina skladišta je obavezna!
                 </p>
               </ng-container>
+            </div>
+            <div class="col-1 pl-0">
+              <button nbButton fullWidth disabled>{{storage.storageUnit}}</button>
             </div>
           </div>
         </div>
@@ -85,45 +88,45 @@
         <div class="col-6">
           <div class="row mb-2" *ngIf="storage.geolocationNorth !== undefined">
             <div class="col-12">
-              <label class="label" for="input-geolokacijaN">Geolokacija Skladišta:</label>
+              <label class="label" for="input-geolocation">Geolokacija Skladišta:</label>
             </div>
             <div class="col-6">
               <input
                 disabled
                 [placeholder]="storage.geolocationNorth + 'N' + storage.geolocationEast + 'E'"
                 fullWidth
-                id="input-geolokacijaN"
-                name="geolokacijaN"
+                id="input-geolocation"
+                name="geolocation"
                 nbInput
                 type="text">
             </div>
           </div>
           <div class="row mb-2" *ngIf="storage.dumpType !== undefined">
             <div class="col-12">
-              <label class="label" for="input-vrsta">Vrsta Deponije:</label>
+              <label class="label" for="input-dumpType">Vrsta Deponije:</label>
             </div>
             <div class="col-6">
               <input
                 disabled
                 [placeholder]="storage.dumpType"
                 fullWidth
-                id="input-vrsta"
-                name="vrsta"
+                id="input-dumpType"
+                name="dumpType"
                 nbInput
                 type="text">
             </div>
           </div>
           <div class="row mb-2">
             <div class="col-12">
-              <label class="label" for="input-firma">Firma skladišta:</label>
+              <label class="label" for="input-companyName">Firma skladišta:</label>
             </div>
             <div class="col-5 pr-0">
               <input
                 disabled
-                [placeholder]="company.name"
+                [placeholder]="company?.name"
                 fullWidth
-                id="input-firma"
-                name="firma"
+                id="input-companyName"
+                name="companyName"
                 nbInput
                 type="text">
             </div>
@@ -136,9 +139,7 @@
 
       <div class="row mb-2">
         <div class="col-12">
-          <nb-progress-bar [value]="calculateValue()" [status]="calculateStatus()" size="large">
-            {{storage.amount}}/{{storage.maxAmount}}
-          </nb-progress-bar>
+         <storage-meter [storage]="storage"></storage-meter>
         </div>
       </div>
     </nb-card-body>
@@ -150,8 +151,9 @@
         </div>
       </div>
     </nb-card-footer>
+    <nb-card-header>Otpadi: </nb-card-header>
     <nb-card-body>
-      <ng2-smart-table [settings]="settings"
+      <ng2-smart-table class="mt-2" [settings]="settings"
                        [source]="storage?.trashes"
                        (editConfirm)="updateTrash($event, storage)"
                        (deleteConfirm)="deleteTrash($event, storage)"></ng2-smart-table>

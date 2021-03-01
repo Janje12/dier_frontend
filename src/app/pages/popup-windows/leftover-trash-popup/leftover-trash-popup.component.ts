@@ -46,7 +46,7 @@ export class LeftoverTrashPopupComponent implements OnInit {
       this.unfinshedTransactions$ = of(tmp);
     }
     this.storageProduction$ = of(this.storageProduction);
-    this.catalogService.getCatalogs('').subscribe(c => {
+    this.catalogService.getCatalogs().subscribe(c => {
       this.catalog = c;
       this.catalog$ = of(c);
     });
@@ -72,14 +72,14 @@ export class LeftoverTrashPopupComponent implements OnInit {
   updateLeftoverTrash(data, inputForm) {
     inputForm.value = '';
     delete data['_id'];
-    data.opis = data.naziv;
-    data.kolicina = 0;
+    data.desc = data.name;
+    data.amount = 0;
     if (this.leftoverTrashCreated.includes(data))
       return;
     this.leftoverTrashCreated.push(data);
   }
 
   removeTrash(data) {
-    this.leftoverTrashCreated = this.leftoverTrashCreated.filter(x => x.indexNumber !== data.indeksniBroj);
+    this.leftoverTrashCreated = this.leftoverTrashCreated.filter(x => x.indexNumber !== data.indexNumber);
   }
 }

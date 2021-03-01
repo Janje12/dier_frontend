@@ -20,18 +20,18 @@ export const STORAGE_EDIT_SETTINGS: any = {
     delete: true,
   },
   columns: {
-    indeksniBroj: {
+    indexNumber: {
       title: 'Indeksni Broj',
       editable: false,
     },
-    naziv: {
+    name: {
       title: 'Naziv',
     },
-    opis: {
+    desc: {
       title: 'Opis',
     },
-    kolicina: {
-      title: 'Količina (kg)',
+    amount: {
+      title: 'Količina (KG)',
     },
   },
 };

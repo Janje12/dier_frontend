@@ -1,15 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NbAuthService } from '@nebular/auth';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Company, CompanyData } from '../data/company';
 
 @Injectable()
 export class CompanyService extends CompanyData {
   private readonly apiUrl: string;
-  constructor(private http: HttpClient, private authService: NbAuthService) {
+
+  constructor(private http: HttpClient) {
     super();
     this.apiUrl = environment.apiUrl;
   }

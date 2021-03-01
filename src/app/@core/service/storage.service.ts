@@ -38,6 +38,4 @@ export class StorageService extends StorageData {
     return this.http.get<Storage[]>(this.apiUrl + '/api/company/storages/' + `${companyID}/${storageType}`);
   }
 
-
-
 }

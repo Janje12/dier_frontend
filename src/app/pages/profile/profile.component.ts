@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { RoleService } from '../../@core/service/role.service';
 
 @Component({
@@ -9,8 +10,12 @@ import { RoleService } from '../../@core/service/role.service';
 export class ProfileComponent implements OnInit {
 
   operations: { production: boolean, transport: boolean, treatment: boolean, cache: boolean, disposal: boolean };
+  activeTab: string;
 
-  constructor(private roleService: RoleService) {
+  constructor(private roleService: RoleService, private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe(params => {
+      this.activeTab = params.activeTab;
+    });
   }
 
   ngOnInit(): void {

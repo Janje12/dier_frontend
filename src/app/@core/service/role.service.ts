@@ -32,7 +32,9 @@ export class RoleService {
         disposal: false,
         production: false,
         transport: false,
+        collector: false,
         treatment: false,
+        specialWaste: false,
       },
       safeTrashOperations: {
         cache: false,
@@ -40,6 +42,7 @@ export class RoleService {
         exists: false,
         production: false,
         transport: false,
+        collector: false,
         treatment: false,
       },
       unsafeTrashOperations: {
@@ -47,8 +50,15 @@ export class RoleService {
         disposal: false,
         exists: false,
         production: false,
+        collector: false,
         transport: false,
         treatment: false,
+      },
+      specialWasteOperations: {
+        exists: false,
+        production: false,
+        import: false,
+        export: false,
       },
     };
   }
@@ -61,18 +71,22 @@ export class RoleService {
     return this.username;
   }
 
-  public getOperations(companyOperations?: string[]): Observable<any> {
+  public getOperations(companyOperations?: string[], getFullOperations = false): Observable<any> {
     if (companyOperations !== undefined)
       this.clearOperations();
     this.findOperations(companyOperations);
-    return of(this.operations.operations);
+    if (getFullOperations)
+      return of(this.operations);
+    else
+      return of(this.operations.operations);
   }
 
   public getOperationsMenu(companyOperations?: string[]): Observable<NbMenuItem[]> {
     this.findOperations(companyOperations);
     this.menu_items = [];
     MENU_ITEMS.forEach(val => this.menu_items.push(Object.assign({}, val)));
-    const result = this.menu_items.slice(0, 3);
+    const storageMenu = this.operations.safeTrashOperations.exists || this.operations.unsafeTrashOperations.exists;
+    const result = this.menu_items.slice(0, 2);
     result.concat(this.fillResult(result));
     return of(result);
   }
@@ -92,13 +106,20 @@ export class RoleService {
       tmp = this.companyOperations[i].split(' ');
       switch (tmp[1]) {
         case 'Neopasnog': {
-          this.operations.safeTrashOperations.exists = true;
+          if (tmp[0] !== 'Transport' || tmp[0] !== 'Sakupljac')
+            this.operations.safeTrashOperations.exists = true;
           this.fillType(this.operations.safeTrashOperations, tmp[0]);
           break;
         }
         case 'Opasnog': {
-          this.operations.unsafeTrashOperations.exists = true;
+          if (tmp[0] !== 'Transport' || tmp[0] !== 'Sakupljac')
+            this.operations.unsafeTrashOperations.exists = true;
           this.fillType(this.operations.unsafeTrashOperations, tmp[0]);
+          break;
+        }
+        case 'Posebnih': {
+          this.operations.specialWasteOperations.exists = true;
+          this.fillType(this.operations.specialWasteOperations, tmp[0]);
           break;
         }
         default: {
@@ -116,8 +137,6 @@ export class RoleService {
       item.children = new Array<NbMenuItem>();
       if (this.operations.safeTrashOperations.production)
         item.children.push(menu_childern.filter(x => x.title === 'Proizvodnja')[0]);
-      // if (this.neopasni.transport)
-      // item.children.push(menu_childern.filter(x => x.title === 'Transport')[0]);
       if (this.operations.safeTrashOperations.treatment)
         item.children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
       if (this.operations.safeTrashOperations.cache)
@@ -132,8 +151,6 @@ export class RoleService {
       item.children = new Array<NbMenuItem>();
       if (this.operations.unsafeTrashOperations.production)
         item.children.push(menu_childern.filter(x => x.title === 'Proizvodnja')[0]);
-      // if (this.neopasni.transport)
-      // item.children.push(menu_childern.filter(x => x.title === 'Transport')[0]);
       if (this.operations.unsafeTrashOperations.treatment)
         item.children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
       if (this.operations.unsafeTrashOperations.cache)
@@ -142,19 +159,41 @@ export class RoleService {
         item.children.push(menu_childern.filter(x => x.title === 'Odlaganje')[0]);
       result.push(item);
     }
+    if (this.operations.specialWasteOperations.exists) {
+      item = MENU_ITEMS.filter(x => x.title === 'Posebni tokovi otpada')[0];
+      menu_childern = item.children;
+      item.children = new Array<NbMenuItem>();
+      if (this.operations.specialWasteOperations.production)
+        item.children.push(menu_childern.filter(x => x.title === 'Proizvodnja')[0]);
+      if (this.operations.specialWasteOperations.import)
+        item.children.push(menu_childern.filter(x => x.title === 'Uvoz')[0]);
+      if (this.operations.specialWasteOperations.export)
+        item.children.push(menu_childern.filter(x => x.title === 'Izvoz')[0]);
+      result.push(item);
+    }
     return result;
   }
 
   private fillType(type: any, typeGiven: string) {
     switch (typeGiven) {
       case 'Proizvodnja': {
-        this.operations.operations.production = true;
-        type.production = true;
+        if (type.import === undefined) {
+          this.operations.operations.production = true;
+          type.production = true;
+        } else {
+          this.operations.specialWasteOperations.production = true;
+          this.operations.operations.specialWaste = true;
+        }
         break;
       }
       case 'Transport': {
         this.operations.operations.transport = true;
         type.transport = true;
+        break;
+      }
+      case 'Sakupljac': {
+        this.operations.operations.collector = true;
+        type.collector = true;
         break;
       }
       case 'Tretman': {
@@ -170,6 +209,16 @@ export class RoleService {
       case 'Odlaganje': {
         this.operations.operations.disposal = true;
         type.disposal = true;
+        break;
+      }
+      case 'Uvoz': {
+        this.operations.specialWasteOperations.import = true;
+        this.operations.operations.specialWaste = true;
+        break;
+      }
+      case 'Izvoz': {
+        this.operations.specialWasteOperations.export = true;
+        this.operations.operations.specialWaste = true;
         break;
       }
       default: {

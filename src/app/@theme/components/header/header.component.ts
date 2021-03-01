@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe((token: NbAuthJWTToken) => {
         if (token.isValid()) {
           this.user = token.getPayload().data.user;
-          this.profileLink = this.user.role === 'admin' ? '/admin/profile' : '/pages/profile';
+          this.profileLink = this.user.role === 'admin' ? '/admin/profile/user' : '/pages/profile/user';
           this.userMenu[0].link = this.profileLink;
           // console.log('Refresh Token: ' + token.getPayload().data.korisnik.token);
           // console.log(token.getPayload());

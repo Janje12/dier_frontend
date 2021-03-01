@@ -17,15 +17,15 @@ export class UserService extends UserData {
     return this.http.post<User>(this.apiUrl + '/api/user', user);
   }
 
-  deleteUser(value: string, type: string): Observable<User> {
-    return undefined;
+  deleteUser(value: string, type: string = '_id'): Observable<User> {
+    return this.http.delete<User> (this.apiUrl + '/api/user/one/' + `${type}/${value}`);
   }
 
   getUser(value: string, type: string = '_id'): Observable<User> {
     return this.http.get<User>(this.apiUrl + '/api/user/one/' + `${type}/${value}`);
   }
 
-  getUsers(value: string, type: string = '_id'): Observable<User[]> {
+  getUsers(value: string = 'all', type: string = '_id'): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl + '/api/user/many/' + `${type}/${value}`);
   }
 

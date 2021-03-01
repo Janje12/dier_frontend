@@ -19,7 +19,7 @@ export class RegisterUserComponent implements OnInit {
   checkIssues: boolean = false;
   retypePassword: '';
   user: User = {
-    email: '', firstName: '', lastName: '', password: '', phone: '', role: '', username: '', company: null,
+    email: '', firstName: '', lastName: '', password: '', phone: '', role: 'manager', username: '', company: null,
   };
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,

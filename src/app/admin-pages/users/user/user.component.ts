@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { User } from '../../../@core/data/user';
+import { AdminService } from '../../../@core/service/admin.service';
 import { UserService } from '../../../@core/service/user.service';
 
 @Component({
-  selector: 'ngx-user',
+  selector: 'admin-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })
@@ -19,13 +20,13 @@ export class UserComponent implements OnInit {
       manager: '', legalRep: '', telephone: '', occupation: undefined, operations: []},
   };
 
-  constructor(private route: ActivatedRoute, private korisnikService: UserService,
-              @Inject(NB_AUTH_OPTIONS) protected options = {},
+  constructor(private route: ActivatedRoute, private adminService: AdminService,
+              @Inject(NB_AUTH_OPTIONS) protected options = {}, private userService: UserService,
               private toastrService: NbToastrService, private router: Router  ) { }
 
   ngOnInit(): void {
-    const korisnickoIme = this.route.snapshot.paramMap.get('korisnickoIme');
-    this.korisnikService.getUser(korisnickoIme, 'username').subscribe(u => {
+    const username = this.route.snapshot.paramMap.get('username');
+    this.adminService.getUser(username, 'username').subscribe(u => {
       this.user = u;
     });
   }
@@ -38,7 +39,7 @@ export class UserComponent implements OnInit {
     if (!form.valid)
       this.showToast('Greška', 'Informacije koje ste uneli nisu tačne!', 'danger');
     else {
-      this.korisnikService.updateUser(this.user, this.user._id).subscribe(u => {
+      this.userService.updateUser(this.user, this.user._id).subscribe(u => {
       });
       this.showToast('Uspeh', 'Uspešno ste izmenili informacije!', 'success');
     }
@@ -52,7 +53,7 @@ export class UserComponent implements OnInit {
   }
 
   gotoCompany(): void {
-    this.router.navigate(['admin/firme', this.user.company.pib]);
+    this.router.navigate(['admin/companies', this.user.company.pib]);
   }
 
 }

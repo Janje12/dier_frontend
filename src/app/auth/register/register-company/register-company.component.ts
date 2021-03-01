@@ -41,6 +41,8 @@ export class RegisterCompanyComponent implements OnInit {
     name: '',
     occupation: {code: '', name: ''},
     operations: [],
+    storages: [],
+    permits: [],
     pib: '',
     telephone: '',
   };

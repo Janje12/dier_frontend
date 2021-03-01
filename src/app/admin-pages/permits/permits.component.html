@@ -1,0 +1,20 @@
+<nb-card>
+  <nb-card-header>Dozvole</nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <label class="label text-left col-12">Odaberite firmu: </label>
+      <nb-select class="col-12" fullWidth selected="-" (selectedChange)="selectPermits($event)">
+        <nb-option [value]="'-'">-</nb-option>
+        <nb-option *ngFor="let c of companyNames;" [value]="c">{{c.name}}</nb-option>
+      </nb-select>
+    </div>
+    <div class="row mt-2">
+      <ng2-smart-table class="col-12" [settings]="permitSettings" [source]="selectedPermits"
+                       (createConfirm)="createPermit($event)"
+                       (editConfirm)="updatePermit($event)"
+                       (deleteConfirm)="deletePermit($event)"
+                       (custom)="permitInfo($event)"></ng2-smart-table>
+    </div>
+  </nb-card-body>
+
+</nb-card>

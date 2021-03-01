@@ -134,7 +134,7 @@ export class CoreModule {
               if (req.url === environment.apiUrl + '/api/auth/login') {
                 return true;
               }
-              if (req.url ===  environment.apiUrl + '/api/auth/refresh') {
+              if (req.url === environment.apiUrl + '/api/auth/refresh') {
                 return true;
               }
               return false;

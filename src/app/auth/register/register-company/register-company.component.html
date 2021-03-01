@@ -1,6 +1,6 @@
 <h1 class="text-center">Registruj se!</h1>
 <nb-stepper disableStepNavigation selectedIndex="1">
-  <nb-step label="User" completed="true"></nb-step>
+  <nb-step label="Korisnik" completed="true"></nb-step>
   <nb-step label="Firma">
     <form #companyForm="ngForm">
 
@@ -118,7 +118,7 @@
               </ng-container>
             </div>
             <div class="col-6">
-              <nb-select-label class="label" for="input-mestoFirma">Location:</nb-select-label>
+              <nb-select-label class="label" for="input-placeName">Mesto:</nb-select-label>
               <input
                 #placeName="ngModel"
                 (ngModelChange)="findPlaces(placeName.value)"
@@ -148,9 +148,9 @@
               <input #zipCode="ngModel"
                      [(ngModel)]="company.address.location.zipCode"
                      [attr.aria-invalid]="zipCode.invalid && zipCode.touched ? true : null"
-                     [maxlength]="getConfigValue('forms.validation.postanskiBroj.maxLength')"
-                     [minlength]="getConfigValue('forms.validation.postanskiBroj.minLength')"
-                     [required]="getConfigValue('forms.validation.postanskiBroj.required')"
+                     [maxlength]="getConfigValue('forms.validation.zipCode.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.zipCode.minLength')"
+                     [required]="getConfigValue('forms.validation.zipCode.required')"
                      [status]="zipCode.dirty ? (zipCode.invalid  ? 'danger' : 'success') : 'basic'"
                      fullWidth
                      id="input-zipCode"
@@ -264,7 +264,8 @@
             <p class="error-message mt-1 mb-0" *ngIf="companyTelephone.errors?.required">
               Telefon firme je obavezan!
             </p>
-            <p class="error-message mt-1 mb-0" *ngIf="companyTelephone.errors?.minlength || companyTelephone.errors?.maxlength">
+            <p class="error-message mt-1 mb-0"
+               *ngIf="companyTelephone.errors?.minlength || companyTelephone.errors?.maxlength">
               Telefon firme mora biti validan!
             </p>
           </ng-container>
@@ -357,7 +358,8 @@
                 <p class="error-message mt-1 mb-0" *ngIf="fNameLegalRepo.errors?.required">
                   Ime zakonskog zastupnika je obavezno!
                 </p>
-                <p class="error-message mt-1 mb-0" *ngIf="fNameLegalRepo.errors?.minlength || fNameLegalRepo.errors?.maxlength">
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="fNameLegalRepo.errors?.minlength || fNameLegalRepo.errors?.maxlength">
                   Ime zakonskog zastupnika mora biti duže od
                   {{ getConfigValue('forms.validation.firstName.minLength') }} slova!
                 </p>
@@ -382,7 +384,8 @@
                 <p class="error-message mt-1 mb-0" *ngIf="lNameLegalRepo.errors?.required">
                   Prezime zakonskog zastupnika je obavezno!
                 </p>
-                <p class="error-message mt-1 mb-0" *ngIf="lNameLegalRepo.errors?.minlength || lNameLegalRepo.errors?.maxlength">
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="lNameLegalRepo.errors?.minlength || lNameLegalRepo.errors?.maxlength">
                   Prezime zakonskog zastupnika mora biti duže od
                   {{ getConfigValue('forms.validation.lastName.minLength') }} slova!
                 </p>

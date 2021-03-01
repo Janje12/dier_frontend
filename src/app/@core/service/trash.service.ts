@@ -30,9 +30,9 @@ export class TrashService extends TrashData {
   }
 
   updateTrash(trash: Trash, storageID: string, value: string, type: string = '_id',
-              companyName?: string, documentNo?: string): Observable<Trash> {
+              companyName?: string, documentNo?: string, increment?: boolean): Observable<Trash> {
     return this.http.patch<Trash>(this.apiUrl + '/api/trash/one/' + `${type}/${value}`,
-      {trash: trash, storageID: storageID, documentNo: documentNo, companyName: companyName});
+      {trash: trash, storageID: storageID, documentNo: documentNo, companyName: companyName, inc: increment});
   }
 
 }

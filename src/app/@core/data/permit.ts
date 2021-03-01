@@ -16,6 +16,7 @@ export interface Permit {
     location: Location;
     street: string;
   };
+  __t?: string;
 }
 
 export abstract class PermitData {

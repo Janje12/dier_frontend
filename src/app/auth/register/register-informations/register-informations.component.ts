@@ -4,6 +4,7 @@ import { NbAccordionComponent, NbComponentStatus, NbToastrService } from '@nebul
 import { first } from 'rxjs/operators';
 import { RegisterService } from '../../../@core/service/register.service';
 import { RoleService } from '../../../@core/service/role.service';
+import { TrashPermitComponent } from './trash/trash-permit/trash-permit.component';
 import { TrashStorageComponent } from './trash/trash-storage/trash-storage.component';
 import { TrashTransportComponent } from './trash/trash-transport/trash-transport.component';
 
@@ -17,6 +18,8 @@ export class RegisterInformationsComponent implements OnInit {
   private productionRef: TrashStorageComponent;
   @ViewChild('transportRef')
   private transportRef: TrashTransportComponent;
+  @ViewChild('collectorRef')
+  private collectorRef: TrashPermitComponent;
   @ViewChild('treatmentRef')
   private treatmentRef: TrashStorageComponent;
   @ViewChild('dumpRef')
@@ -25,13 +28,21 @@ export class RegisterInformationsComponent implements OnInit {
   private cacheRef: TrashStorageComponent;
 
   valid: boolean = false;
-  operations: { production: boolean, transport: boolean, treatment: boolean, disposal: boolean, cache: boolean };
+  operations: {
+    production: boolean,
+    transport: boolean,
+    specialWaste: boolean,
+    collector: boolean,
+    treatment: boolean,
+    disposal: boolean,
+    cache: boolean,
+  };
   activeTab: string = '';
 
   constructor(private registerService: RegisterService, private router: Router,
               private toastrService: NbToastrService, private roleService: RoleService,
               private route: ActivatedRoute) {
-          this.activeTab = this.route.snapshot.paramMap.get('tab');
+    this.activeTab = this.route.snapshot.paramMap.get('tab');
   }
 
   ngOnInit(): void {
@@ -52,6 +63,11 @@ export class RegisterInformationsComponent implements OnInit {
     if (type === 'transport') {
       if (this.transportRef !== undefined && this.operations.transport)
         if (this.transportRef.valid)
+          return result;
+    }
+    if (type === 'collector') {
+      if (this.collectorRef !== undefined && this.operations.collector)
+        if (this.collectorRef.valid)
           return result;
     }
     if (type === 'treatment') {
@@ -86,6 +102,9 @@ export class RegisterInformationsComponent implements OnInit {
           this.valid = false;
       if (this.transportRef !== undefined && this.operations.transport)
         if (!this.transportRef.checkValid())
+          this.valid = false;
+      if (this.collectorRef !== undefined && this.operations.collector)
+        if (!this.collectorRef.checkValid())
           this.valid = false;
       if (this.treatmentRef !== undefined && this.operations.treatment)
         if (!this.treatmentRef.checkValid())

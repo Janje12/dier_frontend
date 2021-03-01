@@ -11,14 +11,18 @@ import {
   NbProgressBarModule, NbRadioModule, NbSelectModule, NbStepperModule, NbTabsetModule,
 } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { AdminService } from '../@core/service/admin.service';
 import { DkoService } from '../@core/service/dko.service';
 import { CompanyService } from '../@core/service/company.service';
+import { PermitService } from '../@core/service/permit.service';
 import { UserService } from '../@core/service/user.service';
 import { MesecniIzvestajService } from '../@core/service/mesecniIzvestaj.service';
 import { TrashService } from '../@core/service/trash.service';
 import { RoleService } from '../@core/service/role.service';
 import { StorageService } from '../@core/service/storage.service';
 import { ThemeModule } from '../@theme/theme.module';
+import { PopupWindowsModule } from '../pages/popup-windows/popup-windows.module';
+import { StorageModule } from '../pages/storage-containers/storage.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { CompaniesComponent } from './companies/companies.component';
@@ -36,28 +40,32 @@ import { StorageReportsComponent } from './reports/storage-reports/storage-repor
 import { TrashTransportReportComponent } from './reports/trash-transport-report/trash-transport-report.component';
 import { TrashPartComponent } from './reports/trash-transport-report/trash-part/trash-part.component';
 import { CompanyPartComponent } from './reports/trash-transport-report/company-part/company-part.component';
+import { PermitsComponent } from './permits/permits.component';
+import { PermitComponent } from './permits/permit/permit.component';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		AdminRoutingModule,
-		ThemeModule,
-		NbMenuModule,
-		NbCardModule,
-		Ng2SmartTableModule,
-		NbInputModule,
-		FormsModule,
-		NbButtonModule,
-		NbIconModule,
-		NbProgressBarModule,
-		NbAccordionModule,
-		NbTabsetModule,
-		NbStepperModule,
-		NbSelectModule,
-		NbDatepickerModule,
-		NbRadioModule,
-		ReportsModule,
-	],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    ThemeModule,
+    NbMenuModule,
+    NbCardModule,
+    Ng2SmartTableModule,
+    NbInputModule,
+    FormsModule,
+    NbButtonModule,
+    NbIconModule,
+    NbProgressBarModule,
+    NbAccordionModule,
+    NbTabsetModule,
+    NbStepperModule,
+    NbSelectModule,
+    NbDatepickerModule,
+    NbRadioModule,
+    ReportsModule,
+    StorageModule,
+    PopupWindowsModule,
+  ],
   declarations: [
     AdminComponent,
     UsersComponent,
@@ -74,14 +82,18 @@ import { CompanyPartComponent } from './reports/trash-transport-report/company-p
     TrashTransportReportComponent,
     TrashPartComponent,
     CompanyPartComponent,
+    PermitsComponent,
+    PermitComponent,
   ],
   providers: [
+    AdminService,
     UserService,
+    PermitService,
     CompanyService,
     TrashService,
-    MesecniIzvestajService,
     StorageService,
     RoleService,
+    MesecniIzvestajService,
     DkoService,
   ],
 })

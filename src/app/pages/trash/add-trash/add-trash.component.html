@@ -3,19 +3,22 @@
     <h5>Dodajte novi inventar otpada</h5>
   </nb-card-header>
   <nb-card-body>
-    <div class="row">
+    <div class="row mb-2">
       <div class="col-12">
-        <label class="col-8 pl-0">Pretraži po indeksnom broju ili nazivu:</label></div>
-      <div class="col-4">
+        <label class="col-8 pl-0">Pretraži po indeksnom broju ili nazivu:</label>
+      </div>
+      <div class="col-4" *ngIf="operation !== 'production'">
         <nb-select fullWidth [(ngModel)]="selectedStorage">
           <nb-option *ngFor="let d of permits" (selectionChange)="updateCatalog(d)"
                      [value]="d?.storage">{{d?.storage.name}}</nb-option>
         </nb-select>
       </div>
-      <input nbInput #search class="col-12" fullWidth type="text" placeholder="Pretraži"
-             (input)="search.value.length >= 1 && onSearch(search.value)">
-      <ng2-smart-table class="col-12" [source]="catalog" [settings]="settings"
-                       (custom)="chooseTrash($event)"></ng2-smart-table>
+      <div class="col-12">
+        <input nbInput #search fullWidth type="text" placeholder="Pretraži"
+               (input)="search.value.length >= 1 && onSearch(search.value)">
+        <ng2-smart-table [source]="catalog" [settings]="settings"
+                         (custom)="chooseTrash($event)"></ng2-smart-table>
+      </div>
     </div>
     <form #addForm="ngForm" (ngSubmit)="addTrash()">
       <div class="row">
@@ -74,33 +77,40 @@
           </div>
           <div class="row mb-2" *ngIf="operation === 'dump'">
             <label class="col-12 label">Odaberite D oznaku (možete promentiti u svakom trenutku): </label>
-            <div class="col-6">
+            <div class="col-10">
               <nb-select [(ngModel)]="trash.dSign" fullWidth required name="dSign">
-                <nb-option *ngFor="let d of dSigns;" [value]="d">{{d}}</nb-option>
+                <nb-option *ngFor="let d of dSigns;let i = index"
+                           [value]="'D' + (i + 1)">{{'D' + (i + 1) + ' | ' + d}}</nb-option>
               </nb-select>
             </div>
           </div>
           <div class="row mb-2" *ngIf="operation === 'treatment'">
             <label class="col-12 label">Odaberite R oznaku (možete promentiti u svakom trenutku): </label>
-            <div class="col-6">
+            <div class="col-10">
               <nb-select [(ngModel)]="trash.rSign" fullWidth required name="rSign">
-                <nb-option *ngFor="let r of rSigns;" [value]="r">{{r}}</nb-option>
+                <nb-option *ngFor="let r of rSigns;let i = index"
+                           [value]="'R' + (i + 1)">{{'R' + (i + 1) + ' | ' + r}}</nb-option>
               </nb-select>
             </div>
           </div>
         </div>
 
         <div class="col-6">
-          <div class="row mb-2"></div>
-          <nb-toggle #examinationCodeToggle status="basic">Imam dokumenat o ispitivanju otpada</nb-toggle>
-          <div class="row mb-2" *ngIf="examinationCodeToggle.checked">
+          <div class="row mb-2">
+            <div class="col-12">
+              <nb-toggle #examinationCodeToggle [checked]="trashType === 'unsafe'" [disabled]="trashType === 'unsafe'"
+                         status="basic">Imam dokumenat o ispitivanju otpada
+              </nb-toggle>
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="examinationCodeToggle.checked || trashType === 'unsafe'">
             <label class="col-12 label" for="input-examinationCode">Šifra ispitivanja otpada: </label>
             <div class="col-6">
               <input [(ngModel)]="trash.examinationCode" fullWidth id="input-examinationCode" name="examinationCode"
                      nbInput placeholder="Šifra" required type="text">
             </div>
           </div>
-          <div class="row mb-2" *ngIf="examinationCodeToggle.checked">
+          <div class="row mb-2" *ngIf="examinationCodeToggle.checked || trashType === 'unsafe'">
             <label class="col-12 label" for="input-examinationDate">Datum ispitivanja otpada: </label>
             <div class="col-6">
               <input [(ngModel)]="trash.examinationDate" [nbDatepicker]="examinationDatePicker"
@@ -110,22 +120,28 @@
               <nb-datepicker [max]="today()" #examinationDatePicker></nb-datepicker>
             </div>
           </div>
-          <div *ngIf="operation === 'unsafe'">
+          <div *ngIf="trashType === 'unsafe'">
             <div class="row mb-2">
               <label class="col-4 label">H-Lista: </label>
               <label class="col-4 label">Y-Lista: </label>
               <label class="col-4 label">C-Lista: </label>
               <div class="col-4 mb-2">
-                <input [(ngModel)]="trash.hList" fullWidth
-                       name="Hlista" nbInput type="text" required>
+                <nb-select [(ngModel)]="trash.hList" fullWidth required name="rSign">
+                  <nb-option *ngFor="let h of hList;let i = index"
+                             [value]="'H' + (i+1)">{{'H' + (i + 1) + ' | ' + h}}</nb-option>
+                </nb-select>
               </div>
               <div class="col-4 mb-2">
-                <input [(ngModel)]="trash.yList" fullWidth
-                       name="YLista" nbInput type="text" required>
+                <nb-select [(ngModel)]="trash.yList" fullWidth required name="rSign">
+                  <nb-option *ngFor="let y of yList;let i = index"
+                             [value]="'Y' + (i+1)">{{'Y' + (i + 1) + ' | ' + y}}</nb-option>
+                </nb-select>
               </div>
               <div class="col-4">
-                <input [(ngModel)]="trash.cList" fullWidth
-                       name="CLista" nbInput type="text" required>
+                <nb-select [(ngModel)]="trash.cList" fullWidth required name="rSign">
+                  <nb-option *ngFor="let c of cList;let i = index"
+                             [value]="'C' + (i+1)">{{'C' + (i + 1) + ' | ' + c}}</nb-option>
+                </nb-select>
               </div>
             </div>
 

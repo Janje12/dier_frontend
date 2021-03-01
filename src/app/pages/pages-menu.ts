@@ -60,4 +60,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+  {
+    title: 'Posebni tokovi otpada',
+    icon: { icon: 'car-battery', pack: 'font-awesome' },
+    children: [
+      {
+        title: 'Proizvodnja',
+        link: '/pages/trash/specialwaste/production',
+      },
+      {
+        title: 'Uvoz',
+        link: '/pages/trash/specialwaste/import',
+      },
+      {
+        title: 'Izvoz',
+        link: '/pages/trash/specialwaste/export',
+      },
+    ],
+  },
 ];

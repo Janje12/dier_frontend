@@ -35,7 +35,7 @@ export class PermitService extends PermitData {
   }
 
   getCompaniesPermits(companyID: string, permitType: string = 'all'): Observable<Permit[]> {
-    return this.http.get<Permit[]>(this.apiUrl + '/api/company/permits/company/' + companyID + '/' + permitType);
+    return this.http.get<Permit[]>(this.apiUrl + '/api/company/permits/' + companyID + '/' + permitType);
   }
 }
 

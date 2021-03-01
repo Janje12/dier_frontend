@@ -13,22 +13,27 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Korisnici',
-    link: '/admin/korisnici',
+    link: '/admin/users',
     icon: {icon: 'user', pack: 'font-awesome'},
   },
   {
     title: 'Firme',
-    link: '/admin/firme',
+    link: '/admin/companies',
     icon: {icon: 'industry', pack: 'font-awesome'},
   },
   {
     title: 'Skladišta',
-    link: '/admin/skladiste',
+    link: '/admin/storages',
     icon: {icon: 'box', pack: 'font-awesome'},
   },
   {
+    title: 'Dozvole',
+    link: '/admin/permits',
+    icon: {icon: 'paste', pack: 'font-awesome'},
+  },
+  {
     title: 'Izveštaji',
-    link: '/admin/izvestaji',
+    link: '/admin/reports',
     icon: {icon: 'print', pack: 'font-awesome'},
   },
 ];

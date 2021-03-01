@@ -1,0 +1,186 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-1"><a routerLink=".." class=""><i class="fa fa-2x fa-arrow-left"></i></a>
+      </div>
+      <div class="col-9">
+        <h5 class="text-center">{{permit.name}}</h5>
+        <p class="text-center text-muted">{{permit.__t}}</p>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <form #formPermit="ngForm" (ngSubmit)="updatePermit(formPermit)">
+      <div class="row">
+        <div class="col-6">
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-permitName">Naziv dozvole:</label>
+            </div>
+            <div class="col-6">
+              <input #permitName="ngModel"
+                     [(ngModel)]="permit.name"
+                     [attr.aria-invalid]="permitName.invalid && permitName.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.permitName.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.permitName.minLength')"
+                     [required]="getConfigValue('forms.validation.permitName.required')"
+                     [status]="permitName.dirty ? (permitName.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-permitName"
+                     name="permitName"
+                     nbInput
+                     type="text">
+              <ng-container *ngIf="permitName.invalid && permitName.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="permitName.errors?.required">
+                  Naziv dozvole je obavezan!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-permitCode">Šifra dozvole:</label>
+            </div>
+            <div class="col-6">
+              <input [(ngModel)]="permit.code"
+                     fullWidth
+                     id="input-permitCode"
+                     name="permitCode"
+                     nbInput
+                     type="text">
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-address">Adresa Dozvole:</label>
+            </div>
+            <div class="col-6">
+              <input
+                disabled
+                [placeholder]="permit.address?.location?.townshipName + ', ' +
+                permit.address?.location?.placeName + ', ' + permit?.address?.street"
+                fullWidth
+                id="input-address"
+                name="address"
+                nbInput
+                type="text">
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="label" for="input-dateCreation">Datum trajanja dozvole:</label>
+            </div>
+            <div class="col-6">
+              <label class="label" for="input-dateExpiration">Datum isteka dozvole:</label>
+            </div>
+            <div class="col-5 mr-0 pr-0">
+              <input #dateCreation="ngModel"
+                     [(ngModel)]="permit.dateCreation"
+                     [attr.aria-invalid]="dateCreation.invalid && dateCreation.touched ? true : null"
+                     [nbDatepicker]="dateCreationPicker"
+                     [required]="getConfigValue('forms.validation.date.required')"
+                     [status]="!dateValid(permit) ? 'danger' : 'success'"
+                     fullWidth
+                     id="input-dateCreation"
+                     name="dateCreation"
+                     nbInput>
+              <nb-datepicker [(date)]="permit.dateCreation" #dateCreationPicker></nb-datepicker>
+            </div>
+            <button disabled nbButton class="mx-0 px-0 col-1">-</button>
+            <div class="col-5 ml-0 pl-0">
+              <input #dateExpiration="ngModel"
+                     [(ngModel)]="permit.dateExpiration"
+                     [attr.aria-invalid]="dateExpiration.invalid && dateExpiration.touched ? true : null"
+                     [nbDatepicker]="dateExpirationPicker"
+                     [required]="getConfigValue('forms.validation.date.required')"
+                     [status]="!dateValid(permit) ? 'danger' : 'success'"
+                     fullWidth
+                     id="input-dateExpiration"
+                     name="dateExpiration"
+                     nbInput>
+              <nb-datepicker [(date)]="permit.dateExpiration" #dateExpirationPicker></nb-datepicker>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-permitType">Vrsta dozvole:</label>
+            </div>
+            <div class="col-6">
+              <nb-select fullWidth name="permitType" [selected]="permit.type" id="input-permitType" [(ngModel)]="permit.type">
+                <nb-option [value]="'treatment'">Tretman</nb-option>
+                <nb-option [value]="'cache'">Skladištenje</nb-option>
+                <nb-option [value]="'dump'">Odlaganje</nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="row mb-2" *ngIf="permit.storage !== undefined">
+            <div class="col-12">
+              <label class="label" for="input-permitStorage">Skladište:</label>
+            </div>
+            <div class="col-5 pr-0">
+              <input [(ngModel)]="permit.storage.name"
+                     disabled
+                     fullWidth
+                     id="input-permitStorage"
+                     name="permitStorage"
+                     nbInput
+                     type="text">
+            </div>
+            <div class="col-1 pl-0">
+              <button status="primary" nbButton fullWidth (click)="gotoStorage()"><i class="fa fa-link"></i></button>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-permitCompany">Firma:</label>
+            </div>
+            <div class="col-5 pr-0">
+              <input [(ngModel)]="company.name"
+                     disabled
+                     fullWidth
+                     id="input-permitCompany"
+                     name="permitCompany"
+                     nbInput
+                     type="text">
+            </div>
+            <div class="col-1 pl-0">
+              <button status="primary" nbButton fullWidth (click)="gotoCompany()"><i class="fa fa-link"></i></button>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label"> </label>
+            </div>
+            <div class="col-6">
+              <button nbButton fullWidth status="success" type="button" (click)="openPermitsTrashWindow()">Pogledaj
+                listu
+                otpada
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-end">
+        <div class="col-3">
+          <button fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+        </div>
+      </div>
+
+    </form>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #viewTrash>
+  <view-permits-trash-popup [selectedPermit]="permit"
+                            (callUpdatePermitsTrash)="updatePermitsTrashMethod($event)"></view-permits-trash-popup>
+</ng-template>

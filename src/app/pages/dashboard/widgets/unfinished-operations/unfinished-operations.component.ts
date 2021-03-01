@@ -31,7 +31,7 @@ export class UnfinishedOperationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateTransactions();
-    this.storageService.getCompaniesStorage('', this.roleService.getCompanyID()).subscribe(s => {
+    this.storageService.getCompaniesStorage(this.roleService.getCompanyID(), 'production').subscribe(s => {
       this.storage = s;
     });
   }
@@ -54,7 +54,8 @@ export class UnfinishedOperationsComponent implements OnInit {
                         selectedStorage: selectedStorage,
                       }) {
     leftoverTrashCreated.forEach(trashCreated => {
-      this.trashService.createTrash(trashCreated, selectedStorage._id).subscribe(x => {
+      this.trashService.updateTrash(trashCreated, selectedStorage._id,
+        trashCreated.indexNumber, 'indexNumber', undefined, undefined, true).subscribe(x => {
         this.updateTransactions();
       });
     });

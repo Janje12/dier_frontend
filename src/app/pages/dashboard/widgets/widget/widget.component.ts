@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { RoleService } from '../../../../@core/service/role.service';
 
 @Component({
   selector: 'widget',
@@ -15,12 +16,19 @@ export class WidgetComponent implements OnInit {
   showSettings: boolean = false;
   widgetList: {};
   loading: boolean = true;
+  operations: {
+    production: boolean, transport: boolean,
+    collector: boolean, treatment: boolean, disposal: boolean, cache: boolean,
+  };
 
-  constructor() {
+  constructor(private roleService: RoleService) {
 
   }
 
   ngOnInit(): void {
+    this.roleService.getOperations().subscribe(x => {
+      this.operations = x;
+    });
     if (this.name !== 'trash_stats')
       this.loading = false;
     let titleType = '';
@@ -45,8 +53,17 @@ export class WidgetComponent implements OnInit {
       transport_permits: {
         title: 'Dozvole za transport',
       },
+      collector_permits: {
+        title: 'Dozvole za sakupljanje',
+      },
       unfinished_operations: {
         title: 'Nedovršene operacije',
+      },
+      most_used_special_waste: {
+        title: 'Najčešće korišćeni posebni tokovi otpada',
+      },
+      special_waste_stats: {
+        title: 'Statistika posebnih tokova otpada',
       },
     };
   }
@@ -62,6 +79,7 @@ export class WidgetComponent implements OnInit {
   updateSizeMethod() {
     this.updateSize.emit(this.size);
   }
+
   updatePositionMethod(pos: number) {
     this.updatePosition.emit(pos);
   }

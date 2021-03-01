@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NbComponentStatus, NbToastrService, NbWindowRef, NbWindowService } from '@nebular/theme';
 import { Permit } from '../../../../@core/data/permit';
 import { Catalog } from '../../../../@core/data/catalog';
@@ -13,6 +13,7 @@ import { PERMIT_SETTINGS } from './transport-permits.settings';
 })
 export class TransportPermitsComponent implements OnInit {
   @ViewChild('viewTrash', {read: TemplateRef}) viewTrash: TemplateRef<HTMLElement>;
+  @Input() type: string;
 
   private windowRef: NbWindowRef;
   selectedPermit: Permit;
@@ -24,7 +25,7 @@ export class TransportPermitsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.permitService.getCompaniesPermits('transport', this.roleService.getCompanyID()).subscribe(x => {
+    this.permitService.getCompaniesPermits(this.roleService.getCompanyID(), this.type).subscribe(x => {
       this.transportPermits = x;
     });
   }

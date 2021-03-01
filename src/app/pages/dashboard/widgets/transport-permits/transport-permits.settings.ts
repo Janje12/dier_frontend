@@ -14,17 +14,17 @@ export const PERMIT_SETTINGS: any = {
     ],
   },
   columns: {
-    naziv: {
+    name: {
       title: 'Naziv',
       editable: false,
     },
-    sifra: {
+    code: {
       title: 'Šifra dozvole',
     },
-    datumTrajanja: {
+    dateExpiration: {
       title: 'Dozvola važi do',
       valuePrepareFunction: (cell: any, row: any) => {
-        return row.datumTrajanja.substring(0, 10);
+        return row.dateExpiration.substring(0, 10);
       },
     },
   },

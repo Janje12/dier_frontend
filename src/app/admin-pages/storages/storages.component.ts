@@ -2,29 +2,37 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
+import { first } from 'rxjs/operators';
+import { Storage } from '../../@core/data/storage';
+import { AdminService } from '../../@core/service/admin.service';
 import { StorageService } from '../../@core/service/storage.service';
 import { STORAGE_SETTINGS } from './storageTable.settings';
 
 @Component({
-  selector: 'ngx-storages',
+  selector: 'admin-storages',
   templateUrl: './storages.component.html',
   styleUrls: ['./storages.component.scss'],
 })
 export class StoragesComponent implements OnInit {
 
-  storageSource: LocalDataSource = new LocalDataSource();
+  storages: Storage[];
+  selectedStorages: LocalDataSource = new LocalDataSource();
   storageSettings: any = STORAGE_SETTINGS;
+  companyNames: any[] = [];
 
-  constructor(private skladisteService: StorageService, private toastrService: NbToastrService,
-              private router: Router) {
+  constructor(private storageService: StorageService, private toastrService: NbToastrService,
+              private router: Router, private adminService: AdminService) {
   }
 
   ngOnInit(): void {
-    this.skladisteService.getStorages('', '').subscribe(s => {
-      // Fix popunjenost
+    this.adminService.getStorages().pipe(first()).subscribe(s => {
       // @ts-ignore
-      s.forEach(x => x.popunjenost = ((x.kolicina / x.maxKolicina) * 100).toFixed(0));
-      this.storageSource.load(s);
+      s.forEach(x => x.capacity = ((x.amount / x.maxAmount) * 100).toFixed(0));
+      this.storages = s;
+      this.selectedStorages.load(s);
+    });
+    this.adminService.getCompanyNames('storages').subscribe(t => {
+      this.companyNames = t;
     });
   }
 
@@ -35,47 +43,59 @@ export class StoragesComponent implements OnInit {
       {status});
   }
 
+  selectStorages(selectedCompany: any) {
+    if (selectedCompany === '-') {
+      this.selectedStorages.load(this.storages);
+    } else {
+      let tmp = this.storages;
+      tmp = tmp.filter(f => selectedCompany.storages.includes(f._id));
+      this.selectedStorages.load(tmp);
+    }
+  }
+
   // TOASTR SERVICE THAT WORKS OFF OF the API!
   createStorage({newData: storage, confirm: confirm}): void {
     try {
-      this.skladisteService.createStorage(storage).subscribe(s => {
+      this.storageService.createStorage(storage).subscribe(s => {
       });
       confirm.resolve();
-      this.showToast('Uspeh!', 'Uspešno ste kreirali ' + storage.naziv, 'success');
+      this.showToast('Uspeh!', 'Uspešno ste kreirali ' + storage.name, 'success');
     } catch (err) {
       confirm.reject();
-      this.showToast('Greška!', 'Došlo je do greške do kreiranja ' + storage.naziv +
+      this.showToast('Greška!', 'Došlo je do greške do kreiranja ' + storage.name +
         '. Molimo vas pokušajte kasnije.', 'danger');
     }
   }
 
   updateStorage({newData: storage, confirm: confirm}): void {
     try {
-      this.skladisteService.updateStorage(storage, storage._id).subscribe(s => {
+      this.storageService.updateStorage(storage, storage._id).subscribe(s => {
       });
       confirm.resolve();
-      this.showToast('Uspeh!', 'Uspešno ste uredili ' + storage.naziv, 'success');
+      this.showToast('Uspeh!', 'Uspešno ste uredili ' + storage.name, 'success');
     } catch (err) {
       confirm.reject();
-      this.showToast('Greška!', 'Došlo je do greške dok ste pokušali da promenite ' + storage.naziv +
+      this.showToast('Greška!', 'Došlo je do greške dok ste pokušali da promenite ' + storage.name +
         '. Molimo vas pokušajte kasnije.', 'danger');
     }
   }
 
   deleteStorage({data: storage, confirm: confirm}): void {
     try {
-      this.skladisteService.deleteStorage(storage, storage._id).subscribe(s => {
+      if (!window.confirm('Da li ste sigurni da želite da obrišete ' + storage.name + '?'))
+        return;
+      this.storageService.deleteStorage(storage._id).subscribe(s => {
       });
       confirm.resolve();
-      this.showToast('Uspeh!', 'Uspešno ste obrisali ' + storage.naziv, 'success');
+      this.showToast('Uspeh!', 'Uspešno ste obrisali ' + storage.name, 'success');
     } catch (err) {
       confirm.reject();
-      this.showToast('Greška!', 'Došlo je do greške dok ste pokušali da obrišete ' + storage.naziv +
+      this.showToast('Greška!', 'Došlo je do greške dok ste pokušali da obrišete ' + storage.name +
         '. Molimo vas pokušajte kasnije.', 'danger');
     }
   }
 
   storageInfo({data: storage}): void {
-    this.router.navigate(['admin/skladiste', storage._id]);
+    this.router.navigate(['admin/storages', storage._id]);
   }
 }

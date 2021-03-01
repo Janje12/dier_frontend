@@ -4,6 +4,11 @@
   <nb-step label="Firma" completed="true"></nb-step>
   <nb-step label="Operacije" completed="true"></nb-step>
   <nb-step label="Informacije">
+    <nb-card class="bg-info" *ngIf="operations.specialWaste">
+      <nb-card-body>
+        <p class="justify-content-center d-flex">Nema potrebe za dodavanje dodatnih informacija za posebne tokove otpada! =)</p>
+      </nb-card-body>
+    </nb-card>
     <nb-accordion #accordionTrash accent="danger" size="tiny" [nbSpinner]="loading"
                   nbSpinnerStatus="danger"
                   nbSpinnerSize="giant"
@@ -31,7 +36,18 @@
         </nb-accordion-item-body>
       </nb-accordion-item>
 
-      <nb-accordion-item [collapsed]="activeTab !== 'tretman'" #accordionTreatment *ngIf="operations.treatment">
+      <nb-accordion-item [collapsed]="activeTab !== 'collector'" #accordionCollector *ngIf="operations.collector">
+        <nb-accordion-item-header>Sakupljač &nbsp;
+          <nb-icon [status]="checkCompletion('collector').status" [icon]="checkCompletion('collector').icon"></nb-icon>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+
+          <register-trash-permit #collectorRef [permitType]="'collector'" *ngIf="!accordionCollector.collapsed"></register-trash-permit>
+
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item [collapsed]="activeTab !== 'treatment'" #accordionTreatment *ngIf="operations.treatment">
         <nb-accordion-item-header>Tretman &nbsp;
           <nb-icon [status]="checkCompletion('treatment').status" [icon]="checkCompletion('treatment').icon"></nb-icon>
         </nb-accordion-item-header>

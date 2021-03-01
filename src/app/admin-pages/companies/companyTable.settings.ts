@@ -36,19 +36,19 @@ export const COMPANY_SETTINGS: any = {
     mat: {
       title: 'Matični broj',
     },
-    naziv: {
+    name: {
       title: 'Naziv',
     },
     email: {
       title: 'Email',
     },
-    emailPrijem: {
+    emailReception: {
       title: 'Email za prijem',
     },
-    telefon: {
+    telephone: {
       title: 'Telefon',
     },
-    radFirme: {
+    operations: {
       title: 'Rad firme',
     },
   },

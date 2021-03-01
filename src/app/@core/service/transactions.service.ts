@@ -45,8 +45,8 @@ export class TransactionsService extends TransactionData {
   }
 
   // GET the most used trash in that operation type (production, treatment, etc.)
-  getMostUsedTrash(operationType: string): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(this.apiUrl + '/api/transaction/mostused/' + operationType);
+  getMostUsedTrash(operationType: string, count: number = 5): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(this.apiUrl + '/api/transaction/mostused/' + operationType + '/' + count);
   }
 
 }

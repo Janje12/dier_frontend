@@ -20,11 +20,9 @@ export class TrashStorageComponent implements OnInit {
   @Input() trashType: string;
 
   company: Company;
-  storageNo: number = 1;
-  initStorage: Storage[] = [];
-  storages: any[];
-  storages$: Observable<any[]>;
-  storageAmmountUnit: string = 'KG';
+  storageNo: number;
+  storages: Storage[];
+  storages$: Observable<Storage[]>;
   townships: string[];
   townships$: Observable<string[]>;
   places: string[];
@@ -34,15 +32,6 @@ export class TrashStorageComponent implements OnInit {
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,
               private locationService: LocationService) {
-    if (this.storageType === 'production') {
-      this.storages = (this.initStorage as Storage[]);
-    } else if (this.storageType === 'treatment') {
-      this.storages = (this.initStorage as StorageTreatment[]);
-    } else if (this.storageType === 'dump') {
-      this.storages = (this.initStorage as StorageDump[]);
-    } else if (this.storageType === 'cache') {
-      this.storages = (this.initStorage as StorageCache[]);
-    }
   }
 
   ngOnInit(): void {
@@ -50,17 +39,21 @@ export class TrashStorageComponent implements OnInit {
       if (f !== undefined) {
         this.company = f;
         if (f.storages !== undefined) {
-          this.storages = this.company.storages.filter(s => {
-            if (this.storageType === 'production') {
-              return s.__t === undefined;
-            } else if (this.storageType === 'treatment') {
-              return s.__t === 'StorageTreatment';
-            } else if (this.storageType === 'dump') {
-              return s.__t === 'StorageDump';
-            } else if (this.storageType === 'cache') {
-              return s.__t === 'StorageCache';
-            }
-          });
+          let tmp = [];
+          if (this.storageType === 'treatment') {
+            tmp = <StorageTreatment[]>this.company.storages;
+            this.storages = tmp.filter(x => x.treatment !== undefined);
+          } else if (this.storageType === 'dump') {
+            tmp = <StorageDump[]>this.company.storages;
+            this.storages = tmp.filter(x => x.dumpType !== undefined);
+          } else if (this.storageType === 'cache') {
+            tmp = <StorageCache[]>this.company.storages;
+            this.storages = tmp.filter(x => x.cache !== undefined);
+          } else {
+            tmp = <any[]>this.company.storages;
+            this.storages = <Storage[]>tmp.filter(x => x.cache === undefined &&
+              x.dumpType === undefined && x.treatment === undefined);
+          }
           this.storageNo = this.storages.length;
           this.storages$ = of(this.storages);
         }
@@ -76,6 +69,51 @@ export class TrashStorageComponent implements OnInit {
 
   getConfigValue(key: string): any {
     return getDeepFromObject(this.options, key, null);
+  }
+
+  updateStorages() {
+    let tmp = new Array();
+    if (this.storageType === 'treatment') {
+      tmp = <StorageTreatment[]>this.company.storages;
+      this.company.storages = tmp.filter(x => x.treatment === undefined);
+    } else if (this.storageType === 'dump') {
+      tmp = <StorageDump[]>this.company.storages;
+      this.company.storages = tmp.filter(x => x.dumpType === undefined);
+    } else if (this.storageType === 'cache') {
+      tmp = <StorageCache[]>this.company.storages;
+      this.company.storages = tmp.filter(x => x.cache === undefined);
+    } else {
+      tmp = this.company.storages;
+      this.company.storages = tmp.filter(x => x.treatment || x.dumpType || x.cache);
+    }
+    this.storages = new Array(this.storageNo);
+    for (let i = 0; i < this.storageNo; i++) {
+      this.storages[i] = {
+        address: {location: {placeName: '', placeCode: 0, townshipName: '', townshipCode: 0, zipCode: ''}, street: ''},
+        amount: 0,
+        storageUnit: 'KG',
+        geolocationEast: ['0', '0', '0', '0', '0', '0', '0'],
+        geolocationNorth: ['0', '0', '0', '0', '0', '0', '0'],
+        maxAmount: NaN,
+        name: '',
+        packages: [],
+        trashes: [],
+      };
+      if (this.storageType === 'cache') {
+        this.storages[i]['cache'] = 'cache';
+      }
+      if (this.storageType === 'treatment') {
+        this.storages[i]['treatment'] = 'treatment';
+      }
+      if (this.storageType === 'dump') {
+        this.storages[i]['dumpType'] = '';
+      }
+    }
+    this.storages$ = of(this.storages);
+    this.storages.forEach(x => this.company.storages.push(x));
+    this.validateStorage();
+    if (this.permitRef !== undefined)
+      this.permitRef.updatePermitsForm(this.storageNo, this.storages$);
   }
 
   checkValid(): boolean {
@@ -99,9 +137,6 @@ export class TrashStorageComponent implements OnInit {
         this.valid = false;
         break;
       }
-      if (this.storageAmmountUnit === 'T') {
-        s.maxAmount *= 1000;
-      }
       if (s.maxAmount < 1 || isNaN(s.maxAmount)) {
         this.valid = false;
         break;
@@ -114,39 +149,11 @@ export class TrashStorageComponent implements OnInit {
         this.valid = false;
         break;
       }
-      if (this.storageType === 'dump' && s.dumpType === '') {
+      if (this.storageType === 'dump' && s['dumpType'] === '') {
         this.valid = false;
         break;
       }
     }
-  }
-
-  updateStorages() {
-    this.storages = new Array(this.storageNo);
-    for (let i = 0; i < this.storageNo; i++) {
-      this.storages[i] = {
-        address: {location: {placeName: '', placeCode: 0, townshipName: '', townshipCode: 0, zipCode: ''}, street: ''},
-        amount: 0,
-        geolocationEast: '',
-        geolocationNorth: '',
-        maxAmount: 0,
-        name: '',
-        packages: [],
-        trashes: [],
-      };
-      if (this.storageType === 'cache') {
-        this.storages[i].cache = 'cache';
-      }
-      if (this.storageType === 'treatment') {
-        this.storages[i].treatment = 'treatment';
-      }
-      if (this.storageType === 'dump') {
-        this.storages[i].dumpType = '';
-      }
-    }
-    this.storages$ = of(this.storages);
-    this.company.storages = this.storages;
-    this.validateStorage();
   }
 
   private getPlaces(townshipName: string): void {

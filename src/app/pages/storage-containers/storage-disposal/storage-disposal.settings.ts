@@ -22,17 +22,17 @@ export const STORAGE_DISPOSAL_SETTINGS: any = {
     ],
   },
   columns: {
-    indeksniBroj: {
+    indexNumber: {
       title: 'Indeksni Broj',
     },
-    naziv: {
+    name: {
       title: 'Naziv',
     },
-    opis: {
+    desc: {
       title: 'Opis',
     },
-    kolicina: {
-      title: 'Kolicina',
+    amount: {
+      title: 'Količina (KG)',
     },
   },
 };

@@ -113,7 +113,7 @@
                   </ng-container>
                 </div>
                 <div class="col-6">
-                  <nb-select-label class="label" for="input-storagePlace">Location:</nb-select-label>
+                  <nb-select-label class="label" for="input-storagePlace">Mesto:</nb-select-label>
                   <input
                     #storagePlace="ngModel"
                     (ngModelChange)="findPlaces($event)"
@@ -192,52 +192,68 @@
           </div>
 
           <div class="row mb-2">
-            <div class="col-6">
-              <label class="label" for="input-storageGeolocationN">Geolokacija Sever(N):</label>
-              <input #storageGeolocationN="ngModel"
-                     [(ngModel)]="storage.geolocationNorth"
-                     [attr.aria-invalid]="storageGeolocationN.invalid && storageGeolocationN.touched ? true : null"
-                     [maxlength]="getConfigValue('forms.validation.geolocation.maxLength')"
-                     [minlength]="getConfigValue('forms.validation.geolocation.minLength')"
-                     [pattern]="getConfigValue('forms.validation.geolocation.pattern')"
-                     [ngModelOptions]="{standalone: true}"
-                     [required]="getConfigValue('forms.validation.geolocation.required')"
-                     [status]="storageGeolocationN.dirty ? (storageGeolocationN.invalid  ? 'danger' : 'success') : 'basic'"
-                     fullWidth
-                     id="input-storageGeolocationN"
-                     name="storageGeolocationN"
-                     nbInput
-                     placeholder="N0">
-              <ng-container *ngIf="storageGeolocationN.invalid && storageGeolocationN.touched">
-                <p class="error-message mt-1 mb-0"
-                   *ngIf="storageGeolocationN.errors?.minlength || storageGeolocationN.errors?.maxlength">
-                  Geolokacija istok mora imati bar
-                  {{ getConfigValue('forms.validation.geolocation.minLength') - 2 }} decimale
-                </p>
+            <div class="col-12">
+              <label class="label">Geolokacija Sever(N):</label>
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationNorth[0]" class="col-1"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationNorth[1]" class="col-1"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <span class="mx-1" style="font-size: 1.5rem">°</span>
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationNorth[2]" class="col-1"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationNorth[3]" class="col-1"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <span class="mx-1" style="font-size: 1.5rem">'</span>
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationNorth[4]" class="col-1"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationNorth[5]" class="col-1"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationNorth[6]" class="col-1"
+                     onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text"><span class="mx-1" style="font-size: 1.5rem">"</span>
+              <ng-container>
               </ng-container>
             </div>
-            <div class="col-6">
-              <label class="label" for="input-storageGeolocationE">Geolokacija Istok(E0):</label>
-              <input #storageGeolocationE="ngModel"
-                     [(ngModel)]="storage.geolocationEast"
-                     [attr.aria-invalid]="storageGeolocationE.invalid && storageGeolocationE.touched ? true : null"
-                     [maxlength]="getConfigValue('forms.validation.geolocation.maxLength')"
-                     [minlength]="getConfigValue('forms.validation.geolocation.minLength')"
-                     [ngModelOptions]="{standalone: true}"
-                     [pattern]="getConfigValue('forms.validation.geolocation.pattern')"
-                     [required]="getConfigValue('forms.validation.geolocation.required')"
-                     [status]="storageGeolocationE.dirty ? (storageGeolocationE.invalid  ? 'danger' : 'success') : 'basic'"
-                     fullWidth
-                     id="input-storageGeolocationE"
-                     name="storageGeolocationE"
-                     nbInput
-                     placeholder="E0">
-              <ng-container *ngIf="storageGeolocationE.invalid && storageGeolocationE.touched">
-                <p class="error-message mt-1 mb-0"
-                   *ngIf="storageGeolocationE.errors?.minlength || storageGeolocationE.errors?.maxlength">
-                  Geolokacija istok mora imati bar
-                  {{ getConfigValue('forms.validation.geolocation.minLength') }} decimale!
-                </p>
+            <div class="col-12">
+              <label class="label">Geolokacija Istok(E0):</label>
+              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationEast[0]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationEast[1]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <span class="mx-1" style="font-size: 1.5rem">°</span>
+              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationEast[2]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationEast[3]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <span class="mx-1" style="font-size: 1.5rem">'</span>
+              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="storage.geolocationEast[4]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}" maxlength="1"
+                     [(ngModel)]="storage.geolocationEast[5]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}" maxlength="1"
+                     [(ngModel)]="storage.geolocationEast[6]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
+                     type="text">
+              <span class="mx-1" style="font-size: 1.5rem">"</span>
+              <ng-container>
               </ng-container>
             </div>
           </div>
@@ -257,13 +273,13 @@
                          id="input-storageSize"
                          name="storageSize"
                          nbInput
-                         onkeypress="return /[0-9.]/i.test(event.key)"
                          placeholder="0"
+                         onkeypress="return /[0-9.]/i.test(event.key)"
                          step="1"
                          type="number">
                 </div>
                 <div class="col-2 pl-0">
-                  <nb-select [ngModelOptions]="{standalone: true}" [selected]="'KG'" [(ngModel)]="storageAmmountUnit">
+                  <nb-select [ngModelOptions]="{standalone: true}" [(ngModel)]="storage.storageUnit">
                     <nb-option [value]="'KG'">KG</nb-option>
                     <nb-option [value]="'T'">T</nb-option>
                   </nb-select>
@@ -286,5 +302,7 @@
   </div>
 </div>
 
-<register-trash-permit #permitRef *ngIf="storageType !== 'production'" [storageNo]="storageNo" [storages]="storages"
-                       [permitType]="storageType"></register-trash-permit>
+<div *ngIf="storageType !== 'production'">
+  <register-trash-permit #permitRef [storageNo]="storageNo" [storages]="storages"
+                         [permitType]="storageType"></register-trash-permit>
+</div>

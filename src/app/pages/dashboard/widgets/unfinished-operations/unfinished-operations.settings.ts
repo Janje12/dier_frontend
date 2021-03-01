@@ -17,37 +17,37 @@ export const UNFINISHED_OPERATIONS_SETTINGS: any = {
     ],
   },
   columns: {
-    korisnik: {
+    user: {
       title: 'Podnosioc operacije',
       valuePrepareFunction: (cell: any, row: any) => {
-        return row.korisnik.ime + ' ' + row.korisnik.prezime;
+        return row.user.firstName + ' ' + row.user.lastName;
       },
     },
-    datum: {
+    date: {
       title: 'Datum tretmana',
       valuePrepareFunction: (cell: any, row: any) => {
-        return row.datum.substring(0, 10);
+        return row.date.substring(0, 10);
       },
     },
-    indeksniBroj: {
+    indexNumber: {
       title: 'Indeksni broj',
       valuePrepareFunction: (cell: any, row: any) => {
-        return row.otpad.indeksniBroj;
+        return row.trash.indexNumber;
       },
     },
-    naziv: {
+    name: {
       title: 'Naziv otpada',
       valuePrepareFunction: (cell: any, row: any) => {
-        let result = row.otpad.naziv;
-        if (row.otpad.naziv.length > 10)
-          result = row.otpad.naziv.substring(0, 10) + '...';
+        let result = row.trash.name;
+        if (row.trash.name.length > 10)
+          result = row.trash.name.substring(0, 10) + '...';
         return result;
       },
     },
-    kolicinaOtpada: {
+    amount: {
       title: 'Kolicina (KG)',
       valuePrepareFunction: (cell: any, row: any) => {
-        return row.kolicinaOtpada * -1;
+        return row.trash.amount;
       },
     },
   },

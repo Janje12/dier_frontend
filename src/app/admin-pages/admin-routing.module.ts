@@ -3,10 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { CompanyComponent } from './companies/company/company.component';
+import { PermitComponent } from './permits/permit/permit.component';
+import { PermitsComponent } from './permits/permits.component';
 import { ProfileComponent } from './profile/profile.component';
-import { CompanyReportsComponent } from './reports/company-reports/company-reports.component';
-import { ReportsComponent } from './reports/reports.component';
-import { TrashTransportReportComponent } from './reports/trash-transport-report/trash-transport-report.component';
 import { StorageComponent } from './storages/storage/storage.component';
 import { StoragesComponent } from './storages/storages.component';
 import { UserComponent } from './users/user/user.component';
@@ -17,7 +16,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     children: [
-     /* {
+     {
         path: 'admin-dashboard',
         loadChildren: () => import('./admin-dashboard/admin-dashboard.module')
           .then(m => m.AdminDashboardModule),
@@ -27,34 +26,42 @@ const routes: Routes = [
         component: ProfileComponent,
       },
       {
-        path: 'korisnici',
+        path: 'users',
         component: UsersComponent,
       },
       {
-        path: 'korisnici/:korisnickoIme',
+        path: 'users/:username',
         component: UserComponent,
       },
       {
-        path: 'firme',
+        path: 'companies',
         component: CompaniesComponent,
       },
       {
-        path: 'firme/:pib',
+        path: 'companies/:pib',
         component: CompanyComponent,
       },
       {
-        path: 'skladiste',
+        path: 'storages',
         component: StoragesComponent,
       },
       {
-        path: 'skladiste/:id',
+        path: 'storages/:id',
         component: StorageComponent,
       },
       {
-        path: 'izvestaji',
+        path: 'permits',
+        component: PermitsComponent,
+      },
+      {
+        path: 'permits/:id',
+        component: PermitComponent,
+      },
+      {
+        path: 'reports',
         loadChildren: () => import('./reports/reports.module')
           .then(m => m.ReportsModule),
-      },*/
+      },
     ],
   },
 ];

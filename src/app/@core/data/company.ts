@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { Occupation } from './occupation';
 import { Permit } from './permit';
 import { CompanyClient } from './companyClient';
+import { SpecialWaste } from './specialWaste';
 import { Storage } from './storage';
 import { Vehicle } from './vehicle';
 
@@ -12,6 +13,7 @@ export interface Company extends CompanyClient {
   occupation: Occupation;
   permits?: Permit[];
   storages?: Storage[];
+  specialWaste?: SpecialWaste[];
   vehicles?: Vehicle[];
 }
 

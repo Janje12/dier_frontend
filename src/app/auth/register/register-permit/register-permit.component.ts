@@ -11,7 +11,7 @@ import { RegisterService } from '../../../@core/service/register.service';
 import { CATALOG_SETTINGS } from './catalog.settings';
 
 @Component({
-  selector: 'ngx-register-dozvola',
+  selector: 'register-permit',
   templateUrl: './register-permit.component.html',
   styleUrls: ['./register-permit.component.scss'],
 })

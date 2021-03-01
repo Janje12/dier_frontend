@@ -23,7 +23,7 @@ export class ViewPermitsTrashPopupComponent implements OnInit {
 
   ngOnInit(): void {
     this.trashList = this.selectedPermit.trashList;
-    this.catalogService.getCatalogs('').subscribe(c => {
+    this.catalogService.getCatalogs().subscribe(c => {
       this.catalog.load(c);
     });
   }

@@ -29,7 +29,7 @@ export class ProfilePermitsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.permitService.getCompaniesPermits('', this.roleService.getCompanyID()).pipe(first()).subscribe(d => {
+    this.permitService.getCompaniesPermits(this.roleService.getCompanyID()).pipe(first()).subscribe(d => {
       this.permits = d;
     });
   }

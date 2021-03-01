@@ -59,11 +59,14 @@ export class TrashStatsComponent implements OnInit {
           data2[dayNumber] += Math.abs(this.trash[i].trashAmount);
       }
       this.options.title.text = this.trash[0].trash.name;
-      this.options.legend.data = ['Dodat otpad', 'Obradjen otpad'];
+      let negativeOperation = 'Obradjen otpad';
+      if (this.type === 'production')
+        negativeOperation = 'Transportovan otpad';
+      this.options.legend.data = ['Dodat otpad', negativeOperation];
       this.options.xAxis.data = [...days];
       this.options.series[0].name = 'Dodat otpad';
       this.options.series[0].data = [...data1];
-      this.options.series[1].name = 'Obradjen otpad';
+      this.options.series[1].name = negativeOperation;
       this.options.series[1].data = [...data2];
       this.isLoaded.emit();
     });

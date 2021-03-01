@@ -1,7 +1,7 @@
 <nb-card>
   <nb-card-header>Firme</nb-card-header>
   <nb-card-body>
-    <ng2-smart-table [settings]="companySettings" [source]="companySource"
+    <ng2-smart-table [settings]="companySettings" [source]="companies"
                      (createConfirm)="createCompany($event)"
                      (editConfirm)="updateCompany($event)"
                      (deleteConfirm)="deleteCompany($event)"

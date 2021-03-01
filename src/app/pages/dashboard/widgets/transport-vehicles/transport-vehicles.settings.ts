@@ -7,11 +7,11 @@ export const VEHICLES_SETTINGS: any = {
     delete: false,
   },
   columns: {
-    vrstaVozila: {
+    type: {
       title: 'Vrsta vozila',
       type: 'html',
       valuePrepareFunction: (cell: any, row: any) => {
-        const vehiclesType = row.vrstaVozila;
+        const vehiclesType = row.type;
         let result = vehiclesType;
         if (vehiclesType === 'kamion')
           result = '<i class="fa fa-2x fa-truck"></i>';
@@ -22,10 +22,10 @@ export const VEHICLES_SETTINGS: any = {
         return result;
       },
     },
-    registarskiBroj: {
+    licensePlate: {
       title: 'Registarski broj',
     },
-    datumRegistracije: {
+    licensePlateExpiration: {
       title: 'Registracija važi do',
     },
   },

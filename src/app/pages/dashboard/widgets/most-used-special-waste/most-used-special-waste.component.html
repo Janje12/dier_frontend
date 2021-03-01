@@ -1,0 +1,46 @@
+<nb-tabset>
+  <nb-tab tabTitle="Proizvodnja" [disabled]="!operations.production">
+    <div class="row">
+      <div class="col-4">Naziv</div>
+      <div class="col-4">Opis</div>
+      <div class="col-4">Dodaj proizvod</div>
+    </div>
+    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    <div class="row" *ngFor="let p of productionWastes;">
+      <div class="col-4">{{p.name}}</div>
+      <div class="col-4">{{p.desc}}</div>
+      <div class="col-4 text-center"><i (click)="openAddSpecialWasteWindow(p, 'production')" class="fa fa-plus add-button"></i></div>
+    </div>
+  </nb-tab>
+  <nb-tab tabTitle="Uvoz" [disabled]="!operations.import">
+    <div class="row">
+      <div class="col-4">Naziv</div>
+      <div class="col-4">Opis</div>
+      <div class="col-4">Uvezi proizvod</div>
+    </div>
+    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    <div class="row" *ngFor="let i of importWastes;">
+      <div class="col-4">{{i.name}}</div>
+      <div class="col-4">{{i.desc}}</div>
+      <div class="col-4 text-center"><i (click)="openAddSpecialWasteWindow(i, 'import')" class="fa fa-plus add-button"></i></div>
+    </div>
+  </nb-tab>
+  <nb-tab tabTitle="Izvoz" [disabled]="!operations.export">
+    <div class="row">
+      <div class="col-4">Naziv</div>
+      <div class="col-4">Opis</div>
+      <div class="col-4">Izvezi proizvod</div>
+    </div>
+    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    <div class="row" *ngFor="let e of exportWastes;">
+      <div class="col-4">{{e.name}}</div>
+      <div class="col-4">{{e.desc}}</div>
+      <div class="col-4 text-center"><i (click)="openAddSpecialWasteWindow(e, 'export')" class="fa fa-plus add-button"></i></div>
+    </div>
+  </nb-tab>
+</nb-tabset>
+
+<ng-template #addSpecialWaste>
+  <add-special-waste-popup [selectedSpecialWaste]="selectedSpecialWaste"
+                           [type]="selectedType" (exitEmitter)="closeSpecialWasteWindow()"></add-special-waste-popup>
+</ng-template>

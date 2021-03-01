@@ -42,6 +42,11 @@ export const DEFAULT_TRANSPORT_WIDGETS = {
         widgetSize: 'medium',
         widgetPosition: 1,
       },
+      {
+        widgetTitle: 'collector_permits',
+        widgetSize: 'medium',
+        widgetPosition: 2,
+      },
     ],
 };
 export const DEFAULT_TREATMENT_WIDGETS = {
@@ -71,7 +76,7 @@ export const DEFAULT_TREATMENT_WIDGETS = {
 };
 export const DEFAULT_DISPOSAL_WIDGETS = {
   groupPosition: 0,
-  groupTitle: 'ODLAGANEJE',
+  groupTitle: 'ODLAGANJE',
   groupColor: 'warning',
   groupType: 'disposal',
   widgetList:
@@ -107,6 +112,26 @@ export const DEFAULT_CACHE_WIDGETS = {
       },
       {
         widgetTitle: 'trash_stats',
+        widgetSize: 'medium',
+        widgetPosition: 1,
+      },
+    ],
+};
+
+export const DEFAULT_SPECIAL_WASTE_WIDGETS = {
+  groupPosition: 0,
+  groupTitle: 'POSEBNI TOKOVI OTPADA',
+  groupColor: 'basic',
+  groupType: 'special_waste',
+  widgetList:
+    [
+      {
+        widgetTitle: 'most_used_special_waste',
+        widgetSize: 'medium',
+        widgetPosition: 0,
+      },
+      {
+        widgetTitle: 'special_waste_stats',
         widgetSize: 'medium',
         widgetPosition: 1,
       },

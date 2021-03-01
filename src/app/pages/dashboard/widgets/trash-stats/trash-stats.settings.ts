@@ -5,6 +5,7 @@ export const TRASH_STATS_SETTINGS = {
   legend: {
     data: [],
     align: 'left',
+    top: 20,
   },
   tooltip: {},
   xAxis: {

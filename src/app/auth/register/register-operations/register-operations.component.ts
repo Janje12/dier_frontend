@@ -19,7 +19,7 @@ export class RegisterOperationsComponent implements OnInit {
   airIco: NbIconConfig = {icon: 'wind', pack: 'solid'};
 
   trashOperationsNo: number = 0;
-  specialWasteOperationsNo: number = 0;
+  specialWasteNo: number = 0;
   packageOperationsNo: number = 0;
   waterOperationsNo: number = 0;
   airOperationsNo: number = 0;
@@ -55,33 +55,40 @@ export class RegisterOperationsComponent implements OnInit {
   }
 
   trashOperationNumber(): string {
-    return this.operations.length + '';
+    return this.operations.filter(x =>
+      x.toLowerCase().includes('neopasnog') || x.toLowerCase().includes('opasnog')).length + '';
+  }
+
+  specialWasteOpertionNumber(): string {
+    return this.operations.filter(x => x.toLowerCase().includes('tokova')).length + '';
   }
 
   updateOperations() {
     // NEEDS FIXING
-    this.trashOperationsNo = this.operations.length;
+    this.trashOperationsNo = this.operations.filter(x =>
+      x.toLowerCase().includes('neopasnog') || x.toLowerCase().includes('opasnog')).length;
+    this.specialWasteNo = this.operations.filter(x => x.toLowerCase().includes('tokova')).length;
   }
 
   addProcessOperation(op: string, e: boolean, productionToggle: NbToggleComponent) {
     this.addOperation(op, e);
     if (!productionToggle.checked) {
-      productionToggle.checked = !productionToggle.checked;
+      productionToggle.checked = true;
     }
     if (!productionToggle.disabled) {
-      productionToggle.setDisabledState(!productionToggle.disabled);
+      productionToggle.setDisabledState(true);
     }
     if (op.includes('Neopasnog'))
-      this.addOperation('Proizvodnja Neopasnog Otpada', e);
+      this.addOperation('Proizvodnja Neopasnog Otpada', e, false);
     else
-      this.addOperation('Proizvodnja Opasnog Otpada', e);
+      this.addOperation('Proizvodnja Opasnog Otpada', e, false);
   }
 
-  addOperation(op: string, e: boolean) {
+  addOperation(op: string, e: boolean, remove: boolean = true) {
     if (e) {
-     if (!this.operations.includes(op))
-       this.operations.push(op);
-    } else {
+      if (!this.operations.includes(op))
+        this.operations.push(op);
+    } else if (remove) {
       this.operations.splice(this.operations.findIndex(x => x === op), 1);
     }
   }

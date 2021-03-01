@@ -1,6 +1,6 @@
 {
   "name": "dier_frontend",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "Frontend solution for DIER APP.",
   "scripts": {
     "ng": "ng",

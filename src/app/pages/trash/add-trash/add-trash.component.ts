@@ -7,13 +7,12 @@ import { Storage } from '../../../@core/data/storage';
 import { UnsafeTrash } from '../../../@core/data/unsafeTrash';
 import { CatalogService } from '../../../@core/service/catalog.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Trash } from '../../../@core/data/trash';
 import { PermitService } from '../../../@core/service/permit.service';
 import { RoleService } from '../../../@core/service/role.service';
 import { TrashService } from '../../../@core/service/trash.service';
 import { StorageService } from '../../../@core/service/storage.service';
 import { TRASH_CATALOG_SETTINGS } from '../trashCatalogTable';
-import { TRASH_STATES, D_TAGS, R_TAGS } from '../../../@core/utils/trash-utils';
+import { TRASH_STATES, D_TAGS, R_TAGS, H_LIST, Y_LIST, C_LIST } from '../../../@core/utils/trash-utils';
 
 @Component({
   selector: 'pages-add-trash',
@@ -26,13 +25,15 @@ export class AddTrashComponent implements OnInit {
   catalog: LocalDataSource = new LocalDataSource();
   storageAmmountUnit: string = 'KG';
   storages: Storage[] = [];
-  selectedStorage: Storage;
+  selectedStorage: Storage = {address: {location: undefined, street: ''}, amount: 0, maxAmount: 0, name: ''};
   permits: Permit[] = [];
   states: string[] = TRASH_STATES;
   dSigns: string[] = D_TAGS;
   rSigns: string[] = R_TAGS;
+  hList: string[] = H_LIST;
+  yList: string[] = Y_LIST;
+  cList: string[] = C_LIST;
   trash: any = {
-    cList: '', hList: '', unsafeComponent: [], yList: '',
     amount: 0, desc: '', indexNumber: '', name: '', dSign: '', rSign: '',
   };
   componentsNo: number = 0;
@@ -43,28 +44,58 @@ export class AddTrashComponent implements OnInit {
               private router: Router, private authService: NbAuthService, private activatedRoute: ActivatedRoute,
               private storageService: StorageService, private toastrService: NbToastrService,
               private roleService: RoleService, private permitService: PermitService) {
-    this.operation = this.activatedRoute.snapshot.params.operation;
-    this.trashType = this.activatedRoute.snapshot.params.trashType;
+    this.activatedRoute.params.subscribe(params => {
+      this.operation = params.operation;
+      this.trashType = params.trashType;
+      this.ngOnInit();
+    });
   }
 
   ngOnInit(): void {
-    if (this.trashType === 'safe')
-      this.catalogService.getSafeTrash().subscribe(k => {
-        this.catalog.load(k);
-      });
-    else
-      this.catalogService.getUnsafeTrash().subscribe(k => {
-        this.catalog.load(k);
-      });
     this.storageService.getCompaniesStorage(this.roleService.getCompanyID(), this.operation).subscribe(x => {
       this.storages = x;
     });
-    if (this.operation !== 'production')
-      this.permitService.getCompaniesPermits(this.operation, this.roleService.getCompanyID()).subscribe(p => {
-        this.permits = p;
-      });
+    if (this.operation !== 'production') {
+      this.updatePermits();
+    } else {
+      if (this.trashType === 'safe')
+        this.catalogService.getSafeTrash().subscribe(k => {
+          this.catalog.load(k);
+        });
+      else
+        this.catalogService.getUnsafeTrash().subscribe(k => {
+          this.catalog.load(k);
+        });
+    }
     if (this.trashType === 'unsafe')
       this.trash = this.trash as UnsafeTrash;
+  }
+
+
+  updatePermits() {
+    this.permitService.getCompaniesPermits(this.roleService.getCompanyID(), this.operation).subscribe(p => {
+      this.permits = p;
+      for (let i = 0; i < this.permits.length; i++) {
+        if (this.trashType === 'safe') {
+          this.permits[i].trashList = this.permits[i].trashList.filter(x => !x.indexNumber.includes('*'));
+        } else {
+          this.permits[i].trashList = this.permits[i].trashList.filter(x => x.indexNumber.includes('*'));
+        }
+      }
+      this.updateCatalog(this.permits[0]);
+    });
+  }
+
+  updateCatalog(permit: Permit): void {
+    if (permit === undefined) {
+      this.updatePermits();
+    }
+    this.selectedStorage = this.storages.find(x => x._id === permit.storage._id);
+    const usedCatalog = this.selectedStorage.trashes;
+    const usedCatalogIDs = Array.from(usedCatalog, x => x.indexNumber);
+    let catalog = permit.trashList;
+    catalog = catalog.filter(x => !usedCatalogIDs.includes(x.indexNumber));
+    this.catalog.load(catalog);
   }
 
   onSearch(query: string) {
@@ -84,15 +115,6 @@ export class AddTrashComponent implements OnInit {
         search: query,
       },
     ], false);
-  }
-
-  updateCatalog(permit: Permit): void {
-    this.selectedStorage = this.storages.find(x => x._id === permit.storage._id);
-    const usedCatalog = this.selectedStorage.trashes;
-    const usedCatalogIDs = Array.from(usedCatalog, x => x.indexNumber);
-    let catalog = permit.trashList;
-    catalog = catalog.filter(x => !usedCatalogIDs.includes(x.indexNumber));
-    this.catalog.load(catalog);
   }
 
   updateCAS(): void {

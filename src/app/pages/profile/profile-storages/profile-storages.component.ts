@@ -23,7 +23,7 @@ export class ProfileStoragesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.storageService.getCompaniesStorage('', this.roleService.getCompanyID()).pipe(first()).subscribe(s => {
+    this.storageService.getCompaniesStorage(this.roleService.getCompanyID()).pipe(first()).subscribe(s => {
       this.storages = s;
     });
   }

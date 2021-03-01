@@ -1,0 +1,27 @@
+<div style="max-width: 50vw;">
+  <form #addForm="ngForm" (ngSubmit)="addSpecialWaste()">
+    <div class="row">
+      <label class="label col-12" for="input-Kolicina">Količina koju dodajete: </label>
+      <div class="col-10 pr-0">
+        <input #amount="ngModel" [(ngModel)]="specialWasteAmount" class="form-control" fullWidth id="input-Kolicina"
+               min="1"
+               name="količina" nbInput onkeypress="return /[0-9.]/i.test(event.key)"
+               placeholder="0"
+               type="number">
+      </div>
+      <div class="pl-0 col-2">
+        <button nbButton disabled>{{selectedSpecialWaste.unitOfMeasure}}</button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12">
+        <button [disabled]="amount.value < 1 || amount.value === undefined && addForm.valid"
+                fullWidth
+                class="btn btn-primary w-100"
+                type="submit">
+          Dodaj
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
