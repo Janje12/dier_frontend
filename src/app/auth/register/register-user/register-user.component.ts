@@ -38,7 +38,24 @@ export class RegisterUserComponent implements OnInit {
     return getDeepFromObject(this.options, key, null);
   }
 
-  validateUser(form: NgForm): void {
+  async validateUser(form: NgForm) {
+    if (form.invalid) {
+      this.checkIssues = true;
+      this.showToast('Greška', 'Ispravite greške da bi ste nastavili.', 'warning');
+      return false;
+    }
+    let text = '';
+    const test = await Promise.all(this.registerService.checkUser(this.user)).then(b => {
+      text = !b[0] ? 'to korisničko ime' : text;
+      text = !b[1] ? 'taj telefon' : text;
+      text = !b[2] ? 'taj email' : text;
+      return b[0] && b[1] && b[2];
+    });
+    if (!test) {
+      this.checkIssues = true;
+      this.showToast('Greška', `Već postoji ${text}!`, 'danger');
+      return;
+    }
     if (form.valid && this.retypePassword === this.user.password) {
       this.router.navigate(['auth/register-company']);
     } else {

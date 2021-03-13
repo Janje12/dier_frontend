@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import {
-	NbActionsModule,
-	NbButtonModule,
-	NbCardModule,
-	NbUserModule,
-	NbIconModule, NbSelectModule, NbSpinnerModule, NbAccordionModule, NbTabsetModule,
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbUserModule,
+  NbIconModule, NbSelectModule, NbSpinnerModule, NbAccordionModule, NbTabsetModule,
 } from '@nebular/theme';
 import { BarChartModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -26,24 +26,24 @@ import { MostUsedSpecialWasteComponent } from './widgets/most-used-special-waste
 import { SpecialWasteStatsComponent } from './widgets/special-waste-stats/special-waste-stats.component';
 
 @NgModule({
-	imports: [
-		FormsModule,
-		ThemeModule,
-		NbCardModule,
-		NbUserModule,
-		NbButtonModule,
-		NbActionsModule,
-		NbIconModule,
-		NbButtonModule,
-		NgxEchartsModule,
-		PopupWindowsModule,
-		NbSelectModule,
-		NbSpinnerModule,
-		NbAccordionModule,
-		Ng2SmartTableModule,
-		BarChartModule,
-		NbTabsetModule,
-	],
+  imports: [
+    FormsModule,
+    ThemeModule,
+    NbCardModule,
+    NbUserModule,
+    NbButtonModule,
+    NbActionsModule,
+    NbIconModule,
+    NbButtonModule,
+    NgxEchartsModule,
+    PopupWindowsModule,
+    NbSelectModule,
+    NbSpinnerModule,
+    NbAccordionModule,
+    Ng2SmartTableModule,
+    BarChartModule,
+    NbTabsetModule,
+  ],
   declarations: [
     DashboardComponent,
     WidgetComponent,
@@ -56,10 +56,7 @@ import { SpecialWasteStatsComponent } from './widgets/special-waste-stats/specia
     MostUsedSpecialWasteComponent,
     SpecialWasteStatsComponent,
   ],
-  providers: [
-    RoleService,
-    WidgetService,
-  ],
+  providers: [],
 })
 export class DashboardModule {
 }

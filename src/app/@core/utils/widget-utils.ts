@@ -42,10 +42,20 @@ export const DEFAULT_TRANSPORT_WIDGETS = {
         widgetSize: 'medium',
         widgetPosition: 1,
       },
+
+    ],
+};
+export const DEFAULT_COLLECTOR_WIDGETS = {
+  groupPosition: 0,
+  groupTitle: 'SAKUPLJAČ',
+  groupColor: 'info',
+  groupType: 'collector',
+  widgetList:
+    [
       {
         widgetTitle: 'collector_permits',
         widgetSize: 'medium',
-        widgetPosition: 2,
+        widgetPosition: 0,
       },
     ],
 };

@@ -46,8 +46,9 @@ export class RegisterInformationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.registerService.getOperations().pipe(first()).subscribe(o => {
-      this.roleService.getOperations(o).pipe(first()).subscribe(f => {
+      this.roleService.getOperations(o, true).pipe(first()).subscribe(f => {
         this.operations = f;
       });
     });
@@ -90,22 +91,20 @@ export class RegisterInformationsComponent implements OnInit {
 
   loading: boolean = false;
 
-  validateInformation(accordion: NbAccordionComponent): void {
+  async validateInformation(accordion: NbAccordionComponent) {
     this.loading = true;
     accordion.multi = true;
     accordion.closeAll();
     accordion.openAll();
-    setTimeout(() => {
+    setTimeout(async () => {
       this.valid = true;
       if (this.productionRef !== undefined && this.operations.production)
         if (!this.productionRef.checkValid())
           this.valid = false;
       if (this.transportRef !== undefined && this.operations.transport)
-        if (!this.transportRef.checkValid())
-          this.valid = false;
+        this.valid = await this.transportRef.checkValid();
       if (this.collectorRef !== undefined && this.operations.collector)
-        if (!this.collectorRef.checkValid())
-          this.valid = false;
+          this.valid = await this.collectorRef.checkValid();
       if (this.treatmentRef !== undefined && this.operations.treatment)
         if (!this.treatmentRef.checkValid())
           this.valid = false;

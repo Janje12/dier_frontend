@@ -14,8 +14,8 @@ export class VehicleService extends VehicleData {
     this.apiUrl = environment.apiUrl;
   }
 
-  createVehicle(vehicle: Vehicle): Observable<Vehicle> {
-    return this.http.post<Vehicle>(this.apiUrl + '/api/vehicle', vehicle);
+  createVehicle(vehicle: Vehicle, companyID: string): Observable<Vehicle> {
+    return this.http.post<Vehicle>(this.apiUrl + '/api/vehicle', {vehicle: vehicle, companyID: companyID});
   }
 
   deleteVehicle(value: string, type: string): Observable<Vehicle> {

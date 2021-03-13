@@ -46,22 +46,22 @@
           </div>
           <div class="row mb-2">
             <label class="col-12 label" for="input-trashAmount">Trenutna količina na skladistu: </label>
-            <div class="col-3 pr-0">
-              <input [(ngModel)]="trash.amount" decimals="1" fullWidth min="0" name="trashAmount"
-                     nbInput placeholder="0.0" id="input-trashAmount" step="0.1" type="number">
+            <div class="row ml-1">
+              <div class="col-5 pr-0">
+                <input [(ngModel)]="trash.amount" decimals="1" fullWidth min="0" name="trashAmount"
+                       nbInput placeholder="0.0" id="input-trashAmount" step="0.1" type="number">
+              </div>
+              <div class="col-1 pl-0">
+                <input-trash-amount #trashAmount [storageAmountUnit]="storageAmmountUnit"></input-trash-amount>
+              </div>
             </div>
-            <div class="col-1 pl-0">
-              <nb-select fullWidth [ngModelOptions]="{standalone: true}" [selected]="'KG'"
-                         [(ngModel)]="storageAmmountUnit">
-                <nb-option [value]="'KG'">KG</nb-option>
-                <nb-option [value]="'T'">T</nb-option>
-              </nb-select>
-            </div>
+            Napisi neko [i] da je KG = L = M3
           </div>
           <div class="row mb-2">
             <label class="col-12 label" for="input-trashState">Fizicko stanje otpada: </label>
             <div class="col-6">
-              <nb-select [(ngModel)]="trash.state" placeholder="Fizičko stanje" fullWidth name="trashState"
+              <nb-select (selectedChange)="trashAmount.updateStorageUnits(trash.state)"
+                         [(ngModel)]="trash.state" placeholder="Fizičko stanje" fullWidth name="trashState"
                          id="input-trashState" selected="Cvrsto">
                 <nb-option *ngFor="let f of states;" [value]="f">{{f}}</nb-option>
               </nb-select>

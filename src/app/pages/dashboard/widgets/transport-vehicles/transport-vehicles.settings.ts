@@ -17,7 +17,7 @@ export const VEHICLES_SETTINGS: any = {
           result = '<i class="fa fa-2x fa-truck"></i>';
         if (vehiclesType === 'kombi')
           result = '<i class="fa fa-2x fa-shuttle-van"></i>';
-        if (vehiclesType === 'automobil ')
+        if (vehiclesType === 'automobil')
           result = '<i class="fa fa-2x fa-car-side"></i>';
         return result;
       },

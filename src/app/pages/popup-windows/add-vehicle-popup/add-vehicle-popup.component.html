@@ -1,0 +1,59 @@
+<div class="row pt-4">
+  <form #transportForm="ngForm">
+    <div class="col-12 mb-2">
+      <label class="label" for="input-licensePlate">Registarski broj tablice:</label>
+      <input #licensePlate="ngModel"
+             [(ngModel)]="vehicle.licensePlate"
+             [attr.aria-invalid]="licensePlate.invalid && licensePlate.touched ? true : null"
+             [maxlength]="getConfigValue('forms.validation.licensePlate.maxLength')"
+             [minLength]="getConfigValue('forms.validation.licensePlate.minLength')"
+             [ngModelOptions]="{standalone: true}"
+             [pattern]="getConfigValue('forms.validation.licensePlate.pattern')"
+             [required]="getConfigValue('forms.validation.licensePlate.required')"
+             [status]="licensePlate.dirty ? (licensePlate.invalid  ? 'danger' : 'success') : 'basic'"
+             fullWidth
+             id="input-licensePlate"
+             name="licensePlate"
+             nbInput
+             oninput="this.value = this.value.toUpperCase()"
+             placeholder="NS-234-DS">
+      <ng-container *ngIf="licensePlate.invalid && licensePlate.touched">
+        <p class="error-message mt-1 mb-0" *ngIf="licensePlate.errors?.required">
+          Registarski broj tablica je obavezan!
+        </p>
+        <p class="error-message mt-1 mb-0" *ngIf="licensePlate.errors?.pattern || licensePlate.errors?.minLength">
+          Registarski broj tablica mora biti validan (npr. BG-234-AA)!
+        </p>
+      </ng-container>
+    </div>
+
+    <div class="col-12 mb-2">
+      <label class="label" for="input-vehicleType">Vrsta vozila:</label>
+      <nb-select
+        #vehicleType="ngModel"
+        [(ngModel)]="vehicle.type"
+        [attr.aria-invalid]="vehicleType.invalid && vehicleType.touched ? true : null"
+        [ngModelOptions]="{standalone: true}"
+        [required]="getConfigValue('forms.validation.vehicleType.required')"
+        [status]="vehicleType.dirty ? (vehicleType.invalid  ? 'danger' : 'success') : 'basic'"
+        fullWidth
+        id="input-vehicleType"
+        name="vehicleType"
+        placeholder="Odaberi">
+        <nb-option value="kamion">Kamion</nb-option>
+        <nb-option value="kombi">Kombi</nb-option>
+        <nb-option value="automobil">Automobil</nb-option>
+      </nb-select>
+      <ng-container *ngIf="vehicleType.invalid && vehicleType.touched">
+        <p class="error-message mt-1 mb-0" *ngIf="!vehicleType.value">
+          Vrsta vozila je obavezna!
+        </p>
+      </ng-container>
+    </div>
+  </form>
+</div>
+<div class="row d-flex justify-content-end mr-5">
+  <div class="col-4">
+    <button status="success" nbButton (click)="addVehicle()">Dodaj vozilo</button>
+  </div>
+</div>

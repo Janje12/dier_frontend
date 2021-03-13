@@ -94,12 +94,14 @@
           <nb-card class="row mt-0 pt-0 bg-warning"
                    *ngIf="ProizvodnjaOpasnogOtpada.disabled || ProizvodnjaNeopasnogOtpada.disabled">
             <nb-card-body class=mt-0>
-              Ako se bavite {{TretmanNeopasnogOtpada.checked || TretmanOpasnogOtpada.checked ? 'tretmanom' : 'odlaganjem'}} otpada, automatski postajete
+              Ako se
+              bavite {{TretmanNeopasnogOtpada.checked || TretmanOpasnogOtpada.checked ? 'tretmanom' : 'odlaganjem'}}
+              otpada, automatski postajete
               i proizvođač otpada. :)
             </nb-card-body>
           </nb-card>
         </nb-tab>
-        <nb-tab [badgeText]="specialWasteOpertionNumber()" badgeStatus="primary"
+        <nb-tab [badgeText]="specialWasteOperationNumber()" badgeStatus="primary"
                 responsive="true" tabTitle="Posebni tokovi otpada" [tabIcon]="carBatteryIco">
           <div class="row pb-0 mb-0">
             <nb-card class="col-12">
@@ -130,8 +132,73 @@
         <nb-tab responsive="true" tabTitle="Emisije u vode" [tabIcon]="waterIco"></nb-tab>
         <nb-tab responsive="true" tabTitle="Emisije u vazduh" [tabIcon]="airIco"></nb-tab>
       </nb-tabset>
+      <div class="row flex-fill ml-3" style="max-width: 54.5vw;"
+           *ngIf="(trashOperationNumber(true) + 0) + (specialWasteOperationNumber(true) + 0) > 0">
+        <nb-card class="col-12">
+          <nb-card-header>
+            Lice zaduženo za upravljanje otpadom:
+            <p class="card-subtitle text-secondary mt-1">
+              Ako se bavite otpadom/posebnim tokovima otpada morate imati određeno lice za upravaljanje otpadom,
+              ako želite da odaberete da mi to radimo ostavite sebe pa kasnije u aplikaciji moći ćete da promenite.
+            </p>
+          </nb-card-header>
+          <nb-card-body>
+            <div class="row">
+              <div class="col-6">
+                <label class="label" for="input-fNameManager">Ime:</label>
+                <input #fNameManager="ngModel"
+                       [(ngModel)]="company.wasteManager.firstName"
+                       [attr.aria-invalid]="fNameManager.invalid && fNameManager.touched ? true : null"
+                       [maxlength]="getConfigValue('forms.validation.firstName.maxLength')"
+                       [minlength]="getConfigValue('forms.validation.firstName.minLength')"
+                       [required]="getConfigValue('forms.validation.firstName.required')"
+                       [status]="fNameManager.dirty ? (fNameManager.invalid  ? 'danger' : 'success') : 'basic'"
+                       fullWidth
+                       id="input-fNameManager"
+                       name="fNameManager"
+                       nbInput
+                       placeholder="Ime">
+                <ng-container *ngIf="fNameManager.invalid && fNameManager.touched">
+                  <p class="error-message mt-1 mb-0" *ngIf="fNameManager.errors?.required">
+                    Ime zakonskog zastupnika je obavezno!
+                  </p>
+                  <p class="error-message mt-1 mb-0"
+                     *ngIf="fNameManager.errors?.minlength || fNameManager.errors?.maxlength">
+                    Ime zakonskog zastupnika mora biti duže od
+                    {{ getConfigValue('forms.validation.firstName.minLength') }} slova!
+                  </p>
+                </ng-container>
+              </div>
+              <div class="col-6">
+                <label class="label" for="input-lNameManager">Prezime:</label>
+                <input #lNameManager="ngModel"
+                       [(ngModel)]="company.wasteManager.lastName"
+                       [attr.aria-invalid]="lNameManager.invalid && lNameManager.touched ? true : null"
+                       [maxlength]="getConfigValue('forms.validation.lastName.maxLength')"
+                       [minlength]="getConfigValue('forms.validation.lastName.minLength')"
+                       [required]="getConfigValue('forms.validation.lastName.required')"
+                       [status]="lNameManager.dirty ? (lNameManager.invalid  ? 'danger' : 'success') : 'basic'"
+                       fullWidth
+                       id="input-lNameManager"
+                       name="lNameManager"
+                       nbInput
+                       placeholder="Prezime">
+                <ng-container *ngIf="lNameManager.invalid && lNameManager.touched">
+                  <p class="error-message mt-1 mb-0" *ngIf="lNameManager.errors?.required">
+                    Prezime zakonskog zastupnika je obavezno!
+                  </p>
+                  <p class="error-message mt-1 mb-0"
+                     *ngIf="lNameManager.errors?.minlength || lNameManager.errors?.maxlength">
+                    Prezime zakonskog zastupnika mora biti duže od
+                    {{ getConfigValue('forms.validation.lastName.minLength') }} slova!
+                  </p>
+                </ng-container>
+              </div>
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </div>
     </div>
-
     <button nbButton
             fullWidth
             status="danger"
@@ -143,7 +210,7 @@
             fullWidth
             class="col-6 mt-2"
             status="success"
-            type="button"
+            type="submit"
             (click)="validateOperations()">
       Dalje
     </button>

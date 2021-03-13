@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthService } from '@nebular/auth';
-import { NbComponentStatus, NbToastrService } from '@nebular/theme';
+import { NbButtonComponent, NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { first } from 'rxjs/operators';
 import { User } from '../../../@core/data/user';
 import { RoleService } from '../../../@core/service/role.service';
@@ -14,6 +14,10 @@ import { UserService } from '../../../@core/service/user.service';
 })
 export class ProfileUserComponent implements OnInit {
 
+  showPassword: string = 'eye';
+  oldPassword: string = '';
+  newPassword: string = '';
+  retypePassword: string = '';
   user: User = {
     email: '', firstName: '', lastName: '', password: '', phone: '', role: '', username: '',
   };
@@ -37,6 +41,19 @@ export class ProfileUserComponent implements OnInit {
 
   enableInputs(): void {
     this.inputsDisabled = false;
+  }
+
+  setNewPassword(button: NbButtonComponent) {
+    button.disabled = true;
+    this.userService.changePassword(this.user._id, this.oldPassword, this.newPassword).subscribe(x => {
+      if (x)
+        this.showToast('Uspeh', 'Uspešno ste promenili šifru!', 'success');
+      else
+        this.showToast('Greška', 'Proverite šifru!', 'danger');
+    }, (err) => {
+      this.showToast('Greška', 'Proverite šifru!', 'danger');
+    });
+    button.disabled = false;
   }
 
   updateUser(form: NgForm): void {

@@ -1,6 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthResult, NbAuthService, NbRegisterComponent } from '@nebular/auth';
+import { RecaptchaComponent } from 'ng-recaptcha';
 import { Observable } from 'rxjs';
 import { Company } from '../../../@core/data/company';
 import { User } from '../../../@core/data/user';
@@ -12,6 +13,7 @@ import { RegisterService } from '../../../@core/service/register.service';
   styleUrls: ['./register-confirmation.component.scss'],
 })
 export class RegisterConfirmationComponent extends NbRegisterComponent implements AfterViewInit {
+  @ViewChild('reCaptcha') reCaptcha: RecaptchaComponent;
 
   company$: Observable<Company>;
   user$: Observable<User>;
@@ -22,6 +24,7 @@ export class RegisterConfirmationComponent extends NbRegisterComponent implement
   submitted = false;
   errors: string[] = [];
   messages: string[] = [];
+  reCaptchaModel: any;
 
   constructor(protected service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {},
               protected cd: ChangeDetectorRef, protected router: Router, private registerService: RegisterService) {
@@ -41,10 +44,13 @@ export class RegisterConfirmationComponent extends NbRegisterComponent implement
     this.user$ = this.registerService.getUser();
   }
 
+  resolved(token: any) {
+  }
+
   register(): void {
     this.errors = this.messages = [];
     this.submitted = true;
-
+    this.reCaptcha.execute();
     let user: User;
     this.user$.subscribe(k => {
       user = k;

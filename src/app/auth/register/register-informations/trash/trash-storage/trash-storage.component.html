@@ -128,7 +128,7 @@
                     id="input-storagePlace"
                     name="storagePlace"
                     nbInput
-                    placeholder="Location">
+                    placeholder="Mesto">
                   <nb-autocomplete #autoMestoSelect>
                     <nb-option *ngFor="let m of places$ | async" [value]="m">{{m}}</nb-option>
                   </nb-autocomplete>

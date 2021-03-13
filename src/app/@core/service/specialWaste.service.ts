@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { SpecialWaste, SpecialWasteData } from '../data/specialWaste';
-import { Storage } from '../data/storage';
 
 @Injectable()
 export class SpecialWasteService extends SpecialWasteData {

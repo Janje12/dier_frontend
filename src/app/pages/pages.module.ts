@@ -13,7 +13,6 @@ import { PermitService } from '../@core/service/permit.service';
 import { CompanyService } from '../@core/service/company.service';
 import { UserService } from '../@core/service/user.service';
 import { VehicleService } from '../@core/service/vehicle.service';
-import { RoleService } from '../@core/service/role.service';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { TrashModule } from './trash/trash.module';
@@ -45,7 +44,6 @@ import { StorageModule } from './storage-containers/storage.module';
   ],
   providers: [
     UserService,
-    RoleService,
     NbToastrService,
     CompanyService,
     PermitService,

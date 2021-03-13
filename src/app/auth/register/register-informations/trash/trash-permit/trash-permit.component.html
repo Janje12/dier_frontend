@@ -51,7 +51,9 @@
                 </p>
               </ng-container>
             </div>
+          </div>
 
+          <div class="row">
             <div class="col-6 mb-2">
               <label class="label" for="input-permitCode">Šifra Dozvole:</label>
               <input #permitCode="ngModel"
@@ -88,7 +90,9 @@
                 </p>
               </ng-container>
             </div>
+          </div>
 
+          <div class="row">
             <div class="col-6">
               <label class="label" for="input-dateCreation">Datum izdavanja dozvole:</label>
               <input #dateCreation="ngModel"
@@ -132,9 +136,11 @@
                 </p>
               </ng-container>
             </div>
+          </div>
 
+          <div class="row">
             <div class="col-6 mt-2">
-              <button nbButton status="success" type="submit" [disabled]="permit.code === ''"
+              <button nbButton status="success" type="button" [disabled]="permit.code === ''"
                       (click)="choosePermit(permit)">Odaberi otpade
               </button>
               <ng-container *ngIf="checkIssues">

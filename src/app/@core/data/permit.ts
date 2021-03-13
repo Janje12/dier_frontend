@@ -20,7 +20,7 @@ export interface Permit {
 }
 
 export abstract class PermitData {
-  abstract createPermit(permit: Permit): Observable<Permit>;
+  abstract createPermit(permit: Permit, companyID: string): Observable<Permit>;
   abstract getPermit(value: string, type: string): Observable<Permit>;
   abstract getPermits(value: string, type: string): Observable<Permit[]>;
   abstract updatePermit(permit: Permit, value: string, type: string): Observable<Permit>;

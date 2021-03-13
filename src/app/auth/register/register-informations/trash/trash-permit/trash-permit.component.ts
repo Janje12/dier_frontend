@@ -1,11 +1,12 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
+import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Company } from '../../../../../@core/data/company';
 import { Permit } from '../../../../../@core/data/permit';
-import { Storage, StorageCache, StorageDump, StorageTreatment } from '../../../../../@core/data/storage';
+import { Storage } from '../../../../../@core/data/storage';
 import { RegisterService } from '../../../../../@core/service/register.service';
 
 @Component({
@@ -20,14 +21,14 @@ export class TrashPermitComponent implements OnInit {
 
   permits: Permit[];
   permits$: Observable<Permit[]>;
-  permitsNo: number = 1;
+  permitsNo: number = 0;
   company: Company;
   checkIssues: boolean = false;
   valid: boolean = false;
   storages$: Observable<Storage[]>;
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private router: Router,
-              private registerService: RegisterService) {
+              private registerService: RegisterService, private toastrService: NbToastrService) {
   }
 
   ngOnInit(): void {
@@ -36,6 +37,7 @@ export class TrashPermitComponent implements OnInit {
         this.company = f;
         if (f.permits !== undefined) {
           this.permits = this.company.permits.filter(x => x.type === this.permitType);
+          this.permitsNo = this.permits.length;
           this.permits$ = of(this.permits);
         }
       }
@@ -52,8 +54,31 @@ export class TrashPermitComponent implements OnInit {
     return getDeepFromObject(this.options, key, null);
   }
 
-  checkValid(): boolean {
+  private showToast(title: String, message: String, status: NbComponentStatus) {
+    this.toastrService.show(
+      message,
+      title,
+      {status});
+  }
+
+  async checkValid() {
     this.validatePermits();
+    if (!this.valid)
+      return false;
+    let text = '';
+    const test = await Promise.all(this.registerService.checkPermits(this.permits)).then(promises => {
+      for (const t of promises) {
+        text = !t ? 'ta šifra' : text;
+        if (t)
+          return t;
+      }
+      return false;
+    });
+    if (!test) {
+      this.checkIssues = true;
+      this.showToast('Greška', `Već postoji ${text} dozvole!`, 'danger');
+      return false;
+    }
     if (this.valid)
       return true;
     else {

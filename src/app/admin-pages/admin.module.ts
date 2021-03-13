@@ -16,7 +16,7 @@ import { DkoService } from '../@core/service/dko.service';
 import { CompanyService } from '../@core/service/company.service';
 import { PermitService } from '../@core/service/permit.service';
 import { UserService } from '../@core/service/user.service';
-import { MesecniIzvestajService } from '../@core/service/mesecniIzvestaj.service';
+import { MonthlyReportService } from '../@core/service/monthlyReportService';
 import { TrashService } from '../@core/service/trash.service';
 import { RoleService } from '../@core/service/role.service';
 import { StorageService } from '../@core/service/storage.service';
@@ -93,7 +93,7 @@ import { PermitComponent } from './permits/permit/permit.component';
     TrashService,
     StorageService,
     RoleService,
-    MesecniIzvestajService,
+    MonthlyReportService,
     DkoService,
   ],
 })

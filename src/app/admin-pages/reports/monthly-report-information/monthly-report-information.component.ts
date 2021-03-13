@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DnevniIzvestaj } from '../../../@core/data/dnevniIzvestaj';
-import { MesecniIzvestaj } from '../../../@core/data/mesecniIzvestaj';
-import { MesecniIzvestajService } from '../../../@core/service/mesecniIzvestaj.service';
+import { DailyReport } from '../../../@core/data/dailyReport';
+import { MonthlyReport } from '../../../@core/data/monthlyReport';
+import { MonthlyReportService } from '../../../@core/service/monthlyReportService';
 import { DAILY_REPORTS_SETTINGS } from './dailyReports.settings';
 
 @Component({
@@ -13,32 +13,20 @@ import { DAILY_REPORTS_SETTINGS } from './dailyReports.settings';
 export class MonthlyReportInformationComponent implements OnInit {
 
   settings: any = DAILY_REPORTS_SETTINGS;
-  report: MesecniIzvestaj;
-  dailyReports: DnevniIzvestaj[];
+  report: MonthlyReport;
+  dailyReports: DailyReport[];
 
-  constructor(private route: ActivatedRoute, private reportService: MesecniIzvestajService) {
+  constructor(private route: ActivatedRoute, private reportService: MonthlyReportService) {
     this.report = {
       _id: '',
-      dnevniIzvestaj: [],
-      godina: 0,
-      mesec: 0,
-      otpad: {
-        name: '',
-        indexNumber: '',
-        packaging: '',
-        qList: '',
-        desc: '',
-        amount: 0,
-      },
-      skladiste: {
-         name: '',
-        maxAmount: 0,
-        amount: 0,
-        address: undefined,
-      },
-      ukupnoProizvodnja: 0,
-      ukupnoStanje: 0,
-      ukupnoTransport: 0,
+      dailyReport: [],
+      month: 0,
+      storage: undefined,
+      total: 0,
+      totalProduction: 0,
+      totalTransport: 0,
+      trash: undefined,
+      year: 0,
     };
   }
 
@@ -46,7 +34,7 @@ export class MonthlyReportInformationComponent implements OnInit {
     const reportID = this.route.snapshot.paramMap.get('id');
     this.reportService.getOneMonthlyReport(reportID).subscribe(r => {
       this.report = r;
-      this.dailyReports = this.report.dnevniIzvestaj;
+      this.dailyReports = this.report.dailyReport;
     });
   }
 

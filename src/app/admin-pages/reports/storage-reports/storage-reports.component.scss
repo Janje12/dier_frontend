@@ -1,19 +1,15 @@
-:host ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom:hover {
-  color: dodgerblue;
-  cursor: pointer;
-}
-i:hover {
-  color: dodgerblue;
-  cursor: pointer;
-}
-:host ng2-st-tbody-edit-delete {display: flex !important;
+:host ::ng-deep ng2-st-tbody-edit-delete {display: flex !important;
   height: 0 !important;
 }
 
-:host ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom {
+:host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom {
   display: inline-block;
-  width: 25%;
+  width: 40px;
   text-align: center;
   margin-left: 5px;
   font-size: 1.1em;
+}
+:host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom:hover {
+  color: dodgerblue;
+  cursor: pointer;
 }

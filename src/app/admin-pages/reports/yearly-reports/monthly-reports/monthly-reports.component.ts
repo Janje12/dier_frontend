@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Company } from '../../../../@core/data/company';
-import { MesecniIzvestaj } from '../../../../@core/data/mesecniIzvestaj';
+import { MonthlyReport } from '../../../../@core/data/monthlyReport';
 import { CompanyService } from '../../../../@core/service/company.service';
-import { MesecniIzvestajService } from '../../../../@core/service/mesecniIzvestaj.service';
+import { MonthlyReportService } from '../../../../@core/service/monthlyReportService';
 import { MONTHLY_REPORTS_SETTINGS } from './monthlyReport.settings';
 
 @Component({
@@ -15,17 +15,17 @@ export class MonthlyReportsComponent implements OnInit {
   @Input() month: number;
   @Input() companyPIB: string;
 
-  reports: MesecniIzvestaj[] = [];
+  reports: MonthlyReport[] = [];
   private company: Company;
   settings: any = MONTHLY_REPORTS_SETTINGS;
 
-  constructor(private reportService: MesecniIzvestajService, private router: Router,
+  constructor(private reportService: MonthlyReportService, private router: Router,
               private companyService: CompanyService) {
   }
 
   ngOnInit(): void {
     this.reportService.getAllMesecniIzvestajFirme(this.companyPIB).subscribe(r => {
-      this.reports = r.filter(x => x.mesec === this.month);
+      this.reports = r.filter(x => x.month === this.month);
     });
     this.companyService.getCompany(this.companyPIB, 'pib').subscribe(c => {
       this.company = c;

@@ -17,13 +17,13 @@ export const STORAGE_REPORTS_SETTINGS: any = {
     ],
   },
   columns: {
-    indeksniBroj: {
+    indexNumber: {
       title: 'Indeksni Broj',
     },
-    naziv: {
+    name: {
       title: 'Naziv',
     },
-    kolicina: {
+    amount: {
       title: 'Količina (kg)',
     },
   },

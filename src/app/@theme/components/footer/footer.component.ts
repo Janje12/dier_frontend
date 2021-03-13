@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { NbWindowRef, NbWindowService } from '@nebular/theme';
 
 @Component({
-  selector: 'ngx-footer',
+  selector: 'footer',
   styleUrls: ['./footer.component.scss'],
-  template: `
-    <div class="socials">
-      <a href="#" target="_blank" class="ion ion-social-github"></a>
-      <a href="#" target="_blank" class="ion ion-social-facebook"></a>
-      <a href="#" target="_blank" class="ion ion-social-twitter"></a>
-      <a href="#" target="_blank" class="ion ion-social-linkedin"></a>
-    </div>
-  `,
+  templateUrl: './footer.component.html',
 })
 export class FooterComponent {
+  @ViewChild('contactForm', {read: TemplateRef}) contactFormTemplate: TemplateRef<HTMLElement>;
+  private windowRef: NbWindowRef;
+
+  constructor(private windowService: NbWindowService) {
+  }
+
+  showContactForm() {
+    this.windowRef = this.windowService.open(this.contactFormTemplate,
+      {title: 'Prijavite problem!'});
+  }
+
 }

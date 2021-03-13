@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { MesecniIzvestajService } from '../../../@core/service/mesecniIzvestaj.service';
+import { MonthlyReportService } from '../../../@core/service/monthlyReportService';
 
 @Component({
   selector: 'yearly-reports',

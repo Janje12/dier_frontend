@@ -9,11 +9,22 @@ import { Vehicle } from './vehicle';
 export interface Company extends CompanyClient {
   manager: string;
   emailReception: string;
-  legalRep: string;
+  legalRep: {
+    firstName: string;
+    lastName: string;
+  };
+  nriz: {
+    username: string;
+    password: string;
+  };
+  wasteManager?: {
+    firstName: string;
+    lastName: string;
+  };
   occupation: Occupation;
   permits?: Permit[];
   storages?: Storage[];
-  specialWaste?: SpecialWaste[];
+  specialWastes?: SpecialWaste[];
   vehicles?: Vehicle[];
 }
 

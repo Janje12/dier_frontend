@@ -1,7 +1,7 @@
 <h1 class="text-center">Registruj se!</h1>
 <nb-stepper disableStepNavigation>
   <nb-step label="Korisnik">
-    <form #userForm="ngForm">
+    <form #userForm="ngForm" tabindex="-1">
 
       <div class="row mb-2">
         <div class="col-6">
@@ -15,6 +15,7 @@
                  [required]="getConfigValue('forms.validation.firstName.required')"
                  [status]="firstName.dirty ? (firstName.invalid  ? 'danger' : 'success') : 'basic'"
                  autofocus
+                 tabindex="1"
                  fullWidth
                  id="input-firstName"
                  name="firstName"
@@ -46,6 +47,7 @@
                  [status]="lastName.dirty ? (lastName.invalid  ? 'danger' : 'success') : 'basic'"
                  fullWidth
                  id="input-lastName"
+                 tabindex="2"
                  name="lastName"
                  nbInput
                  onkeypress="return /[a-zA-ZšđžćčŠĐŽĆČ\-]/i.test(event.key)"
@@ -69,6 +71,7 @@
         <div class="col-6">
           <label class="label" for="input-username">Korisničko ime:</label>
           <input #username="ngModel"
+                 tabindex="3"
                  [(ngModel)]="user.username"
                  [attr.aria-invalid]="username.invalid && username.touched ? true : null"
                  [maxlength]="getConfigValue('forms.validation.username.maxLength')"
@@ -95,6 +98,7 @@
           <label class="label" for="input-phone">Telefon:</label>
           <input #phone="ngModel"
                  [(ngModel)]="user.phone"
+                 tabindex="4"
                  [attr.aria-invalid]="phone.invalid && phone.touched ? true : null"
                  [maxlength]="getConfigValue('forms.validation.phone.maxLength')"
                  [minlength]="getConfigValue('forms.validation.phone.minLength')"
@@ -122,6 +126,7 @@
           <label class="label" for="input-email">Email:</label>
           <input #email="ngModel"
                  [(ngModel)]="user.email"
+                 tabindex="5"
                  [attr.aria-invalid]="email.invalid && email.touched ? true : null"
                  [pattern]="getConfigValue('forms.validation.email.pattern')"
                  [required]="getConfigValue('forms.validation.email.required')"
@@ -148,6 +153,7 @@
           <div class="row">
             <div class="col-10 pr-0">
               <input #password="ngModel"
+                     tabindex="6"
                      [(ngModel)]="user.password"
                      [attr.aria-invalid]="password.invalid && password.touched ? true : null"
                      [maxlength]="getConfigValue('forms.validation.password.maxLength')"
@@ -162,7 +168,7 @@
                      [type]="showPassword === 'eye' ? 'password' : 'text'">
             </div>
             <div class="col-2 pl-0">
-              <button fullWidth type="button" nbButton
+              <button fullWidth tabindex="-1" nbButton type="button"
                       (click)="this.showPassword = this.showPassword === 'eye' ? 'eye-off' : 'eye';">
                 <nb-icon [icon]="showPassword"></nb-icon>
               </button>
@@ -188,6 +194,7 @@
                  fullWidth
                  id="input-rePassword"
                  name="rePass"
+                 tabindex="7"
                  nbInput
                  placeholder="Potvrdi šifru"
                  [type]="showPassword === 'eye' ? 'password' : 'text'">
@@ -205,8 +212,9 @@
       <button nbButton
               fullWidth
               status="success"
+              tabindex="8"
               class="mt-2"
-              type="button"
+              type="submit"
               (click)="validateUser(userForm)">
         Dalje
       </button>

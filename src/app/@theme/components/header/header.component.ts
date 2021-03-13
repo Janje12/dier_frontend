@@ -7,7 +7,7 @@ import { User } from '../../../@core/data/user';
 import { LayoutService } from '../../../@core/utils';
 
 @Component({
-  selector: 'ngx-header',
+  selector: 'header',
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
 })

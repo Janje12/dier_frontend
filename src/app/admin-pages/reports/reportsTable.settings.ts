@@ -3,7 +3,7 @@ export const COMPANY_REPORTS_SETTINGS: any = {
     perPage: 10,
   },
   actions: {
-    columnTitle: 'Jedan izveštaj/Svi izveštaji',
+    columnTitle: 'Generiši izveštaj/Pregeldaj izveštaje',
     add: false,
     edit: false,
     delete: false,
@@ -26,16 +26,16 @@ export const COMPANY_REPORTS_SETTINGS: any = {
     mat: {
       title: 'Matični broj',
     },
-    naziv: {
+    name: {
       title: 'Naziv Firme',
     },
-    emailPrijem: {
+    emailReception: {
       title: 'Email za prijem',
     },
-    telefon: {
+    telephone: {
       title: 'Telefon',
     },
-    radFirme: {
+    operations: {
       title: 'Rad firme',
     },
   },

@@ -2,12 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { RecaptchaModule } from 'ng-recaptcha';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { CompanyService } from '../@core/service/company.service';
 import { OccupationService } from '../@core/service/occupation.service';
 import { CatalogService } from '../@core/service/catalog.service';
 import { LocationService } from '../@core/service/location.service';
+import { PermitService } from '../@core/service/permit.service';
 import { RegisterService } from '../@core/service/register.service';
 import { RoleService } from '../@core/service/role.service';
+import { VehicleService } from '../@core/service/vehicle.service';
 import { ThemeModule } from '../@theme/theme.module';
 import { NgxAuthRoutingModule } from './auth-routing.module';
 import {
@@ -37,6 +41,10 @@ import { TrashTransportComponent } from './register/register-informations/trash/
 import { RegisterPermitComponent } from './register/register-permit/register-permit.component';
 import { TrashStorageComponent } from './register/register-informations/trash/trash-storage/trash-storage.component';
 import { TrashPermitComponent } from './register/register-informations/trash/trash-permit/trash-permit.component';
+import { RedirectComponent } from './redirect/redirect.component';
+import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   imports: [
@@ -61,6 +69,7 @@ import { TrashPermitComponent } from './register/register-informations/trash/tra
     NbDatepickerModule,
     NbIconModule,
     NbSpinnerModule,
+    RecaptchaModule,
   ],
   declarations: [
     LoginComponent,
@@ -75,12 +84,18 @@ import { TrashPermitComponent } from './register/register-informations/trash/tra
     TrashTransportComponent,
     TrashStorageComponent,
     TrashPermitComponent,
+    RedirectComponent,
+    EmailConfirmationComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   providers: [
     LocationService,
     OccupationService,
     RegisterService,
-    RoleService,
+    CompanyService,
+    PermitService,
+    VehicleService,
     CatalogService,
   ],
 })

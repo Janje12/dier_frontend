@@ -1,18 +1,18 @@
-<div class="row mb-2 d-flex flex-fill justify-content-end">
-  <div clss="col-4">
-    <nb-select [selected]="trashList[0]" (selectedChange)="chooseTransaction($event, echart)">
+<div style="height: 80% !important;" echarts [options]="options" loading="true"></div>
+<div class="row">
+  <div class="col-4">
+    <nb-select fullWidth [selected]="trashList[0]" (selectedChange)="chooseTransaction($event)">
       <nb-option *ngFor="let t of trashList" [value]="t">
         {{t.trash.name}}
       </nb-option>
     </nb-select>
   </div>
   <div class="col-2">
-    <nb-select selected="Dani">
+    <nb-select fullWidth selected="Dani">
       <nb-option value="Dani">Dani</nb-option>
       <nb-option value="Meseci">Meseci</nb-option>
       <nb-option value="Godine">Godine</nb-option>
     </nb-select>
   </div>
 </div>
-<div #echart echarts [options]="options" loading="true"></div>
 

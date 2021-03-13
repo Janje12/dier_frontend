@@ -8,7 +8,7 @@ export interface Vehicle {
 }
 
 export abstract class VehicleData {
-  abstract createVehicle(vehicle: Vehicle): Observable<Vehicle>;
+  abstract createVehicle(vehicle: Vehicle, companyID: string): Observable<Vehicle>;
   abstract getVehicle(value: string, type: string): Observable<Vehicle>;
   abstract getVehicles(value: string, type: string): Observable<Vehicle[]>;
   abstract updateVehicle(vehicle: Vehicle, value: string, type: string): Observable<Vehicle>;

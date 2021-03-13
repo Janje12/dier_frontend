@@ -14,6 +14,7 @@ import { CatalogService } from '../../@core/service/catalog.service';
 import { FormsModule } from '@angular/forms';
 import { TrashService } from '../../@core/service/trash.service';
 import { AddSpecialWasteComponent } from './add-special-waste/add-special-waste.component';
+import { InputTrashAmountComponent } from './input-trash-amount/input-trash-amount.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { AddSpecialWasteComponent } from './add-special-waste/add-special-waste.
     TrashComponent,
     AddTrashComponent,
     AddSpecialWasteComponent,
+    InputTrashAmountComponent,
   ],
   providers: [
     CatalogService,

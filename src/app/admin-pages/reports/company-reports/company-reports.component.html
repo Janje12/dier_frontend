@@ -4,7 +4,7 @@
       <div class="col-1"><a routerLink="../.." class=""><i class="fa fa-2x fa-arrow-left"></i></a></div>
       <div class="col-11"><h5>{{company.name}}</h5></div>
     </div>
-   </nb-card-header>
+  </nb-card-header>
   <nb-card-body>
     <div class="row mb-2">
       <div class="col-6">
@@ -16,19 +16,19 @@
     </div>
     <div class="row mb-2">
       <nb-tabset class="col-12">
-        <nb-tab active *ngIf="operations?.proizvodnja" tabTitle="Proizvodnja Otpada">
-          <ngx-storage-reports [storageIDs]="company.storages" [type]="'production'"></ngx-storage-reports>
+        <nb-tab active *ngIf="operations?.production" tabTitle="Proizvodnja Otpada">
+          <storage-reports [companyPIB]="pib" [type]="'production'"></storage-reports>
         </nb-tab>
         <nb-tab *ngIf="operations?.transport" tabTitle="Transport Otpada">
           NOT
         </nb-tab>
-        <nb-tab *ngIf="operations?.tretman" tabTitle="Tretman Otpada">
-          <ngx-storage-reports [storageIDs]="company.storages" [type]="'treatment'"></ngx-storage-reports>
+        <nb-tab *ngIf="operations?.treatment" tabTitle="Tretman Otpada">
+          <storage-reports [companyPIB]="pib" [type]="'treatment'"></storage-reports>
         </nb-tab>
-        <nb-tab *ngIf="operations?.odlaganje" tabTitle="Odlaganje Otpada">
-          <ngx-storage-reports [storageIDs]="company.storages" [type]="'dump'"></ngx-storage-reports>
+        <nb-tab *ngIf="operations?.disposal" tabTitle="Odlaganje Otpada">
+          <storage-reports [companyPIB]="pib" [type]="'dump'"></storage-reports>
         </nb-tab>
-        <nb-tab *ngIf="operations?.skladistenje" tabTitle="Skladištenje Otpada">
+        <nb-tab *ngIf="operations?.cache" tabTitle="Skladištenje Otpada">
           NOS
         </nb-tab>
       </nb-tabset>

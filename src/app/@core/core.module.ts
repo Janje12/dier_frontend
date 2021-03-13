@@ -48,9 +48,19 @@ export const NB_CORE_PROVIDERS = [
           endpoint: '/login',
           method: 'post',
           redirect: {
-            success: '/pages',
+            success: '/auth/redirect',
             failure: null,
           },
+        },
+        resetPass: {
+          endpoint: '/reset-password',
+          resetPasswordTokenKey: 'reset_password_token',
+          requireValidToken: false,
+        },
+        requestPass: {
+          endpoint: '/forgot-password',
+          method: 'post',
+          requireValidToken: false,
         },
         refreshToken: {
           endpoint: '/refresh',

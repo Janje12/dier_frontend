@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WidgetSettings } from '../../@core/data/widgetSettings';
 import { RoleService } from '../../@core/service/role.service';
 import { WidgetService } from '../../@core/service/widget.service';
@@ -9,20 +9,28 @@ import { WIDGET_SIZES } from '../../@core/utils/widget-utils';
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   operations: { production: boolean, transport: boolean, treatment: boolean, disposal: boolean, cache: boolean };
-  widgetSettings: WidgetSettings;
+  widgetSettings: WidgetSettings = {group: [], username: ''};
   WIDGET_SIZES = WIDGET_SIZES;
 
   constructor(private roleService: RoleService, private widgetService: WidgetService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.roleService.getOperations().subscribe(o => {
       this.operations = o;
     });
-    this.widgetSettings = this.widgetService.initializeWidgetSettings(this.operations);
+    this.widgetService.getWidgetSettings(this.roleService.getUsername(), this.operations).subscribe(w => {
+        this.widgetSettings = w;
+        if (this.widgetSettings === null)
+          this.widgetService.initDefaultWidgetSettings(this.operations,
+            this.roleService.getUsername()).subscribe(t => {
+            this.widgetSettings = t;
+          });
+      },
+    );
   }
 
   updateSizeMethod(size: string, widget) {
@@ -49,5 +57,11 @@ export class DashboardComponent implements OnInit {
     widgetList[newPos].widgetPosition = currentPos;
     [widgetList[currentPos], widgetList[newPos]] =
       [widgetList[newPos], widgetList[currentPos]];
+  }
+
+  ngOnDestroy(): void {
+    this.widgetService.updateWidgetSettings(this.widgetSettings,
+      this.widgetSettings.username, 'username').subscribe(x => {
+    });
   }
 }

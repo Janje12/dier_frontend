@@ -163,29 +163,58 @@
           </div>
           <div class="row mb-2">
             <div class="col-12">
-              <label class="label" for="input-zastupink">Zakonski Zastupnik Firme:</label>
+              <label class="label" for="input-legalRepFName">Ime zakonskog zastupnika firme:</label>
             </div>
             <div class="col-6">
-              <input #zastupink="ngModel"
-                     [(ngModel)]="company.legalRep"
-                     [attr.aria-invalid]="zastupink.invalid && zastupink.touched ? true : null"
-                     [maxlength]="getConfigValue('forms.validation.imeZakonskogZastupinka.maxLength')"
-                     [minlength]="getConfigValue('forms.validation.imeZakonskogZastupinka.minLength')"
-                     [required]="getConfigValue('forms.validation.imeZakonskogZastupinka.required')"
+              <input #legalRepFName="ngModel"
+                     [(ngModel)]="company.legalRep.firstName"
+                     [attr.aria-invalid]="legalRepFName.invalid && legalRepFName.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.legalRep.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.legalRep.minLength')"
+                     [required]="getConfigValue('forms.validation.legalRep.required')"
                      [status]="telefon.dirty ? (telefon.invalid  ? 'danger' : 'success') : 'basic'"
                      fullWidth
-                     id="input-zastupink"
-                     name="zastupink"
+                     id="input-legalRepFName"
+                     name="legalRepFName"
                      nbInput
                      type="text">
-              <ng-container *ngIf="zastupink.invalid && zastupink.touched">
-                <p class="error-message mt-1 mb-0" *ngIf="zastupink.errors?.required">
+              <ng-container *ngIf="legalRepFName.invalid && legalRepFName.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="legalRepFName.errors?.required">
                   Zakosni zastupnik firme je obavezan!
                 </p>
-                <p class="error-message mt-1 mb-0" *ngIf="zastupink.errors?.minlength || zastupink.errors?.maxlength">
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="legalRepFName.errors?.minlength || legalRepFName.errors?.maxlength">
                   Zakosni zastupnik mora da bude duži od
-                  {{ getConfigValue('forms.validation.zastupink.minLength') }}
-                  a kraći od {{ getConfigValue('forms.validation.zastupink.maxLength') }}
+                  {{ getConfigValue('forms.validation.legalRep.minLength') }}
+                  a kraći od {{ getConfigValue('forms.validation.legalRep.maxLength') }}
+                </p>
+              </ng-container>
+            </div>
+            <div class="col-12">
+              <label class="label" for="input-legalRepLName">Prezime zakonskog zastupnika firme:</label>
+            </div>
+            <div class="col-6">
+              <input #legalRepLName="ngModel"
+                     [(ngModel)]="company.legalRep.lastName"
+                     [attr.aria-invalid]="legalRepLName.invalid && legalRepLName.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.legalRep.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.legalRep.minLength')"
+                     [required]="getConfigValue('forms.validation.legalRep.required')"
+                     [status]="telefon.dirty ? (telefon.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-legalRepLName"
+                     name="legalRepLName"
+                     nbInput
+                     type="text">
+              <ng-container *ngIf="legalRepLName.invalid && legalRepLName.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="legalRepLName.errors?.required">
+                  Zakosni zastupnik firme je obavezan!
+                </p>
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="legalRepLName.errors?.minlength || legalRepLName.errors?.maxlength">
+                  Zakosni zastupnik mora da bude duži od
+                  {{ getConfigValue('forms.validation.legalRep.minLength') }}
+                  a kraći od {{ getConfigValue('forms.validation.legalRep.maxLength') }}
                 </p>
               </ng-container>
             </div>
@@ -213,7 +242,8 @@
               <label class="label">Rad firme:</label>
             </div>
             <div class="col-6">
-              <input disabled fullWidth nbInput class="mb-1" type="text" [placeholder]="r" *ngFor="let r of company.operations">
+              <input disabled fullWidth nbInput class="mb-1" type="text" [placeholder]="r"
+                     *ngFor="let r of company.operations">
             </div>
           </div>
           <div class="row mb-2">
@@ -235,6 +265,67 @@
                 <i class="fa fa-link"></i>
               </button>
             </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="label" for="input-usernameNRIZ">NRIZ korisničko ime:</label>
+              <input #usernameNRIZ="ngModel"
+                     [(ngModel)]="company.nriz.username"
+                     [attr.aria-invalid]="usernameNRIZ.invalid && usernameNRIZ.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.username.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.username.minLength')"
+                     [required]="getConfigValue('forms.validation.username.required')"
+                     [status]="usernameNRIZ.dirty ? (usernameNRIZ.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-usernameNRIZ"
+                     name="usernameNRIZ"
+                     nbInput
+                     placeholder="Korisničko ime">
+              <ng-container *ngIf="usernameNRIZ.invalid && usernameNRIZ.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="usernameNRIZ.errors?.required">
+                  Ime zakonskog zastupnika je obavezno!
+                </p>
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="usernameNRIZ.errors?.minlength || usernameNRIZ.errors?.maxlength">
+                  Korisničko ime mora biti duže od
+                  {{ getConfigValue('forms.validation.username.minLength') }} slova!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <label class="label col-12" for="input-passwordNRIZ">NRIZ Šifra:</label>
+            <div class="col-5 pr-0">
+              <input #passwordNRIZ="ngModel"
+                     [(ngModel)]="company.nriz.password"
+                     [attr.aria-invalid]="passwordNRIZ.invalid && passwordNRIZ.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.password.minLength')"
+                     [required]="getConfigValue('forms.validation.password.required')"
+                     [status]="passwordNRIZ.dirty ? (passwordNRIZ.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-passwordNRIZ"
+                     name="passwordNRIZ"
+                     nbInput
+                     [type]="showPassword === 'eye' ? 'password' : 'text'"
+                     placeholder="Šifra">
+            </div>
+            <div class="col-1 pl-0">
+              <button fullWidth type="button" nbButton
+                      (click)="this.showPassword = this.showPassword === 'eye' ? 'eye-off' : 'eye';">
+                <nb-icon [icon]="showPassword"></nb-icon>
+              </button>
+            </div>
+            <ng-container *ngIf="passwordNRIZ.invalid && passwordNRIZ.touched">
+              <p class="error-message mt-1 mb-0" *ngIf="passwordNRIZ.errors?.required">
+                Šifra je obavezna!
+              </p>
+              <p class="error-message mt-1 mb-0"
+                 *ngIf="passwordNRIZ.errors?.minlength || passwordNRIZ.errors?.maxlength">
+                Šifra mora biti duže od
+                {{ getConfigValue('forms.validation.password.minLength') }} slova!
+              </p>
+            </ng-container>
           </div>
         </div>
       </div>

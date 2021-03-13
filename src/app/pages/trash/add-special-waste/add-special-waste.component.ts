@@ -23,7 +23,7 @@ export class AddSpecialWasteComponent implements OnInit {
   otherOperations: string[] = [];
   specialWasteClasses: Set<string>;
   specialWaste: SpecialWaste = {
-    amount: 0, desc: '', mass: 0, name: '', unitOfMeasure: '', operationTypes: [],
+    amount: 0, desc: '', mass: 0, name: '', unitOfMeasure: 'kg', operationTypes: [],
   };
 
   constructor(private activatedRoute: ActivatedRoute, private catalogService: CatalogService,
@@ -42,14 +42,14 @@ export class AddSpecialWasteComponent implements OnInit {
       this.specialWasteClasses = new Set();
       x.forEach(d => this.specialWasteClasses.add(d.className));
     });
-    this.roleService.getOperations(undefined, true).subscribe(x => {
+    this.roleService.getOperations(undefined, undefined, true).subscribe(x => {
       this.operations = x.specialWasteOperations;
     });
     this.otherOperations = [];
     this.specialWaste.operationTypes = [];
-    this.otherOperations.push(this.operations.production ? 'Proizvodnja' : null);
-    this.otherOperations.push(this.operations.import ? 'Uvoz' : null);
-    this.otherOperations.push(this.operations.export ? 'Izvoz' : null);
+    this.operations.production ? this.otherOperations.push('Proizvodnja') : '';
+    this.operations.import ? this.otherOperations.push('Uvoz') : '';
+    this.operations.export ? this.otherOperations.push('Izvoz') : '';
     this.specialWaste.operationTypes = this.otherOperations;
   }
 

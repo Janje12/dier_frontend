@@ -336,16 +336,87 @@
       </div>
 
       <div class="row mb-2">
+        <div class="col-6">
+          <label class="label" for="toggle-nriz">Da li imate nalog na NRIZ (Nacionalni registar izvora
+            zagađivanja)?</label>
+          <nb-toggle #nrizToggle id="toggle-nriz"></nb-toggle>
+        </div>
+      </div>
+
+      <div class="row mb-2" *ngIf="nrizToggle.checked">
+        <div class="col-6">
+          <label class="label" for="input-usernameNRIZ">Korisničko ime:</label>
+          <input #usernameNRIZ="ngModel"
+                 [(ngModel)]="company.nriz.username"
+                 [attr.aria-invalid]="usernameNRIZ.invalid && usernameNRIZ.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.username.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.username.minLength')"
+                 [required]="getConfigValue('forms.validation.username.required')"
+                 [status]="usernameNRIZ.dirty ? (usernameNRIZ.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-usernameNRIZ"
+                 name="usernameNRIZ"
+                 nbInput
+                 placeholder="Korisničko ime">
+          <ng-container *ngIf="(usernameNRIZ.invalid && usernameNRIZ.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="usernameNRIZ.errors?.required">
+              Ime zakonskog zastupnika je obavezno!
+            </p>
+            <p class="error-message mt-1 mb-0"
+               *ngIf="usernameNRIZ.errors?.minlength || usernameNRIZ.errors?.maxlength">
+              Korisničko ime mora biti duže od
+              {{ getConfigValue('forms.validation.username.minLength') }} slova!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-6">
+          <label class="label" for="input-passwordNRIZ">Šifra:</label>
+          <div class="row">
+            <div class="col-10 pr-0">
+              <input #passwordNRIZ="ngModel"
+                     [(ngModel)]="company.nriz.password"
+                     [attr.aria-invalid]="passwordNRIZ.invalid && passwordNRIZ.touched ? true : null"
+                     [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+                     [minlength]="getConfigValue('forms.validation.password.minLength')"
+                     [required]="getConfigValue('forms.validation.password.required')"
+                     [status]="passwordNRIZ.dirty ? (passwordNRIZ.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-passwordNRIZ"
+                     name="passwordNRIZ"
+                     nbInput
+                     [type]="showPassword === 'eye' ? 'password' : 'text'"
+                     placeholder="Šifra">
+            </div>
+            <div class="col-2 pl-0">
+              <button fullWidth tabindex="-1" nbButton type="button"
+                      (click)="this.showPassword = this.showPassword === 'eye' ? 'eye-off' : 'eye';">
+                <nb-icon [icon]="showPassword"></nb-icon>
+              </button>
+            </div>
+          </div>
+          <ng-container *ngIf="(passwordNRIZ.invalid && passwordNRIZ.touched) || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="passwordNRIZ.errors?.required">
+              Šifra je obavezna!
+            </p>
+            <p class="error-message mt-1 mb-0"
+               *ngIf="passwordNRIZ.errors?.minlength || passwordNRIZ.errors?.maxlength">
+              Šifra mora biti duže od
+              {{ getConfigValue('forms.validation.password.minLength') }} slova!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
         <div class="col-12">
           <label class="label pl-0 col-12">Puno ime zakonskog zastupnika firme:</label>
           <div class="row ml-2">
             <div class="col-6">
               <label class="label" for="input-fNameLegalRep">Ime:</label>
               <input #fNameLegalRepo="ngModel"
-                     (ngModelChange)="connectfName($event)"
-                     [(ngModel)]="fNameLegalRep"
+                     [(ngModel)]="company.legalRep.firstName"
                      [attr.aria-invalid]="fNameLegalRepo.invalid && fNameLegalRepo.touched ? true : null"
-                     [maxlength]="getConfigValue('forms.validation.firstNamemaxLength')"
+                     [maxlength]="getConfigValue('forms.validation.firstName.maxLength')"
                      [minlength]="getConfigValue('forms.validation.firstName.minLength')"
                      [required]="getConfigValue('forms.validation.firstName.required')"
                      [status]="fNameLegalRepo.dirty ? (fNameLegalRepo.invalid  ? 'danger' : 'success') : 'basic'"
@@ -368,8 +439,7 @@
             <div class="col-6">
               <label class="label" for="input-lNameLegalRep">Prezime:</label>
               <input #lNameLegalRepo="ngModel"
-                     (ngModelChange)="connectlName($event)"
-                     [(ngModel)]="lNameLegalRep"
+                     [(ngModel)]="company.legalRep.lastName"
                      [attr.aria-invalid]="lNameLegalRepo.invalid && lNameLegalRepo.touched ? true : null"
                      [maxlength]="getConfigValue('forms.validation.lastName.maxLength')"
                      [minlength]="getConfigValue('forms.validation.lastName.minLength')"
@@ -398,6 +468,7 @@
       <button nbButton
               fullWidth
               status="danger"
+              type="button"
               routerLink="../register-user"
               class="mt-2 col-6">
         Nazad
@@ -406,7 +477,7 @@
               fullWidth
               status="success"
               class="mt-2 col-6"
-              type="button"
+              type="submit"
               (click)="validateCompany(companyForm)">
         Dalje
       </button>

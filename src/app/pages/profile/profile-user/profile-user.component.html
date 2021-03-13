@@ -1,9 +1,11 @@
 <form #formKorisnik="ngForm" (ngSubmit)="updateUser(formKorisnik)">
+  <div class="row">
+    <div class="col-6">
   <div class="row mb-2">
     <div class="col-12">
       <label class="label" for="input-firstName">Ime:</label>
     </div>
-    <div class="col-3">
+    <div class="col-8">
       <input #firstName="ngModel"
              [(ngModel)]="user.firstName"
              [attr.aria-invalid]="firstName.invalid && firstName.touched ? true : null"
@@ -38,7 +40,7 @@
     <div class="col-12">
       <label class="label" for="input-lastName">Prezime:</label>
     </div>
-    <div class="col-3">
+    <div class="col-8">
       <input #lastName="ngModel"
              [(ngModel)]="user.lastName"
              [attr.aria-invalid]="lastName.invalid && lastName.touched ? true : null"
@@ -73,7 +75,7 @@
     <div class="col-12">
       <label class="label" for="input-email">Email:</label>
     </div>
-    <div class="col-3">
+    <div class="col-8">
       <input #email="ngModel"
              [(ngModel)]="user.email"
              [attr.aria-invalid]="email.invalid && email.touched ? true : null"
@@ -100,7 +102,7 @@
     <div class="col-12">
       <label class="label" for="input-username">Korisničko ime:</label>
     </div>
-    <div class="col-3">
+    <div class="col-8">
       <input #username="ngModel"
              [(ngModel)]="user.username"
              [attr.aria-invalid]="username.invalid && username.touched ? true : null"
@@ -130,7 +132,7 @@
     <div class="col-12">
       <label class="label" for="input-phone">Telefon:</label>
     </div>
-    <div class="col-3">
+    <div class="col-8">
       <input #phone="ngModel"
              [(ngModel)]="user.phone"
              [attr.aria-invalid]="phone.invalid && phone.touched ? true : null"
@@ -154,6 +156,108 @@
           a kraći od {{ getConfigValue('forms.validation.phone.maxLength') }}
         </p>
       </ng-container>
+    </div>
+  </div>
+    </div>
+    <div class="col-6">
+      <div class="row mb-2">
+        <label class="label col-12" for="input-oldPassword">Trenutna šifra:</label>
+        <div class="col-6 pr-0">
+          <input #oldPasswordModel="ngModel"
+                 [(ngModel)]="oldPassword"
+                 [attr.aria-invalid]="oldPasswordModel.invalid && oldPasswordModel.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.password.minLength')"
+                 [required]="getConfigValue('forms.validation.password.required')"
+                 [status]="oldPasswordModel.dirty ? (oldPasswordModel.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-oldPassword"
+                 name="oldPassword"
+                 nbInput
+                 placeholder="Šifra"
+                 [type]="showPassword === 'eye' ? 'password' : 'text'">
+        </div>
+        <div class="col-2 pl-0">
+          <button fullWidth tabindex="-1" nbButton type="button"
+                  (click)="this.showPassword = this.showPassword === 'eye' ? 'eye-off' : 'eye';">
+            <nb-icon [icon]="showPassword"></nb-icon>
+          </button>
+        </div>
+        <div class="col-12">
+          <ng-container *ngIf="oldPasswordModel.invalid && oldPasswordModel.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="oldPasswordModel.errors?.required">
+              Šifra je obavezna!
+            </p>
+            <p class="error-message mt-1 mb-0"
+               *ngIf="oldPasswordModel.errors?.minlength || oldPasswordModel.errors?.maxlength">
+              Šifra ne sme biti kraća od
+              {{ getConfigValue('forms.validation.password.minLength') }}!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="label col-12" for="input-password">Nova šifra:</label>
+        <div class="col-8">
+          <input #passwordModel="ngModel"
+                 [(ngModel)]="newPassword"
+                 [attr.aria-invalid]="passwordModel.invalid && passwordModel.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.password.minLength')"
+                 [required]="getConfigValue('forms.validation.password.required')"
+                 [status]="passwordModel.dirty ? (passwordModel.invalid  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-password"
+                 name="newPassword"
+                 nbInput
+                 placeholder="Šifra"
+                 [type]="showPassword === 'eye' ? 'password' : 'text'">
+        </div>
+        <div class="col-12">
+          <ng-container *ngIf="passwordModel.invalid && passwordModel.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="passwordModel.errors?.required">
+              Nova šifra je obavezna!
+            </p>
+            <p class="error-message mt-1 mb-0"
+               *ngIf="passwordModel.errors?.minlength || passwordModel.errors?.maxlength">
+              Šifra ne sme biti kraća od
+              {{ getConfigValue('forms.validation.password.minLength') }}!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row">
+        <label class="label col-12" for="input-rePassword">Ponovi šifru:</label>
+        <div class="col-8">
+          <input #retypePasswordModel="ngModel"
+                 [(ngModel)]="retypePassword"
+                 [attr.aria-invalid]="retypePasswordModel.invalid && retypePasswordModel.touched ? true : null"
+                 [required]="getConfigValue('forms.validation.password.required')"
+                 [status]="retypePasswordModel.dirty ? (retypePasswordModel.invalid || passwordModel.value !== retypePasswordModel.value  ? 'danger' : 'success') : 'basic'"
+                 fullWidth
+                 id="input-rePassword"
+                 name="rePass"
+                 nbInput
+                 placeholder="Potvrdi šifru"
+                 [type]="showPassword === 'eye' ? 'password' : 'text'">
+        </div>
+        <div class="col-12">
+          <ng-container *ngIf="retypePasswordModel.invalid && passwordModel.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="retypePasswordModel.errors?.required">
+              Ponovna šifra je obavezna!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="passwordModel.value !== retypePasswordModel.value">
+              Šifra se ne poklapa sa već upisanom šifrom!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-8">
+          <button (click)="setNewPassword(ResetPassword)" #ResetPassword
+                  nbButton type="button" status="success">Promeni šifru</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">

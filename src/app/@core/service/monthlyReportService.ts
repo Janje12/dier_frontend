@@ -1,28 +1,28 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable} from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Company } from '../data/company';
-import { MesecniIzvestaj, MesecniIzvestajData } from '../data/mesecniIzvestaj';
+import { MonthlyReportData, MonthlyReport} from '../data/monthlyReport';
 import { Trash } from '../data/trash';
 import { Storage } from '../data/storage';
 
 @Injectable()
-export class MesecniIzvestajService extends MesecniIzvestajData {
+export class MonthlyReportService extends MonthlyReportData {
   private readonly apiUrl: string;
-  private mesecniIzvestaj$: Observable<MesecniIzvestaj[]>;
+  private mesecniIzvestaj$: Observable<MonthlyReport[]>;
 
   constructor(private http: HttpClient) {
     super();
     this.apiUrl = environment.apiUrl;
   }
 
-  getMesecniIzvestaj(): Observable<MesecniIzvestaj[]> {
-    return this.http.get<MesecniIzvestaj[]>(this.apiUrl + '/api/mesecniizvestaj');
+  getMonthlyReport(): Observable<MonthlyReport[]> {
+    return this.http.get<MonthlyReport[]>(this.apiUrl + '/api/mesecniizvestaj');
   }
 
-  getOneMonthlyReport(reportID: string): Observable<MesecniIzvestaj> {
-    return this.http.get<MesecniIzvestaj>(this.apiUrl + '/api/mesecniizvestaj/' + reportID);
+  getOneMonthlyReport(reportID: string): Observable<MonthlyReport> {
+    return this.http.get<MonthlyReport>(this.apiUrl + '/api/mesecniizvestaj/' + reportID);
   }
 
   createMesecniIzvestaj(trash: Trash, storage: Storage, reportType): Observable<any> {
@@ -39,9 +39,9 @@ export class MesecniIzvestajService extends MesecniIzvestajData {
       {trash: trash, reportType: reportType, company: company}, {headers: headers, responseType: 'blob'});
   }
 
-  getAllMesecniIzvestajFirme(companyID: string): Observable<MesecniIzvestaj[]> {
+  getAllMesecniIzvestajFirme(companyID: string): Observable<MonthlyReport[]> {
     if (!this.mesecniIzvestaj$)
-      this.mesecniIzvestaj$ = this.http.get<MesecniIzvestaj[]>(this.apiUrl + '/api/mesecniizvestaj/firma/' + companyID);
+      this.mesecniIzvestaj$ = this.http.get<MonthlyReport[]>(this.apiUrl + '/api/mesecniizvestaj/firma/' + companyID);
     return this.mesecniIzvestaj$;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
@@ -19,6 +19,7 @@ import { RegisterService } from '../../../@core/service/register.service';
 })
 export class RegisterCompanyComponent implements OnInit {
 
+  showPassword: string = 'eye';
   checkIssues: boolean = false;
   occupations$: Observable<Occupation[]>;
   occupations: Occupation[];
@@ -27,15 +28,14 @@ export class RegisterCompanyComponent implements OnInit {
   townships: string[];
   townships$: Observable<string[]>;
   tmpEmail: string = '';
-  fNameLegalRep: string = '';
-  lNameLegalRep: string = '';
   user: User;
 
   company: Company = {
     address: {location: {placeCode: 0, placeName: '', townshipName: '', townshipCode: 0, zipCode: ''}, street: ''},
     email: '',
     emailReception: '',
-    legalRep: '',
+    legalRep: {firstName: '', lastName: ''},
+    nriz: {username: '', password: ''},
     manager: '',
     mat: '',
     name: '',
@@ -61,17 +61,14 @@ export class RegisterCompanyComponent implements OnInit {
       this.occupations = d;
       this.occupations$ = of(d);
     });
-    this.registerService.getUser().pipe(first()).subscribe(k => {
-      if (k !== undefined) {
-        this.user = k;
-      }
-    });
     this.registerService.getCompany().pipe(first()).subscribe(f => {
       if (f !== undefined) {
         this.company = f;
-        // Split the full name into a first and last name
-        this.fNameLegalRep = this.company.legalRep.split(' ')[0];
-        this.lNameLegalRep = this.company.legalRep.split(' ')[1];
+      }
+    });
+    this.registerService.getUser().pipe(first()).subscribe(k => {
+      if (k !== undefined) {
+        this.user = k;
       }
     });
     this.registerService.sendCompany(of(this.company));
@@ -81,8 +78,37 @@ export class RegisterCompanyComponent implements OnInit {
     return getDeepFromObject(this.options, key, null);
   }
 
-  validateCompany(form: NgForm): void {
-    if (form.valid || (this.tmpEmail === '' && this.company.emailReception !== '')) {
+  private checkAddress(): boolean {
+    return this.townships.includes(this.company.address.location.townshipName)
+      && this.places.includes(this.company.address.location.placeName);
+  }
+
+  private checkOccupation(): boolean {
+    return this.occupations.map(x => x.name).includes(this.company.occupation.name);
+  }
+
+  async validateCompany(form: NgForm) {
+    if (form.invalid || !this.checkAddress() || !this.checkOccupation()) {
+      this.checkIssues = true;
+      this.showToast('Greška', 'Ispravite greške da bi ste nastavili.', 'warning');
+      return false;
+    }
+    let text = '';
+    const test = await Promise.all(this.registerService.checkCompany(this.company)).then(b => {
+      text = !b[0] ? 'taj pib' : text;
+      text = !b[1] ? 'taj matični broj' : text;
+      text = !b[2] ? 'taj email' : text;
+      text = !b[3] ? 'taj email za prijem' : text;
+      text = !b[4] ? 'taj telefon' : text;
+      text = !b[5] ? 'to korisničko ime za NRIZ' : text;
+      return b[0] && b[1] && b[2] && b[3] && b[4] && b[5];
+    });
+    if (!test) {
+      this.checkIssues = true;
+      this.showToast('Greška', `Već postoji ${text}!`, 'danger');
+      return;
+    }
+    if (form.valid && this.tmpEmail === '' && this.company.emailReception !== '') {
       this.router.navigate(['auth/register-operations']);
     } else {
       this.checkIssues = true;
@@ -112,7 +138,9 @@ export class RegisterCompanyComponent implements OnInit {
     }
     this.townships$ = this.locationService.filter(value, this.townships);
     if (this.townships$ !== undefined)
-      this.townships$.subscribe(x => this.getPlaces(x[0]));
+      this.townships$.subscribe(x => {
+        this.getPlaces(x[0]);
+      });
   }
 
   findPlaces(value: string) {
@@ -121,23 +149,6 @@ export class RegisterCompanyComponent implements OnInit {
 
   findOccupations(occupation: string) {
     this.occupations$ = this.occupationService.filter(occupation, this.occupations);
-  }
-
-  /* Make the below code a bit better maybe scrap the whole thing */
-  connectfName(fName: string) {
-    this.fNameLegalRep = fName;
-    fName = fName + ' ';
-    const index = this.company.legalRep.indexOf(' ');
-    this.company.legalRep = this.company.legalRep.slice(index);
-    this.company.legalRep = fName + this.company.legalRep;
-  }
-
-  connectlName(lName: string) {
-    this.lNameLegalRep = lName;
-    lName = ' ' + lName;
-    const index = this.company.legalRep.indexOf(' ');
-    this.company.legalRep = this.company.legalRep.slice(0, index);
-    this.company.legalRep = this.company.legalRep + lName;
   }
 
   // Clear the temporary email so the validation works

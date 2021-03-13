@@ -51,19 +51,6 @@ export class PermitsComponent implements OnInit {
     }
   }
 
-  // TOASTR SERVICE THAT WORKS OFF OF the API!
-  createPermit({newData: permit, confirm: confirm}): void {
-    try {
-      this.permitService.createPermit(permit).subscribe(s => {
-      });
-      confirm.resolve();
-      this.showToast('Uspeh!', 'Uspešno ste kreirali ' + permit.name, 'success');
-    } catch (err) {
-      confirm.reject();
-      this.showToast('Greška!', 'Došlo je do greške do kreiranja ' + permit.name +
-        '. Molimo vas pokušajte kasnije.', 'danger');
-    }
-  }
 
   updatePermit({newData: permit, confirm: confirm}): void {
     try {

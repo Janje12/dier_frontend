@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   NbButtonModule,
-  NbCardModule,
+  NbCardModule, NbIconModule,
   NbInputModule,
   NbPopoverModule,
   NbProgressBarModule,
@@ -44,6 +44,7 @@ import { ProfileComponent } from './profile.component';
     PagesModule,
     PopupWindowsModule,
     StorageModule,
+    NbIconModule,
   ],
 })
 export class ProfileModule {

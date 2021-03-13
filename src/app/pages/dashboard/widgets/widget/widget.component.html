@@ -25,7 +25,7 @@
     <div *ngIf="name === 'most_used_trash'">
       <widget-most-used-trash [type]="type"></widget-most-used-trash>
     </div>
-    <div *ngIf="name === 'trash_stats'">
+    <div *ngIf="name === 'trash_stats'" class="h-100">
       <widget-trash-stats (isLoaded)="isLoaded()" [type]="type"></widget-trash-stats>
     </div>
     <div *ngIf="name === 'transport_permits'">
@@ -43,7 +43,7 @@
     <div *ngIf="name === 'most_used_special_waste'">
       <widget-most-used-special-waste></widget-most-used-special-waste>
     </div>
-    <div *ngIf="name === 'special_waste_stats'">
+    <div *ngIf="name === 'special_waste_stats'" class="h-100">
       <widget-special-waste-stats></widget-special-waste-stats>
     </div>
   </nb-card-body>

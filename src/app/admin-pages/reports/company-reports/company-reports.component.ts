@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbComponentStatus, NbToastrService } from '@nebular/theme';
-import { first } from 'rxjs/operators';
 import { Company } from '../../../@core/data/company';
 import { Storage } from '../../../@core/data/storage';
-import { CompanyService } from '../../../@core/service/company.service';
+import { AdminService } from '../../../@core/service/admin.service';
 import { RoleService } from '../../../@core/service/role.service';
-import { StorageService } from '../../../@core/service/storage.service';
 
 @Component({
-  selector: 'ngx-company-reports',
+  selector: 'company-reports',
   templateUrl: './company-reports.component.html',
   styleUrls: ['./company-reports.component.scss'],
 })
 export class CompanyReportsComponent implements OnInit {
 
+  storageIDs: string[];
   company: Company = {
     address: {location: undefined, street: ''},
     email: '',
     emailReception: '',
-    legalRep: '',
+    legalRep: { firstName: '', lastName: ''},
+    nriz: { username: '', password: ''},
     manager: '',
     mat: '',
     name: '',
@@ -28,22 +28,25 @@ export class CompanyReportsComponent implements OnInit {
     pib: '',
     telephone: '',
   };
-  skladista: Storage[];
-  operations: any;
+  storages: Storage[];
+  operations: {
+    production: boolean,
+    transport: boolean, treatment: boolean,
+    cache: boolean, disposal: boolean,
+    collector: boolean,
+    specialWaste: boolean,
+  };
+  pib: string;
 
-  constructor(private route: ActivatedRoute, private firmaService: CompanyService,
-              private toastrService: NbToastrService, private skladisteService: StorageService,
-              private roleService: RoleService) {
+  constructor(private route: ActivatedRoute, private adminService: AdminService,
+              private toastrService: NbToastrService, private roleService: RoleService) {
   }
 
   ngOnInit(): void {
-    const pib = this.route.snapshot.paramMap.get('pib');
-    this.firmaService.getCompany(pib, 'pib').subscribe(c => {
+    this.pib = this.route.snapshot.paramMap.get('pib');
+    this.adminService.getCompany(this.pib, 'pib').subscribe(c => {
       this.company = c;
-      this.skladisteService.getCompaniesStorage('', this.company._id).pipe(first()).subscribe(s => {
-        this.skladista = s;
-      });
-      this.roleService.getOperations().subscribe(o => {
+      this.roleService.getOperations(this.company.operations).subscribe(o => {
         this.operations = o;
       });
     });

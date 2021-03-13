@@ -1,0 +1,145 @@
+<nb-reveal-card showToggleButton #revealCard class="container-fluid">
+  <nb-card-front>
+    <nb-card class="no-border">
+      <nb-card-body>
+        <form #permitForm="ngForm">
+          <div class="row">
+            <div class="col-12 mb-2">
+              <label class="label" for="input-permitName">Naziv Dozvole:</label>
+              <input #permitName="ngModel"
+                     [(ngModel)]="permit.name"
+                     [attr.aria-invalid]="permitName.invalid && permitName.touched ? true : null"
+                     [ngModelOptions]="{standalone: true}"
+                     [required]="getConfigValue('forms.validation.permitName.required')"
+                     [maxlength]="getConfigValue('forms.validation.permitName.maxLength')"
+                     [minLength]="getConfigValue('forms.validation.permitName.minLength')"
+                     [status]="permitName.dirty ? (permitName.invalid  ? 'danger' : 'success') : 'basic'"
+                     placeholder="Dozvola"
+                     autofocus
+                     fullWidth
+                     id="input-permitName"
+                     name="permitName"
+                     nbInput
+                     placeholder="Naziv">
+              <ng-container *ngIf="permitName.invalid && permitName.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="permitName.errors?.required">
+                  Naziv dozvole je obavezna!
+                </p>
+                <p class="error-message mt-1 mb-0"
+                   *ngIf="permitName.errors?.maxLength || permitName.errors?.minLength">
+                  Naziv dozvole mora biti duži od
+                  {{ getConfigValue('forms.validation.permitName.minLength') }} slova!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12">
+              <label class="label" for="input-permitCode">Šifra Dozvole:</label>
+              <input #permitCode="ngModel"
+                     [(ngModel)]="permit.code"
+                     [attr.aria-invalid]="permitCode.invalid && permitCode.touched ? true : null"
+                     [ngModelOptions]="{standalone: true}"
+                     [required]="getConfigValue('forms.validation.permitCode.required')"
+                     [status]="permitCode.dirty ? (permitCode.invalid  ? 'danger' : 'success') : 'basic'"
+                     fullWidth
+                     id="input-permitCode"
+                     name="permitCode"
+                     nbInput
+                     placeholder="Šifra">
+              <ng-container *ngIf="permitCode.invalid && permitCode.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="permitCode.errors?.required">
+                  Šifra dozvole je obavezna!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="label" for="input-dateCreation">Datum izdavanja dozvole:</label>
+              <input #dateCreation="ngModel"
+                     [(ngModel)]="permit.dateCreation"
+                     [attr.aria-invalid]="dateCreation.invalid && dateCreation.touched ? true : null"
+                     [nbDatepicker]="dateCreationPicker"
+                     [ngModelOptions]="{standalone: true}"
+                     [required]="getConfigValue('forms.validation.date.required')"
+                     [status]="!dateValid(permit) ? 'danger' : 'success'"
+                     fullWidth
+                     id="input-dateCreation"
+                     name="dateCreation"
+                     nbInput>
+              <nb-datepicker #dateCreationPicker></nb-datepicker>
+              <ng-container *ngIf="!dateValid(permit)">
+                <p class="error-message mt-1 mb-0" *ngIf="dateCreation.errors?.required">
+                  Datum nastanka dozvole je obavezan!
+                </p>
+                <p class="error-message mt-1 mb-0" *ngIf="!dateValid(permit)">
+                  Datum nastanka dozvole ne može biti posle datum izdavanja!
+                </p>
+              </ng-container>
+            </div>
+            <div class="col-6">
+              <label class="label" for="input-dateExpiration">Datum isteka dozvole:</label>
+              <input #dateExpiration="ngModel"
+                     [(ngModel)]="permit.dateExpiration"
+                     [attr.aria-invalid]="dateExpiration.invalid && dateExpiration.touched ? true : null"
+                     [nbDatepicker]="dateExpirationPicker"
+                     [ngModelOptions]="{standalone: true}"
+                     [required]="getConfigValue('forms.validation.date.required')"
+                     [status]="!dateValid(permit) ? 'danger' : 'success'"
+                     fullWidth
+                     id="input-dateExpiration"
+                     name="dateExpiration"
+                     nbInput>
+              <nb-datepicker #dateExpirationPicker></nb-datepicker>
+              <ng-container *ngIf="dateExpiration.invalid && dateExpiration.touched">
+                <p class="error-message mt-1 mb-0" *ngIf="dateExpiration.errors?.required">
+                  Datum isteka dozvole je obavezan!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-6">
+              <button nbButton status="basic" type="button"
+                      (click)="revealCard.revealed = true">Odaberi otpade
+              </button>
+            </div>
+            <div class="col-6">
+              <button nbButton status="success" (click)="addPermit()">Dodaj dozvolu</button>
+            </div>
+          </div>
+
+
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-front>
+  <nb-card-back>
+    <nb-card class="no-border">
+      <nb-card-body>
+        <div class="row mb-2">
+          <div class="col-12">
+            <button nbButton status="warning" (click)="addTrashToList({data: o})"
+                    class="p-2 m-1" *ngFor="let o of permit.trashList" [nbPopover]="o.name"
+                    nbPopoverTrigger="hint" nbPopoverPlacement="bottom">
+              {{o.indexNumber}}
+            </button>
+          </div>
+          <div class="col-11">
+            <label class="ml-0">Pretrazi po indeksnom broju:</label>
+          </div>
+          <div class="col-1">
+            <i class="fa fa-arrow-alt-circle-down fa-2x arrow-down" (click)="revealCard.revealed = false"></i>
+          </div>
+          <div class="col-12 mt-1">
+            <input nbInput #search fullWidth type="text" placeholder="Pretrazi"
+                   (input)="search.value.length >= 1 && onSearch(search.value)">
+            <ng2-smart-table [source]="catalog" [settings]="settings"
+                             (custom)="addTrashToList($event)"></ng2-smart-table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-back>
+</nb-reveal-card>

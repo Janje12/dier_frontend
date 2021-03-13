@@ -61,7 +61,8 @@
         </div>
         <div class="row mb-2">
           <div class="col-12">
-            <button *ngFor="let o of operations$ | async" size="small" nbButton class="no-select rad-text mb-2" fullWidth
+            <button *ngFor="let o of operations$ | async" size="small" nbButton class="no-select rad-text mb-2"
+                    fullWidth
                     outline
                     status="warning">{{o}}</button>
           </div>
@@ -102,7 +103,8 @@
             <div class="col-12">
               <label class="text-muted">Adresa:</label>
               <button size="small" nbButton class="no-select" fullWidth outline status="success">
-                {{(company$ | async)?.address.location.townshipName}}, {{(company$ | async)?.address.location.placeName}},
+                {{(company$ | async)?.address.location.townshipName}}
+                , {{(company$ | async)?.address.location.placeName}},
                 {{(company$ | async)?.address.street}} {{(company$ | async)?.address.location.zipCode}}</button>
             </div>
           </div>
@@ -152,9 +154,13 @@
             <div class="col-12">
               <label class="text-muted">Zakonski zastupnik firme:</label>
             </div>
-            <div class="col-12">
+            <div class="col-6">
               <button size="small" nbButton class="no-select" fullWidth outline
-                      status="success">{{(company$ | async)?.legalRep}}</button>
+                      status="success">{{(company$ | async)?.legalRep.firstName}}</button>
+            </div>
+            <div class="col-6">
+              <button size="small" nbButton class="no-select" fullWidth outline
+                      status="success">{{(company$ | async)?.legalRep.lastName}}</button>
             </div>
           </div>
 
@@ -178,6 +184,8 @@
               [disabled]="!(uslovi.checked && tacnost.checked)">
         Završi
       </button>
+      <re-captcha [siteKey]="'6LfLNHsaAAAAAIhkWmF3F-DXvLPWdGQU2EpE-KvW'"
+                  (resolved)="resolved($event)" size="invisible" #reCaptcha="reCaptcha"></re-captcha>
     </form>
 
     <div class="row justify-content-center mt-2 mb-2">
@@ -190,6 +198,7 @@
         <nb-checkbox name="tacnost" #tacnost required>Potvrđujem da su sve unete informacije tačne
         </nb-checkbox>
       </div>
+
     </div>
   </nb-step>
 </nb-stepper>

@@ -14,11 +14,13 @@ import { CompanyService } from '../../../@core/service/company.service';
 })
 export class CompanyComponent implements OnInit {
 
+  showPassword: string = 'eye';
   company: Company = {
-    address: {location: undefined, street: ''},
+    address: {location: {placeName: '', placeCode: 0, townshipName: '', zipCode: '', townshipCode: 0}, street: ''},
     email: '',
     emailReception: '',
-    legalRep: '',
+    legalRep: { firstName: '', lastName: ''},
+    nriz: { username: '', password: ''},
     manager: '',
     mat: '',
     name: '',

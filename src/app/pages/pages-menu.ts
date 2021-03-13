@@ -3,7 +3,7 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Početni panel',
-    icon: { icon: 'home', pack: 'font-awesome' },
+    icon: {icon: 'home', pack: 'font-awesome'},
     link: '/pages/dashboard',
     home: true,
   },
@@ -14,67 +14,73 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Skladište',
     link: '/pages/storage',
-    icon: { icon: 'box-open', pack: 'font-awesome' },
+    icon: {icon: 'box-open', pack: 'font-awesome'},
   },
   {
-    title: 'Neopasni otpad',
-    icon: { icon: 'trash', pack: 'font-awesome' },
+    title: 'Dodaj otpad',
+    icon: {icon: 'tools', pack: 'font-awesome'},
     children: [
       {
-        title: 'Proizvodnja',
-        link: '/pages/trash/safe/production',
+        title: 'Neopasni otpad',
+        icon: {icon: 'trash', pack: 'font-awesome'},
+        children: [
+          {
+            title: 'Proizvođač/Vlasnik',
+            link: '/pages/trash/safe/production',
+          },
+          {
+            title: 'Tretman',
+            link: '/pages/trash/safe/treatment',
+          },
+          {
+            title: 'Odlaganje',
+            link: '/pages/trash/safe/dump',
+          },
+          {
+            title: 'Skladištenje',
+            link: '/pages/trash/safe/cache',
+          },
+        ],
       },
       {
-        title: 'Tretman',
-        link: '/pages/trash/safe/treatment',
+        title: 'Opasni otpad',
+        icon: {icon: 'radiation-alt', pack: 'font-awesome'},
+        children: [
+          {
+            title: 'Proizvođač/Vlasnik',
+            link: '/pages/trash/unsafe/production',
+          },
+          {
+            title: 'Tretman',
+            link: '/pages/trash/unsafe/treatment',
+          },
+          {
+            title: 'Odlaganje',
+            link: '/pages/trash/unsafe/dump',
+          },
+          {
+            title: 'Skladištenje',
+            link: '/pages/trash/unsafe/cache',
+          },
+        ],
       },
       {
-        title: 'Odlaganje',
-        link: '/pages/trash/safe/dump',
-      },
-      {
-        title: 'Skladištenje',
-        link: '/pages/trash/safe/cache',
-      },
-    ],
-  },
-  {
-    title: 'Opasni otpad',
-    icon: { icon: 'radiation-alt', pack: 'font-awesome' },
-    children: [
-      {
-        title: 'Proizvodnja',
-        link: '/pages/trash/unsafe/production',
-      },
-      {
-        title: 'Tretman',
-        link: '/pages/trash/unsafe/treatment',
-      },
-      {
-        title: 'Odlaganje',
-        link: '/pages/trash/unsafe/dump',
-      },
-      {
-        title: 'Skladištenje',
-        link: '/pages/trash/unsafe/cache',
-      },
-    ],
-  },
-  {
-    title: 'Posebni tokovi otpada',
-    icon: { icon: 'car-battery', pack: 'font-awesome' },
-    children: [
-      {
-        title: 'Proizvodnja',
-        link: '/pages/trash/specialwaste/production',
-      },
-      {
-        title: 'Uvoz',
-        link: '/pages/trash/specialwaste/import',
-      },
-      {
-        title: 'Izvoz',
-        link: '/pages/trash/specialwaste/export',
+        title: 'Posebni tokovi otpada',
+        icon: {icon: 'car-battery', pack: 'font-awesome'},
+        children: [
+          {
+            title: 'Proizvodnja',
+            link: '/pages/trash/specialwaste/production',
+          },
+          {
+            title: 'Uvoz',
+            link: '/pages/trash/specialwaste/import',
+          },
+          {
+            title: 'Izvoz',
+            link: '/pages/trash/specialwaste/export',
+          },
+        ],
       },
     ],
   },

@@ -13,20 +13,20 @@ const routes: Routes = [
     component: ReportsComponent,
   },
   {
-    path: 'firme/:pib',
+    path: 'company/:pib',
     component: CompanyReportsComponent,
   },
   {
-    path: 'dko',
+    path: 'wmd',
     component: TrashTransportReportComponent,
   },
   {
-    path: 'godisnji-izvestaji/:pib',
-    component: YearlyReportsComponent,
+    path: 'monthly-report/:id',
+    component: MonthlyReportInformationComponent,
   },
   {
-    path: 'mesecni-izvestaj/:id',
-    component: MonthlyReportInformationComponent,
+    path: 'yearly-report/:pib',
+    component: YearlyReportsComponent,
   },
 ];
 

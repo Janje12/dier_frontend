@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { Company } from './company';
 import { DKO } from './dko';
+import { SpecialWaste } from './specialWaste';
 import { User } from './user';
 import { Trash } from './trash';
 import { Storage } from './storage';
@@ -12,6 +13,8 @@ export interface Transaction {
   date: Date;
   transactionType: string;
   method: string;
+  specialWaste?: SpecialWaste;
+  specialWasteType?: string;
   trash?: Trash;
   storage?: Storage;
   trashAmount?: number;

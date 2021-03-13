@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
 import { NbMenuItem } from '@nebular/theme';
+import { Observable, Subscription } from 'rxjs';
 import { RoleService } from '../@core/service/role.service';
 
 @Component({
@@ -17,29 +18,23 @@ import { RoleService } from '../@core/service/role.service';
 export class PagesComponent implements OnDestroy, OnInit {
 
   menu: NbMenuItem[] = [];
+  subsrciber: Subscription;
 
-  constructor(private roleService: RoleService, private authService: NbAuthService,
-              private router: Router) {
+  constructor(private roleService: RoleService, private authService: NbAuthService) {
     this.authService.getToken().subscribe(t => {
-      const user = t.getPayload().data.user;
-      if (user.role === 'admin') {
-        this.router.navigate(['admin']);
-      }
+      const companyOperations = t.getPayload().data.company.operations;
+      this.subsrciber = this.roleService.getOperationsMenu(companyOperations).subscribe(x => {
+        this.menu = x;
+      });
     });
   }
 
   ngOnInit(): void {
-    this.authService.getToken().subscribe(t => {
-      const companyOperations = t.getPayload().data.company.operations;
-      const tmp = this.roleService.getOperationsMenu(companyOperations).subscribe(m => {
-        this.menu = m;
-      });
-      tmp.unsubscribe();
-    });
   }
 
   ngOnDestroy(): void {
     this.menu = [];
+    this.subsrciber.unsubscribe();
   }
 
 

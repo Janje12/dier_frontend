@@ -3,7 +3,8 @@
     <div class="row">
       <div class="col-6 d-flex justify-content-start">{{title}}</div>
       <div class="col-6 d-flex flex-fill justify-content-end">
-        <button nbButton size="small" (click)="showSettings = !showSettings" [status]="status">Izmeni redosled</button>
+        <button nbButton size="small" (click)="showSettings = !showSettings"
+                [status]="status">Izmeni redosled</button>
         <div *ngIf="showSettings">
           <button (click)="updatePositionMethod(-1)" nbButton><i class="fa fa-arrow-up"></i></button>
           <button (click)="updatePositionMethod(1)" nbButton><i class="fa fa-arrow-down"></i></button>

@@ -1,83 +1,111 @@
-<div class="align-self-center">
+<div class="align-self-center flex-fill">
+  <div class="row d-flex mb-5 justify-content-center">
+    <img class="" style="height: 40%; width: 40%;" src="assets/images/logo.png" alt="DIERS">
+  </div>
   <h1 id="title" class="title">Uloguj se!</h1>
 
-  <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
-    <p class="alert-title"><b>Došlo je do greške, proverite podatke!</b></p>
-    <ul class="alert-message-list">
-      <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
-    </ul>
-  </nb-alert>
+  <div class="row d-flex justify-content-center">
+    <div class="col-8">
+      <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+        <p class="alert-title"><b>Došlo je do greške, proverite podatke!</b></p>
+        <ul class="alert-message-list">
+          <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+        </ul>
+      </nb-alert>
 
-  <nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
-    <p class="alert-title"><b>Uspesno ste se ulogovali!</b></p>
-    <ul class="alert-message-list">
-      <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
-    </ul>
-  </nb-alert>
-
+      <nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+        <p class="alert-title"><b>Uspesno ste se ulogovali!</b></p>
+        <ul class="alert-message-list">
+          <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+        </ul>
+      </nb-alert>
+    </div>
+  </div>
 
   <form (ngSubmit)="login()" #loginForm="ngForm" aria-labelledby="uloguj se">
 
-    <div class="form-control-group">
-      <label class="label" for="input-email">Email/Korisničko ime:</label>
-      <input #email="ngModel"
-             [(ngModel)]="user.email"
-             [attr.aria-invalid]="email.invalid && email.touched ? true : null"
-             [required]="getConfigValue('forms.validation.email.required')"
-             [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
-             autofocus
-             fullWidth
-             id="input-email"
-             name="email"
-             nbInput
-             placeholder="Email adresa/Korisničko ime">
-      <ng-container *ngIf="email.touched">
-        <p class="error-message mt-1" *ngIf="email.errors?.required">
-          Email je obavezan!
-        </p>
-      </ng-container>
-    </div>
-
-    <div class="row">
-      <label class="label col-12" for="input-password">Šifra:</label>
-      <div class="col-10 pr-0">
-      <input #password="ngModel"
-             [(ngModel)]="user.password"
-             [attr.aria-invalid]="password.invalid && password.touched ? true : null"
-             [required]="getConfigValue('forms.validation.password.required')"
-             [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
-             fullWidth
-             id="input-password"
-             name="password"
-             nbInput
-             placeholder="Šifra"
-             [type]="showPassword === 'eye' ? 'password' : 'text'"></div>
-      <div class="col-2 pl-0">
-      <button fullWidth type="button" nbButton
-              (click)="this.showPassword = this.showPassword === 'eye' ? 'eye-off' : 'eye';"><nb-icon [icon]="showPassword"></nb-icon></button>
+    <div class="row d-flex justify-content-center mb-3">
+      <div class="col-8">
+        <label class="label" for="input-email">Email/Korisničko ime:</label>
       </div>
-      <ng-container *ngIf="password.touched">
-        <p class="error-message mt-1" *ngIf="password.errors?.required">
-          Šifra je obavezna!
-        </p>
-      </ng-container>
+      <div class="col-8">
+        <input #email="ngModel"
+               [(ngModel)]="user.email"
+               [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+               [required]="getConfigValue('forms.validation.email.required')"
+               [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
+               autofocus
+               fullWidth
+               id="input-email"
+               name="email"
+               nbInput
+               placeholder="Email adresa/Korisničko ime">
+      </div>
+      <div class="col-8">
+        <ng-container *ngIf="email.touched">
+          <p class="error-message mt-1" *ngIf="email.errors?.required">
+            Email je obavezan!
+          </p>
+        </ng-container>
+      </div>
     </div>
 
-    <div class="form-control-group accept-group">
-      <nb-checkbox *ngIf="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe">Zapamti me</nb-checkbox>
-      <a class="forgot-password" routerLink="../request-password">Zaboravili ste šifru?</a>
+    <div class="row d-flex justify-content-center mb-2">
+      <div class="col-8">
+        <label class="label" for="input-password">Šifra:</label>
+      </div>
+      <div class="col-7 pr-0">
+        <input #password="ngModel"
+               [(ngModel)]="user.password"
+               [attr.aria-invalid]="password.invalid && password.touched ? true : null"
+               [required]="getConfigValue('forms.validation.password.required')"
+               [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
+               fullWidth
+               id="input-password"
+               name="password"
+               nbInput
+               placeholder="Šifra"
+               [type]="showPassword === 'eye' ? 'password' : 'text'"></div>
+      <div class="col-1 pl-0">
+        <button fullWidth type="button" nbButton
+                (click)="this.showPassword = this.showPassword === 'eye' ? 'eye-off' : 'eye';">
+          <nb-icon [icon]="showPassword"></nb-icon>
+        </button>
+      </div>
+      <div class="col-8">
+        <ng-container *ngIf="password.touched">
+          <p class="error-message mt-1" *ngIf="password.errors?.required">
+            Šifra je obavezna!
+          </p>
+        </ng-container>
+      </div>
     </div>
 
-    <button [class.btn-pulse]="submitted"
-            [disabled]="submitted"
-            fullWidth
-            nbButton
-            status="success">
-      Uloguj se
-    </button>
+    <div class="row d-flex justify-content-center mb-2">
+      <div class="col-4">
+        <nb-checkbox *ngIf="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe">Zapamti me</nb-checkbox>
+      </div>
+      <div class="col-4 justify-content-end d-flex">
+        <a class="forgot-password" routerLink="../forgot-password">Zaboravili ste šifru?</a>
+      </div>
+    </div>
+
+    <div class="row d-flex justify-content-center mb-2">
+      <div class="col-8">
+        <button [class.btn-pulse]="submitted"
+                [disabled]="submitted"
+                fullWidth
+                nbButton
+                status="success">
+          Uloguj se
+        </button>
+      </div>
+    </div>
+
   </form>
-
-  <section class="another-action" aria-label="Registruj se">
-    Nemate nalog? <a class="text-link" routerLink="../register-user">Registruj se</a>
-  </section>
+  <div class="row d-flex justify-content-center">
+    <div class="col-8 text-center" aria-label="Registruj se">
+      Nemate nalog? <a class="text-link" routerLink="../register-user">Registruj se</a>
+    </div>
+  </div>
 </div>

@@ -18,7 +18,7 @@ export class UserService extends UserData {
   }
 
   deleteUser(value: string, type: string = '_id'): Observable<User> {
-    return this.http.delete<User> (this.apiUrl + '/api/user/one/' + `${type}/${value}`);
+    return this.http.delete<User>(this.apiUrl + '/api/user/one/' + `${type}/${value}`);
   }
 
   getUser(value: string, type: string = '_id'): Observable<User> {
@@ -36,6 +36,14 @@ export class UserService extends UserData {
   // Get the users 'profile' information
   getUserProfile(username: string): Observable<User> {
     return this.http.get<User>(this.apiUrl + '/api/user/profile/' + username);
+  }
+
+  changePassword(_id: string, oldPassword: string, newPassword: string): Observable<boolean> {
+    return this.http.patch<boolean>(this.apiUrl + '/api/auth/change-password', {
+      _id: _id,
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    });
   }
 
 }

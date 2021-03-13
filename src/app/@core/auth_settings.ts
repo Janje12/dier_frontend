@@ -28,7 +28,7 @@ export const VALLIDATION_SETTINGS: any = {
     maxLength: 20,
   },
   email: {
-    pattern: '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$',
+    pattern: '^[a-zšđžćč0-9._%+-]+@[a-zšđžćč0-9.-]+\\.[a-zšđčćž]{2,4}$',
     required: true,
   },
   password: {

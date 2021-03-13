@@ -8,6 +8,10 @@ export const TRASH_STATS_SETTINGS = {
     top: 20,
   },
   tooltip: {},
+  grid: {
+    width: 'auto',
+    height: 'auto',
+  },
   xAxis: {
     name: 'Dani',
     data: [],

@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 interface Widget {
   widgetTitle: string;
   widgetSize: string;
@@ -6,6 +8,7 @@ interface Widget {
 
 export interface WidgetSettings {
   _id?: string;
+  username: string;
   group: {
     groupTitle: string;
     groupType: string;
@@ -16,5 +19,9 @@ export interface WidgetSettings {
 }
 
 export abstract class WidgetSettingsData {
-
+  abstract createWidgetSettings(WidgetSettings: WidgetSettings): Observable<WidgetSettings>;
+  abstract getWidgetSettings(value: string, type: string): Observable<WidgetSettings>;
+  abstract updateWidgetSettings(widgetSettings: WidgetSettings,
+                                value: string, type: string): Observable<WidgetSettings>;
+  abstract deleteWidgetSettings(value: string, type: string): Observable<WidgetSettings>;
 }

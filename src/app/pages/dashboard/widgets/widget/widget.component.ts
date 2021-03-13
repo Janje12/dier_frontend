@@ -42,7 +42,7 @@ export class WidgetComponent implements OnInit {
       titleType = 'skladišćen';
     this.widgetList = {
       most_used_trash: {
-        title: `Najčešće ${titleType} otpad`,
+        title: `Najčešći ${titleType} otpad`,
       },
       trash_stats: {
         title: 'Statistika otpada',

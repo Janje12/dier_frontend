@@ -10,7 +10,6 @@
     </div>
     <div class="row mt-2">
       <ng2-smart-table class="col-12" [settings]="permitSettings" [source]="selectedPermits"
-                       (createConfirm)="createPermit($event)"
                        (editConfirm)="updatePermit($event)"
                        (deleteConfirm)="deletePermit($event)"
                        (custom)="permitInfo($event)"></ng2-smart-table>

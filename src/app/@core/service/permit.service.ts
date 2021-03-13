@@ -14,12 +14,12 @@ export class PermitService extends PermitData {
     this.apiUrl = environment.apiUrl;
   }
 
-  createPermit(permit: Permit): Observable<Permit> {
-    return undefined;
+  createPermit(permit: Permit, companyID: string): Observable<Permit> {
+    return this.http.post<Permit>(this.apiUrl + '/api/permit', {permit: permit, companyID: companyID});
   }
 
   deletePermit(value: string, type: string = '_id'): Observable<Permit> {
-    return undefined;
+    return this.http.delete<Permit>(this.apiUrl + '/api/permit/one/' + `${type}/${value}`);
   }
 
   getPermit(value: string, type: string = '_id'): Observable<Permit> {

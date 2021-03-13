@@ -13,6 +13,7 @@ import { PERMIT_SETTINGS } from './transport-permits.settings';
 })
 export class TransportPermitsComponent implements OnInit {
   @ViewChild('viewTrash', {read: TemplateRef}) viewTrash: TemplateRef<HTMLElement>;
+  @ViewChild('addPermit', {read: TemplateRef}) addPermit: TemplateRef<HTMLElement>;
   @Input() type: string;
 
   private windowRef: NbWindowRef;
@@ -25,9 +26,15 @@ export class TransportPermitsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updatePermits();
+  }
+
+  updatePermits() {
     this.permitService.getCompaniesPermits(this.roleService.getCompanyID(), this.type).subscribe(x => {
       this.transportPermits = x;
     });
+    if (this.windowRef !== undefined)
+      this.windowRef.close();
   }
 
   openPermitsTrashWindow({data: permit}): void {
@@ -41,6 +48,10 @@ export class TransportPermitsComponent implements OnInit {
     });
     this.showToast('Uspeh', 'Uspešno ste izmenili informacije!', 'success');
     this.windowRef.close();
+  }
+
+  openAddPermitWindow(): void {
+    this.windowRef = this.windowService.open(this.addPermit, {title: 'Dodaj dozvolu za transport'});
   }
 
   private showToast(title: String, message: String, status: NbComponentStatus) {

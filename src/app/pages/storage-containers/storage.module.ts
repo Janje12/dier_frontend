@@ -55,7 +55,6 @@ import { StorageMeterComponent } from './storage-meter/storage-meter.component';
   ],
   providers: [
     StorageService,
-    RoleService,
     CatalogService,
     TransactionsService,
   ],

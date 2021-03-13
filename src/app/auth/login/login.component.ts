@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthResult, NbAuthService, NbLoginComponent } from '@nebular/auth';
+import { RoleService } from '../../@core/service/role.service';
 
 @Component({
-  selector: 'ngx-login',
+  selector: 'auth-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -21,7 +22,7 @@ export class LoginComponent extends NbLoginComponent {
 
   constructor(protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
-              protected cd: ChangeDetectorRef,
+              protected cd: ChangeDetectorRef, private roleService: RoleService,
               protected router: Router) {
     super(service, options, cd, router);
     this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
@@ -46,6 +47,7 @@ export class LoginComponent extends NbLoginComponent {
 
       const redirect = result.getRedirect();
       if (redirect) {
+        this.roleService.loginUser();
         setTimeout(() => {
           return this.router.navigateByUrl(redirect);
         }, this.redirectDelay);

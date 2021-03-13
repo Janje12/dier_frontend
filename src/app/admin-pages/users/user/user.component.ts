@@ -17,7 +17,8 @@ export class UserComponent implements OnInit {
   user: User = {
     email: '', firstName: '', lastName: '', password: '', phone: '', role: '', username: '',
     company: { pib: '', mat: '', address: undefined, name: '', fax: '', email: '', emailReception: '',
-      manager: '', legalRep: '', telephone: '', occupation: undefined, operations: []},
+      manager: '', legalRep: { firstName: '', lastName: ''},
+      nriz: { username: '', password: ''}, telephone: '', occupation: undefined, operations: []},
   };
 
   constructor(private route: ActivatedRoute, private adminService: AdminService,

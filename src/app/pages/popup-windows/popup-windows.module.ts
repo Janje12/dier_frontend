@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   NbAccordionModule,
   NbAutocompleteModule,
-  NbButtonModule, NbCheckboxModule, NbIconModule, NbInputModule, NbPopoverModule,
+  NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbPopoverModule,
   NbSelectModule,
   NbToggleModule,
 } from '@nebular/theme';
@@ -16,6 +16,9 @@ import { LeftoverTrashPopupComponent } from './leftover-trash-popup/leftover-tra
 import { ProcessTrashPopupComponent } from './process-trash-popup/process-trash-popup.component';
 import { ViewPermitsTrashPopupComponent } from './view-permits-trash-popup/view-permits-trash-popup.component';
 import { AddSpecialWastePopupComponent } from './add-special-waste-popup/add-special-waste-popup.component';
+import { AddVehiclePopupComponent } from './add-vehicle-popup/add-vehicle-popup.component';
+import { AddPermitPopupComponent } from './add-permit-popup/add-permit-popup.component';
+import { ContactFormPopupComponent } from './contact-form-popup/contact-form-popup.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { AddSpecialWastePopupComponent } from './add-special-waste-popup/add-spe
     ProcessTrashPopupComponent,
     ViewPermitsTrashPopupComponent,
     AddSpecialWastePopupComponent,
+    AddVehiclePopupComponent,
+    AddPermitPopupComponent,
+    ContactFormPopupComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +44,8 @@ import { AddSpecialWastePopupComponent } from './add-special-waste-popup/add-spe
     Ng2SmartTableModule,
     NbInputModule,
     NbCheckboxModule,
+    NbCardModule,
+    NbDatepickerModule,
   ],
   providers: [
     CatalogService,
@@ -49,6 +57,9 @@ import { AddSpecialWastePopupComponent } from './add-special-waste-popup/add-spe
 		AddTrashPopupComponent,
 		LeftoverTrashPopupComponent,
 		AddSpecialWastePopupComponent,
+		AddVehiclePopupComponent,
+		AddPermitPopupComponent,
+		ContactFormPopupComponent,
 	],
 })
 export class PopupWindowsModule {

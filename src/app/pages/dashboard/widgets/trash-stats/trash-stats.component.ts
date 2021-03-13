@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Transaction } from '../../../../@core/data/transaction';
 import { TransactionsService } from '../../../../@core/service/transactions.service';
 import { TRASH_STATS_SETTINGS } from './trash-stats.settings';
@@ -19,20 +19,24 @@ export class TrashStatsComponent implements OnInit {
   constructor(private transactionService: TransactionsService) {
   }
 
-  chooseTransaction(trash: Transaction, echart: any) {
+  chooseTransaction(trash: Transaction) {
     this.selectedTrash = trash;
-    this.updateGraph(echart);
+    this.updateGraph();
   }
 
   ngOnInit(): void {
     this.transactionService.getMostUsedTrash(this.type).subscribe(x => {
       this.trashList = x;
+      if (x.length === 0) {
+       this.isLoaded.emit();
+       return;
+      }
       this.selectedTrash = this.trashList[0];
       this.updateGraph();
     });
   }
 
-  updateGraph(echart?: any) {
+  updateGraph() {
     this.transactionService.getTransactions(this.selectedTrash.trash._id, 'trash').subscribe(t => {
       this.trash = t;
       const days = [];

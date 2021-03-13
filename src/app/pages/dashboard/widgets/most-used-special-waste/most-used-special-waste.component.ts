@@ -26,7 +26,7 @@ export class MostUsedSpecialWasteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.roleService.getOperations(undefined, true).subscribe(o => {
+    this.roleService.getOperations(undefined, false, true).subscribe(o => {
       this.operations = o.specialWasteOperations;
     });
     this.updateSpecialWastes();

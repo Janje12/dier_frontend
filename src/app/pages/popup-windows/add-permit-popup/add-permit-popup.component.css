@@ -1,0 +1,11 @@
+nb-card.no-border {
+  border: none;
+}
+.fa-arrow-alt-circle-down {
+  size: 1.5rem;
+}
+.fa-arrow-alt-circle-down:hover {
+  color: dodgerblue;
+  cursor: pointer;
+}
+

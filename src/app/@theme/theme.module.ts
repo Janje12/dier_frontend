@@ -16,6 +16,7 @@ import {
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
+import { PopupWindowsModule } from '../pages/popup-windows/popup-windows.module';
 
 import {
   FooterComponent,
@@ -74,7 +75,7 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
+  imports: [CommonModule, ...NB_MODULES, PopupWindowsModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   providers: [UserService, NbAuthService],
   declarations: [...COMPONENTS, ...PIPES],
