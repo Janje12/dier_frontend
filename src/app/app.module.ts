@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaFormsModule, RecaptchaV3Module } from 'ng-recaptcha';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { NgxEchartsCoreModule } from 'ngx-echarts/core';
 import { CoreModule } from './@core/core.module';
 import { RoleService } from './@core/service/role.service';
 import { WidgetService } from './@core/service/widget.service';
