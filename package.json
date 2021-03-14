@@ -32,7 +32,7 @@
     "@asymmetrik/ngx-leaflet": "3.0.1",
     "@nebular/auth": "7.0.0",
     "@nebular/date-fns": "^6.2.1",
-    "@nebular/eva-icons": "5.0.0",
+    "@nebular/eva-icons": "7.0.0",
     "@nebular/security": "7.0.0",
     "@nebular/theme": "7.0.0",
     "bootstrap": "4.3.1",
