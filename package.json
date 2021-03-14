@@ -30,7 +30,7 @@
     "@angular/platform-browser-dynamic": "^11.2.5",
     "@angular/router": "^11.2.5",
     "@asymmetrik/ngx-leaflet": "3.0.1",
-    "@nebular/auth": "5.0.0",
+    "@nebular/auth": "7.0.0",
     "@nebular/date-fns": "^6.2.1",
     "@nebular/eva-icons": "5.0.0",
     "@nebular/security": "5.0.0",
