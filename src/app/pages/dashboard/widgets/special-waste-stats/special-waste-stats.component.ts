@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Transaction } from '../../../../@core/data/transaction';
 import { TransactionsService } from '../../../../@core/service/transactions.service';
 import { SPECIAL_WASTE_STATS_SETTINGS } from './special-waste-stats.settings';
@@ -9,7 +9,7 @@ import { SPECIAL_WASTE_STATS_SETTINGS } from './special-waste-stats.settings';
   styleUrls: ['./special-waste-stats.component.css'],
 })
 export class SpecialWasteStatsComponent implements OnInit {
-  @Output() isLoaded: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @ViewChild('eChart') eChart: any;
 
   options = SPECIAL_WASTE_STATS_SETTINGS;
   specialWasteList: Transaction[] = [];
@@ -26,7 +26,6 @@ export class SpecialWasteStatsComponent implements OnInit {
     this.transactionService.getMostUsedSpecialWaste().subscribe(x => {
       this.specialWasteList = x;
       if (x.length === 0) {
-        this.isLoaded.emit();
         return;
       }
       this.selectedSpecialWaste = this.specialWasteList[0];
@@ -34,8 +33,8 @@ export class SpecialWasteStatsComponent implements OnInit {
     });
   }
 
-  chooseTransaction(trash: Transaction) {
-    this.selectedSpecialWaste = trash;
+  chooseTransaction(specialWaste: Transaction) {
+    this.selectedSpecialWaste = specialWaste;
     this.updateGraph();
   }
 
@@ -43,7 +42,7 @@ export class SpecialWasteStatsComponent implements OnInit {
     this.transactionService.getTransactions(this.selectedSpecialWaste.specialWaste._id,
       'specialWaste').subscribe(t => {
       this.specialWaste = t;
-
+      console.log(t);
       const days = Array.from({length: this.daysInMonth}, (_, i) => i + 1);
       const data1 = Array<number>(this.daysInMonth).fill(0);
       const data2 = Array<number>(this.daysInMonth).fill(0);
@@ -73,7 +72,7 @@ export class SpecialWasteStatsComponent implements OnInit {
       this.options.series[1].data = [...data2];
       this.options.series[2].name = 'Izvezen otpad';
       this.options.series[2].data = [...data3];
-      this.isLoaded.emit();
+      this.eChart.setOption(this.options);
     });
   }
 

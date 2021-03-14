@@ -1,4 +1,4 @@
-<nb-card [size]="size" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
+<nb-card [size]="size" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
   <nb-card-header>
     <div class="row">
       <div class="d-flex justify-content-start">{{getWidgetTitle()}}</div>
@@ -26,7 +26,7 @@
       <widget-most-used-trash [type]="type"></widget-most-used-trash>
     </div>
     <div *ngIf="name === 'trash_stats'" class="h-100">
-      <widget-trash-stats (isLoaded)="isLoaded()" [type]="type"></widget-trash-stats>
+      <widget-trash-stats [type]="type"></widget-trash-stats>
     </div>
     <div *ngIf="name === 'transport_permits'">
       <widget-transport-permits [type]="'transport'"></widget-transport-permits>

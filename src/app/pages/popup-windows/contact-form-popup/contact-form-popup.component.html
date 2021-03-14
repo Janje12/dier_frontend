@@ -1,1 +1,29 @@
-<p>contact-form-popup works!</p>
+<div class="container" style="min-width: 50vw; min-height: 33vh;">
+  <form (ngSubmit)="sendContact()">
+    <div class="row">
+      <div class="col-12">
+        <label class="label" for="input-title">Naslov:</label>
+        <input #titleModel="ngModel" placeholder="Naslov" nbInput [(ngModel)]="title" required fullWidth name="title" id="input-title">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <label class="label" for="input-message">Poruka:</label>
+        <textarea #messageModel="ngModel" nbInput fullWidth id="input-message" name="message" required
+                  [(ngModel)]="message"
+                  placeholder="Opis problema..."></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <label class="label" for="input-email">Email na kome će te dobiti obaveštenja:</label>
+        <input #emailModel="ngModel" disabled placeholder="email" nbInput [(ngModel)]="email" required id="input-email" fullWidth name="email">
+      </div>
+    </div>
+    <div class="row mt-2 d-flex no-gutters justify-content-end">
+      <div class="col-3">
+        <button nbButton fullWidth status="primary" type="submit">Pošalji</button>
+      </div>
+    </div>
+  </form>
+</div>

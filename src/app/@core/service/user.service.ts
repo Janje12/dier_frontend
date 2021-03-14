@@ -46,4 +46,13 @@ export class UserService extends UserData {
     });
   }
 
+  reportBug(username: string, title: string, message: string, email: string): Observable<boolean> {
+    return this.http.post<boolean>(this.apiUrl + '/api/mail/contact', {
+      username: username,
+      title: title,
+      message: message,
+      email: email,
+    });
+  }
+
 }

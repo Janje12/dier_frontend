@@ -15,7 +15,6 @@ export class WidgetComponent implements OnInit {
 
   showSettings: boolean = false;
   widgetList: {};
-  loading: boolean = true;
   operations: {
     production: boolean, transport: boolean,
     collector: boolean, treatment: boolean, disposal: boolean, cache: boolean,
@@ -29,8 +28,6 @@ export class WidgetComponent implements OnInit {
     this.roleService.getOperations().subscribe(x => {
       this.operations = x;
     });
-    if (this.name !== 'trash_stats')
-      this.loading = false;
     let titleType = '';
     if (this.type === 'production')
       titleType = 'proizveden';
@@ -66,10 +63,6 @@ export class WidgetComponent implements OnInit {
         title: 'Statistika posebnih tokova otpada',
       },
     };
-  }
-
-  isLoaded() {
-    this.loading = false;
   }
 
   getWidgetTitle(): string {

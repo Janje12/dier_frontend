@@ -1,4 +1,4 @@
-<div style="height: 80% !important;" echarts [options]="options" loading="true"></div>
+<div style="height: 80% !important;" echarts #eChart [options]="options" loading="true"></div>
 <div class="row">
   <div class="col-4">
     <nb-select fullWidth [selected]="specialWasteList[0]" (selectedChange)="chooseTransaction($event)">

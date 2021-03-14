@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import {  NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaFormsModule, RecaptchaV3Module } from 'ng-recaptcha';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { NgxEchartsCoreModule } from 'ngx-echarts/core';
 import { CoreModule } from './@core/core.module';
 import { RoleService } from './@core/service/role.service';
 import { WidgetService } from './@core/service/widget.service';
@@ -36,7 +37,6 @@ import { AuthGuard } from './auth-guard.service';
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
-    NgxEchartsModule,
     NbDateFnsDateModule.forRoot({format: 'dd/MM/yyyy'}),
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',

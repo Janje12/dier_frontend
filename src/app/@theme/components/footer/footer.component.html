@@ -14,5 +14,5 @@
 </div>
 
 <ng-template #contactForm>
-  <contact-form-popup></contact-form-popup>
+  <contact-form-popup (finished)="windowRef.close()"></contact-form-popup>
 </ng-template>
