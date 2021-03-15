@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {  NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaFormsModule, RecaptchaV3Module } from 'ng-recaptcha';
 import { CoreModule } from './@core/core.module';
 import { RoleService } from './@core/service/role.service';
@@ -29,6 +30,7 @@ import { AuthGuard } from './auth-guard.service';
     HttpClientModule,
     AppRoutingModule,
     NbDateFnsDateModule,
+    NgxChartsModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),

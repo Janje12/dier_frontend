@@ -1,5 +1,17 @@
-<div style="height: 80% !important;" echarts #eChart [options]="options" loading="true"></div>
-<div class="row">
+<ngx-charts-line-chart
+  [view]="options.view"
+  [legend]="options.legend"
+  [showXAxisLabel]="options.showXAxisLabel"
+  [showYAxisLabel]="options.showYAxisLabel"
+  [xAxis]="options.xAxis"
+  [yAxis]="options.yAxis"
+  [xAxisLabel]="options.xAxisLabel"
+  [yAxisLabel]="options.yAxisLabel"
+  [timeline]="options.timeline"
+  [schemeType]="options.schemaType"
+  [results]="data"
+></ngx-charts-line-chart>
+<!--<div class="row">
   <div class="col-4">
     <nb-select fullWidth [selected]="specialWasteList[0]" (selectedChange)="chooseTransaction($event)">
       <nb-option *ngFor="let t of specialWasteList" [value]="t">
@@ -14,5 +26,5 @@
       <nb-option value="Godine">Godine</nb-option>
     </nb-select>
   </div>
-</div>
+</div>-->
 

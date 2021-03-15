@@ -6,11 +6,8 @@ import {
   NbUserModule,
   NbIconModule, NbSelectModule, NbSpinnerModule, NbAccordionModule, NbTabsetModule,
 } from '@nebular/theme';
-import { BarChartModule } from '@swimlane/ngx-charts';
+import { LineChartModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { NgxEchartsModule } from 'ngx-echarts';
-import { RoleService } from '../../@core/service/role.service';
-import { WidgetService } from '../../@core/service/widget.service';
 import { ThemeModule } from '../../@theme/theme.module';
 import { PopupWindowsModule } from '../popup-windows/popup-windows.module';
 import { DashboardComponent } from './dashboard.component';
@@ -35,14 +32,13 @@ import { SpecialWasteStatsComponent } from './widgets/special-waste-stats/specia
     NbActionsModule,
     NbIconModule,
     NbButtonModule,
-    NgxEchartsModule,
     PopupWindowsModule,
     NbSelectModule,
     NbSpinnerModule,
     NbAccordionModule,
     Ng2SmartTableModule,
-    BarChartModule,
     NbTabsetModule,
+    LineChartModule,
   ],
   declarations: [
     DashboardComponent,

@@ -10,7 +10,7 @@ import { D_TAGS, R_TAGS } from '../../../@core/utils/trash-utils';
 export class AddTrashPopupComponent implements OnInit {
   @Output() callAddTrash: EventEmitter<{ trashAmmount: number, documentNo: string, companyName: string }> =
     new EventEmitter<{ trashAmmount: number, documentNo: string, companyName: string }>();
-  @Input() type: string;
+  @Input() type: string = '';
   @Input() selectedTrash: Trash;
   documentNo: string;
   companyName: string;
@@ -19,12 +19,14 @@ export class AddTrashPopupComponent implements OnInit {
 
   D_TAGS: string[] = D_TAGS;
   R_TAGS: string[] = R_TAGS;
-  currentTags: string[] = this.type === 'disposal' ? D_TAGS : R_TAGS;
+  currentTags: string[] = [];
 
   constructor() {
+
   }
 
   ngOnInit(): void {
+    this.currentTags = this.type === 'disposal' ? D_TAGS : R_TAGS;
   }
 
   callAddTrashMethod(): void {
