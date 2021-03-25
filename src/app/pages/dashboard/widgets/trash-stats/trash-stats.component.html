@@ -1,14 +1,28 @@
-<div style="height: 80% !important;"></div>
-<div class="row">
+{{this.options.legendTitle}}
+<div *ngIf="type" class="row flex-fill">
+  <ngx-charts-bar-vertical-stacked #bar
+    [legend]="options.legend"
+    [showXAxisLabel]="options.showXAxisLabel"
+    [scheme]="colorScheme"
+    [showYAxisLabel]="options.showYAxisLabel"
+    [xAxis]="options.xAxis"
+    [yAxis]="options.yAxis"
+    [xAxisLabel]="options.xAxisLabel"
+    [yAxisLabel]="options.yAxisLabel"
+    [results]="data"
+    [view]="options.view"
+  ></ngx-charts-bar-vertical-stacked>
+</div>
+<div class="row mt-2">
   <div class="col-4">
-    <nb-select fullWidth [selected]="trashList[0]" (selectedChange)="chooseTransaction($event)">
+    <nb-select [size]="size" fullWidth [selected]="trashList[0]" (selectedChange)="chooseTransaction($event)">
       <nb-option *ngFor="let t of trashList" [value]="t">
         {{t.trash.name}}
       </nb-option>
     </nb-select>
   </div>
   <div class="col-2">
-    <nb-select fullWidth selected="Dani">
+    <nb-select disabled [size]="size" fullWidth selected="Dani">
       <nb-option value="Dani">Dani</nb-option>
       <nb-option value="Meseci">Meseci</nb-option>
       <nb-option value="Godine">Godine</nb-option>

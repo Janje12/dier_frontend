@@ -1,0 +1,118 @@
+<nb-card>
+  <nb-card-header>Zahtev za obnovu/izradu dozvole</nb-card-header>
+  <nb-card-body>
+    <div class="container-fluid">
+      <form (ngSubmit)="sendRequest()">
+        <div class="row my-1">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12">
+                <label class="label" for="input-requestType">Odaberite vrstu zahteva: </label>
+              </div>
+              <div class="col-12">
+                <nb-radio-group id="input-requestType" name="requestType" [(ngModel)]="requestType">
+                  <nb-radio [value]="'renewal'">Obnova</nb-radio>
+                  <nb-radio [value]="'creation'">Izrada</nb-radio>
+                </nb-radio-group>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="requestType === 'renewal'">
+          <div class="row my-1">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-permitSelect">Odaberite dozvolu koju želite da obnovite: </label>
+                </div>
+                <div class="col-12">
+                  <nb-select placeholder="Dozvola #1" name="permitSelect"
+                             [(ngModel)]="selectedPermit" fullWidth required
+                             id="input-permitSelect">
+                    <nb-option *ngFor="let p of permits$ | async" [value]="p">{{p.code + '|' + p.name}}</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="requestType === 'creation'">
+          <div class="row my-1">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-trashType">Odaberite vrstu otpada: </label>
+                </div>
+                <div class="col-12">
+                  <nb-radio-group id="input-trashType" name="trashType" [(ngModel)]="trashType">
+                    <nb-radio [value]="'safe'">Neopasni otpad</nb-radio>
+                    <nb-radio [value]="'unsafe'">Opasni otpad</nb-radio>
+                  </nb-radio-group>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row my-1">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-permitCreate">Odaberite vrstu dozvole koju želite da
+                    izradite: </label>
+                </div>
+                <div class="col-12">
+                  <nb-select placeholder="Vrsta dozvole" name="permitType"
+                             [(ngModel)]="permitType" fullWidth required
+                             id="input-permitCreate">
+                    <nb-option [value]="'transport'">Transport</nb-option>
+                    <nb-option [value]="'collector'">Sakupljac</nb-option>
+                    <nb-option [value]="'treatment'">Tretman</nb-option>
+                    <nb-option [value]="'disposal'">Odlaganje</nb-option>
+                    <nb-option [value]="'cache'">Skladištenje</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="requestType !== ''">
+          <div class="row my-1">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-email">Email za kontakt: </label>
+                </div>
+                <div class="col-12">
+                  <input nbInput fullWidth id="input-email" required type="email" [(ngModel)]="email" disabled
+                         name="email">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-1">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-message">Dodatno:</label>
+                </div>
+                <div class="col-12">
+                  <textarea id="input-message" name="message" placeholder="Dodajte nešto dodatno..."
+                            nbInput [(ngModel)]="message" fullWidth type="text"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3 justify-content-end d-flex">
+          <div class="col-3">
+            <button nbButton fullWidth status="primary" type="submit">Pošalji zahtev</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -1,11 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
-import { NbComponentStatus, NbIconConfig, NbToastrService, NbToggleComponent } from '@nebular/theme';
+import { NbIconConfig, NbToggleComponent } from '@nebular/theme';
 import { of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Company } from '../../../@core/data/company';
 import { RegisterService } from '../../../@core/service/register.service';
+import { ToastrService } from '../../../@core/service/toastr.service';
 
 @Component({
   selector: 'register-operations',
@@ -13,6 +15,7 @@ import { RegisterService } from '../../../@core/service/register.service';
   styleUrls: ['./register-operations.component.scss'],
 })
 export class RegisterOperationsComponent implements OnInit {
+  @ViewChild('wasteManagerForm') form: NgForm;
 
   trashIco: NbIconConfig = {icon: 'trash', pack: 'solid'};
   carBatteryIco: NbIconConfig = {icon: 'car-battery', pack: 'solid'};
@@ -26,28 +29,11 @@ export class RegisterOperationsComponent implements OnInit {
   waterOperationsNo: number = 0;
   airOperationsNo: number = 0;
   operations: string[] = [];
-  company: Company = {
-    wasteManager: {
-      firstName: '',
-      lastName: '',
-    },
-    address: {location: undefined, street: ''},
-    email: '',
-    emailReception: '',
-    legalRep: {firstName: '', lastName: ''},
-    manager: '',
-    mat: '',
-    name: '',
-    nriz: {password: '', username: ''},
-    occupation: undefined,
-    operations: [],
-    pib: '',
-    telephone: '',
-  };
+  company: Company;
+  checkIssues: boolean = false;
 
-  constructor(@Inject(NB_AUTH_OPTIONS) protected options = {},
-              private registerService: RegisterService, private toastrService: NbToastrService,
-              private router: Router) {
+  constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private router: Router,
+              private registerService: RegisterService, private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -73,6 +59,11 @@ export class RegisterOperationsComponent implements OnInit {
   }
 
   validateOperations(): void {
+    if (this.form.invalid) {
+      this.checkIssues = true;
+      this.toastrService.showToast('Greška', 'Ispravite greške da bi ste nastavili.', 'warning');
+      return;
+    }
     if (this.trashOperationNumber(true) + this.specialWasteOperationNumber(true) === 0) {
       this.company.wasteManager.firstName = '';
       this.company.wasteManager.lastName = '';
@@ -81,7 +72,7 @@ export class RegisterOperationsComponent implements OnInit {
       this.clearRemovedOperationsData();
       this.router.navigate(['auth/register-informations']);
     } else {
-      this.showToast('Greška', 'Odaberite bar jednu operaciju da biste nastavili.', 'warning');
+      this.toastrService.showToast('Greška', 'Odaberite bar jednu operaciju da biste nastavili.', 'warning');
     }
   }
 
@@ -92,13 +83,6 @@ export class RegisterOperationsComponent implements OnInit {
     this.company.specialWastes = [];
     this.registerService.sendCompany(of(this.company));
     this.registerService.sendOperations(of(this.operations));
-  }
-
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
   }
 
   trashOperationNumber(number: boolean = false): any {

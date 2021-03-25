@@ -9,7 +9,7 @@ export const STORAGE_PRODUCTION_SETTINGS: any = {
     custom: [
       {
         name: 'add',
-        title: '<i class="fa fa-plus"></i>',
+        title: '<i class="fa fa-folder-plus"></i>',
       },
     ],
   },

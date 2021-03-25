@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { BarVerticalComponent } from '@swimlane/ngx-charts';
 import { Transaction } from '../../../../@core/data/transaction';
 import { TransactionsService } from '../../../../@core/service/transactions.service';
 import { TRASH_STATS_SETTINGS } from './trash-stats.settings';
@@ -8,47 +9,60 @@ import { TRASH_STATS_SETTINGS } from './trash-stats.settings';
   templateUrl: './trash-stats.component.html',
   styleUrls: ['./trash-stats.component.css'],
 })
-export class TrashStatsComponent implements OnInit {
+export class TrashStatsComponent implements OnChanges {
   @Input() type: string;
-  @Output() isLoaded: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() size: string;
+
   trash: Transaction[];
-  options = TRASH_STATS_SETTINGS;
+  options: any;
   trashList: Transaction[] = [];
   selectedTrash: Transaction;
+  daysInMonth: number = 30;
+  data: any[] = [];
+  colorScheme = {
+    domain: ['#FF0000', '#0000FF'],
+  };
 
   constructor(private transactionService: TransactionsService) {
+    const d = new Date();
+    this.options = Object.assign({}, TRASH_STATS_SETTINGS);
+    this.updateSize(this.size);
+    this.daysInMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['size']) {
+      this.updateSize(this.size);
+    }
+    if (changes['type']) {
+      this.transactionService.getMostUsedTrash(this.type).subscribe(x => {
+        this.trashList = x;
+        if (x.length === 0) {
+          return;
+        }
+        this.selectedTrash = this.trashList[0];
+        this.updateGraph(this.selectedTrash);
+      });
+    }
   }
 
   chooseTransaction(trash: Transaction) {
     this.selectedTrash = trash;
-    this.updateGraph();
+    this.updateGraph(trash);
   }
 
-  ngOnInit(): void {
-    this.transactionService.getMostUsedTrash(this.type).subscribe(x => {
-      this.trashList = x;
-      if (x.length === 0) {
-       this.isLoaded.emit();
-       return;
-      }
-      this.selectedTrash = this.trashList[0];
-      this.updateGraph();
-    });
-  }
-
-  updateGraph() {
-    this.transactionService.getTransactions(this.selectedTrash.trash._id, 'trash').subscribe(t => {
+  updateGraph(trash: Transaction) {
+    this.transactionService.getTransactions(trash.trash._id, 'trash').subscribe(t => {
       this.trash = t;
-      const days = [];
-      const data1 = new Array(30);
-      const data2 = new Array(30);
-      for (let i = 0; i < data1.length; i++) {
-        data1[i] = 0;
-        data2[i] = 0;
-      }
-
-      for (let i = 1; i <= 30; i++) {
-        days.push(i);
+      this.options.legendTitle = this.trash[0].trash.name;
+      let negativeOperation = 'Obradjen';
+      if (this.type === 'production')
+        negativeOperation = 'Transportovan';
+      const data1 = {name: 'Proizveden', value: 0};
+      const data2 = {name: negativeOperation, value: 0};
+      this.data = [];
+      for (let i = 0; i < this.daysInMonth; i++) {
+        this.data[i] = {name: (i + 1) + '', series: []};
       }
       for (let i = 0; i < this.trash.length; i++) {
         let dayNumber = '-';
@@ -57,22 +71,28 @@ export class TrashStatsComponent implements OnInit {
         } else {
           dayNumber = this.trash[i].date.toString().substring(9, 10);
         }
-        if (this.trash[i].trashAmount > 0)
-          data1[dayNumber] += this.trash[i].trashAmount;
-        else
-          data2[dayNumber] += Math.abs(this.trash[i].trashAmount);
+        if (this.trash[i].trashAmount > 0) {
+          data1.value += this.trash[i].trashAmount;
+          this.data[dayNumber].series.push({name: 'Proizveden', value: this.trash[i].trashAmount});
+        } else {
+          data2.value += Math.abs(this.trash[i].trashAmount);
+          this.data[dayNumber].series.push({name: 'Transportovan', value: this.trash[i].trashAmount});
+        }
       }
-      this.options.title.text = this.trash[0].trash.name;
-      let negativeOperation = 'Obradjen otpad';
-      if (this.type === 'production')
-        negativeOperation = 'Transportovan otpad';
-      this.options.legend.data = ['Dodat otpad', negativeOperation];
-      this.options.xAxis.data = [...days];
-      this.options.series[0].name = 'Dodat otpad';
-      this.options.series[0].data = [...data1];
-      this.options.series[1].name = negativeOperation;
-      this.options.series[1].data = [...data2];
-      this.isLoaded.emit();
     });
   }
+
+  updateSize(size: String) {
+    if (size === 'tiny')
+      this.options.view = [];
+    else if (size === 'small')
+      this.options.view = [];
+    else if (size === 'medium')
+      this.options.view = [500, 300];
+    else if (size === 'large')
+      this.options.view = [700, 300];
+    else if (size === 'giant')
+      this.options.view = [1100, 500];
+  }
+
 }

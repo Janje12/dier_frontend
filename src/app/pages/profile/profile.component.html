@@ -9,12 +9,6 @@
     <nb-tab [active]="activeTab === 'storages'" [disabled]="!(operations?.production || operations?.treatment || operations?.disposal || operations?.cache)" tabIcon="cube" tabTitle="Skladišta">
       <profile-storages></profile-storages>
     </nb-tab>
-    <nb-tab [active]="activeTab === 'permits'" [disabled]="!(operations?.transport || operations?.treatment || operations?.disposal || operations?.cache)" tabIcon="file-text" tabTitle="Dozvole">
-      <profile-permit *ngIf="(operations?.transport || operations?.treatment || operations?.disposal || operations?.cache)"></profile-permit>
-    </nb-tab>
-    <nb-tab [active]="activeTab === 'vehicles'" [disabled]="!operations?.transport" tabIcon="car" tabTitle="Prevozna Sredstva">
-      <profile-vehicle *ngIf="operations?.transport"></profile-vehicle>
-    </nb-tab>
   </nb-tabset>
 </nb-card>
 

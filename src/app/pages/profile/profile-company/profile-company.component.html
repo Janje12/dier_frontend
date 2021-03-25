@@ -156,38 +156,126 @@
           </ng-container>
         </div>
       </div>
+    </div>
+    <div class="col-6">
       <div class="row mb-2">
         <div class="col-12">
-          <label class="label" for="input-legalRep">Zakonski Zastupnik Firme:</label>
+          <label class="label" for="input-legalRepFname">Ime zakonskog zastupnika:</label>
         </div>
         <div class="col-6">
-          <input #legalRep="ngModel"
-                 [(ngModel)]="company.legalRep"
-                 [attr.aria-invalid]="legalRep.invalid && legalRep.touched ? true : null"
-                 [maxlength]="getConfigValue('forms.validation.legalRep.maxLength')"
-                 [minlength]="getConfigValue('forms.validation.legalRep.minLength')"
-                 [required]="getConfigValue('forms.validation.legalRep.required')"
-                 [status]="legalRep.dirty ? (legalRep.invalid  ? 'danger' : 'success') : 'basic'"
+          <input #legalRepFname="ngModel"
+                 [(ngModel)]="company.legalRep.firstName"
+                 [attr.aria-invalid]="legalRepFname.invalid && legalRepFname.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.firstName.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.firstName.minLength')"
+                 [required]="getConfigValue('forms.validation.firstName.required')"
+                 [status]="legalRepFname.dirty ? (legalRepFname.invalid  ? 'danger' : 'success') : 'basic'"
                  [disabled]="inputsDisabled"
                  fullWidth
-                 id="input-legalRep"
-                 name="legalRep"
+                 id="input-legalRepFname"
+                 name="legalRepFname"
                  nbInput
                  type="text">
-          <ng-container *ngIf="legalRep.invalid && legalRep.touched">
-            <p class="error-message mt-1 mb-0" *ngIf="legalRep.errors?.required">
+          <ng-container *ngIf="legalRepFname.invalid && legalRepFname.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="legalRepFname.errors?.required">
               Zakosni zastupnik firme je obavezan!
             </p>
-            <p class="error-message mt-1 mb-0" *ngIf="legalRep.errors?.minlength || legalRep.errors?.maxlength">
+            <p class="error-message mt-1 mb-0"
+               *ngIf="legalRepFname.errors?.minlength || legalRepFname.errors?.maxlength">
               Zakosni zastupnik mora da bude duži od
-              {{ getConfigValue('forms.validation.legalRep.minLength') }}
-              a kraći od {{ getConfigValue('forms.validation.legalRep.maxLength') }}
+              {{ getConfigValue('forms.validation.firstName.minLength') }}
+              a kraći od {{ getConfigValue('forms.validation.firstName.maxLength') }}
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-12">
+          <label class="label" for="input-legalRepLName">Prezime zakonskog zastupnika:</label>
+        </div>
+        <div class="col-6">
+          <input #legalRepLName="ngModel"
+                 [(ngModel)]="company.legalRep.lastName"
+                 [attr.aria-invalid]="legalRepLName.invalid && legalRepLName.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.lastName.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.lastName.minLength')"
+                 [required]="getConfigValue('forms.validation.lastName.required')"
+                 [status]="legalRepLName.dirty ? (legalRepLName.invalid  ? 'danger' : 'success') : 'basic'"
+                 [disabled]="inputsDisabled"
+                 fullWidth
+                 id="input-legalRepLName"
+                 name="legalRepLName"
+                 nbInput
+                 type="text">
+          <ng-container *ngIf="legalRepLName.invalid && legalRepLName.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="legalRepLName.errors?.required">
+              Zakosni zastupnik firme je obavezan!
+            </p>
+            <p class="error-message mt-1 mb-0"
+               *ngIf="legalRepLName.errors?.minlength || legalRepLName.errors?.maxlength">
+              Zakosni zastupnik mora da bude duži od
+              {{ getConfigValue('forms.validation.lastName.minLength') }}
+              a kraći od {{ getConfigValue('forms.validation.lastName.maxLength') }}
             </p>
           </ng-container>
         </div>
       </div>
-    </div>
-    <div class="col-6">
+      <div class="row mb-2" *ngIf="company.wasteManager !== undefined">
+        <div class="col-12">
+          <label class="label" for="input-wasteManagerFName">Ime odgovornog lica za upravljanje otpadom:</label>
+        </div>
+        <div class="col-6">
+          <input #wasteManagerFName="ngModel"
+                 [(ngModel)]="company.wasteManager.firstName"
+                 [attr.aria-invalid]="wasteManagerFName.invalid && wasteManagerFName.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.firstName.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.firstName.minLength')"
+                 [required]="getConfigValue('forms.validation.firstName.required')"
+                 [status]="wasteManagerFName.dirty ? (wasteManagerFName.invalid  ? 'danger' : 'success') : 'basic'"
+                 [disabled]="inputsDisabled"
+                 fullWidth
+                 id="input-wasteManagerFName"
+                 name="wasteManagerFName"
+                 nbInput
+                 type="text">
+          <ng-container *ngIf="wasteManagerFName.invalid && wasteManagerFName.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="wasteManagerFName.errors?.required">
+              Ime odgovornog lica za upravljanje otpadom je obavezno!
+            </p>
+            <p class="error-message mt-1 mb-0"
+               *ngIf="wasteManagerFName.errors?.minlength || wasteManagerFName.errors?.maxlength">
+              Ime odgovornog lica za upravljanje otpadom mora biti duže
+              {{ getConfigValue('forms.validation.firstName.minLength') }}
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-12">
+          <label class="label" for="input-wasteManagerLName">Prezime odgovornog lica za upravljanje otpadom:</label>
+        </div>
+        <div class="col-6">
+          <input #wasteManagerLName="ngModel"
+                 [(ngModel)]="company.wasteManager.lastName"
+                 [attr.aria-invalid]="wasteManagerLName.invalid && wasteManagerLName.touched ? true : null"
+                 [maxlength]="getConfigValue('forms.validation.lastName.maxLength')"
+                 [minlength]="getConfigValue('forms.validation.lastName.minLength')"
+                 [required]="getConfigValue('forms.validation.lastName.required')"
+                 [status]="wasteManagerLName.dirty ? (wasteManagerLName.invalid  ? 'danger' : 'success') : 'basic'"
+                 [disabled]="inputsDisabled"
+                 fullWidth
+                 id="input-wasteManagerLName"
+                 name="wasteManagerLName"
+                 nbInput
+                 type="text">
+          <ng-container *ngIf="wasteManagerLName.invalid && wasteManagerLName.touched">
+            <p class="error-message mt-1 mb-0" *ngIf="wasteManagerLName.errors?.required">
+              Prezime odgovornog lica za upravljanje otpadom je obavezno!
+            </p>
+            <p class="error-message mt-1 mb-0"
+               *ngIf="wasteManagerLName.errors?.minlength || wasteManagerLName.errors?.maxlength">
+              Prezime odgovornog lica za upravljanje otpadom mora da bude duže od
+              {{ getConfigValue('forms.validation.lastName.minLength') }}
+            </p>
+          </ng-container>
+        </div>
+      </div>
       <div class="row mb-2">
         <div class="col-12">
           <label class="label" for="input-address">Adresa Firme:</label>
@@ -214,7 +302,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-8"></div>
     <div class="col-2">
       <button (click)="enableInputs()" [disabled]="!inputsDisabled" nbButton fullWidth type="button"

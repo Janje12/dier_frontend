@@ -18,19 +18,21 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Dodaj otpad',
-    icon: {icon: 'tools', pack: 'font-awesome'},
+    icon: {icon: 'folder', pack: 'font-awesome'},
     children: [
       {
         title: 'Neopasni otpad',
-        icon: {icon: 'trash', pack: 'font-awesome'},
+        icon: {icon: 'recycle', pack: 'font-awesome'},
         children: [
           {
             title: 'Proizvođač/Vlasnik',
             link: '/pages/trash/safe/production',
+            icon: {icon: 'hard-hat', pack: 'font-awesome'},
           },
           {
             title: 'Tretman',
             link: '/pages/trash/safe/treatment',
+            icon: {icon: 'dumpster', pack: 'font-awesome'},
           },
           {
             title: 'Odlaganje',
@@ -71,17 +73,35 @@ export const MENU_ITEMS: NbMenuItem[] = [
           {
             title: 'Proizvodnja',
             link: '/pages/trash/specialwaste/production',
+            icon: {icon: 'database', pack: 'font-awesome'},
           },
           {
             title: 'Uvoz',
             link: '/pages/trash/specialwaste/import',
+            icon: {icon: 'file-import', pack: 'font-awesome'},
           },
           {
             title: 'Izvoz',
             link: '/pages/trash/specialwaste/export',
+            icon: {icon: 'file-export', pack: 'font-awesome'},
           },
         ],
       },
     ],
+  },
+  {
+    title: 'Vozila',
+    link: '/pages/profile/vehicles',
+    icon: {icon: 'truck', pack: 'font-awesome'},
+  },
+  {
+    title: 'Dozvole',
+    link: '/pages/profile/permits',
+    icon: {icon: 'file-alt', pack: 'font-awesome'},
+  },
+  {
+    title: 'Postupak izrade/obnove dozvole',
+    link: '/pages/profile/permit-renewal',
+    icon: {icon: 'file-upload', pack: 'font-awesome'},
   },
 ];

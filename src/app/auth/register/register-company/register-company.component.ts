@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
-import { NbComponentStatus, NbToastrService } from '@nebular/theme';
+import { NbComponentStatus } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Occupation } from '../../../@core/data/occupation';
@@ -11,6 +11,7 @@ import { User } from '../../../@core/data/user';
 import { OccupationService } from '../../../@core/service/occupation.service';
 import { LocationService } from '../../../@core/service/location.service';
 import { RegisterService } from '../../../@core/service/register.service';
+import { ToastrService } from '../../../@core/service/toastr.service';
 
 @Component({
   selector: 'register-company',
@@ -29,30 +30,23 @@ export class RegisterCompanyComponent implements OnInit {
   townships$: Observable<string[]>;
   tmpEmail: string = '';
   user: User;
-
-  company: Company = {
-    address: {location: {placeCode: 0, placeName: '', townshipName: '', townshipCode: 0, zipCode: ''}, street: ''},
-    email: '',
-    emailReception: '',
-    legalRep: {firstName: '', lastName: ''},
-    nriz: {username: '', password: ''},
-    manager: '',
-    mat: '',
-    name: '',
-    occupation: {code: '', name: ''},
-    operations: [],
-    storages: [],
-    permits: [],
-    pib: '',
-    telephone: '',
-  };
+  company: Company;
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private locationService: LocationService,
               private occupationService: OccupationService, private registerService: RegisterService,
-              private router: Router, private toastrService: NbToastrService) {
+              private router: Router, private toastrService: ToastrService) {
   }
 
   ngOnInit() {
+    this.registerService.getCompany().pipe(first()).subscribe(f => {
+      this.company = f;
+    });
+    this.registerService.getUser().pipe(first()).subscribe(k => {
+      if (k !== undefined) {
+        this.user = k;
+      }
+    });
+    this.registerService.sendCompany(of(this.company));
     this.locationService.getDistinctTownships().pipe(first()).subscribe(o => {
       this.townships = o;
       this.townships$ = of(o);
@@ -61,17 +55,6 @@ export class RegisterCompanyComponent implements OnInit {
       this.occupations = d;
       this.occupations$ = of(d);
     });
-    this.registerService.getCompany().pipe(first()).subscribe(f => {
-      if (f !== undefined) {
-        this.company = f;
-      }
-    });
-    this.registerService.getUser().pipe(first()).subscribe(k => {
-      if (k !== undefined) {
-        this.user = k;
-      }
-    });
-    this.registerService.sendCompany(of(this.company));
   }
 
   getConfigValue(key: string): any {
@@ -88,13 +71,25 @@ export class RegisterCompanyComponent implements OnInit {
   }
 
   async validateCompany(form: NgForm) {
-    if (form.invalid || !this.checkAddress() || !this.checkOccupation()) {
+    if (form.invalid) {
       this.checkIssues = true;
-      this.showToast('Greška', 'Ispravite greške da bi ste nastavili.', 'warning');
+      this.toastrService.showToast('Greška', 'Ispravite greške da bi ste nastavili.', 'warning');
+      return false;
+    }
+    if (!this.checkAddress()) {
+      this.checkIssues = true;
+      this.toastrService.showToast('Greška', 'Proverite adresu (odaberite sa liste opštinu odnosno mesto) da bi ste nastavili.',
+        'warning', 5000);
+      return false;
+    }
+    if (!this.checkOccupation()) {
+      this.checkIssues = true;
+      this.toastrService.showToast('Greška', 'Proverite zanimanje (odaberite sa liste zanimanja) da bi ste nastavili.',
+        'warning', 5000);
       return false;
     }
     let text = '';
-    const test = await Promise.all(this.registerService.checkCompany(this.company)).then(b => {
+    const companyExists = await Promise.all(this.registerService.checkCompany(this.company)).then(b => {
       text = !b[0] ? 'taj pib' : text;
       text = !b[1] ? 'taj matični broj' : text;
       text = !b[2] ? 'taj email' : text;
@@ -103,24 +98,17 @@ export class RegisterCompanyComponent implements OnInit {
       text = !b[5] ? 'to korisničko ime za NRIZ' : text;
       return b[0] && b[1] && b[2] && b[3] && b[4] && b[5];
     });
-    if (!test) {
+    if (!companyExists) {
       this.checkIssues = true;
-      this.showToast('Greška', `Već postoji ${text}!`, 'danger');
+      this.toastrService.showToast(`Već postoji ${text}!`, `Promenite ${text} da biste nastavili.`, 'danger');
       return;
     }
     if (form.valid && this.tmpEmail === '' && this.company.emailReception !== '') {
       this.router.navigate(['auth/register-operations']);
     } else {
       this.checkIssues = true;
-      this.showToast('Greška', 'Ispravite greške da bi ste nastavili.', 'warning');
+      this.toastrService.showToast('Greška', 'Ispravite greške da bi ste nastavili.', 'warning');
     }
-  }
-
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
   }
 
   private getPlaces(townshipName: string): void {

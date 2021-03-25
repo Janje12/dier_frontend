@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 
-interface Widget {
+export interface Widget {
+  _id?: string;
   widgetTitle: string;
   widgetSize: string;
   widgetPosition: number;

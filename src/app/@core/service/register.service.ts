@@ -25,8 +25,7 @@ export class RegisterService {
     this.clearData();
     if (isDevMode()) {
       this.user = {
-        _id: '',
-        email: 'serbiansolutions@gmail.com',
+        email: 'serbiansolutions' + (Math.random() * 1000).toFixed(0) + '@gmail.com',
         firstName: 'Filip',
         username: 'random' + (Math.random() * 1000).toFixed(0),
         lastName: 'Balandzic',

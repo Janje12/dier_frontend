@@ -14,8 +14,7 @@ import { TrashPermitComponent } from '../trash-permit/trash-permit.component';
   styleUrls: ['./trash-storage.component.css'],
 })
 export class TrashStorageComponent implements OnInit {
-  @ViewChild('permitRef')
-  permitRef: TrashPermitComponent;
+  @ViewChild('permitRef') permitRef: TrashPermitComponent;
   @Input() storageType: string;
   @Input() trashType: string;
 
@@ -23,15 +22,18 @@ export class TrashStorageComponent implements OnInit {
   storageNo: number;
   storages: Storage[];
   storages$: Observable<Storage[]>;
-  townships: string[];
+  townships: string[] = [];
   townships$: Observable<string[]>;
-  places: string[];
+  places: string[] = [];
   places$: Observable<string[]>;
+  showStorageInput: boolean = false;
   checkIssues: boolean = false;
   valid: boolean = false;
+  numbers: number[];
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,
               private locationService: LocationService) {
+    this.numbers = [...Array(7).keys()];
   }
 
   ngOnInit(): void {
@@ -59,61 +61,16 @@ export class TrashStorageComponent implements OnInit {
         }
       }
     });
-    this.validateStorage();
     this.registerService.sendCompany(of(this.company));
     this.locationService.getDistinctTownships().pipe(first()).subscribe(o => {
       this.townships = o;
       this.townships$ = of(o);
     });
+    this.validateStorage();
   }
 
   getConfigValue(key: string): any {
     return getDeepFromObject(this.options, key, null);
-  }
-
-  updateStorages() {
-    let tmp = new Array();
-    if (this.storageType === 'treatment') {
-      tmp = <StorageTreatment[]>this.company.storages;
-      this.company.storages = tmp.filter(x => x.treatment === undefined);
-    } else if (this.storageType === 'dump') {
-      tmp = <StorageDump[]>this.company.storages;
-      this.company.storages = tmp.filter(x => x.dumpType === undefined);
-    } else if (this.storageType === 'cache') {
-      tmp = <StorageCache[]>this.company.storages;
-      this.company.storages = tmp.filter(x => x.cache === undefined);
-    } else {
-      tmp = this.company.storages;
-      this.company.storages = tmp.filter(x => x.treatment || x.dumpType || x.cache);
-    }
-    this.storages = new Array(this.storageNo);
-    for (let i = 0; i < this.storageNo; i++) {
-      this.storages[i] = {
-        address: {location: {placeName: '', placeCode: 0, townshipName: '', townshipCode: 0, zipCode: ''}, street: ''},
-        amount: 0,
-        storageUnit: 'KG',
-        geolocationEast: ['0', '0', '0', '0', '0', '0', '0'],
-        geolocationNorth: ['0', '0', '0', '0', '0', '0', '0'],
-        maxAmount: NaN,
-        name: '',
-        packages: [],
-        trashes: [],
-      };
-      if (this.storageType === 'cache') {
-        this.storages[i]['cache'] = 'cache';
-      }
-      if (this.storageType === 'treatment') {
-        this.storages[i]['treatment'] = 'treatment';
-      }
-      if (this.storageType === 'dump') {
-        this.storages[i]['dumpType'] = '';
-      }
-    }
-    this.storages$ = of(this.storages);
-    this.storages.forEach(x => this.company.storages.push(x));
-    this.validateStorage();
-    if (this.permitRef !== undefined)
-      this.permitRef.updatePermitsForm(this.storageNo, this.storages$);
   }
 
   checkValid(): boolean {
@@ -156,6 +113,54 @@ export class TrashStorageComponent implements OnInit {
     }
   }
 
+  updateStorages(storageNo: number, pressed: boolean) {
+    if (!pressed)
+      return;
+    this.storageNo = storageNo;
+    let tmp = new Array();
+    if (this.storageType === 'treatment') {
+      tmp = <StorageTreatment[]>this.company.storages;
+      this.company.storages = tmp.filter(x => x.treatment === undefined);
+    } else if (this.storageType === 'dump') {
+      tmp = <StorageDump[]>this.company.storages;
+      this.company.storages = tmp.filter(x => x.dumpType === undefined);
+    } else if (this.storageType === 'cache') {
+      tmp = <StorageCache[]>this.company.storages;
+      this.company.storages = tmp.filter(x => x.cache === undefined);
+    } else {
+      tmp = this.company.storages;
+      this.company.storages = tmp.filter(x => x.treatment || x.dumpType || x.cache);
+    }
+    this.storages = new Array(this.storageNo);
+    for (let i = 0; i < this.storageNo; i++) {
+      this.storages[i] = {
+        address: {location: {placeName: '', placeCode: 0, townshipName: '', townshipCode: 0, zipCode: ''}, street: ''},
+        amount: 0,
+        storageUnit: 'KG',
+        geolocationEast: ['0', '0', '0', '0', '0', '0', '0'],
+        geolocationNorth: ['0', '0', '0', '0', '0', '0', '0'],
+        maxAmount: NaN,
+        name: '',
+        packages: [],
+        trashes: [],
+      };
+      if (this.storageType === 'cache') {
+        this.storages[i]['cache'] = 'cache';
+      }
+      if (this.storageType === 'treatment') {
+        this.storages[i]['treatment'] = 'treatment';
+      }
+      if (this.storageType === 'dump') {
+        this.storages[i]['dumpType'] = '';
+      }
+    }
+    this.storages$ = of(this.storages);
+    this.storages.forEach(x => this.company.storages.push(x));
+    this.validateStorage();
+    if (this.permitRef !== undefined)
+      this.permitRef.updatePermits(this.storageNo, this.storages$);
+  }
+
   private getPlaces(townshipName: string): void {
     if (townshipName === undefined) return;
     this.locationService.getPlacesFromTownship(townshipName).pipe(first()).subscribe(m => {
@@ -179,8 +184,7 @@ export class TrashStorageComponent implements OnInit {
   }
 
   isNaN(value: any): boolean {
-    if (isNaN(value) || value === undefined)
-      return true;
-    return false;
+    return isNaN(value) || value === undefined;
   }
+
 }

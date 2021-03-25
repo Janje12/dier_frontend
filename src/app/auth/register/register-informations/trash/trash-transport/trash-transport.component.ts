@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
-import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Company } from '../../../../../@core/data/company';
 import { Vehicle } from '../../../../../@core/data/vehicle';
 import { RegisterService } from '../../../../../@core/service/register.service';
+import { ToastrService } from '../../../../../@core/service/toastr.service';
 import { TrashPermitComponent } from '../trash-permit/trash-permit.component';
 
 @Component({
@@ -14,17 +14,18 @@ import { TrashPermitComponent } from '../trash-permit/trash-permit.component';
   styleUrls: ['./trash-transport.component.scss'],
 })
 export class TrashTransportComponent implements OnInit {
-  @ViewChild('permitRef')
-  permitRef: TrashPermitComponent;
-  valid: boolean = false;
-  checkIssues: boolean = false;
+  @ViewChild('permitRef') permitRef: TrashPermitComponent;
+
   company: Company;
-  vehiclesNo: number = 0;
   vehicles: Vehicle[];
   vehicles$: Observable<Vehicle[]>;
+  vehiclesNo: number = 0;
+  valid: boolean = false;
+  checkIssues: boolean = false;
+  showVehicleInput: boolean = false;
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,
-              private toastrService: NbToastrService) {
+              private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -38,27 +39,22 @@ export class TrashTransportComponent implements OnInit {
         }
       }
     });
-    this.validateVehicles();
     this.registerService.sendCompany(of(this.company));
+    this.validateVehicles();
   }
 
   getConfigValue(key: string): any {
     return getDeepFromObject(this.options, key, null);
   }
 
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
-  }
-
   async checkValid() {
     this.validateVehicles();
-    if (!this.valid)
+    if (!this.valid) {
+      this.checkIssues = true;
       return false;
+    }
     let text = '';
-    const test = await Promise.all(this.registerService.checkVehicles(this.vehicles)).then(promises => {
+    const vehicleExists = await Promise.all(this.registerService.checkVehicles(this.vehicles)).then(promises => {
       for (const t of promises) {
         text = !t ? 'ta registarska tablica' : text;
         if (t)
@@ -66,9 +62,9 @@ export class TrashTransportComponent implements OnInit {
       }
       return false;
     });
-    if (!test) {
+    if (!vehicleExists) {
       this.checkIssues = true;
-      this.showToast('Greška', `Već postoji ${text}!`, 'danger');
+      this.toastrService.showToast('Greška', `Već postoji ${text}!`, 'danger');
       return false;
     }
     if (this.permitRef !== undefined && !await this.permitRef.checkValid()) {
@@ -86,19 +82,22 @@ export class TrashTransportComponent implements OnInit {
     if (this.vehicles === undefined)
       return;
     this.valid = this.vehicles.length > 0;
-      for (const p of this.vehicles) {
-        if (p.licensePlate === '' || p.licensePlate.length < 9) {
-          this.valid = false;
-          break;
-        }
-        if (p.type === '') {
-          this.valid = false;
-          break;
-        }
+    for (const p of this.vehicles) {
+      if (p.licensePlate === '' || p.licensePlate.length < 9) {
+        this.valid = false;
+        break;
+      }
+      if (p.type === '') {
+        this.valid = false;
+        break;
+      }
     }
   }
 
-  updateVehiclesForm() {
+  updateVehicles(vehicleNo: number, pressed: boolean) {
+    if (!pressed)
+      return;
+    this.vehiclesNo = vehicleNo;
     this.vehicles = new Array(this.vehiclesNo);
     for (let i = 0; i < this.vehiclesNo; i++) {
       this.vehicles[i] = {

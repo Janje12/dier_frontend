@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { RoleService } from '../../../../@core/service/role.service';
+import { TrashStatsComponent } from '../trash-stats/trash-stats.component';
 
 @Component({
   selector: 'widget',
@@ -7,6 +8,7 @@ import { RoleService } from '../../../../@core/service/role.service';
   styleUrls: ['./widget.component.css'],
 })
 export class WidgetComponent implements OnInit {
+  @ViewChild('trash_stats') trash_stats: TrashStatsComponent;
   @Output() updateSize: EventEmitter<string> = new EventEmitter<string>();
   @Output() updatePosition: EventEmitter<number> = new EventEmitter<number>();
   @Input() type: string;
@@ -21,7 +23,7 @@ export class WidgetComponent implements OnInit {
   };
 
   constructor(private roleService: RoleService) {
-
+    this.size = 'medium';
   }
 
   ngOnInit(): void {

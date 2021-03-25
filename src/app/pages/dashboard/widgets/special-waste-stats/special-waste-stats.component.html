@@ -1,30 +1,32 @@
-<ngx-charts-line-chart
-  [view]="options.view"
-  [legend]="options.legend"
-  [showXAxisLabel]="options.showXAxisLabel"
-  [showYAxisLabel]="options.showYAxisLabel"
-  [xAxis]="options.xAxis"
-  [yAxis]="options.yAxis"
-  [xAxisLabel]="options.xAxisLabel"
-  [yAxisLabel]="options.yAxisLabel"
-  [timeline]="options.timeline"
-  [schemeType]="options.schemaType"
-  [results]="data"
-></ngx-charts-line-chart>
-<!--<div class="row">
+{{this.options.legendTitle}}
+<div class="row flex-fill">
+  <ngx-charts-bar-vertical-stacked
+    [view]="options.view"
+    [legend]="options.legend"
+    [showXAxisLabel]="options.showXAxisLabel"
+    [scheme]="colorScheme"
+    [showYAxisLabel]="options.showYAxisLabel"
+    [xAxis]="options.xAxis"
+    [yAxis]="options.yAxis"
+    [xAxisLabel]="options.xAxisLabel"
+    [yAxisLabel]="options.yAxisLabel"
+    [results]="data"
+  ></ngx-charts-bar-vertical-stacked>
+</div>
+<div class="row mt-2">
   <div class="col-4">
-    <nb-select fullWidth [selected]="specialWasteList[0]" (selectedChange)="chooseTransaction($event)">
+    <nb-select [size]="size" fullWidth [selected]="specialWasteList[0]" (selectedChange)="chooseTransaction($event)">
       <nb-option *ngFor="let t of specialWasteList" [value]="t">
         {{t.specialWaste.name}}
       </nb-option>
     </nb-select>
   </div>
   <div class="col-2">
-    <nb-select fullWidth selected="Dani">
+    <nb-select disabled [size]="size" fullWidth selected="Dani">
       <nb-option value="Dani">Dani</nb-option>
       <nb-option value="Meseci">Meseci</nb-option>
       <nb-option value="Godine">Godine</nb-option>
     </nb-select>
   </div>
-</div>-->
+</div>
 

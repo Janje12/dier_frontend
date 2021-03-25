@@ -1,190 +1,298 @@
-<div class="row my-2">
-  <div class="col-4">
-    <form #updateStorageForm (ngSubmit)="updateStorages()">
+<div class="row my-1">
+  <div class="col-12">
+    <form #updateStorageForm>
       <div class="row">
         <div class="col-12">
-          <label class="col-12">Broj skladišta:</label>
-          <input [(ngModel)]="storageNo" [ngModelOptions]="{standalone: true}" fullWidth min="1"
-                 name="storageNo"
-                 nbInput placeholder="0" step="1" type="number">
+          <label class="label" for="input-storageNo">Broj skladišta:</label>
         </div>
-      </div>
-      <div class="row">
         <div class="col-12">
-          <button nbButton status="primary" type="submit" fullWidth>Odaberi</button>
+          <nb-button-group>
+            <button (pressedChange)="updateStorages(1, $event)" nbButtonToggle>1</button>
+            <button (pressedChange)="updateStorages(2, $event)" nbButtonToggle>2</button>
+            <button (pressedChange)="updateStorages(3, $event)" nbButtonToggle>3</button>
+            <button (pressedChange)="updateStorages(4, $event)" nbButtonToggle>4</button>
+            <button (pressedChange)="updateStorages(5, $event)" nbButtonToggle>5</button>
+            <button (pressedChange)="showStorageInput = !showStorageInput" nbButtonToggle>Više...</button>
+            <input *ngIf="showStorageInput" [(ngModel)]="storageNo" [ngModelOptions]="{standalone: true}"
+                   fullWidth nbInput id="input-storageNo"
+                   placeholder="0" step="1" type="number">
+          </nb-button-group>
         </div>
       </div>
     </form>
   </div>
 </div>
 
-<div *ngIf="storageNo > 0" class="row pt-4">
-
+<div *ngIf="storageNo > 0" class="row mt-3">
   <div *ngFor="let storage of storages$ | async; let i=index" class="col-12">
     <form #storageForm="ngForm">
 
       <nb-card accent="primary" class="p-2">
         <nb-card-body>
 
-          <div class="row mb-2 mt-2">
+          <div class="row my-1">
             <div class="col-12">
-              <label class="label" for="input-storageName">Naziv Skladišta:</label>
-              <input #storageName="ngModel"
-                     [(ngModel)]="storage.name"
-                     [attr.aria-invalid]="storageName.invalid && storageName.touched ? true : null"
-                     [maxlength]="getConfigValue('forms.validation.storageName.maxLength')"
-                     [minlength]="getConfigValue('forms.validation.storageName.minLength')"
-                     [ngModelOptions]="{standalone: true}"
-                     [placeholder]="'Skladiste #' + i + 1"
-                     [required]="getConfigValue('forms.validation.storageName.required')"
-                     [status]="storageName.dirty ? (storageName.invalid  ? 'danger' : 'success') : 'basic'"
-                     autofocus
-                     fullWidth
-                     id="input-storageName"
-                     name="storageName"
-                     nbInput>
-              <ng-container *ngIf="(storageName.invalid && storageName.touched) || checkIssues">
-                <p class="error-message mt-1 mb-0" *ngIf="storageName.errors?.required">
-                  Naziv skladišta je obavezan!
-                </p>
-                <p class="error-message mt-1 mb-0"
-                   *ngIf="storageName.errors?.minlength || storageName.errors?.maxlength">
-                  Naziv skladišta mora biti duži od
-                  {{ getConfigValue('forms.validation.storageName.minLength') }} slova!
-                </p>
-              </ng-container>
-            </div>
-          </div>
-
-          <div class="row mb-2 mt-2" *ngIf="storageType === 'dump'">
-            <div class="col-12">
-              <nb-select-label class="label" for="input-dumpType">Vrsta Deponije:</nb-select-label>
-              <nb-select
-                #dumpType="ngModel"
-                [(ngModel)]="storage.dumpType"
-                [attr.aria-invalid]="dumpType.invalid && dumpType.touched ? true : null"
-                [ngModelOptions]="{standalone: true}"
-                [required]="getConfigValue('forms.validation.dumpType.required')"
-                [status]="dumpType.dirty ? (dumpType.invalid  ? 'danger' : 'success') : 'basic'"
-                fullWidth
-                id="input-dumpType"
-                name="dumpType"
-                placeholder="Vrsta deponije">
-                <nb-option value="Neopasan">Neopasan otpad</nb-option>
-                <nb-option value="Opasan">Opasan otpad</nb-option>
-                <nb-option value="Inertan">Inertan otpad</nb-option>
-              </nb-select>
-              <ng-container *ngIf="(dumpType.invalid && dumpType.touched) || checkIssues">
-                <p class="error-message mt-1 mb-0" *ngIf="dumpType.errors?.required">
-                  Vrsta skladišta je obavezna!
-                </p>
-              </ng-container>
-            </div>
-          </div>
-
-          <div class="row mb-2">
-            <div class="col-12">
-              <label class="label" for="input-adresa">Adresa:</label>
-              <div class="row ml-2" id="input-adresa">
-                <div class="col-6">
-                  <nb-select-label class="label" for="input-storageTownship">Opština:</nb-select-label>
-                  <input
-                    #storageTownship="ngModel"
-                    (ngModelChange)="chooseTownship(storageTownship.value)"
-                    [(ngModel)]="storage.address.location.townshipName"
-                    [attr.aria-invalid]="storageTownship.invalid && storageTownship.touched ? true : null"
-                    [nbAutocomplete]="autoOpstinaSelect"
-                    [ngModelOptions]="{standalone: true}"
-                    [required]="getConfigValue('forms.validation.address.required')"
-                    autofocus="off"
-                    autocomplete="off"
-                    fullWidth
-                    id="input-storageTownship"
-                    name="storageTownship"
-                    nbInput
-                    placeholder="Opština">
-                  <nb-autocomplete #autoOpstinaSelect>
-                    <nb-option *ngFor="let o of townships$ | async" [value]="o">{{o}}</nb-option>
-                  </nb-autocomplete>
-                  <ng-container *ngIf="(storageTownship.invalid && storageTownship.touched) || checkIssues">
-                    <p class="error-message mt-1 mb-0" *ngIf="storageTownship.errors?.required">
-                      Opština je obavezna!
-                    </p>
-                  </ng-container>
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-storageName">Naziv Skladišta:</label>
                 </div>
-                <div class="col-6">
-                  <nb-select-label class="label" for="input-storagePlace">Mesto:</nb-select-label>
-                  <input
-                    #storagePlace="ngModel"
-                    (ngModelChange)="findPlaces($event)"
-                    [(ngModel)]="storage.address.location.placeName"
-                    [attr.aria-invalid]="storagePlace.invalid && storagePlace.touched ? true : null"
-                    [nbAutocomplete]="autoMestoSelect"
-                    [ngModelOptions]="{standalone: true}"
-                    [required]="getConfigValue('forms.validation.address.required')"
-                    autofocus="off"
-                    autocomplete="off"
-                    fullWidth
-                    id="input-storagePlace"
-                    name="storagePlace"
-                    nbInput
-                    placeholder="Mesto">
-                  <nb-autocomplete #autoMestoSelect>
-                    <nb-option *ngFor="let m of places$ | async" [value]="m">{{m}}</nb-option>
-                  </nb-autocomplete>
-                  <ng-container *ngIf="(storagePlace.invalid && storagePlace.touched) || checkIssues">
-                    <p class="error-message mt-1 mb-0" *ngIf="storagePlace.errors?.required">
-                      Mesto je obavezno!
-                    </p>
-                  </ng-container>
-                </div>
-              </div>
-              <div class="row ml-2 mt-2">
-                <div class="col-3">
-                  <label class="label" for="input-storageZipCode">Poštanski broj:</label>
-                  <input #storageZipCode="ngModel"
-                         [(ngModel)]="storage.address.location.zipCode"
-                         [attr.aria-invalid]="storageZipCode.invalid && storageZipCode.touched ? true : null"
-                         [maxlength]="getConfigValue('forms.validation.zipCode.maxLength')"
-                         [minlength]="getConfigValue('forms.validation.zipCode.minLength')"
+                <div class="col-12">
+                  <input #storageName="ngModel"
+                         [(ngModel)]="storage.name"
+                         [attr.aria-invalid]="storageName.invalid && storageName.touched ? true : null"
+                         [maxlength]="getConfigValue('forms.validation.storageName.maxLength')"
+                         [minlength]="getConfigValue('forms.validation.storageName.minLength')"
                          [ngModelOptions]="{standalone: true}"
-                         [required]="getConfigValue('forms.validation.zipCode.required')"
-                         [status]="storageZipCode.dirty ? (storageZipCode.invalid  ? 'danger' : 'success') : 'basic'"
+                         [placeholder]="'Skladište #' + (i + 1)"
+                         [required]="getConfigValue('forms.validation.storageName.required')"
+                         [status]="storageName.dirty ? (storageName.invalid  ? 'danger' : 'success') : 'basic'"
+                         autofocus
                          fullWidth
-                         id="input-storageZipCode"
-                         name="storageZipCode"
-                         nbInput
-                         onkeypress="return /[0-9]/i.test(event.key)"
-                         placeholder="Poštanski broj">
-                  <ng-container *ngIf="(storageZipCode.invalid && storageZipCode.touched) || checkIssues">
-                    <p class="error-message mt-1 mb-0" *ngIf="storageZipCode.errors?.required">
-                      Poštanski broj je obavezan!
+                         id="input-storageName"
+                         name="storageName"
+                         nbInput>
+                </div>
+                <div class="col-12">
+                  <ng-container *ngIf="(storageName.invalid && storageName.touched) || checkIssues">
+                    <p class="error-message mt-1 mb-0" *ngIf="storageName.errors?.required">
+                      Naziv skladišta je obavezan!
                     </p>
                     <p class="error-message mt-1 mb-0"
-                       *ngIf="storageZipCode.errors?.minlength || storageZipCode.errors?.maxlength">
-                      Poštanski broj mora biti validan!
+                       *ngIf="storageName.errors?.minlength || storageName.errors?.maxlength">
+                      Naziv skladišta mora biti duži od
+                      {{ getConfigValue('forms.validation.storageName.minLength') }} slova!
                     </p>
                   </ng-container>
                 </div>
-                <div class="col-9">
-                  <label class="label" for="input-storageStreet">Ulica i broj:</label>
-                  <input #storageStreet="ngModel"
-                         [(ngModel)]="storage.address.street"
-                         [attr.aria-invalid]="storageStreet.invalid && storageStreet.touched ? true : null"
-                         [maxlength]="getConfigValue('forms.validation.street.maxLength')"
-                         [minlength]="getConfigValue('forms.validation.street.minLength')"
-                         [ngModelOptions]="{standalone: true}"
-                         [required]="getConfigValue('forms.validation.street.required')"
-                         [status]="storageStreet.dirty ? (storageStreet.invalid  ? 'danger' : 'success') : 'basic'"
-                         fullWidth
-                         id="input-storageStreet"
-                         name="storageStreet"
-                         nbInput
-                         placeholder="Ulica i broj">
-                  <ng-container *ngIf="(storageStreet.invalid && storageStreet.touched) || checkIssues">
-                    <p class="error-message mt-1 mb-0" *ngIf="storageStreet.errors?.required">
-                      Ulica je obavezna!
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-1" *ngIf="storageType === 'dump'">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-dumpType">Vrsta Deponije:</label>
+                </div>
+                <div class="col-12">
+                  <nb-select #dumpType="ngModel"
+                             [(ngModel)]="storage.dumpType"
+                             [attr.aria-invalid]="dumpType.invalid && dumpType.touched ? true : null"
+                             [ngModelOptions]="{standalone: true}"
+                             [required]="getConfigValue('forms.validation.dumpType.required')"
+                             [status]="dumpType.dirty ? (dumpType.invalid  ? 'danger' : 'success') : 'basic'"
+                             fullWidth
+                             id="input-dumpType"
+                             name="dumpType"
+                             placeholder="Vrsta deponije">
+                    <nb-option [value]="'Neopasan'">Neopasan otpad</nb-option>
+                    <nb-option [value]="'Opasan'">Opasan otpad</nb-option>
+                    <nb-option [value]="'Inertan'">Inertan otpad</nb-option>
+                  </nb-select>
+                </div>
+                <div class="col-12">
+                  <ng-container *ngIf="(dumpType.invalid && dumpType.touched) || checkIssues">
+                    <p class="error-message mt-1 mb-0" *ngIf="dumpType.errors?.required">
+                      Vrsta skladišta je obavezna!
                     </p>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-1">
+            <div class="col-12">
+              <label class="label" for="input-address">Adresa:</label>
+              <div class="row ml-2" id="input-address">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <label class="label" for="input-storageTownship">Opština:</label>
+                    </div>
+                    <div class="col-12">
+                      <input #storageTownship="ngModel"
+                             (ngModelChange)="chooseTownship(storageTownship.value)"
+                             [(ngModel)]="storage.address.location.townshipName"
+                             [attr.aria-invalid]="storageTownship.invalid && storageTownship.touched ? true : null"
+                             [nbAutocomplete]="autoCompleteTownship"
+                             [ngModelOptions]="{standalone: true}"
+                             [required]="getConfigValue('forms.validation.address.required')"
+                             autocomplete="off"
+                             fullWidth
+                             id="input-storageTownship"
+                             name="storageTownship"
+                             nbInput
+                             placeholder="Opština">
+                      <nb-autocomplete #autoCompleteTownship>
+                        <nb-option *ngFor="let o of townships$ | async" [value]="o">{{o}}</nb-option>
+                      </nb-autocomplete>
+                    </div>
+                    <div class="col-12">
+                      <ng-container *ngIf="(storageTownship.invalid && storageTownship.touched) || checkIssues">
+                        <p class="error-message mt-1 mb-0" *ngIf="storageTownship.errors?.required">
+                          Opština je obavezna!
+                        </p>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <label class="label" for="input-storagePlace">Mesto:</label>
+                    </div>
+                    <div class="col-12">
+                      <input #storagePlace="ngModel"
+                             (ngModelChange)="findPlaces($event)"
+                             [(ngModel)]="storage.address.location.placeName"
+                             [attr.aria-invalid]="storagePlace.invalid && storagePlace.touched ? true : null"
+                             [nbAutocomplete]="autoCompletePlace"
+                             [ngModelOptions]="{standalone: true}"
+                             [required]="getConfigValue('forms.validation.address.required')"
+                             autocomplete="off"
+                             fullWidth
+                             id="input-storagePlace"
+                             name="storagePlace"
+                             nbInput
+                             placeholder="Mesto">
+                      <nb-autocomplete #autoCompletePlace>
+                        <nb-option *ngFor="let m of places$ | async" [value]="m">{{m}}</nb-option>
+                      </nb-autocomplete>
+                    </div>
+                    <div class="col-12">
+                      <ng-container *ngIf="(storagePlace.invalid && storagePlace.touched) || checkIssues">
+                        <p class="error-message mt-1 mb-0" *ngIf="storagePlace.errors?.required">
+                          Mesto je obavezno!
+                        </p>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row my-1">
+                <div class="col-3">
+                  <div class="row">
+                    <div class="col-12">
+                      <label class="label" for="input-storageZipCode">Poštanski broj:</label>
+                    </div>
+                    <div class="col-12">
+                      <input #storageZipCode="ngModel"
+                             [(ngModel)]="storage.address.location.zipCode"
+                             [attr.aria-invalid]="storageZipCode.invalid && storageZipCode.touched ? true : null"
+                             [maxlength]="getConfigValue('forms.validation.zipCode.maxLength')"
+                             [minlength]="getConfigValue('forms.validation.zipCode.minLength')"
+                             [ngModelOptions]="{standalone: true}"
+                             [required]="getConfigValue('forms.validation.zipCode.required')"
+                             [status]="storageZipCode.dirty ? (storageZipCode.invalid  ? 'danger' : 'success') : 'basic'"
+                             fullWidth
+                             id="input-storageZipCode"
+                             name="storageZipCode"
+                             nbInput
+                             onkeypress="return /[0-9]/i.test(event.key)"
+                             placeholder="Poštanski broj">
+                    </div>
+                    <div class="col-12">
+                      <ng-container *ngIf="(storageZipCode.invalid && storageZipCode.touched) || checkIssues">
+                        <p class="error-message mt-1 mb-0" *ngIf="storageZipCode.errors?.required">
+                          Poštanski broj je obavezan!
+                        </p>
+                        <p class="error-message mt-1 mb-0"
+                           *ngIf="storageZipCode.errors?.minlength || storageZipCode.errors?.maxlength">
+                          Poštanski broj mora biti validan!
+                        </p>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-9">
+                  <div class="row">
+                    <div class="col-12">
+                      <label class="label" for="input-storageStreet">Ulica i broj:</label>
+                    </div>
+                    <div class="col-12">
+                      <input #storageStreet="ngModel"
+                             [(ngModel)]="storage.address.street"
+                             [attr.aria-invalid]="storageStreet.invalid && storageStreet.touched ? true : null"
+                             [maxlength]="getConfigValue('forms.validation.street.maxLength')"
+                             [minlength]="getConfigValue('forms.validation.street.minLength')"
+                             [ngModelOptions]="{standalone: true}"
+                             [required]="getConfigValue('forms.validation.street.required')"
+                             [status]="storageStreet.dirty ? (storageStreet.invalid  ? 'danger' : 'success') : 'basic'"
+                             fullWidth
+                             id="input-storageStreet"
+                             name="storageStreet"
+                             nbInput
+                             placeholder="Ulica i broj">
+                    </div>
+                    <div class="col-12">
+                      <ng-container *ngIf="(storageStreet.invalid && storageStreet.touched) || checkIssues">
+                        <p class="error-message mt-1 mb-0" *ngIf="storageStreet.errors?.required">
+                          Ulica je obavezna!
+                        </p>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-1">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-geolocationN">Geolokacija Sever (N):</label>
+                </div>
+                <div class="col-12">
+              <span *ngFor="let i of numbers;" id="input-geolocationN">
+                <input [(ngModel)]="storage.geolocationNorth[i]"
+                       [ngModelOptions]="{standalone: true}"
+                       class="col-1"
+                       fullWidth
+                       maxlength="1"
+                       nbInput
+                       onkeypress="return /[0-9]/i.test(event.key)"
+                       type="text">
+                <button nbButton class="col-1 mb-1 geolocation-sign" disabled
+                        *ngIf="i === 1">°</button>
+                <button nbButton disabled style="max-width: 2vw; font-size: 1.5rem" class="col-1 mb-1"
+                        *ngIf="i === 3">'</button>
+                <button nbButton disabled style="max-width: 2vw; font-size: 1.5rem" class="col-1 mb-1"
+                        *ngIf="i === 6">"</button>
+                </span>
+                </div>
+                <div class="col-12">
+                  <ng-container>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mt-1">
+              <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-geolocationE">Geolokacija Istok (E0):</label>
+                </div>
+                <div class="col-12">
+                <span *ngFor="let i of numbers;" id="input-geolocationE">
+                  <input [(ngModel)]="storage.geolocationEast[i]"
+                         [ngModelOptions]="{standalone: true}"
+                         class="col-1"
+                         fullWidth
+                         maxlength="1"
+                         nbInput
+                         onkeypress="return /[0-9]/i.test(event.key)"
+                         type="text">
+                  <button nbButton class="col-1 mb-1 geolocation-sign" disabled
+                          *ngIf="i === 1">°</button>
+                  <button nbButton disabled style="max-width: 2vw; font-size: 1.5rem" class="col-1 mb-1"
+                          *ngIf="i === 3">'</button>
+                  <button nbButton disabled style="max-width: 2vw; font-size: 1.5rem" class="col-1 mb-1"
+                          *ngIf="i === 6">"</button>
+                  </span>
+                </div>
+                <div class="col-12">
+                  <ng-container>
                   </ng-container>
                 </div>
               </div>
@@ -193,75 +301,13 @@
 
           <div class="row mb-2">
             <div class="col-12">
-              <label class="label">Geolokacija Sever(N):</label>
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationNorth[0]" class="col-1"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationNorth[1]" class="col-1"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <span class="mx-1" style="font-size: 1.5rem">°</span>
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationNorth[2]" class="col-1"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationNorth[3]" class="col-1"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <span class="mx-1" style="font-size: 1.5rem">'</span>
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationNorth[4]" class="col-1"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationNorth[5]" class="col-1"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationNorth[6]" class="col-1"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text"><span class="mx-1" style="font-size: 1.5rem">"</span>
-              <ng-container>
-              </ng-container>
-            </div>
-            <div class="col-12">
-              <label class="label">Geolokacija Istok(E0):</label>
-              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationEast[0]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationEast[1]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <span class="mx-1" style="font-size: 1.5rem">°</span>
-              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationEast[2]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationEast[3]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <span class="mx-1" style="font-size: 1.5rem">'</span>
-              <input nbInput maxlength="1" fullWidth maxlength="1" [ngModelOptions]="{standalone: true}"
-                     [(ngModel)]="storage.geolocationEast[4]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}" maxlength="1"
-                     [(ngModel)]="storage.geolocationEast[5]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <input nbInput maxlength="1" fullWidth [ngModelOptions]="{standalone: true}" maxlength="1"
-                     [(ngModel)]="storage.geolocationEast[6]" class="col-1" onkeypress="return /[0-9]/i.test(event.key)"
-                     type="text">
-              <span class="mx-1" style="font-size: 1.5rem">"</span>
-              <ng-container>
-              </ng-container>
-            </div>
-          </div>
-
-          <div class="row mb-2">
-            <div class="col-12">
-              <label class="label pl-0 col-12" for="input-storageSize">Veličina skladišta:</label>
               <div class="row">
+                <div class="col-12">
+                  <label class="label" for="input-storageSize">Veličina skladišta:
+                    <i class="fa fa-info-circle"
+                       [nbTooltip]="'Unesite veličinu privremenog skladišta koju posedujete u okviru pravnog subjekta u jedinicama mere. Način određivanja veličine privremenog skladišta merenje/proračun/procena.'"></i>
+                  </label>
+                </div>
                 <div class="col-10 pr-0">
                   <input #storageSize="ngModel"
                          [(ngModel)]="storage.maxAmount"
@@ -284,14 +330,16 @@
                     <nb-option [value]="'T'">T</nb-option>
                   </nb-select>
                 </div>
-                <ng-container *ngIf="(storageSize.invalid && storageSize.touched) || checkIssues">
-                  <p class="error-message mt-1 mb-0" *ngIf="storageSize.errors?.required || isNaN(storageSize.value)">
-                    Veličina skladišta je obavezna!
-                  </p>
-                  <p class="error-message mt-1 mb-0" *ngIf="storageSize < 1">
-                    Veličina skladišta ne može biti 0!
-                  </p>
-                </ng-container>
+                <div class="col-12">
+                  <ng-container *ngIf="(storageSize.invalid && storageSize.touched) || checkIssues">
+                    <p class="error-message mt-1 mb-0" *ngIf="storageSize.errors?.required || isNaN(storageSize.value)">
+                      Veličina skladišta je obavezna!
+                    </p>
+                    <p class="error-message mt-1 mb-0" *ngIf="storageSize < 1">
+                      Veličina skladišta ne može biti 0!
+                    </p>
+                  </ng-container>
+                </div>
               </div>
             </div>
           </div>

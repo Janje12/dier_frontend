@@ -43,7 +43,7 @@
       </div>
       <div class="col-8">
         <ng-container *ngIf="email.touched">
-          <p class="error-message mt-1" *ngIf="email.errors?.required">
+          <p class="error-message mt-1 mb-0" *ngIf="email.errors?.required">
             Email je obavezan!
           </p>
         </ng-container>
@@ -74,7 +74,7 @@
       </div>
       <div class="col-8">
         <ng-container *ngIf="password.touched">
-          <p class="error-message mt-1" *ngIf="password.errors?.required">
+          <p class="error-message mt-1 mb-0" *ngIf="password.errors?.required">
             Šifra je obavezna!
           </p>
         </ng-container>
@@ -103,7 +103,7 @@
     </div>
 
   </form>
-  <div class="row d-flex justify-content-center">
+  <div class="row d-flex justify-content-center pb-2">
     <div class="col-8 text-center" aria-label="Registruj se">
       Nemate nalog? <a class="text-link" routerLink="../register-user">Registruj se</a>
     </div>

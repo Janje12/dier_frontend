@@ -214,9 +214,12 @@
                  [type]="showPassword === 'eye' ? 'password' : 'text'">
         </div>
         <div class="col-12">
-          <ng-container *ngIf="passwordModel.invalid && passwordModel.touched">
+          <ng-container *ngIf="passwordModel.invalid && passwordModel.touched || passwordModel.value === oldPasswordModel.value">
             <p class="error-message mt-1 mb-0" *ngIf="passwordModel.errors?.required">
               Nova šifra je obavezna!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="passwordModel.value === oldPasswordModel.value">
+              Nova šifra ne može da se podudara sa starom šifrom!
             </p>
             <p class="error-message mt-1 mb-0"
                *ngIf="passwordModel.errors?.minlength || passwordModel.errors?.maxlength">
@@ -242,7 +245,7 @@
                  [type]="showPassword === 'eye' ? 'password' : 'text'">
         </div>
         <div class="col-12">
-          <ng-container *ngIf="retypePasswordModel.invalid && passwordModel.touched">
+          <ng-container *ngIf="retypePasswordModel.invalid && passwordModel.touched || passwordModel.value !== retypePasswordModel.value">
             <p class="error-message mt-1 mb-0" *ngIf="retypePasswordModel.errors?.required">
               Ponovna šifra je obavezna!
             </p>

@@ -1,65 +1,68 @@
-<form #formVehicle="ngForm" (ngSubmit)="updatePrevoznoSredstvo(formVehicle)">
-  <div *ngFor="let p of vehicles">
-    <div class="row">
-      <div class="col-6">
-        <div class="row mb-2">
-          <div class="col-12">
-            <label class="label" for="input-licensePlate">Registarski broj tablice:</label>
-          </div>
+<nb-card>
+  <nb-card-header>Vozila</nb-card-header>
+  <nb-card-body>
+    <form #formVehicle="ngForm" (ngSubmit)="updatePrevoznoSredstvo(formVehicle)">
+      <div *ngFor="let p of vehicles">
+        <div class="row mt-3">
           <div class="col-6">
-            <input #licensePlate="ngModel"
-                   [(ngModel)]="p.licensePlate"
-                   [ngModelOptions]="{standalone: true}"
-                   [attr.aria-invalid]="licensePlate.invalid && licensePlate.touched ? true : null"
-                   required
-                   pattern="([A-Ž]{2})-(\d{3,4})-([A-Ž]{2})"
-                   [status]="licensePlate.dirty ? (licensePlate.invalid  ? 'danger' : 'success') : 'basic'"
-                   [disabled]="inputsDisabled"
-                   fullWidth
-                   id="input-licensePlate"
-                   name="licensePlate"
-                   nbInput
-                   type="text">
-            <ng-container *ngIf="licensePlate.invalid && licensePlate.touched">
-              <p class="error-message mt-1 mb-0" *ngIf="licensePlate.errors?.required">
-                Registarski broj tablice je obavezan!
-              </p>
-              <p class="error-message mt-1 mb-0" *ngIf="licensePlate.errors?.pattern">
-                Registarski broj tablice mora biti validan!
-              </p>
-            </ng-container>
-          </div>
-        </div>
+            <div class="row mb-2">
+              <div class="col-12">
+                <label class="label" for="input-licensePlate">Registarski broj tablice:</label>
+              </div>
+              <div class="col-6">
+                <input #licensePlate="ngModel"
+                       [(ngModel)]="p.licensePlate"
+                       [ngModelOptions]="{standalone: true}"
+                       [attr.aria-invalid]="licensePlate.invalid && licensePlate.touched ? true : null"
+                       required
+                       pattern="([A-Ž]{2})-(\d{3,4})-([A-Ž]{2})"
+                       [status]="licensePlate.dirty ? (licensePlate.invalid  ? 'danger' : 'success') : 'basic'"
+                       [disabled]="inputsDisabled"
+                       fullWidth
+                       id="input-licensePlate"
+                       name="licensePlate"
+                       nbInput
+                       type="text">
+                <ng-container *ngIf="licensePlate.invalid && licensePlate.touched">
+                  <p class="error-message mt-1 mb-0" *ngIf="licensePlate.errors?.required">
+                    Registarski broj tablice je obavezan!
+                  </p>
+                  <p class="error-message mt-1 mb-0" *ngIf="licensePlate.errors?.pattern">
+                    Registarski broj tablice mora biti validan!
+                  </p>
+                </ng-container>
+              </div>
+            </div>
 
-        <div class="row mb-2">
-          <div class="col-12">
-            <label class="label" for="input-type">Vrsta vozila:</label>
-          </div>
-          <div class="col-6">
-            <input [placeholder]="p.type"
-                   fullWidth
-                   disabled
-                   id="input-type"
-                   name="type"
-                   nbInput
-                   type="text">
+            <div class="row mb-2">
+              <div class="col-12">
+                <label class="label" for="input-type">Vrsta vozila:</label>
+              </div>
+              <div class="col-6">
+                <input [placeholder]="p.type"
+                       fullWidth
+                       disabled
+                       id="input-type"
+                       name="type"
+                       nbInput
+                       type="text">
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="col-6">
+      <div class="row">
+        <div class="col-8"></div>
+        <div class="col-2">
+          <button (click)="enableInputs()" [disabled]="!inputsDisabled" nbButton fullWidth type="button"
+                  status="primary">
+            IZMENI
+          </button>
+        </div>
+        <div class="col-2">
+          <button [disabled]="inputsDisabled" fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-8"></div>
-    <div class="col-2">
-      <button (click)="enableInputs()" [disabled]="!inputsDisabled" nbButton fullWidth type="button" status="primary">
-        IZMENI
-      </button>
-    </div>
-    <div class="col-2">
-      <button [disabled]="inputsDisabled" fullWidth nbButton status="primary" type="submit">SAČUVAJ</button>
-    </div>
-  </div>
-</form>
+    </form>
+  </nb-card-body>
+</nb-card>

@@ -26,6 +26,7 @@ export const VALLIDATION_SETTINGS: any = {
     required: true,
     minLength: 6,
     maxLength: 20,
+    pattern: '^(?!.*(@|\\?|!))\\S*',
   },
   email: {
     pattern: '^[a-zšđžćč0-9._%+-]+@[a-zšđžćč0-9.-]+\\.[a-zšđčćž]{2,4}$',
@@ -35,8 +36,9 @@ export const VALLIDATION_SETTINGS: any = {
     required: true,
     minLength: 6,
     maxLength: 50,
+    pattern: '\\S*',
   },
-  phone: {
+  telephone: {
     required: true,
     minLength: 9,
     maxLength: 10,
@@ -44,7 +46,7 @@ export const VALLIDATION_SETTINGS: any = {
   // Company Registration
   companyName: {
     required: true,
-    minLength: 1,
+    minLength: 3,
     maxLength: 30,
   },
   pib: {
@@ -84,7 +86,7 @@ export const VALLIDATION_SETTINGS: any = {
   storageSize: {
     required: true,
     pattern: '[0-9]*',
-    min: 1,
+    min: 0.1,
   },
   geolocation: {
     required: false,
@@ -105,6 +107,8 @@ export const VALLIDATION_SETTINGS: any = {
   },
   permitCode: {
     required: true,
+    minLength: 3,
+    maxLength: 50,
   },
   licensePlate: {
     required: true,

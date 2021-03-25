@@ -6,7 +6,7 @@ import {
   NbCardModule, NbIconModule,
   NbInputModule,
   NbPopoverModule,
-  NbProgressBarModule,
+  NbProgressBarModule, NbRadioModule, NbSelectModule,
   NbTabsetModule,
 } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -20,6 +20,7 @@ import { ProfileVehiclesComponent } from './profile-vehicles/profile-vehicles.co
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileStoragesComponent } from './profile-storages/profile-storages.component';
 import { ProfileComponent } from './profile.component';
+import { PermitRenewalComponent } from './permit-renewal/permit-renewal.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ProfileComponent } from './profile.component';
     ProfileUserComponent,
     ProfileVehiclesComponent,
     ProfileStoragesComponent,
+    PermitRenewalComponent,
   ],
   imports: [
     ProfileRoutingModule,
@@ -45,6 +47,8 @@ import { ProfileComponent } from './profile.component';
     PopupWindowsModule,
     StorageModule,
     NbIconModule,
+    NbRadioModule,
+    NbSelectModule,
   ],
 })
 export class ProfileModule {

@@ -1,7 +1,7 @@
 {
   "name": "dier_frontend",
-  "version": "0.5.0",
-  "description": "Frontend solution for DIER APP.",
+  "version": "0.8.0",
+  "description": "Frontend solution for DIERS APP.",
   "scripts": {
     "ng": "ng",
     "deploy": "ng build --prod --base-href https://janje12.github.io/dier_frontend/ && ngh",
@@ -71,7 +71,7 @@
     "@angular/compiler-cli": "^11.2.5",
     "@angular/language-service": "11.2.5",
     "@compodoc/compodoc": "^1.1.11",
-    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@fortawesome/fontawesome-free": "^5.15.2",
     "@types/d3-color": "1.0.5",
     "@types/googlemaps": "^3.40.2",
     "@types/jasmine": "2.5.54",

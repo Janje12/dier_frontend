@@ -1,13 +1,13 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
-import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Company } from '../../../../../@core/data/company';
 import { Permit } from '../../../../../@core/data/permit';
 import { Storage } from '../../../../../@core/data/storage';
 import { RegisterService } from '../../../../../@core/service/register.service';
+import { ToastrService } from '../../../../../@core/service/toastr.service';
 
 @Component({
   selector: 'register-trash-permit',
@@ -22,13 +22,14 @@ export class TrashPermitComponent implements OnInit {
   permits: Permit[];
   permits$: Observable<Permit[]>;
   permitsNo: number = 0;
+  storages$: Observable<Storage[]>;
   company: Company;
   checkIssues: boolean = false;
   valid: boolean = false;
-  storages$: Observable<Storage[]>;
+  showPermitsInput: boolean = false;
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private router: Router,
-              private registerService: RegisterService, private toastrService: NbToastrService) {
+              private registerService: RegisterService, private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -54,19 +55,14 @@ export class TrashPermitComponent implements OnInit {
     return getDeepFromObject(this.options, key, null);
   }
 
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
-  }
-
   async checkValid() {
     this.validatePermits();
-    if (!this.valid)
+    if (!this.valid) {
+      this.checkIssues = true;
       return false;
+    }
     let text = '';
-    const test = await Promise.all(this.registerService.checkPermits(this.permits)).then(promises => {
+    const permitExists = await Promise.all(this.registerService.checkPermits(this.permits)).then(promises => {
       for (const t of promises) {
         text = !t ? 'ta šifra' : text;
         if (t)
@@ -74,9 +70,9 @@ export class TrashPermitComponent implements OnInit {
       }
       return false;
     });
-    if (!test) {
+    if (!permitExists) {
       this.checkIssues = true;
-      this.showToast('Greška', `Već postoji ${text} dozvole!`, 'danger');
+      this.toastrService.showToast('Greška', `Već postoji ${text} dozvole!`, 'danger');
       return false;
     }
     if (this.valid)
@@ -115,11 +111,14 @@ export class TrashPermitComponent implements OnInit {
     }
   }
 
-  updatePermitsForm(storageNo?: number, storages$?: Observable<Storage[]>) {
-    if (this.permitsNo === 0) {
+  updatePermits(storageNo?: number, storages$?: Observable<Storage[]>, pressed?: boolean) {
+    if (pressed !== undefined && pressed === false)
+      return;
+    if (storageNo !== undefined) {
       this.permitsNo = storageNo;
-      this.storages$ = storages$;
     }
+    if (storages$ !== undefined)
+      this.storages$ = storages$;
     if (this.company.permits) {
       if (this.permitType === 'transport') {
         this.company.permits = this.company.permits.filter(x => x.type !== 'transport');

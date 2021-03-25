@@ -6,7 +6,7 @@ import {
   NbUserModule,
   NbIconModule, NbSelectModule, NbSpinnerModule, NbAccordionModule, NbTabsetModule,
 } from '@nebular/theme';
-import { LineChartModule } from '@swimlane/ngx-charts';
+import { BarChartModule, LineChartModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { PopupWindowsModule } from '../popup-windows/popup-windows.module';
@@ -39,6 +39,7 @@ import { SpecialWasteStatsComponent } from './widgets/special-waste-stats/specia
     Ng2SmartTableModule,
     NbTabsetModule,
     LineChartModule,
+    BarChartModule,
   ],
   declarations: [
     DashboardComponent,

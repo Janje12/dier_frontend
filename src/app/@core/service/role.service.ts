@@ -182,7 +182,28 @@ export class RoleService implements OnDestroy {
     }
   }
 
+  add_reports: boolean = false;
+
   private fillResult(result: NbMenuItem[]): NbMenuItem[] {
+    this.add_reports = false;
+    if (this.operations.safeTrashOperations.exists ||
+      this.operations.unsafeTrashOperations.exists ||
+      this.operations.specialWasteOperations.exists) {
+      const item = this.fillAddTrashResult();
+      result.push(item);
+    }
+    if (this.operations.safeTrashOperations.transport || this.operations.unsafeTrashOperations.transport) {
+      result.push(Object.assign({}, this.menu_items[4]));
+      this.add_reports = true;
+    }
+    if (this.add_reports) {
+      result.push(Object.assign({}, this.menu_items[5]));
+      result.push(Object.assign({}, this.menu_items[6]));
+    }
+    return result;
+  }
+
+  private fillAddTrashResult(): any {
     let menu_childern, item;
     item = Object.assign({}, this.menu_items[3]);
     item.children = [];
@@ -191,28 +212,38 @@ export class RoleService implements OnDestroy {
       menu_childern = Object.assign([], this.menu_items[3].children[0].children);
       item.children[item.children.length - 1].children = new Array<NbMenuItem>();
       if (this.operations.safeTrashOperations.production)
-        item.children[item.children.length - 1].
-        children.push(menu_childern.filter(x => x.title === 'Proizvođač/Vlasnik')[0]);
-      if (this.operations.safeTrashOperations.treatment)
+        item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Proizvođač/Vlasnik')[0]);
+      if (this.operations.safeTrashOperations.treatment) {
         item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
-      if (this.operations.safeTrashOperations.cache)
+        this.add_reports = true;
+      }
+      if (this.operations.safeTrashOperations.cache) {
         item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Skladištenje')[0]);
-      if (this.operations.safeTrashOperations.disposal)
+        this.add_reports = true;
+      }
+      if (this.operations.safeTrashOperations.disposal) {
         item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Odlaganje')[0]);
+        this.add_reports = true;
+      }
     }
     if (this.operations.unsafeTrashOperations.exists) {
       item.children.push(this.menu_items[3].children[1]);
       menu_childern = Object.assign([], this.menu_items[3].children[1].children);
       item.children[item.children.length - 1].children = new Array<NbMenuItem>();
       if (this.operations.safeTrashOperations.production)
-        item.children[item.children.length - 1].
-        children.push(menu_childern.filter(x => x.title === 'Proizvođač/Vlasnik')[0]);
-      if (this.operations.safeTrashOperations.treatment)
+        item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Proizvođač/Vlasnik')[0]);
+      if (this.operations.safeTrashOperations.treatment) {
         item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Tretman')[0]);
-      if (this.operations.safeTrashOperations.cache)
+        this.add_reports = true;
+      }
+      if (this.operations.safeTrashOperations.cache) {
         item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Skladištenje')[0]);
-      if (this.operations.safeTrashOperations.disposal)
+        this.add_reports = true;
+      }
+      if (this.operations.safeTrashOperations.disposal) {
         item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Odlaganje')[0]);
+        this.add_reports = true;
+      }
     }
     if (this.operations.specialWasteOperations.exists) {
       item.children.push(this.menu_items[3].children[2]);
@@ -225,9 +256,9 @@ export class RoleService implements OnDestroy {
       if (this.operations.specialWasteOperations.export)
         item.children[item.children.length - 1].children.push(menu_childern.filter(x => x.title === 'Izvoz')[0]);
     }
-    result.push(item);
-    return result;
+    return item;
   }
+
 
   private fillType(type: any, typeGiven: string) {
     switch (typeGiven) {

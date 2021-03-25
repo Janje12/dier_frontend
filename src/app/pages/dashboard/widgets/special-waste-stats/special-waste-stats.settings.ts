@@ -1,6 +1,7 @@
 export const SPECIAL_WASTE_STATS_SETTINGS = {
-  view: [700, 300],
+  view: [],
   legend: true,
+  legendTitle: '',
   showLabels: true,
   animations: true,
   xAxis: true,
@@ -11,19 +12,5 @@ export const SPECIAL_WASTE_STATS_SETTINGS = {
   yAxisLabel: 'KG',
   timeline: true,
   schemaType: 'linear',
-  series: [
-    {
-      name: 'Proizveden',
-      series: [],
-    },
-    {
-      name: 'Uvezen',
-      series: [],
-    },
-    {
-      name: 'Izvezen',
-      series: [],
-    },
-  ],
 };
 
