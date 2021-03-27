@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { Company } from '../../../@core/data/company';
 import { CompanyService } from '../../../@core/service/company.service';
 import { RoleService } from '../../../@core/service/role.service';
+import { ToastrService } from '../../../@core/service/toastr.service';
 
 @Component({
   selector: 'profile-company',
@@ -18,8 +19,8 @@ export class ProfileCompanyComponent implements OnInit {
     address: {location: {placeName: '', placeCode: 0, zipCode: '', townshipCode: 0, townshipName: ''}, street: ''},
     email: '',
     emailReception: '',
-    legalRep: { firstName: '', lastName: ''},
-    nriz: { username: '', password: ''},
+    legalRep: {firstName: '', lastName: ''},
+    nriz: {username: '', password: ''},
     manager: '',
     mat: '',
     name: '',
@@ -28,14 +29,11 @@ export class ProfileCompanyComponent implements OnInit {
     pib: '',
     telephone: '',
     fax: '',
-
   };
   inputsDisabled: boolean = true;
 
-  constructor(private companyService: CompanyService,
-              @Inject(NB_AUTH_OPTIONS) protected options = {},
-              private toastrService: NbToastrService, private roleService: RoleService,
-              private authService: NbAuthService) {
+  constructor(private companyService: CompanyService, @Inject(NB_AUTH_OPTIONS) protected options = {},
+              private toastrService: ToastrService, private roleService: RoleService, private authService: NbAuthService) {
   }
 
   ngOnInit(): void {
@@ -54,11 +52,11 @@ export class ProfileCompanyComponent implements OnInit {
 
   updateFirma(form: NgForm): void {
     if (!form.valid)
-      this.showToast('Greška', 'Informacije koje ste uneli nisu tačne!', 'danger');
+      this.toastrService.showToast('Greška', 'Informacije koje ste uneli nisu tačne!', 'danger');
     else {
       this.companyService.updateCompany(this.company, this.company._id).subscribe(f => {
       });
-      this.showToast('Uspeh', 'Uspešno ste izmenili informacije!', 'success');
+      this.toastrService.showToast('Uspeh', 'Uspešno ste izmenili informacije!', 'success');
       this.inputsDisabled = true;
       // When korisnik data is changed it has to generate a new token!
       let token = null;
@@ -69,13 +67,5 @@ export class ProfileCompanyComponent implements OnInit {
       });
     }
   }
-
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
-  }
-
 
 }

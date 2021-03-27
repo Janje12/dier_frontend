@@ -22,33 +22,53 @@
                          (custom)="chooseSpecialWaste($event)"></ng2-smart-table>
       </div>
     </div>
-    <form #addForm="ngForm" (ngSubmit)="addSpecialWaste()">
+    <form #addForm="ngForm" (ngSubmit)="addSpecialWaste(addForm)">
       <div class="row mb-2">
         <label class="col-12 label" for="input-specialWasteName">Naziv: </label>
         <div class="col-4">
-          <input [(ngModel)]="specialWaste.name" placeholder="Naziv" fullWidth
+          <input #name="ngModel" [(ngModel)]="specialWaste.name" required placeholder="Naziv" fullWidth
                  name="specialWasteName" id="input-specialWasteName" nbInput>
+          <ng-container *ngIf="name.touched || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="name.errors?.required">
+              Naziv je obavezan!
+            </p>
+          </ng-container>
         </div>
+
       </div>
       <div class="row mb-2">
         <label class="col-12 label" for="input-specialWasteDesc">Opis: </label>
         <div class="col-4">
-          <input [(ngModel)]="specialWaste.desc" placeholder="Opis" fullWidth
+          <input #desc="ngModel" [(ngModel)]="specialWaste.desc" required placeholder="Opis" fullWidth
                  name="specialWasteDesc" id="input-specialWasteDesc" nbInput>
+          <ng-container *ngIf="desc.touched || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="desc.errors?.required">
+              Opis je obavezan!
+            </p>
+          </ng-container>
         </div>
+
       </div>
       <div class="row mb-2">
         <label class="col-12 label" for="input-specialWasteunitOfMeasure">Jedinica mere: </label>
         <div class="col-4">
-          <input [(ngModel)]="specialWaste.unitOfMeasure" disabled placeholder="Jedinica mere" fullWidth
+          <input [(ngModel)]="specialWaste.unitOfMeasure" required disabled placeholder="Jedinica mere" fullWidth
                  name="specialWasteunitOfMeasure" id="input-specialWasteunitOfMeasure" nbInput>
         </div>
       </div>
       <div class="row mb-2">
         <label class="col-12 label" for="input-specialWasteMass">Masa jedinice mere ({{specialWaste.unitOfMeasure}}): </label>
         <div class="col-4">
-          <input [(ngModel)]="specialWaste.mass" decimals="1" fullWidth min="0" name="specialWasteMass"
-                 nbInput placeholder="0.0" id="input-specialWasteMass" step="0.1" type="number">
+          <input #mass="ngModel" [(ngModel)]="specialWaste.mass" required fullWidth min="0" name="specialWasteMass"
+                 nbInput onkeypress="return /[0-9]/i.test(event.key)" placeholder="0.0" id="input-specialWasteMass" step="0.1" type="number">
+          <ng-container *ngIf="mass.touched || checkIssues">
+            <p class="error-message mt-1 mb-0" *ngIf="mass.errors?.required">
+              Masa je obavezna!
+            </p>
+            <p class="error-message mt-1 mb-0" *ngIf="mass.value === null">
+              Masa mora biti broj!
+            </p>
+          </ng-container>
         </div>
       </div>
       <div class="row mb-2">
@@ -62,8 +82,7 @@
 
       <div class="row">
         <div class="col-4">
-          <button [disabled]="!addForm.valid"
-                  nbButton fullWidth
+          <button nbButton fullWidth
                   status="primary" type="submit">Dodaj
           </button>
         </div>

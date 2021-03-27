@@ -21,6 +21,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileStoragesComponent } from './profile-storages/profile-storages.component';
 import { ProfileComponent } from './profile.component';
 import { PermitRenewalComponent } from './permit-renewal/permit-renewal.component';
+import { ProfileOperationsComponent } from './profile-operations/profile-operations.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { PermitRenewalComponent } from './permit-renewal/permit-renewal.componen
     ProfileVehiclesComponent,
     ProfileStoragesComponent,
     PermitRenewalComponent,
+    ProfileOperationsComponent,
   ],
   imports: [
     ProfileRoutingModule,

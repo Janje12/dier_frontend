@@ -10,7 +10,6 @@ import { CatalogService } from '../@core/service/catalog.service';
 import { LocationService } from '../@core/service/location.service';
 import { PermitService } from '../@core/service/permit.service';
 import { RegisterService } from '../@core/service/register.service';
-import { RoleService } from '../@core/service/role.service';
 import { VehicleService } from '../@core/service/vehicle.service';
 import { ThemeModule } from '../@theme/theme.module';
 import { NgxAuthRoutingModule } from './auth-routing.module';

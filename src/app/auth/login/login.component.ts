@@ -20,15 +20,17 @@ export class LoginComponent extends NbLoginComponent {
   submitted: boolean = false;
   rememberMe = false;
 
-  constructor(protected service: NbAuthService,
-              @Inject(NB_AUTH_OPTIONS) protected options = {},
-              protected cd: ChangeDetectorRef, private roleService: RoleService,
-              protected router: Router) {
+  constructor(protected service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {},
+              protected cd: ChangeDetectorRef, private roleService: RoleService, protected router: Router) {
     super(service, options, cd, router);
     this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
     this.showMessages = this.getConfigValue('forms.login.showMessages');
     this.strategy = this.getConfigValue('forms.login.strategy');
     this.rememberMe = this.getConfigValue('forms.login.rememberMe');
+  }
+
+  getConfigValue(key: string): any {
+    return getDeepFromObject(this.options, key, null);
   }
 
   login(): void {
@@ -54,10 +56,6 @@ export class LoginComponent extends NbLoginComponent {
       }
       this.cd.detectChanges();
     });
-  }
-
-  getConfigValue(key: string): any {
-    return getDeepFromObject(this.options, key, null);
   }
 
 }

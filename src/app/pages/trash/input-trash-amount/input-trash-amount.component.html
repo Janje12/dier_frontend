@@ -1,4 +1,4 @@
-<nb-select fullWidth fullWidth [ngModelOptions]="{standalone: true}" [selected]="'KG'"
-           [(ngModel)]="storageAmountUnit">
+<nb-select [(ngModel)]="storageAmountUnit" [ngModelOptions]="{standalone: true}" [selected]="'KG'"
+           fullWidth>
   <nb-option *ngFor="let s of storageUnits;" [value]="s">{{s}}</nb-option>
 </nb-select>

@@ -6,6 +6,9 @@
     <nb-tab [active]="activeTab === 'company'" tabIcon="briefcase" tabTitle="Firma">
       <profile-company></profile-company>
     </nb-tab>
+    <nb-tab [active]="activeTab === 'operations'" tabIcon="options" tabTitle="Operacije">
+      <profile-operations></profile-operations>
+    </nb-tab>
     <nb-tab [active]="activeTab === 'storages'" [disabled]="!(operations?.production || operations?.treatment || operations?.disposal || operations?.cache)" tabIcon="cube" tabTitle="Skladišta">
       <profile-storages></profile-storages>
     </nb-tab>

@@ -37,10 +37,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
           {
             title: 'Odlaganje',
             link: '/pages/trash/safe/dump',
+            icon: {icon: 'trash-alt', pack: 'font-awesome'},
           },
           {
             title: 'Skladištenje',
             link: '/pages/trash/safe/cache',
+            icon: {icon: 'box', pack: 'font-awesome'},
           },
         ],
       },
@@ -51,18 +53,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
           {
             title: 'Proizvođač/Vlasnik',
             link: '/pages/trash/unsafe/production',
+            icon: {icon: 'hard-hat', pack: 'font-awesome'},
           },
           {
             title: 'Tretman',
             link: '/pages/trash/unsafe/treatment',
+            icon: {icon: 'dumpster', pack: 'font-awesome'},
           },
           {
             title: 'Odlaganje',
             link: '/pages/trash/unsafe/dump',
+            icon: {icon: 'trash-alt', pack: 'font-awesome'},
           },
           {
             title: 'Skladištenje',
             link: '/pages/trash/unsafe/cache',
+            icon: {icon: 'box', pack: 'font-awesome'},
           },
         ],
       },

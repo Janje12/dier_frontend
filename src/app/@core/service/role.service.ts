@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { NbAuthService } from '@nebular/auth';
 import { NbMenuItem } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
@@ -8,7 +8,7 @@ import { CompanyOperations } from '../data/companyOperations';
 @Injectable()
 export class RoleService implements OnDestroy {
 
-  private menu_items: NbMenuItem[] = MENU_ITEMS;
+  private menu_items: NbMenuItem[] = [];
   private companyOperations: string[] = [];
   private operations: CompanyOperations;
   private companyID: string;
@@ -64,6 +64,7 @@ export class RoleService implements OnDestroy {
   }
 
   public loginUser(): void {
+    this.clearOperations();
     this.authService.isAuthenticated().subscribe(x => {
       if (x) {
         this.authService.getToken().subscribe(t => {
@@ -96,9 +97,9 @@ export class RoleService implements OnDestroy {
       return of(this.operations.operations);
   }
 
-  public getOperationsMenu(companyOperations?: string[]): Observable<NbMenuItem[]> {
-    this.findOperations(companyOperations);
-    this.menu_items = MENU_ITEMS;
+  public getOperationsMenu(): Observable<NbMenuItem[]> {
+    this.findOperations(this.companyOperations);
+    this.menu_items = JSON.parse(JSON.stringify(MENU_ITEMS));
     const storageMenu = this.operations.safeTrashOperations.exists || this.operations.unsafeTrashOperations.exists ?
       3 : 2;
     const result = this.menu_items.slice(0, storageMenu);
@@ -142,14 +143,9 @@ export class RoleService implements OnDestroy {
         export: false,
       },
     };
+    this.menu_items = [];
     this.username = '';
     this.companyID = '';
-    for (const key in Object.keys(this.operations)) {
-      if (this.operations.hasOwnProperty(key)) {
-        this.operations[key] = false;
-      }
-    }
-
   }
 
   private findOperations(companyOperations?: string[]) {

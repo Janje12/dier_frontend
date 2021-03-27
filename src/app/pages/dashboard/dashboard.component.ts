@@ -3,7 +3,6 @@ import { Widget, WidgetSettings } from '../../@core/data/widgetSettings';
 import { RoleService } from '../../@core/service/role.service';
 import { WidgetService } from '../../@core/service/widget.service';
 import { WIDGET_SIZES } from '../../@core/utils/widget-utils';
-import { WidgetComponent } from './widgets/widget/widget.component';
 
 @Component({
   selector: 'ngx-dashboard',

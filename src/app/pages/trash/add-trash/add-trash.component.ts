@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
-import { NbComponentStatus, NbToastrService } from '@nebular/theme';
 import { Permit } from '../../../@core/data/permit';
 import { Storage } from '../../../@core/data/storage';
+import { Trash } from '../../../@core/data/trash';
 import { UnsafeTrash } from '../../../@core/data/unsafeTrash';
 import { CatalogService } from '../../../@core/service/catalog.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PermitService } from '../../../@core/service/permit.service';
 import { RoleService } from '../../../@core/service/role.service';
+import { ToastrService } from '../../../@core/service/toastr.service';
 import { TrashService } from '../../../@core/service/trash.service';
 import { StorageService } from '../../../@core/service/storage.service';
 import { TRASH_CATALOG_SETTINGS } from '../trashCatalogTable';
@@ -21,30 +23,41 @@ import { TRASH_STATES, D_TAGS, R_TAGS, H_LIST, Y_LIST, C_LIST } from '../../../@
 })
 export class AddTrashComponent implements OnInit {
 
-  settings: any = TRASH_CATALOG_SETTINGS;
+  settings: any;
   catalog: LocalDataSource = new LocalDataSource();
   storageAmmountUnit: string = 'KG';
   storages: Storage[] = [];
-  selectedStorage: Storage = {address: {location: undefined, street: ''}, amount: 0, maxAmount: 0, name: ''};
+  selectedStorage: Storage;
   permits: Permit[] = [];
-  states: string[] = TRASH_STATES;
-  dSigns: string[] = D_TAGS;
-  rSigns: string[] = R_TAGS;
-  hList: string[] = H_LIST;
-  yList: string[] = Y_LIST;
-  cList: string[] = C_LIST;
-  trash: any = {
-    amount: 0, desc: '', indexNumber: '', name: '', dSign: '', rSign: '',
+  states: string[];
+  dSigns: string[]
+  rSigns: string[];
+  hList: string[];
+  yList: string[];
+  cList: string[];
+  trash: Trash = {
+    amount: null, desc: '', indexNumber: '', name: '', dSign: '', rSign: '', state: '',
   };
   componentsNo: number = 0;
   trashType: string;
   operation: string;
+  checkIssues: boolean = false;
 
   constructor(private catalogService: CatalogService, private trashService: TrashService,
               private router: Router, private authService: NbAuthService, private activatedRoute: ActivatedRoute,
-              private storageService: StorageService, private toastrService: NbToastrService,
+              private storageService: StorageService, private toastrService: ToastrService,
               private roleService: RoleService, private permitService: PermitService) {
+    this.settings = Object.assign({}, TRASH_CATALOG_SETTINGS);
+    this.states = Object.assign([], TRASH_STATES);
+    this.dSigns = Object.assign([], D_TAGS);
+    this.rSigns = Object.assign([], R_TAGS);
+    this.hList = Object.assign([], H_LIST);
+    this.yList = Object.assign([], Y_LIST);
+    this.cList = Object.assign([], C_LIST);
+
     this.activatedRoute.params.subscribe(params => {
+      this.storages = [];
+      this.selectedStorage = undefined;
       this.operation = params.operation;
       this.trashType = params.trashType;
       this.ngOnInit();
@@ -70,7 +83,6 @@ export class AddTrashComponent implements OnInit {
     if (this.trashType === 'unsafe')
       this.trash = this.trash as UnsafeTrash;
   }
-
 
   updatePermits() {
     this.permitService.getCompaniesPermits(this.roleService.getCompanyID(), this.operation).subscribe(p => {
@@ -118,42 +130,42 @@ export class AddTrashComponent implements OnInit {
   }
 
   updateCAS(): void {
-    this.trash.unsafeComponent = new Array(this.componentsNo);
+    const tmp = this.trash as UnsafeTrash;
+    tmp.unsafeComponent = new Array(this.componentsNo);
     for (let i = 0; i < this.componentsNo; i++) {
-      this.trash.unsafeComponent[i] = {
-        kgOfMatter: 0,
+      tmp.unsafeComponent[i] = {
+        kgOfMatter: null,
         CAS: '',
         chemicalName: '',
       };
     }
+    this.trash = Object.assign({}, tmp);
   }
 
   /* doesnt recongize the events data from smart table :P*/
   chooseTrash({data}) {
     this.trash.indexNumber = data.indexNumber;
     this.trash.name = data.name;
-    this.trash.desc = data.desc;
+    this.trash.desc = data.name;
   }
 
   today(): Date {
     return new Date();
   }
 
-  addTrash(): void {
+  addTrash(form: NgForm): void {
+    if (form.invalid || isNaN(this.trash.amount)) {
+      this.checkIssues = true;
+      this.toastrService.showToast('Greška', 'Ispravite sve greške da bi ste dodali otpad.', 'warning');
+      return;
+    }
     if (this.storageAmmountUnit === 'T') {
       this.trash.amount *= 1000;
     }
     delete this.trash._id;
     this.trashService.createTrash(this.trash, this.selectedStorage._id).subscribe();
-    this.showToast('Uspeh', 'Uspešno ste dodali otpad na skladište ' + this.selectedStorage.name, 'success');
+    this.toastrService.showToast('Uspeh', 'Uspešno ste dodali otpad na skladište ' + this.selectedStorage.name, 'success');
     this.router.navigate(['pages', 'storage']);
-  }
-
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
   }
 
 }

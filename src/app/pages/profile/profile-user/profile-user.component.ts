@@ -44,6 +44,10 @@ export class ProfileUserComponent implements OnInit {
   }
 
   setNewPassword(button: NbButtonComponent) {
+    if (this.oldPassword === this.newPassword) {
+      this.showToast('Greška', 'Stara šifra ne sme da se podudara sa novom šifrom!', 'danger');
+      return;
+    }
     button.disabled = true;
     this.userService.changePassword(this.user._id, this.oldPassword, this.newPassword).subscribe(x => {
       if (x)

@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
 import { NbMenuItem } from '@nebular/theme';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { RoleService } from '../@core/service/role.service';
 
 @Component({
-  selector: 'ngx-pages',
+  selector: 'pages',
   styleUrls: ['pages.component.scss'],
   template: `
     <ngx-one-column-layout>
@@ -17,13 +16,13 @@ import { RoleService } from '../@core/service/role.service';
 })
 export class PagesComponent implements OnDestroy, OnInit {
 
-  menu: NbMenuItem[] = [];
-  subsrciber: Subscription;
+  menu: NbMenuItem[];
+  subscriber: Subscription;
 
   constructor(private roleService: RoleService, private authService: NbAuthService) {
+    this.menu = [];
     this.authService.getToken().subscribe(t => {
-      const companyOperations = t.getPayload().data.company.operations;
-      this.subsrciber = this.roleService.getOperationsMenu(companyOperations).subscribe(x => {
+      this.subscriber = this.roleService.getOperationsMenu().subscribe(x => {
         this.menu = x;
       });
     });
@@ -34,8 +33,6 @@ export class PagesComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.menu = [];
-    this.subsrciber.unsubscribe();
   }
-
 
 }
