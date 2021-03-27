@@ -34,7 +34,7 @@
           <div class="row mb-2">
             <label class="col-12 label" for="input-trashName">Naziv: </label>
             <div class="col-6">
-              <input #name="ngModel" [(ngModel)]="trash.name" [ngModelOptions]="{standalone: true}" fullWidth
+              <input #name="ngModel" [(ngModel)]="trash.name" [ngModelOptions]="{standalone: true}"  fullWidth
                      id="input-trashName"
                      name="trashName" nbInput placeholder="Naziv" required>
               <ng-container *ngIf="name.touched || checkIssues">

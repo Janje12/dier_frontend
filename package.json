@@ -4,7 +4,7 @@
   "description": "Frontend solution for DIERS APP.",
   "scripts": {
     "ng": "ng",
-    "deploy": "ng build --prod --base-href https://janje12.github.io/dier_frontend/ && ngh",
+    "deploy": "ng build --prod --base-href https://janje12.github.io/dier-frontend/ && ngh",
     "start": "ng serve --open",
     "start:dev": "ng serve --open",
     "build": "ng build",
