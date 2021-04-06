@@ -191,7 +191,7 @@
     <div class="row justify-content-center mt-2 mb-2">
       <div class="col-5 flex-fill">
         <nb-checkbox name="terms" #uslovi required>
-          Slažem se sa <a href="#" target="_blank"><strong>Uslovima Korišćenjima</strong></a>
+          Slažem se sa <a (click)="openTermsOfService()" href="javascript:;"><strong>Uslovima Korišćenjima</strong></a>
         </nb-checkbox>
       </div>
       <div class="col-5 flex-fill">
@@ -202,3 +202,7 @@
     </div>
   </nb-step>
 </nb-stepper>
+
+<ng-template #termsOfServiceTemplate>
+  <terms-of-service></terms-of-service>
+</ng-template>

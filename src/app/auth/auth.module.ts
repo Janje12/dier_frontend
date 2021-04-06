@@ -44,6 +44,7 @@ import { RedirectComponent } from './redirect/redirect.component';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { TermsOfServiceComponent } from './terms-of-service/terms-of-service.component';
 
 @NgModule({
 	imports: [
@@ -89,6 +90,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     EmailConfirmationComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    TermsOfServiceComponent,
   ],
   providers: [
     LocationService,

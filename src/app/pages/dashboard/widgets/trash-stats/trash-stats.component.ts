@@ -31,7 +31,7 @@ export class TrashStatsComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['size']) {
+    if (changes['size']) {
       this.updateSize(this.size);
     }
     if (changes['type']) {
@@ -55,10 +55,13 @@ export class TrashStatsComponent implements OnChanges {
     this.transactionService.getTransactions(trash.trash._id, 'trash').subscribe(t => {
       this.trash = t;
       this.options.legendTitle = this.trash[0].trash.name;
-      let negativeOperation = 'Obradjen';
-      if (this.type === 'production')
-        negativeOperation = 'Transportovan';
-      const data1 = {name: 'Proizveden', value: 0};
+      let negativeOperation = 'Transportovan';
+      let positiveOperation = 'Proizveden';
+      if (this.type === 'treatment' || this.type === 'disposal') {
+        positiveOperation = 'Preuzet';
+        negativeOperation = this.type === 'treatment' ? 'Obrađen' : 'Odložen'
+      }
+      const data1 = {name: positiveOperation, value: 0};
       const data2 = {name: negativeOperation, value: 0};
       this.data = [];
       for (let i = 0; i < this.daysInMonth; i++) {
@@ -73,10 +76,10 @@ export class TrashStatsComponent implements OnChanges {
         }
         if (this.trash[i].trashAmount > 0) {
           data1.value += this.trash[i].trashAmount;
-          this.data[dayNumber].series.push({name: 'Proizveden', value: this.trash[i].trashAmount});
+          this.data[dayNumber].series.push({name: positiveOperation, value: this.trash[i].trashAmount});
         } else {
           data2.value += Math.abs(this.trash[i].trashAmount);
-          this.data[dayNumber].series.push({name: 'Transportovan', value: this.trash[i].trashAmount});
+          this.data[dayNumber].series.push({name: negativeOperation, value: this.trash[i].trashAmount});
         }
       }
     });

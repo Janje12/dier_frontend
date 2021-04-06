@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NB_AUTH_OPTIONS, NbAuthResult, NbAuthService, NbRegisterComponent } from '@nebular/auth';
+import { NbWindowRef, NbWindowService } from '@nebular/theme';
 import { RecaptchaComponent } from 'ng-recaptcha';
 import { Observable } from 'rxjs';
 import { Company } from '../../../@core/data/company';
@@ -14,6 +15,8 @@ import { RegisterService } from '../../../@core/service/register.service';
 })
 export class RegisterConfirmationComponent extends NbRegisterComponent implements AfterViewInit {
   @ViewChild('reCaptcha') reCaptcha: RecaptchaComponent;
+  @ViewChild('termsOfServiceTemplate', {read: TemplateRef}) termsOfServiceTemplate: TemplateRef<HTMLElement>;
+  private windowRef: NbWindowRef;
 
   company$: Observable<Company>;
   user$: Observable<User>;
@@ -27,6 +30,7 @@ export class RegisterConfirmationComponent extends NbRegisterComponent implement
   reCaptchaModel: any;
 
   constructor(protected service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {},
+              private windowService: NbWindowService,
               protected cd: ChangeDetectorRef, protected router: Router, private registerService: RegisterService) {
     super(service, options, cd, router);
     this.redirectDelay = this.getConfigValue('forms.register.redirectDelay');
@@ -72,5 +76,9 @@ export class RegisterConfirmationComponent extends NbRegisterComponent implement
       }
       this.cd.detectChanges();
     });
+  }
+
+  openTermsOfService() {
+    this.windowRef = this.windowService.open(this.termsOfServiceTemplate, {title: 'Uslovi korišćenja'});
   }
 }
