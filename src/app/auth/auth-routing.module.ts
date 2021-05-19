@@ -10,6 +10,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { RedirectComponent } from './redirect/redirect.component';
+import { RegisterGuard } from './register-guard.service';
 import { RegisterPermitComponent } from './register/register-permit/register-permit.component';
 import { RegisterCompanyComponent } from './register/register-company/register-company.component';
 import { RegisterInformationsComponent } from './register/register-informations/register-informations.component';
@@ -30,24 +31,29 @@ export const routes: Routes = [
       {
         path: 'register-user',
         component: RegisterUserComponent,
+        canActivate: [RegisterGuard],
       },
       {
         path: 'register-company',
         component: RegisterCompanyComponent,
+        canActivate: [RegisterGuard],
       },
       {
         path: 'register-operations',
         component: RegisterOperationsComponent,
+        canActivate: [RegisterGuard],
       },
       {
         path: 'register-informations/:tab',
         component: RegisterInformationsComponent,
         pathMatch: 'full',
+        canActivate: [RegisterGuard],
       },
       {
         path: 'register-informations',
         component: RegisterInformationsComponent,
         pathMatch: 'full',
+        canActivate: [RegisterGuard],
       },
       {
         path: 'register-permit',
@@ -56,6 +62,7 @@ export const routes: Routes = [
       {
         path: 'register-confirmation',
         component: RegisterConfirmationComponent,
+        canActivate: [RegisterGuard],
       },
       {
         path: 'logout',

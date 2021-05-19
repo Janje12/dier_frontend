@@ -128,9 +128,27 @@
             </nb-card>
           </div>
         </nb-tab>
-        <nb-tab responsive="true" tabTitle="Ambalaze" [tabIcon]="recyleIco"></nb-tab>
-        <nb-tab responsive="true" tabTitle="Emisije u vode" [tabIcon]="waterIco"></nb-tab>
-        <nb-tab responsive="true" tabTitle="Emisije u vazduh" [tabIcon]="airIco"></nb-tab>
+        <nb-tab responsive="true" tabTitle="Ambalaze" [tabIcon]="recyleIco">
+          <nb-card class="bg-light">
+            <nb-card-body>
+              <h4 class="justify-content-center text-muted d-flex">Operacija trenutno u izradi.</h4>
+            </nb-card-body>
+          </nb-card>
+        </nb-tab>
+        <nb-tab responsive="true" tabTitle="Emisije u vode" [tabIcon]="waterIco">
+          <nb-card class="bg-light">
+            <nb-card-body>
+              <h4 class="justify-content-center text-muted d-flex">Operacija trenutno u izradi.</h4>
+            </nb-card-body>
+          </nb-card>
+        </nb-tab>
+        <nb-tab responsive="true" tabTitle="Emisije u vazduh" [tabIcon]="airIco">
+          <nb-card class="bg-light">
+            <nb-card-body>
+              <h4 class="justify-content-center text-muted d-flex">Operacija trenutno u izradi.</h4>
+            </nb-card-body>
+          </nb-card>
+        </nb-tab>
       </nb-tabset>
       <form #wasteManagerForm="ngForm">
         <div class="row flex-fill ml-3" style="max-width: 54.5vw;"

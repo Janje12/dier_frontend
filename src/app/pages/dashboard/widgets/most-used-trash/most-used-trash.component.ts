@@ -1,7 +1,10 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NbComponentStatus, NbToastrService, NbWindowRef, NbWindowService } from '@nebular/theme';
+import { NbWindowRef, NbWindowService } from '@nebular/theme';
+import { Storage } from '../../../../@core/data/storage';
 import { Trash } from '../../../../@core/data/trash';
 import { Transaction } from '../../../../@core/data/transaction';
+import { StorageService } from '../../../../@core/service/storage.service';
+import { ToastrService } from '../../../../@core/service/toastr.service';
 import { TrashService } from '../../../../@core/service/trash.service';
 import { TransactionsService } from '../../../../@core/service/transactions.service';
 
@@ -19,10 +22,10 @@ export class MostUsedTrashComponent implements OnInit {
   transactions: Transaction[] = [];
   trash: Trash[];
   selectedTrash: Trash;
-  selectedStorageID: string;
+  selectedStorage: Storage;
 
   constructor(private transactionService: TransactionsService, private windowService: NbWindowService,
-              private trashService: TrashService, private toastrService: NbToastrService) {
+              private trashService: TrashService, private toastrService: ToastrService, private storageService: StorageService) {
   }
 
   ngOnInit(): void {
@@ -37,17 +40,24 @@ export class MostUsedTrashComponent implements OnInit {
 
   private openAddTrashWindow(trash: Trash, storage: any) {
     this.selectedTrash = trash;
-    this.selectedStorageID = storage;
+    this.storageService.getStorage(storage).subscribe(s => {
+      this.selectedStorage = s;
+    })
     this.windowRef = this.windowService.open(this.addTrashTemplate,
       {title: 'Dodaj proizvedenu kolicinu: ' + this.selectedTrash.name});
   }
 
   addTrashMethod({trashAmmount: trashAmmount}) {
+    if (this.selectedStorage.maxAmount < this.selectedStorage.amount + trashAmmount) {
+      this.toastrService.showToast('Greška', 'Ne možete da dodate više otpada nego što vaše skladište može da prihvati: '
+        + this.selectedStorage.maxAmount + ' ' + this.selectedStorage.storageUnit, 'warning');
+      return;
+    }
     this.selectedTrash.amount += trashAmmount;
-    this.trashService.updateTrash(this.selectedTrash, this.selectedStorageID, this.selectedTrash._id).subscribe(x => {
+    this.trashService.updateTrash(this.selectedTrash, this.selectedStorage._id, this.selectedTrash._id).subscribe(x => {
       this.updateTransactions();
     });
-    this.showToast('Uspeh',
+    this.toastrService.showToast('Uspeh',
       'Uspešno ste dodali ' + trashAmmount + ' (kg) ' + this.selectedTrash.name + ' na skladište.',
       'success');
     this.windowRef.close();
@@ -56,7 +66,9 @@ export class MostUsedTrashComponent implements OnInit {
 
   private openProcessTrashWindow(trash: Trash, storage: any) {
     this.selectedTrash = trash;
-    this.selectedStorageID = storage;
+    this.storageService.getStorage(storage).subscribe(s => {
+      this.selectedStorage = s;
+    })
     this.windowRef = this.windowService.open(this.processTrashTemplate,
       {title: 'Obradi određenu količinu: ' + this.selectedTrash.name});
   }
@@ -65,12 +77,17 @@ export class MostUsedTrashComponent implements OnInit {
                        selectedTransaction: selectedTransaction,
                        trashAmmount: trashAmmount, trashCreated: trashCreated,
                      }) {
+    if (this.selectedStorage.amount - trashAmmount < 0) {
+      this.toastrService.showToast('Greška', 'Ne možete da dodate obradite više otpada nego što vaše skladište ima: '
+        + this.selectedStorage.amount + ' ' + this.selectedStorage.storageUnit, 'warning');
+      return;
+    }
     this.selectedTrash.amount -= trashAmmount;
     const companyName = trashCreated ?
       (selectedTransaction.companyName ? selectedTransaction.companyName : selectedTransaction) : '';
     const documentNo = trashCreated ?
       (selectedTransaction.wmdNo ? selectedTransaction.wmdNo : selectedTransaction) : '';
-    this.trashService.updateTrash(this.selectedTrash, this.selectedStorageID, this.selectedTrash._id, '_id',
+    this.trashService.updateTrash(this.selectedTrash, this.selectedStorage._id, this.selectedTrash._id, '_id',
       companyName, documentNo).subscribe(x => {
       this.updateTransactions();
     });
@@ -79,17 +96,11 @@ export class MostUsedTrashComponent implements OnInit {
       this.transactionService.updateTransaction(selectedTransaction, selectedTransaction._id).subscribe(x => {
       });
     }
-    this.showToast('Uspeh', 'Uspešno ste obradili ' + trashAmmount + ' (kg) '
+    this.toastrService.showToast('Uspeh', 'Uspešno ste obradili ' + trashAmmount + ' (kg) '
       + this.selectedTrash.name + ' na skladište.',
       'success');
     this.windowRef.close();
     trashAmmount = NaN;
   }
 
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
-  }
 }

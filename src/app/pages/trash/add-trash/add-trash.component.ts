@@ -163,6 +163,11 @@ export class AddTrashComponent implements OnInit {
       this.trash.amount *= 1000;
     }
     delete this.trash._id;
+    if (this.selectedStorage.maxAmount < this.selectedStorage.amount + this.trash.amount) {
+      this.toastrService.showToast('Greška', 'Ne možete da dodate više otpada nego što vaše skladište može da prihvati: '
+        + this.selectedStorage.maxAmount + ' ' + this.selectedStorage.storageUnit, 'warning');
+      return;
+    }
     this.trashService.createTrash(this.trash, this.selectedStorage._id).subscribe();
     this.toastrService.showToast('Uspeh', 'Uspešno ste dodali otpad na skladište ' + this.selectedStorage.name, 'success');
     this.router.navigate(['pages', 'storage']);

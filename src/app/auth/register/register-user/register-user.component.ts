@@ -18,7 +18,7 @@ export class RegisterUserComponent implements OnInit {
   checkIssues: boolean = false;
   showPassword: string = 'eye';
   retypePassword: string = '';
-  user: User;
+  user: User = {email: '', firstName: '', lastName: '', password: '', phone: '', role: '', username: ''};
 
   constructor(@Inject(NB_AUTH_OPTIONS) protected options = {}, private registerService: RegisterService,
               private router: Router, private toastrService: ToastrService) {

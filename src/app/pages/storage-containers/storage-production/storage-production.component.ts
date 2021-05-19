@@ -3,6 +3,7 @@ import { NbComponentStatus, NbToastrService, NbWindowRef, NbWindowService } from
 import { Observable, of } from 'rxjs';
 import { Storage } from '../../../@core/data/storage';
 import { Trash } from '../../../@core/data/trash';
+import { ToastrService } from '../../../@core/service/toastr.service';
 import { TrashService } from '../../../@core/service/trash.service';
 import { StorageService } from '../../../@core/service/storage.service';
 import { STORAGE_EDIT_SETTINGS } from '../storage-edit.settings';
@@ -29,7 +30,7 @@ export class StorageProductionComponent implements OnInit {
   editIcon: string = 'edit';
 
   constructor(private storageService: StorageService, private windowService: NbWindowService,
-              private trashService: TrashService, private toastrService: NbToastrService) {
+              private trashService: TrashService, private toastrService: ToastrService) {
   }
 
   ngOnInit() {
@@ -64,11 +65,16 @@ export class StorageProductionComponent implements OnInit {
   }
 
   addTrashMethod({trashAmmount: trashAmmount}) {
+    if (this.selectedStorage.maxAmount < this.selectedStorage.amount + trashAmmount) {
+      this.toastrService.showToast('Greška', 'Ne možete da dodate više otpada nego što vaše skladište može da prihvati: '
+        + this.selectedStorage.maxAmount + ' ' + this.selectedStorage.storageUnit, 'warning');
+      return;
+    }
     this.selectedTrash.amount += trashAmmount;
     this.trashService.updateTrash(this.selectedTrash, this.selectedStorage._id, this.selectedTrash._id).subscribe(x => {
       this.updateStorage();
     });
-    this.showToast('Uspeh',
+    this.toastrService.showToast('Uspeh',
       'Uspešno ste dodali ' + trashAmmount + ' (kg) ' + this.selectedTrash.name + ' na skladište.',
       'success');
     this.windowRef.close();
@@ -82,10 +88,10 @@ export class StorageProductionComponent implements OnInit {
         this.updateStorage();
       });
       confirm.resolve();
-      this.showToast('Uspeh!', 'Uspešno ste uredili ' + trash.name, 'success');
+      this.toastrService.showToast('Uspeh!', 'Uspešno ste uredili ' + trash.name, 'success');
     } catch (err) {
       confirm.reject();
-      this.showToast('Greška!', 'Došlo je do greške dok ste pokušali da promenite ' + trash.name +
+      this.toastrService.showToast('Greška!', 'Došlo je do greške dok ste pokušali da promenite ' + trash.name +
         '. Molimo vas pokušajte kasnije.', 'danger');
     }
   }
@@ -99,18 +105,12 @@ export class StorageProductionComponent implements OnInit {
           this.updateStorage();
         });
       confirm.resolve();
-      this.showToast('Uspeh!', 'Uspešno ste obrisali ' + trash.naziv, 'success');
+      this.toastrService.showToast('Uspeh!', 'Uspešno ste obrisali ' + trash.naziv, 'success');
     } catch (err) {
       confirm.reject();
-      this.showToast('Greška!', 'Došlo je do greške dok ste pokušali da obrišete ' + trash.naziv +
+      this.toastrService.showToast('Greška!', 'Došlo je do greške dok ste pokušali da obrišete ' + trash.naziv +
         '. Molimo vas pokušajte kasnije.', 'danger');
     }
   }
 
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
-  }
 }

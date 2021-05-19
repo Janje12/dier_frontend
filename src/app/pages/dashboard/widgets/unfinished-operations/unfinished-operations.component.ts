@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NbComponentStatus, NbToastrService, NbWindowRef, NbWindowService } from '@nebular/theme';
+import { NbWindowRef, NbWindowService } from '@nebular/theme';
 import { Trash } from '../../../../@core/data/trash';
 import { Storage } from '../../../../@core/data/storage';
 import { Transaction } from '../../../../@core/data/transaction';
 import { RoleService } from '../../../../@core/service/role.service';
+import { ToastrService } from '../../../../@core/service/toastr.service';
 import { TrashService } from '../../../../@core/service/trash.service';
 import { StorageService } from '../../../../@core/service/storage.service';
 import { TransactionsService } from '../../../../@core/service/transactions.service';
@@ -26,7 +27,7 @@ export class UnfinishedOperationsComponent implements OnInit {
 
   constructor(private windowService: NbWindowService, private storageService: StorageService,
               private trashService: TrashService, private transactionsService: TransactionsService,
-              private toastrService: NbToastrService, private roleService: RoleService) {
+              private toastrService: ToastrService, private roleService: RoleService) {
   }
 
   ngOnInit(): void {
@@ -53,25 +54,29 @@ export class UnfinishedOperationsComponent implements OnInit {
                         selectedTransaction: selectedTransaction, leftoverTrashCreated: leftoverTrashCreated,
                         selectedStorage: selectedStorage,
                       }) {
+    let canPass = true;
     leftoverTrashCreated.forEach(trashCreated => {
+      if (selectedStorage.maxAmount < selectedStorage.amount + trashCreated.amount || !canPass) {
+        canPass = false;
+        return;
+      }
       this.trashService.updateTrash(trashCreated, selectedStorage._id,
         trashCreated.indexNumber, 'indexNumber', undefined, undefined, true).subscribe(x => {
         this.updateTransactions();
       });
     });
+    if (!canPass) {
+      this.toastrService.showToast('Greška', 'Ne možete da dodate više otpada nego što vaše skladište može da prihvati: '
+        + selectedStorage.maxAmount + ' ' + selectedStorage.storageUnit, 'warning');
+      return;
+    }
     selectedTransaction.companyName = null;
     selectedTransaction.wmdNo = null;
     selectedTransaction.finished = true;
     this.transactionsService.updateTransaction(selectedTransaction, selectedTransaction._id).subscribe(x => {
     });
-    this.showToast('Uspeh', 'Uspesno ste dodali otpade!', 'success');
+    this.toastrService.showToast('Uspeh', 'Uspesno ste dodali otpade!', 'success');
     this.windowRef.close();
   }
 
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
-  }
 }

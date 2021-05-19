@@ -56,6 +56,7 @@ export class ProcessTrashPopupComponent implements OnInit {
       trashAmmount: this.trashAmmount,
       trashCreated: this.leftoverTrashCreated,
     });
+    this.trashAmmount = NaN;
   }
 
 }

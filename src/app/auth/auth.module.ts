@@ -30,6 +30,7 @@ import {
 } from '@nebular/theme';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
+import { RegisterGuard } from './register-guard.service';
 import { RegisterCompanyComponent } from './register/register-company/register-company.component';
 import { RegisterInformationsComponent } from './register/register-informations/register-informations.component';
 import { RegisterUserComponent } from './register/register-user/register-user.component';
@@ -93,6 +94,7 @@ import { TermsOfServiceComponent } from './terms-of-service/terms-of-service.com
     TermsOfServiceComponent,
   ],
   providers: [
+    RegisterGuard,
     LocationService,
     OccupationService,
     RegisterService,

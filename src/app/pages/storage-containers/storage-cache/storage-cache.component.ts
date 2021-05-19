@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { NbComponentStatus, NbToastrService, NbWindowRef, NbWindowService } from '@nebular/theme';
+import { NbWindowRef, NbWindowService } from '@nebular/theme';
 import { Observable, of } from 'rxjs';
 import { Trash } from '../../../@core/data/trash';
 import { StorageCache } from '../../../@core/data/storage';
+import { ToastrService } from '../../../@core/service/toastr.service';
 import { TrashService } from '../../../@core/service/trash.service';
 import { StorageService } from '../../../@core/service/storage.service';
 import { STORAGE_EDIT_SETTINGS } from '../storage-edit.settings';
@@ -29,7 +30,7 @@ export class StorageCacheComponent implements OnInit {
   editIcon: string = 'edit';
 
   constructor(private storageService: StorageService, private windowService: NbWindowService,
-              private trashService: TrashService, private toastrService: NbToastrService) {
+              private trashService: TrashService, private toastrService: ToastrService) {
   }
 
   ngOnInit() {
@@ -64,13 +65,17 @@ export class StorageCacheComponent implements OnInit {
   }
 
   addTrashMethod({trashAmmount: trashAmmount}) {
+    if (this.selectedStorageCache.amount - trashAmmount < 0) {
+      this.toastrService.showToast('Greška', 'Ne možete da dodate obradite više otpada nego što vaše skladište ima: '
+        + this.selectedStorageCache.amount + ' ' + this.selectedStorageCache.storageUnit, 'warning');
+      return;
+    }
     this.selectedTrash.amount += trashAmmount;
     this.trashService.updateTrash(this.selectedTrash, this.selectedStorageCache._id, this.selectedTrash._id).
     subscribe(x => {
       this.updateStorage();
     });
-    this.showToast('Uspeh',
-      'Uspešno ste dodali ' + trashAmmount + ' (kg) ' + this.selectedTrash.name + ' na skladište.',
+    this.toastrService.showToast('Uspeh', 'Uspešno ste dodali ' + trashAmmount + ' (kg) ' + this.selectedTrash.name + ' na skladište.',
       'success');
     this.windowRef.close();
     trashAmmount = NaN;
@@ -83,10 +88,10 @@ export class StorageCacheComponent implements OnInit {
         this.updateStorage();
       });
       confirm.resolve();
-      this.showToast('Uspeh!', 'Uspešno ste uredili ' + trash.name, 'success');
+      this.toastrService.showToast('Uspeh!', 'Uspešno ste uredili ' + trash.name, 'success');
     } catch (err) {
       confirm.reject();
-      this.showToast('Greška!', 'Došlo je do greške dok ste pokušali da promenite ' + trash.name +
+      this.toastrService.showToast('Greška!', 'Došlo je do greške dok ste pokušali da promenite ' + trash.name +
         '. Molimo vas pokušajte kasnije.', 'danger');
     }
   }
@@ -100,18 +105,12 @@ export class StorageCacheComponent implements OnInit {
         this.updateStorage();
       });
       confirm.resolve();
-      this.showToast('Uspeh!', 'Uspešno ste obrisali ' + trash.name, 'success');
+      this.toastrService.showToast('Uspeh!', 'Uspešno ste obrisali ' + trash.name, 'success');
     } catch (err) {
       confirm.reject();
-      this.showToast('Greška!', 'Došlo je do greške dok ste pokušali da obrišete ' + trash.name +
+      this.toastrService.showToast('Greška!', 'Došlo je do greške dok ste pokušali da obrišete ' + trash.name +
         '. Molimo vas pokušajte kasnije.', 'danger');
     }
   }
 
-  private showToast(title: String, message: String, status: NbComponentStatus) {
-    this.toastrService.show(
-      message,
-      title,
-      {status});
-  }
 }

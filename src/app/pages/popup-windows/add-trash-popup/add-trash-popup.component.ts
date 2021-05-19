@@ -17,8 +17,8 @@ export class AddTrashPopupComponent implements OnInit {
   storageAmmountUnit: string = 'KG';
   trashAmmount: number;
 
-  D_TAGS: string[] = D_TAGS;
-  R_TAGS: string[] = R_TAGS;
+  D_TAGS: string[] = Object.assign([], D_TAGS);
+  R_TAGS: string[] = Object.assign([], R_TAGS);
   currentTags: string[] = [];
 
   constructor() {
@@ -36,6 +36,7 @@ export class AddTrashPopupComponent implements OnInit {
       trashAmmount: this.trashAmmount, companyName: this.companyName,
       documentNo: this.documentNo,
     });
+    this.trashAmmount = NaN;
   }
 
 }
