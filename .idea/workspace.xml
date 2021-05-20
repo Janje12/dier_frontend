@@ -16,8 +16,6 @@
     <list default="true" id="f97e6c85-e971-483a-b004-5724aec8351f" name="Default Changelist" comment="Inital commit">
       <changelist_data name="Janje12" email="59922311+janje12@users.noreply.github.com" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/main-es2015.b569ce8e6dcc380ce7dc.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/main-es2015.b569ce8e6dcc380ce7dc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/main-es5.b569ce8e6dcc380ce7dc.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/main-es5.b569ce8e6dcc380ce7dc.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -390,7 +388,7 @@
       <workItem from="1621260463814" duration="1379000" />
       <workItem from="1621347689406" duration="596000" />
       <workItem from="1621443394377" duration="1359000" />
-      <workItem from="1621508872240" duration="1028000" />
+      <workItem from="1621508872240" duration="2187000" />
     </task>
     <task id="LOCAL-00001" summary="Inital commit">
       <created>1591356898824</created>
